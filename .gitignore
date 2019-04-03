@@ -16,3 +16,4 @@ buildNumber.properties
 .idea/
 ing-sw-2019-41.iml
 
+.DS_Store
