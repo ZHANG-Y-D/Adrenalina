@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Map_B implements MapBuilder{
+public class MapB implements MapBuilder{
 
 
     @Override
