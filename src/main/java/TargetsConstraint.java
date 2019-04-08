@@ -1,4 +1,11 @@
-package PACKAGE_NAME;
+import java.util.ArrayList;
 
-public class TargetsConstraint {
+abstract public class TargetsConstraint {
+    private boolean specialRange;
+
+    public boolean isSpecialRange(){
+        return this.specialRange;
+    }
+
+    abstract boolean checkConst(ArrayList<Player> targets);
 }

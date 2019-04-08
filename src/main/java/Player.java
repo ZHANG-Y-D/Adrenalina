@@ -71,6 +71,10 @@ public class Player {
         Position = position;
     }
 
+    public int getPosition(){
+        return this.Position;
+    }
+
     //For test
     public static void main(String[] args) {
         Player zhang = new Player("zhang", 'b');

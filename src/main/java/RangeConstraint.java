@@ -1,5 +1,5 @@
 import java.util.ArrayList;
 
 public interface RangeConstraint {
-    ArrayList<Integer> checkConst();
+    ArrayList<Integer> checkConst(int shooterPosition);
 }
