@@ -9,6 +9,7 @@ public abstract class Deck<T> {
     private ArrayList<T> deck;
     private ArrayList<T> discarded;
 
+
     public T draw(){
         return deck.remove(deck.size() -1);
     }

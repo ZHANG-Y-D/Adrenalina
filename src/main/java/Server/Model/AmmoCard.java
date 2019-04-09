@@ -11,7 +11,7 @@ public class AmmoCard {
     private int numAmmoCard;
 
 
-    public AmmoCard(String ammo,int num) {
+    public AmmoCard(String ammo, int num) {
 
         char[] a;
         int i;
