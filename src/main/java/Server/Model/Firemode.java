@@ -16,13 +16,17 @@ public class Firemode {
 
     public ArrayList<MovementEffect> getMovementEffects() { return mvEffects; }
 
-    /* returns list of INVALID squares for target: targets cannot be in one of these squares */
     public ArrayList<Integer> getRange(int shooterPosition){
-        ArrayList<Integer> invalidSquares = new ArrayList<Integer>();
-        for(RangeConstraint rc : rngConstraints){
-            invalidSquares.addAll(rc.checkConst(shooterPosition));
+        ArrayList<Integer> validSquares = new ArrayList<Integer>();
+        // 3 must be replaced by map.getRows and 4 by map.getColumns
+        int maxSquare = (3-1)*4 + (4-1);
+        for(int i = 0; i<= maxSquare; i++){
+            validSquares.add(i);
         }
-        return invalidSquares;
+        for(RangeConstraint rc : rngConstraints){
+            validSquares.retainAll(rc.checkConst(shooterPosition));
+        }
+        return validSquares;
     }
 
     /*
