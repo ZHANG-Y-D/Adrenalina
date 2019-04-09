@@ -63,12 +63,20 @@ public class Map {
         return mapRooms[i][j];
     }
 
+    public int getColumn() {
+        return column;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
     public ArrayList<Integer> getValidSquares(Player p, int num){
         ArrayList<Integer> validSquares = new ArrayList<>();
-
         int playerX = p.getPosition()%column;
         int playerY = (p.getPosition() - playerX)/column;
-        int i = 1;
+
+
 
 
         return validSquares;
