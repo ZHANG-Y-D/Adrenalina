@@ -1,4 +1,6 @@
-public abstract class PowerupCard {
+package Server.Controller;
+
+public abstract class UsePowerupCard {
     private char color;
     private int id;
 

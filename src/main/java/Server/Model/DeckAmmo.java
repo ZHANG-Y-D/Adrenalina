@@ -9,49 +9,51 @@ package Server.Model;
 
 import java.util.ArrayList;
 
-public class DeckAmmo {
+public class DeckAmmo extends Deck<AmmoCard>{
 
-    private ArrayList deckAmmo;
 
-    public DeckAmmo() {
 
-        deckAmmo = new ArrayList<AmmoCard>();
+    public DeckAmmo(ArrayList<AmmoCard> deck) {
 
-        deckAmmo.add(new AmmoCard("ybb",2));
-        deckAmmo.add(new AmmoCard("yrr", 3));
-        deckAmmo.add(new AmmoCard("rbb",4));
-        deckAmmo.add(new AmmoCard("ryy",5));
-        deckAmmo.add(new AmmoCard("byy",6));
-        deckAmmo.add(new AmmoCard("brr",7));
-        deckAmmo.add(new AmmoCard("ybb",8));
-        deckAmmo.add(new AmmoCard("yrr",9));
-        deckAmmo.add(new AmmoCard("rbb",10));
-        deckAmmo.add(new AmmoCard("ryy",11));
-        deckAmmo.add(new AmmoCard("byy",12));
-        deckAmmo.add(new AmmoCard("brr",13));
-        deckAmmo.add(new AmmoCard("ybb",14));
-        deckAmmo.add(new AmmoCard("yrr",15));
-        deckAmmo.add(new AmmoCard("rbb",16));
-        deckAmmo.add(new AmmoCard("ryy",17));
-        deckAmmo.add(new AmmoCard("byy",18));
-        deckAmmo.add(new AmmoCard("brr",19));
-        deckAmmo.add(new AmmoCard("pyy",20));
-        deckAmmo.add(new AmmoCard("prr",21));
-        deckAmmo.add(new AmmoCard("pbb",22));
-        deckAmmo.add(new AmmoCard("pyr",23));
-        deckAmmo.add(new AmmoCard("pyb",24));
-        deckAmmo.add(new AmmoCard("prb",25));
-        deckAmmo.add(new AmmoCard("pyr",26));
-        deckAmmo.add(new AmmoCard("pyb",27));
-        deckAmmo.add(new AmmoCard("prb",28));
-        deckAmmo.add(new AmmoCard("pyy",29));
-        deckAmmo.add(new AmmoCard("prr",30));
-        deckAmmo.add(new AmmoCard("pbb",31));
-        deckAmmo.add(new AmmoCard("pyr",32));
-        deckAmmo.add(new AmmoCard("pyb",33));
-        deckAmmo.add(new AmmoCard("prb",34));
-        deckAmmo.add(new AmmoCard("pyr",35));
-        deckAmmo.add(new AmmoCard("pyb",36));
-        deckAmmo.add(new AmmoCard("prb",37));
+        deck = new ArrayList<AmmoCard>();
+
+        deck.add(new AmmoCard("ybb",2));
+        deck.add(new AmmoCard("yrr", 3));
+        deck.add(new AmmoCard("rbb",4));
+        deck.add(new AmmoCard("ryy",5));
+        deck.add(new AmmoCard("byy",6));
+        deck.add(new AmmoCard("brr",7));
+        deck.add(new AmmoCard("ybb",8));
+        deck.add(new AmmoCard("yrr",9));
+        deck.add(new AmmoCard("rbb",10));
+        deck.add(new AmmoCard("ryy",11));
+        deck.add(new AmmoCard("byy",12));
+        deck.add(new AmmoCard("brr",13));
+        deck.add(new AmmoCard("ybb",14));
+        deck.add(new AmmoCard("yrr",15));
+        deck.add(new AmmoCard("rbb",16));
+        deck.add(new AmmoCard("ryy",17));
+        deck.add(new AmmoCard("byy",18));
+        deck.add(new AmmoCard("brr",19));
+        deck.add(new AmmoCard("pyy",20));
+        deck.add(new AmmoCard("prr",21));
+        deck.add(new AmmoCard("pbb",22));
+        deck.add(new AmmoCard("pyr",23));
+        deck.add(new AmmoCard("pyb",24));
+        deck.add(new AmmoCard("prb",25));
+        deck.add(new AmmoCard("pyr",26));
+        deck.add(new AmmoCard("pyb",27));
+        deck.add(new AmmoCard("prb",28));
+        deck.add(new AmmoCard("pyy",29));
+        deck.add(new AmmoCard("prr",30));
+        deck.add(new AmmoCard("pbb",31));
+        deck.add(new AmmoCard("pyr",32));
+        deck.add(new AmmoCard("pyb",33));
+        deck.add(new AmmoCard("prb",34));
+        deck.add(new AmmoCard("pyr",35));
+        deck.add(new AmmoCard("pyb",36));
+        deck.add(new AmmoCard("prb",37));
     }
+
+
 }

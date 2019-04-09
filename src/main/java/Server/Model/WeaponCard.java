@@ -16,7 +16,7 @@ public class WeaponCard {
         //TODO
     }
 
-    public Firemode shoot() {
+    public void FiremodeShoot() {
         //invoked by the controller
         // handles the selection of the desired firemode and returns it to the controller for use
         //TODO
