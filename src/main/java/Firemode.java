@@ -1,9 +1,9 @@
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class Firemode {
     private int extraCost;
     private int targetLimit;
+    private ArrayList<MovementEffect> mvEffects;
     private ArrayList<RangeConstraint> rngConstraints;
     private ArrayList<TargetsConstraint> trgConstraints;
     private ArrayList<Integer[]> dmgmrkToEachTarget;
@@ -11,6 +11,8 @@ public class Firemode {
     public int getExtraCost(){
         return extraCost;
     }
+
+    public ArrayList<MovementEffect> getMovementEffects() { return mvEffects; }
 
     /* returns list of INVALID squares for target: targets cannot be in one of these squares */
     public ArrayList<Integer> getRange(int shooterPosition){
