@@ -1,0 +1,7 @@
+b b B x
+R r r y
+x w w Y
+1
+5
+6
+10
