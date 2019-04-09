@@ -23,7 +23,7 @@ public class Firemode {
         return invalidSquares;
     }
 
-
+    /*
     public ArrayList<Integer[]> fire(ArrayList<Player> targets, ArrayList<Integer> invalidSquares) throws InvalidTargetsException{
         for(Player trg : targets) {
             if (invalidSquares.contains(trg.getPosition())){
@@ -33,15 +33,12 @@ public class Firemode {
         for(TargetsConstraint trgconst : trgConstraints){
             if(!trgconst.checkConst(targets)) throw new InvalidTargetsException();
         }
-        /*TARGETS VALID*/
+        //TARGETS VALID
         ArrayList<Integer[]> returnToEachTarget = new ArrayList<>();
-        Integer[] clone;
         for(Player trg : targets) {
-            clone = dmgmrkToEachTarget.get(targets.indexOf(trg) < dmgmrkToEachTarget.size() ? targets.indexOf(trg) : dmgmrkToEachTarget.size()-1);
-            returnToEachTarget.add(clone);
-
+            returnToEachTarget.add(dmgmrkToEachTarget.get(targets.indexOf(trg) < dmgmrkToEachTarget.size() ? targets.indexOf(trg) : dmgmrkToEachTarget.size()-1));
         }
         return returnToEachTarget;
-    }
+    }*/
 
 }
