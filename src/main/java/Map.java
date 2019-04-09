@@ -2,23 +2,28 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
+import java.util.Arrays;
 
 public class Map {
 
     //playerPosition
     private char[][] mapRooms;
     private ArrayList<int[]> mapWalls;
+    private int rows;
+    private int column;
     //private WeaponCard[] redWeapons;
     //private WeaponCard[] blueWeapons;
     //private WeaponCard[] yellowWeapons;
 
     //TODO add weapon
     public Map(int num, int rows, int column){
+        this.rows = rows;
+        this.column = column;
         String path = "FILE/Map" + num + ".txt";
-        buildMap(path, rows, column);
+        buildMap(path);
     }
 
-    private void buildMap(String path, int rows, int column){
+    private void buildMap(String path){
         try{
             File file = new File(path);
 
@@ -57,4 +62,27 @@ public class Map {
     public char getSquare(int i, int j){
         return mapRooms[i][j];
     }
+
+    public ArrayList<Integer> getValidSquares(Player p, int num){
+        ArrayList<Integer> validSquares = new ArrayList<>();
+
+        int playerX = p.getPosition()%column;
+        int playerY = (p.getPosition() - playerX)/column;
+        int i = 1;
+
+
+        return validSquares;
+    }
+
+    public boolean isThereWall(int x1, int y1, int x2, int y2){
+        int pos1 = y1*4 + x1;
+        int pos2 = y2*4 + x2;
+        int []arrayPos = new int[2];
+        Arrays.sort(arrayPos);
+        for(int[] i : mapWalls) {
+            if (arrayPos == i)  return true;
+        }
+        return false;
+    }
+
 }

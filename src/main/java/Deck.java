@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public abstract class Deck<T> {
 
@@ -11,5 +13,9 @@ public abstract class Deck<T> {
 
     public void addDiscarded(T card){
         discarded.add(card);
+    }
+
+    public void shuffle(){
+        Collections.shuffle(deck);
     }
 }
