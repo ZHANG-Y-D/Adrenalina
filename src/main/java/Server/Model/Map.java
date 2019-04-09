@@ -1,3 +1,5 @@
+package Server.Model;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
