@@ -1,6 +1,8 @@
+package Server.Model;
+
 import java.util.ArrayList;
 
-/* created as first example of a RangeConstraint implementation */
+/* created as first example of a Server.Model.RangeConstraint implementation */
 public class SameBlockConstraint implements RangeConstraint{
     @Override
     public ArrayList<Integer> checkConst(int shooterPosition) {

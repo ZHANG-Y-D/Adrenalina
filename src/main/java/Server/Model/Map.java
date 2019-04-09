@@ -1,3 +1,5 @@
+package Server.Model;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,13 +10,13 @@ public class Map {
     //playerPosition
     private char[][] mapRooms;
     private ArrayList<int[]> mapWalls;
-    //private WeaponCard[] redWeapons;
-    //private WeaponCard[] blueWeapons;
-    //private WeaponCard[] yellowWeapons;
+    //private Server.Model.WeaponCard[] redWeapons;
+    //private Server.Model.WeaponCard[] blueWeapons;
+    //private Server.Model.WeaponCard[] yellowWeapons;
 
     //TODO add weapon
     public Map(int num, int rows, int column){
-        String path = "FILE/Map" + num + ".txt";
+        String path = "FILE/Server.Model.Map" + num + ".txt";
         buildMap(path, rows, column);
     }
 
