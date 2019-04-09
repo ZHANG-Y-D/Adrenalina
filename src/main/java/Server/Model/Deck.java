@@ -1,3 +1,5 @@
+package Server.Model;
+
 import java.util.ArrayList;
 
 public abstract class Deck<T> {

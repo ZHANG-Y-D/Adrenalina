@@ -1,3 +1,5 @@
+package Server.Model;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -87,14 +89,14 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
+        return "Server.Model.Player{" +
                 "Name='" + Name + '\'' +
                 ", Color=" + Color +
                 ", Score=" + Score +
                 ", AmmoBox=" + Arrays.toString(AmmoBox) +
                 ", Damage=" + Damage +
                 ", Powerups=" + Powerups +
-                ", WeaponCard=" + WeaponCard +
+                ", Server.Model.WeaponCard=" + WeaponCard +
                 ", Deaths=" + Arrays.toString(Deaths) +
                 ", Position=" + Position +
                 '}';
