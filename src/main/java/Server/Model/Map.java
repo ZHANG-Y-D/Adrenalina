@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Map {
 
     //playerPosition
-    private char[][] mapRooms;
+    private final char[][] mapRooms;
     private ArrayList<int[]> mapWalls;
     private final int rows;
     private final int columns;
@@ -32,6 +32,8 @@ public class Map {
     public Map(int num, int rows, int columns){
         this.rows = rows;
         this.columns = columns;
+        mapRooms = new char[rows][columns];
+        mapWalls = new ArrayList<>();
         String path = "FILE/Map" + num + ".txt";
         buildMap(path);
     }
@@ -47,8 +49,6 @@ public class Map {
     private void buildMap(String path){
         try{
             File file = new File(path);
-            mapRooms = new char[rows][columns];
-            mapWalls = new ArrayList<>();
             Scanner scanner = new Scanner(file);
 
             for(int i = 0; i < rows; i++) {
@@ -163,5 +163,19 @@ public class Map {
         }
         return false;
     }
+
+    public ArrayList<Integer> getRoomSquares(int position){
+        ArrayList<Integer> roomSquares = new ArrayList<>();
+        char roomColor = getSquare(position%columns,position/columns);
+        for (int i = 0; i < rows ; i++){
+            for(int j = 0; j < columns; j++){
+                if(roomColor == Character.toLowerCase(getSquare(i,j)))
+                    roomSquares.add(i*4 + j+1);
+            }
+        }
+        return roomSquares;
+    }
+
+    
 
 }
