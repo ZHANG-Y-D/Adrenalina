@@ -4,16 +4,29 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Represents the map during a Game.
+ */
+
 public class Map {
 
     //playerPosition
     private char[][] mapRooms;
     private ArrayList<int[]> mapWalls;
-    private int rows;
-    private int columns;
+    private final int rows;
+    private final int columns;
     //private WeaponCard[] redWeapons;
     //private WeaponCard[] blueWeapons;
     //private WeaponCard[] yellowWeapons;
+
+    /**
+     * Constructs a map with the given rows and columns
+     * and creates the file path using the given map number.
+     *
+     * @param num       the number of the selected map
+     * @param rows      the number of rows of the map
+     * @param columns   the number of columns of the map
+     */
 
     //TODO add weapon
     public Map(int num, int rows, int columns){
@@ -23,21 +36,26 @@ public class Map {
         buildMap(path);
     }
 
+    /**
+     * Builds the map taking the features from
+     * the file with the given path.
+     *
+     * @param path   the path of the file
+     * @throws FileNotFoundException if the path is wrong and the file is not found
+     */
+
     private void buildMap(String path){
         try{
             File file = new File(path);
-
-            Scanner scanner = new Scanner(file);
-
             mapRooms = new char[rows][columns];
             mapWalls = new ArrayList<>();
+            Scanner scanner = new Scanner(file);
 
             for(int i = 0; i < rows; i++) {
                     for (int j = 0; j < columns; j++) {
                             mapRooms[i][j] = scanner.next().charAt(0);
                     }
             }
-
             while(scanner.hasNextLine()){
                 int[] w1 = {scanner.nextInt(), scanner.nextInt()};
                 mapWalls.add(w1);
@@ -56,17 +74,49 @@ public class Map {
         }
     }
 
+    /**
+     * Gets the square of the map with the given indices.
+     * <p>
+     * The square is represented by a char that indicates
+     * the color, and if there is an ammo tile or a spawn point.
+     *</p>
+     * @param i     the index of the row
+     * @param j     the index of the column
+     * @return      the char that represents the square
+     */
+
     public char getSquare(int i, int j){
         return mapRooms[i][j];
     }
+
+    /**
+     * Gets the number of columns of the map.
+     *
+     * @return  the number of columns
+     */
 
     public int getColumns() {
         return columns;
     }
 
+    /**
+     * Gets the number of rows of the map.
+     *
+     * @return  the number of rows
+     */
+
     public int getRows() {
         return rows;
     }
+
+    /**
+     * Gets all the valid squares in which
+     * the specified player can move.
+     *
+     * @param p     is the player that wants to move
+     * @param num   is the maximum number of moves
+     * @return      the list of valid squares
+     */
 
     public ArrayList<Integer> getValidSquares(Player p, int num){
         ArrayList<Integer> validSquares = new ArrayList<>();
@@ -90,6 +140,18 @@ public class Map {
         }
         return validSquares;
     }
+
+    /**
+     * Returns <code>true</code> if between the
+     * two given squares there is wall.
+     *
+     * @param x1    is the x-coordinate of the first square
+     * @param y1    is the y-coordinate of the first square
+     * @param x2    is the x-coordinate of the second square
+     * @param y2    is the y-coordinate of the second square
+     * @return      <code>true</code> if there is a wall;
+     *              <code>false</code> otherwise
+     */
 
     public boolean isWall(int x1, int y1, int x2, int y2){
         int pos1 = y1*4 + x1;
