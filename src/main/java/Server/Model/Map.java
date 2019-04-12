@@ -111,17 +111,17 @@ public class Map {
 
     /**
      * Gets all the valid squares in which
-     * the specified player can move.
+     * the player can move from the given position.
      *
-     * @param p     is the player that wants to move
+     * @param pos   is the position of the player that wants to move
      * @param num   is the maximum number of moves
      * @return      the list of valid squares
      */
 
-    public ArrayList<Integer> getValidSquares(Player p, int num){
+    public ArrayList<Integer> getValidSquares(int pos, int num){
         ArrayList<Integer> validSquares = new ArrayList<>();
 
-        validSquares.add(p.getPosition());
+        validSquares.add(pos);
         int nodeX, nodeY;
         int size;
         int oldSize = 0;
@@ -176,6 +176,8 @@ public class Map {
         return roomSquares;
     }
 
-    
-
+    public boolean areAlligned(int pos1, int pos2){
+        if((pos1%columns == pos2%columns)||(pos1/columns == pos2/columns)) return true;
+        else return false;
+    }
 }
