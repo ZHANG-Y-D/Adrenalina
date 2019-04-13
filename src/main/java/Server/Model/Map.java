@@ -176,8 +176,12 @@ public class Map {
         return roomSquares;
     }
 
-    public boolean areAlligned(int pos1, int pos2){
+    public boolean areAligned(int pos1, int pos2){
         if((pos1%columns == pos2%columns)||(pos1/columns == pos2/columns)) return true;
         else return false;
+    }
+
+    public int getMaxSquare(){
+        return rows*columns -1;
     }
 }

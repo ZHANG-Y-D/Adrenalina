@@ -20,9 +20,7 @@ public class Firemode {
 
     public ArrayList<Integer> getRange(int shooterPosition, Map map){
         ArrayList<Integer> validSquares = new ArrayList<Integer>();
-        // 3 must be replaced by map.getRows and 4 by map.getColumns
-        int maxSquare = map.getRows()*map.getColumns() -1;
-        for(int i = 0; i<= maxSquare; i++){
+        for(int i = 0; i<= map.getMaxSquare(); i++){
             validSquares.add(i);
         }
         for(RangeConstraint rc : rngConstraints){
