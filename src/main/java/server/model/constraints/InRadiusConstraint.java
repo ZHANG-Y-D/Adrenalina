@@ -1,7 +1,7 @@
-package server.model.constraints;
+package Server.Model.Constraints;
 
-import server.model.Map;
-import server.model.RangeConstraint;
+import Server.Model.Map;
+import Server.Model.RangeConstraint;
 
 import java.util.ArrayList;
 

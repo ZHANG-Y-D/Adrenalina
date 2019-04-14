@@ -1,5 +1,5 @@
-package server.model;/*
- *  This is class for single server.model.AmmoCard
+package Server.Model;/*
+ *  This is class for single AmmoCard
  *
  *  Author Zhang YueDong
  */

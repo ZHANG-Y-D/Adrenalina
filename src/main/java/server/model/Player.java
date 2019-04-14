@@ -1,4 +1,4 @@
-package server.model;
+package Server.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +88,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "server.model.Player{" +
+        return "Player{" +
                 "name='" + name + '\'' +
                 ", color=" + color +
                 ", score=" + score +
