@@ -1,7 +1,7 @@
 /*
     Author:Zhang Yuedong
  */
-package Server.Model;
+package server.model;
 
 
 public abstract class PowerupCard {

@@ -1,6 +1,6 @@
 
 
-package Server.Model;
+package server.model;
 
 public class DeckPowerup extends Deck {
 

@@ -1,4 +1,4 @@
-package Server.Model;/*
+package server.model;/*
  *  This is class for single AmmoCard
  *
  *  Author Zhang YueDong

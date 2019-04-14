@@ -1,4 +1,4 @@
-package Server.Model;
+package server.model;
 
 import java.io.*;
 import java.util.*;

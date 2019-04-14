@@ -1,4 +1,4 @@
-package Server.Model;
+package server.model;
 
 /*
  *

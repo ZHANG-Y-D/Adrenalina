@@ -1,4 +1,4 @@
-package Server.Model;
+package server.model;
 
 public class MovementEffect {
     private int movementRange;
