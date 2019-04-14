@@ -1,4 +1,4 @@
-package client.View;
+package client.view;
 
 public class ViewofClient {
 }
