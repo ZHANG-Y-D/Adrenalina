@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Map {
 
     //playerPosition
-    private final char[][] mapRooms;
+    private final char[][] mapSquares;
     private ArrayList<int[]> mapWalls;
     private final int rows;
     private final int columns;
@@ -32,7 +32,7 @@ public class Map {
     public Map(int num, int rows, int columns){
         this.rows = rows;
         this.columns = columns;
-        mapRooms = new char[rows][columns];
+        mapSquares = new char[rows][columns];
         mapWalls = new ArrayList<>();
         String path = "FILE/Map" + num + ".txt";
         buildMap(path);
@@ -53,7 +53,7 @@ public class Map {
 
             for(int i = 0; i < rows; i++) {
                     for (int j = 0; j < columns; j++) {
-                            mapRooms[i][j] = scanner.next().charAt(0);
+                            mapSquares[i][j] = scanner.next().charAt(0);
                     }
             }
             while(scanner.hasNextLine()){
@@ -68,25 +68,10 @@ public class Map {
     public void printMap(){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                System.out.print(mapRooms[i][j]);
+                System.out.print(mapSquares[i][j]);
             }
             System.out.println();
         }
-    }
-
-    /**
-     * Gets the square of the map with the given indices.
-     * <p>
-     * The square is represented by a char that indicates
-     * the color, and if there is an ammo tile or a spawn point.
-     *</p>
-     * @param i     the index of the row
-     * @param j     the index of the column
-     * @return      the char that represents the square
-     */
-
-    public char getSquare(int i, int j){
-        return mapRooms[i][j];
     }
 
     /**
@@ -130,10 +115,10 @@ public class Map {
             for(int j = oldSize; j < size; j++){
                 nodeX = validSquares.get(j) % columns;
                 nodeY = validSquares.get(j)/columns;
-                if((nodeX+1 < columns)&&(nodeX+1 >= 0)&&(mapRooms[nodeY][nodeX+1] != 'x')&&(!isWall(nodeX,nodeY,nodeX+1,nodeY))) validSquares.add((nodeY*4) + (nodeX+1));
-                if((nodeX-1 < columns)&&(nodeX-1 >= 0)&&(mapRooms[nodeY][nodeX-1] != 'x')&&(!isWall(nodeX,nodeY,nodeX-1,nodeY))) validSquares.add(nodeY*4 + nodeX-1);
-                if((nodeY+1 < rows)&&(nodeY+1 >= 0)&&(mapRooms[nodeY+1][nodeX] != 'x')&&(!isWall(nodeX,nodeY,nodeX,nodeY+1))) validSquares.add((nodeY+1)*4 + nodeX);
-                if((nodeY-1 < rows)&&(nodeY-1 >= 0)&&(mapRooms[nodeY-1][nodeX] != 'x')&&(!isWall(nodeX,nodeY,nodeX,nodeY-1))) validSquares.add((nodeY-1)*4 + nodeX);
+                if((nodeX+1 < columns)&&(nodeX+1 >= 0)&&(mapSquares[nodeY][nodeX+1] != 'x')&&(!isWall(nodeX,nodeY,nodeX+1,nodeY))) validSquares.add((nodeY*4) + (nodeX+1));
+                if((nodeX-1 < columns)&&(nodeX-1 >= 0)&&(mapSquares[nodeY][nodeX-1] != 'x')&&(!isWall(nodeX,nodeY,nodeX-1,nodeY))) validSquares.add(nodeY*4 + nodeX-1);
+                if((nodeY+1 < rows)&&(nodeY+1 >= 0)&&(mapSquares[nodeY+1][nodeX] != 'x')&&(!isWall(nodeX,nodeY,nodeX,nodeY+1))) validSquares.add((nodeY+1)*4 + nodeX);
+                if((nodeY-1 < rows)&&(nodeY-1 >= 0)&&(mapSquares[nodeY-1][nodeX] != 'x')&&(!isWall(nodeX,nodeY,nodeX,nodeY-1))) validSquares.add((nodeY-1)*4 + nodeX);
             }
             validSquares = (ArrayList<Integer>) validSquares.stream().distinct().collect(Collectors.toList());
             oldSize = size;
@@ -153,7 +138,7 @@ public class Map {
      *              <code>false</code> otherwise
      */
 
-    public boolean isWall(int x1, int y1, int x2, int y2){
+    private boolean isWall(int x1, int y1, int x2, int y2){
         int pos1 = y1*4 + x1;
         int pos2 = y2*4 + x2;
         int []arrayPos = {pos1,pos2};
@@ -164,13 +149,13 @@ public class Map {
         return false;
     }
 
-    public ArrayList<Integer> getRoomSquares(int position){
+    public ArrayList<Integer> getRoomSquares(int pos){
         ArrayList<Integer> roomSquares = new ArrayList<>();
-        char roomColor = getSquare(position%columns,position/columns);
+        char roomColor = Character.toLowerCase(mapSquares[pos/columns][pos%columns]);
         for (int i = 0; i < rows ; i++){
             for(int j = 0; j < columns; j++){
-                if(roomColor == Character.toLowerCase(getSquare(i,j)))
-                    roomSquares.add(i*4 + j+1);
+                if(roomColor == Character.toLowerCase(mapSquares[i][j]))
+                    roomSquares.add(i*columns + j);
             }
         }
         return roomSquares;
@@ -183,5 +168,9 @@ public class Map {
 
     public int getMaxSquare(){
         return rows*columns -1;
+    }
+
+    public boolean isEmptySquare(int pos) {
+        return mapSquares[pos/columns][pos%columns] == 'x';
     }
 }

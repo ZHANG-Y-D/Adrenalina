@@ -30,7 +30,7 @@ public class Firemode {
     public ArrayList<Integer> getRange(int shooterPosition, Map map){
         ArrayList<Integer> validSquares = new ArrayList<Integer>();
         for(int i = 0; i<= map.getMaxSquare(); i++){
-            validSquares.add(i);
+            if(!map.isEmptySquare(i)) validSquares.add(i);
         }
         for(RangeConstraint rc : rngConstraints){
             validSquares.retainAll(rc.checkConst(shooterPosition, map));
