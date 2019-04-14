@@ -82,7 +82,7 @@
 											"top": 927,
 											"width": 359,
 											"height": 13,
-											"text": "Server.Model.Map"
+											"text": "server.model.Map"
 										},
 										{
 											"_type": "LabelView",
@@ -4139,7 +4139,7 @@
 											"top": 325,
 											"width": 159,
 											"height": 13,
-											"text": "Server.Model.Player"
+											"text": "server.model.Player"
 										},
 										{
 											"_type": "LabelView",
@@ -4279,7 +4279,7 @@
 											"top": 408,
 											"width": 159,
 											"height": 13,
-											"text": "-damage[]: Server.Model.Player",
+											"text": "-damage[]: server.model.Player",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4296,7 +4296,7 @@
 											"top": 423,
 											"width": 159,
 											"height": 13,
-											"text": "-marks[]: Server.Model.Player",
+											"text": "-marks[]: server.model.Player",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4330,7 +4330,7 @@
 											"top": 453,
 											"width": 159,
 											"height": 13,
-											"text": "-weapons[]: Server.Model.WeaponCard",
+											"text": "-weapons[]: server.model.WeaponCard",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4381,7 +4381,7 @@
 											"top": 498,
 											"width": 159,
 											"height": 13,
-											"text": "-position: Server.Model.Map",
+											"text": "-position: server.model.Map",
 											"horizontalAlignment": 0
 										}
 									],
@@ -7807,7 +7807,7 @@
 											"top": 263,
 											"width": 153.892578125,
 											"height": 13,
-											"text": "Server.Model.WeaponCard"
+											"text": "server.model.WeaponCard"
 										},
 										{
 											"_type": "LabelView",
@@ -12883,7 +12883,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFp02ZKeZc/0vQ="
 					},
-					"name": "Server.Model.Map",
+					"name": "server.model.Map",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -13937,7 +13937,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFp02ZKeZc/0vQ="
 					},
-					"name": "Server.Model.WeaponCard",
+					"name": "server.model.WeaponCard",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -17215,7 +17215,7 @@
 													"top": 287,
 													"width": 159,
 													"height": 13,
-													"text": "Server.Model.Player"
+													"text": "server.model.Player"
 												},
 												{
 													"_type": "LabelView",
@@ -17355,7 +17355,7 @@
 													"top": 370,
 													"width": 159,
 													"height": 13,
-													"text": "-damage[]: Server.Model.Player",
+													"text": "-damage[]: server.model.Player",
 													"horizontalAlignment": 0
 												},
 												{
@@ -17372,7 +17372,7 @@
 													"top": 385,
 													"width": 159,
 													"height": 13,
-													"text": "-marks[]: Server.Model.Player",
+													"text": "-marks[]: server.model.Player",
 													"horizontalAlignment": 0
 												},
 												{
@@ -17406,7 +17406,7 @@
 													"top": 415,
 													"width": 159,
 													"height": 13,
-													"text": "-weapons[]: Server.Model.WeaponCard",
+													"text": "-weapons[]: server.model.WeaponCard",
 													"horizontalAlignment": 0
 												},
 												{
@@ -17457,7 +17457,7 @@
 													"top": 460,
 													"width": 159,
 													"height": 13,
-													"text": "-position: Server.Model.Map",
+													"text": "-position: server.model.Map",
 													"horizontalAlignment": 0
 												}
 											],
@@ -19721,7 +19721,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFp2qdIqZ5JZWU="
 							},
-							"name": "Server.Model.Player",
+							"name": "server.model.Player",
 							"ownedElements": [
 								{
 									"_type": "UMLAssociation",
@@ -19895,7 +19895,7 @@
 									},
 									"name": "weapons[]",
 									"visibility": "private",
-									"type": "Server.Model.WeaponCard"
+									"type": "server.model.WeaponCard"
 								},
 								{
 									"_type": "UMLAttribute",
@@ -19927,7 +19927,7 @@
 									},
 									"name": "position",
 									"visibility": "private",
-									"type": "Server.Model.Map"
+									"type": "server.model.Map"
 								}
 							],
 							"operations": [
