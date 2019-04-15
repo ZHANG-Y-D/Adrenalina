@@ -12,10 +12,9 @@ import java.util.ArrayList;
 public class DeckAmmo extends Deck<AmmoCard>{
 
 
+    public DeckAmmo() {
 
-    public DeckAmmo(ArrayList<AmmoCard> deck) {
-
-        deck = new ArrayList<AmmoCard>();
+        ArrayList<AmmoCard> deck = new ArrayList<>();
 
         deck.add(new AmmoCard("ybb",2));
         deck.add(new AmmoCard("yrr", 3));
@@ -53,6 +52,7 @@ public class DeckAmmo extends Deck<AmmoCard>{
         deck.add(new AmmoCard("pyr",35));
         deck.add(new AmmoCard("pyb",36));
         deck.add(new AmmoCard("prb",37));
+        this.deck = deck;
     }
 
 

@@ -60,6 +60,7 @@ public class Map {
                 int[] w1 = {scanner.nextInt(), scanner.nextInt()};
                 mapWalls.add(w1);
             }
+            scanner.close();
         }catch (FileNotFoundException e) {
             System.out.println("File not found");
         }

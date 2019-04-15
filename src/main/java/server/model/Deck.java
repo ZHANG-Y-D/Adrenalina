@@ -5,8 +5,8 @@ import java.util.Collections;
 
 public abstract class Deck<T> {
 
-    private ArrayList<T> deck;
-    private ArrayList<T> discarded;
+    protected ArrayList<T> deck;
+    protected ArrayList<T> discarded;
 
 
     public T draw(){
