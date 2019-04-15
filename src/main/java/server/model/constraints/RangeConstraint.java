@@ -1,4 +1,6 @@
-package server.model;
+package server.model.constraints;
+
+import server.model.Map;
 
 import java.util.ArrayList;
 

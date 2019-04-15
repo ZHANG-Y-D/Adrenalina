@@ -1,7 +1,6 @@
 package server.model.constraints;
 
 import server.model.Map;
-import server.model.RangeConstraint;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -18,7 +17,7 @@ public class ExcSightConstraint implements RangeConstraint {
         invalidSquares = (ArrayList<Integer>) invalidSquares.stream().distinct().collect(Collectors.toList());
         ArrayList<Integer> validSquares = new ArrayList<>();
         for(int i=0; i<=map.getMaxSquare(); i++){
-            validSquares.add(i);
+            if(!map.isEmptySquare(i)) validSquares.add(i);
         }
         validSquares.removeAll(invalidSquares);
         return validSquares;

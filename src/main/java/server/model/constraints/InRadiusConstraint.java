@@ -1,7 +1,6 @@
 package server.model.constraints;
 
 import server.model.Map;
-import server.model.RangeConstraint;
 
 import java.util.ArrayList;
 

@@ -30,11 +30,6 @@ class MapTest {
     }
 
     @Test
-    void isWall() {
-
-    }
-
-    @Test
     void getRoomSquaresTest(){
         ArrayList<Integer> expected;
 

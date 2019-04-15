@@ -1,5 +1,7 @@
 package server.model;
 
+import server.model.constraints.RangeConstraint;
+
 public class MovementEffect {
     private int movementRange;
     private boolean forced;

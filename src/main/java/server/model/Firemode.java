@@ -1,6 +1,7 @@
 package server.model;
 
 import server.InvalidTargetsException;
+import server.model.constraints.*;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class Firemode {
 
     public Firemode(int extraCost, int targetLimit, ArrayList<MovementEffect> mvEff, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst, ArrayList<Integer[]> dmgmrk){
         this.extraCost = extraCost;
-        this.targetLimit = targetLimit;
+        this.targetLimit = targetLimit; // value 0 used for flagging area target firemodes
         this.mvEffects = mvEff;
         this.rngConstraints = rngConst;
         this.trgConstraints = trgConst;
@@ -24,6 +25,7 @@ public class Firemode {
     public int getExtraCost(){
         return extraCost;
     }
+    public int getTargetLimit() { return targetLimit;}
 
     public ArrayList<MovementEffect> getMovementEffects() { return mvEffects; }
 
@@ -39,14 +41,14 @@ public class Firemode {
     }
 
 
-    public ArrayList<Integer[]> fire(ArrayList<Player> targets, ArrayList<Integer> invalidSquares) throws InvalidTargetsException {
+    public ArrayList<Integer[]> fire(ArrayList<Player> targets, ArrayList<Integer> validSquares, Map map) throws InvalidTargetsException {
         for(Player trg : targets) {
-            if (invalidSquares.contains(trg.getPosition())){
-                if(trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) throw new InvalidTargetsException();
+            if (!validSquares.contains(trg.getPosition())){
+                if(targets.indexOf(trg)==0 || trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) throw new InvalidTargetsException();
             }
         }
         for(TargetsConstraint trgconst : trgConstraints){
-            if(!trgconst.checkConst(targets)) throw new InvalidTargetsException();
+            if(!trgconst.checkConst(targets, map)) throw new InvalidTargetsException();
         }
         //TARGETS VALID
         ArrayList<Integer[]> returnToEachTarget = new ArrayList<>();

@@ -1,12 +1,11 @@
 package server.model.constraints;
 
 import server.model.Map;
-import server.model.RangeConstraint;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class SightConstraint implements RangeConstraint {
+public class InSightConstraint implements RangeConstraint {
     @Override
     public ArrayList<Integer> checkConst(int shooterPosition, Map map) {
         ArrayList<Integer> validSquares = new ArrayList<Integer>(map.getValidSquares(shooterPosition,1));
