@@ -18,11 +18,7 @@ class MapTest {
     }
 
     @Test
-    void getSquare() {
-    }
-
-    @Test
-    void getValidSquares() {
+    void getValidSquaresTest() {
         ArrayList<Integer> validSquares = new ArrayList<>();
         validSquares = map.getValidSquares(0,2);
         ArrayList<Integer> tempList = new ArrayList<Integer>(Arrays.asList(0, 1, 4, 2, 5));

@@ -18,7 +18,7 @@ class FiremodeTest {
         ArrayList<RangeConstraint> rngConstList = new ArrayList<>();
         RangeConstraint rngConst = new InSightConstraint();
         rngConstList.add(rngConst);
-        Firemode firemode = new Firemode(0, 0, null, rngConstList, null, null);
+        Firemode firemode = new Firemode("",new int[]{0,0,0}, 0, null, rngConstList, null, null);
 
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(0);
@@ -37,7 +37,7 @@ class FiremodeTest {
         rngConstList.add(rngConst);
         rngConst = new ExcRadiusConstraint(0);
         rngConstList.add(rngConst);
-        firemode = new Firemode(0, 0, null, rngConstList, null, null);
+        firemode = new Firemode("",new int[]{0,0,0}, 0,null, rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(4);
@@ -58,7 +58,7 @@ class FiremodeTest {
         rngConstList.add(rngConst);
         rngConst = new ExcRadiusConstraint(1);
         rngConstList.add(rngConst);
-        firemode = new Firemode(0, 0, null, rngConstList, null, null);
+        firemode = new Firemode("", new int[]{0,0,0}, 0, null, rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(2);
@@ -76,7 +76,7 @@ class FiremodeTest {
         rngConstList = new ArrayList<>();
         rngConst = new InRadiusConstraint(0);
         rngConstList.add(rngConst);
-        firemode = new Firemode(0, 0, null, rngConstList, null, null);
+        firemode = new Firemode("", new int[]{0,0,0}, 0, null, rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(5);
@@ -86,7 +86,7 @@ class FiremodeTest {
         rngConstList = new ArrayList<>();
         rngConst = new ExcSightConstraint();
         rngConstList.add(rngConst);
-        firemode = new Firemode(0, 0, null, rngConstList, null, null);
+        firemode = new Firemode("", new int[]{0,0,0}, 0, null, rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(7);
@@ -119,7 +119,7 @@ class FiremodeTest {
         rngConstList.add(rngConst);
         rngConst = new InSightConstraint();
         rngConstList.add(rngConst);
-        firemode = new Firemode(0, 0, null, rngConstList, null, null);
+        firemode = new Firemode("", new int[]{0,0,0}, 0, null, rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(4);

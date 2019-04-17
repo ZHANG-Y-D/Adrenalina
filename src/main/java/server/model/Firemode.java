@@ -6,23 +6,25 @@ import server.model.constraints.*;
 import java.util.ArrayList;
 
 public class Firemode {
-    private int extraCost;
-    private int targetLimit;
+    private String name;
+    private int[] extraCost;
+    private int targetLimit; // value 0 used as flag for area target firemodes
     private ArrayList<MovementEffect> mvEffects;
     private ArrayList<RangeConstraint> rngConstraints;
     private ArrayList<TargetsConstraint> trgConstraints;
-    private ArrayList<Integer[]> dmgmrkToEachTarget;
+    private ArrayList<int[]> dmgmrkToEachTarget;
 
-    public Firemode(int extraCost, int targetLimit, ArrayList<MovementEffect> mvEff, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst, ArrayList<Integer[]> dmgmrk){
+    public Firemode(String name, int[] extraCost, int targetLimit, ArrayList<MovementEffect> mvEff, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst, ArrayList<int[]> dmgmrk){
+        this.name = name;
         this.extraCost = extraCost;
-        this.targetLimit = targetLimit; // value 0 used for flagging area target firemodes
+        this.targetLimit = targetLimit;
         this.mvEffects = mvEff;
         this.rngConstraints = rngConst;
         this.trgConstraints = trgConst;
         this.dmgmrkToEachTarget = dmgmrk;
     }
 
-    public int getExtraCost(){
+    public int[] getExtraCost(){
         return extraCost;
     }
     public int getTargetLimit() { return targetLimit;}
@@ -41,7 +43,7 @@ public class Firemode {
     }
 
 
-    public ArrayList<Integer[]> fire(ArrayList<Player> targets, ArrayList<Integer> validSquares, Map map) throws InvalidTargetsException {
+    public ArrayList<int[]> fire(ArrayList<Player> targets, ArrayList<Integer> validSquares, Map map) throws InvalidTargetsException {
         for(Player trg : targets) {
             if (!validSquares.contains(trg.getPosition())){
                 if(targets.indexOf(trg)==0 || trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) throw new InvalidTargetsException();
@@ -51,7 +53,7 @@ public class Firemode {
             if(!trgconst.checkConst(targets, map)) throw new InvalidTargetsException();
         }
         //TARGETS VALID
-        ArrayList<Integer[]> returnToEachTarget = new ArrayList<>();
+        ArrayList<int[]> returnToEachTarget = new ArrayList<>();
         for(Player trg : targets) {
             returnToEachTarget.add(dmgmrkToEachTarget.get(targets.indexOf(trg) < dmgmrkToEachTarget.size() ? targets.indexOf(trg) : dmgmrkToEachTarget.size()-1));
         }

@@ -7,7 +7,7 @@ package server.model;/*
 
 public class AmmoCard {
 
-    private int[] ammoContent;   //Seq: r b y p   p=puwerup b=blue r=red y=yellow
+    private int[] ammoContent;   //Seq: r b y p   r=red b=blue y=yellow p=powerup
     private int numAmmoCard;
 
 

@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 public class WeaponCard {
     private String name;
-    private String ammoCost;
+    private int[] ammoCost;
     private boolean loaded;
     private ArrayList<Firemode> firemodes;
 
-    public WeaponCard() {
-        //TODO
+    public WeaponCard(String name, int[] ammoCost, ArrayList<Firemode> firemodes) {
+        this.name = name;
+        this.ammoCost = ammoCost;
+        this.firemodes = firemodes;
+        this.loaded = true;
+
     }
 
     public void reload() /*throws AlreadyLoadedException*/ {
