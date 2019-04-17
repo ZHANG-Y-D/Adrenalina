@@ -1,6 +1,27 @@
-b b B x
-R r r y
-x w w Y
+BLUE
+F
+BLUE
+F
+BLUE
+T
+BLACK
+F
+RED
+T
+RED
+F
+RED
+F
+YELLOW
+F
+BLACK
+F
+WHITE
+F
+WHITE
+F
+YELLOW
+T
 1
 5
 6

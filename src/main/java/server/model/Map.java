@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Map {
 
     //playerPosition
-    private final char[][] mapSquares;
+    private final Square[][] mapSquares;
     private ArrayList<int[]> mapWalls;
     private final int rows;
     private final int columns;
@@ -32,7 +32,7 @@ public class Map {
     public Map(int num, int rows, int columns){
         this.rows = rows;
         this.columns = columns;
-        mapSquares = new char[rows][columns];
+        mapSquares = new Square[rows][columns];
         mapWalls = new ArrayList<>();
         String path = "FILE/Map" + num + ".txt";
         buildMap(path);
@@ -53,7 +53,12 @@ public class Map {
 
             for(int i = 0; i < rows; i++) {
                     for (int j = 0; j < columns; j++) {
-                            mapSquares[i][j] = scanner.next().charAt(0);
+                            String color = scanner.nextLine();
+                            String temp = scanner.nextLine();
+                            boolean spawn;
+                            if(temp == "T") spawn = true;
+                            else spawn = false;
+                            mapSquares[i][j] = new Square(color,spawn);
                     }
             }
             while(scanner.hasNextLine()){
@@ -116,10 +121,10 @@ public class Map {
             for(int j = oldSize; j < size; j++){
                 nodeX = validSquares.get(j) % columns;
                 nodeY = validSquares.get(j)/columns;
-                if((nodeX+1 < columns)&&(nodeX+1 >= 0)&&(mapSquares[nodeY][nodeX+1] != 'x')&&(!isWall(nodeX,nodeY,nodeX+1,nodeY))) validSquares.add((nodeY*4) + (nodeX+1));
-                if((nodeX-1 < columns)&&(nodeX-1 >= 0)&&(mapSquares[nodeY][nodeX-1] != 'x')&&(!isWall(nodeX,nodeY,nodeX-1,nodeY))) validSquares.add(nodeY*4 + nodeX-1);
-                if((nodeY+1 < rows)&&(nodeY+1 >= 0)&&(mapSquares[nodeY+1][nodeX] != 'x')&&(!isWall(nodeX,nodeY,nodeX,nodeY+1))) validSquares.add((nodeY+1)*4 + nodeX);
-                if((nodeY-1 < rows)&&(nodeY-1 >= 0)&&(mapSquares[nodeY-1][nodeX] != 'x')&&(!isWall(nodeX,nodeY,nodeX,nodeY-1))) validSquares.add((nodeY-1)*4 + nodeX);
+                if((nodeX+1 < columns)&&(nodeX+1 >= 0)&&(mapSquares[nodeY][nodeX+1].getColor() != Color.BLACK)&&(!isWall(nodeX,nodeY,nodeX+1,nodeY))) validSquares.add((nodeY*4) + (nodeX+1));
+                if((nodeX-1 < columns)&&(nodeX-1 >= 0)&&(mapSquares[nodeY][nodeX-1].getColor() != Color.BLACK)&&(!isWall(nodeX,nodeY,nodeX-1,nodeY))) validSquares.add(nodeY*4 + nodeX-1);
+                if((nodeY+1 < rows)&&(nodeY+1 >= 0)&&(mapSquares[nodeY+1][nodeX].getColor() != Color.BLACK)&&(!isWall(nodeX,nodeY,nodeX,nodeY+1))) validSquares.add((nodeY+1)*4 + nodeX);
+                if((nodeY-1 < rows)&&(nodeY-1 >= 0)&&(mapSquares[nodeY-1][nodeX].getColor() != Color.BLACK)&&(!isWall(nodeX,nodeY,nodeX,nodeY-1))) validSquares.add((nodeY-1)*4 + nodeX);
             }
             validSquares = (ArrayList<Integer>) validSquares.stream().distinct().collect(Collectors.toList());
             oldSize = size;
@@ -150,28 +155,61 @@ public class Map {
         return false;
     }
 
+    /**
+     * Get all the squares that are in the same room
+     * of the given square.
+     *
+     * @param pos   is the position of the first square
+     * @return      the list of the squares in the room
+     */
+
     public ArrayList<Integer> getRoomSquares(int pos){
         ArrayList<Integer> roomSquares = new ArrayList<>();
-        char roomColor = Character.toLowerCase(mapSquares[pos/columns][pos%columns]);
+        Color roomColor = mapSquares[pos/columns][pos%columns].getColor();
         for (int i = 0; i < rows ; i++){
             for(int j = 0; j < columns; j++){
-                if(roomColor == Character.toLowerCase(mapSquares[i][j]))
+                if(roomColor == mapSquares[i][j].getColor())
                     roomSquares.add(i*columns + j);
             }
         }
         return roomSquares;
     }
 
+    /**
+     * Returns <code>true</code> if the two given
+     * squares are in the same row or in the same column.
+     *
+     * @param pos1  is the position of the first square
+     * @param pos2  is the position of the second square
+     * @return      <code>true</code> if the squares are in the same row or column;
+     *              <code>false</code> otherwise
+     */
+
     public boolean areAligned(int pos1, int pos2){
         if((pos1%columns == pos2%columns)||(pos1/columns == pos2/columns)) return true;
         else return false;
     }
 
+    /**
+     * Returns the number of squares of the map.
+     *
+     * @return  the number of squares
+     */
+
     public int getMaxSquare(){
         return rows*columns -1;
     }
 
+    /**
+     * Returns <code>true</code> if the given square
+     * is empty.
+     *
+     * @param pos   the position of the square
+     * @return      <code>true</code> if the square is empty;
+     *              <code>false</code> otherwise
+     */
+
     public boolean isEmptySquare(int pos) {
-        return mapSquares[pos/columns][pos%columns] == 'x';
+        return mapSquares[pos/columns][pos%columns].getColor() == Color.BLACK;
     }
 }
