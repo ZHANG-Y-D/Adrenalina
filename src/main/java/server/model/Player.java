@@ -76,6 +76,7 @@ public class Player {
         return this.position;
     }
 
+    /*
     //For test
     public static void main(String[] args) {
         Player zhang = new Player("zhang", 'b');
@@ -100,4 +101,5 @@ public class Player {
                 ", position=" + position +
                 '}';
     }
+    */
 }
