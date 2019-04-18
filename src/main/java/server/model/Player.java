@@ -1,7 +1,6 @@
 package server.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /*
  *  Use "new" for add a player
@@ -11,7 +10,7 @@ import java.util.Arrays;
 
 public class Player {
     private String name;
-    private char color;       //For index the color of Avatar
+    private Color color;       //For index the color of Avatar
     private int score;
     private int[] ammoBox;
     private ArrayList damage;    //use a ArrayList for index the source of damage
@@ -20,8 +19,10 @@ public class Player {
     private int[] deaths;
     private int position;
 
+    private int oldPosition;
 
-    public Player(String name, char color) {
+
+    public Player(String name, Color color) {
         this.name = name;
         this.color = color;
         score = 0;
@@ -72,34 +73,13 @@ public class Player {
         this.position = position;
     }
 
+    public void setOldPosition(int oldPosition) {this.oldPosition = oldPosition;}
+
     public int getPosition(){
         return this.position;
     }
 
-    /*
-    //For test
-    public static void main(String[] args) {
-        Player zhang = new Player("zhang", 'b');
-        System.out.println(zhang);
-        zhang.setScore(8);
-        System.out.println(zhang);
-        zhang.setDamage(zhang.damage);
+    public int getOldPosition() {
+        return oldPosition;
     }
-
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", color=" + color +
-                ", score=" + score +
-                ", ammoBox=" + Arrays.toString(ammoBox) +
-                ", damage=" + damage +
-                ", powerup=" + powerup +
-                ", server.model.weaponCard=" + weaponCard +
-                ", deaths=" + Arrays.toString(deaths) +
-                ", position=" + position +
-                '}';
-    }
-    */
 }

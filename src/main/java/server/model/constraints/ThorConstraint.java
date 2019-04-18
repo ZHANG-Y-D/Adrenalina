@@ -9,7 +9,7 @@ public class ThorConstraint extends TargetsConstraint {
     private static boolean specialRange = true;
 
     @Override
-    public boolean checkConst(ArrayList<Player> targets, Map map) {
+    public boolean checkConst(Player shooter, ArrayList<Player> targets, Map map) {
         RangeConstraint chainSight = new InSightConstraint();
         for(Player trg : targets){
             if(targets.indexOf(trg)==0);

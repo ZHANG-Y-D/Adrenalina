@@ -73,5 +73,27 @@ class WeaponCardTest {
         trgConstraints.clear();
         dmgmrk.clear();
 
+        /* TRACTOR BEAM */
+        mvEffects.add(new MovementEffect(2, false, false, MovementEffect.Timing.PRE));
+        rngConstraints.add(new InSightConstraint());
+        dmgmrk.add(new int[]{1,0});
+        fm = new Firemode("Basic", new int[]{0,0,0}, 1, mvEffects, rngConstraints, trgConstraints, dmgmrk);
+        fmList.add(fm);
+        rngConstraints.set(0, new InRadiusConstraint(0));
+        dmgmrk.set(0, new int[]{3,0});
+        fm = new Firemode("Punisher Mode", new int[]{1,0,1}, 1, mvEffects, rngConstraints, trgConstraints, dmgmrk);
+        fmList.add(fm);
+        weapon = new WeaponCard("Tractor beam", new int[]{0,1,0}, fmList);
+
+        mvEffects.clear();
+        rngConstraints.clear();
+        trgConstraints.clear();
+        dmgmrk.clear();
+
+        /* THOR */
+        rngConstraints.add(new InSightConstraint());
+        dmgmrk.add(new int[]{2,0});
+
+
     }
 }

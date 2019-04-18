@@ -11,16 +11,12 @@ class MovementEffectTest {
 
     @BeforeAll
     static void testMovementEffect(){
-        movementEffect = new MovementEffect(2, false, false, MovementEffect.Timing.PRE, new InSightConstraint());
+        movementEffect = new MovementEffect(2, false, false, MovementEffect.Timing.PRE);
     }
 
     @Test
     void getMovementRangeTest(){
         assertEquals(2, movementEffect.getMovementRange());
-    }
-    @Test
-    void isForcedTest(){
-        assertEquals(false, movementEffect.isForced());
     }
     @Test
     void isSelfTest(){
@@ -29,9 +25,5 @@ class MovementEffectTest {
     @Test
     void getTimingTest(){
         assertEquals(MovementEffect.Timing.PRE, movementEffect.getTiming());
-    }
-    @Test
-    void getDestinationConstraintTest(){
-        assertTrue(movementEffect.getDestinationConstraint() instanceof  InSightConstraint);
     }
 }

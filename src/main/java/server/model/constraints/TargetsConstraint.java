@@ -12,5 +12,5 @@ abstract public class TargetsConstraint {
         return this.specialRange;
     }
 
-    public abstract boolean checkConst(ArrayList<Player> targets, Map map);
+    public abstract boolean checkConst(Player shooter, ArrayList<Player> targets, Map map);
 }

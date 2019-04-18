@@ -16,7 +16,7 @@ import java.io.*;
              name is PowerupCard2.json in FILE
 
  */
-public class DeckPowerup extends Deck {
+public class DeckPowerup extends Deck<PowerupCard> {
 
 
     //TODO
