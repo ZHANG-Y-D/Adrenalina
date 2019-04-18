@@ -74,7 +74,7 @@ public class Map {
     public void printMap(){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                System.out.print(mapSquares[i][j]);
+                System.out.print(mapSquares[i][j].getColor());
             }
             System.out.println();
         }

@@ -1,5 +1,4 @@
 package server.model;
-import java.lang.*;
 
 public class Square {
     private Color color;
