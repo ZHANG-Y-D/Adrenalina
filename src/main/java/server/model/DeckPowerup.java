@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 
+
 /*
     Autor:Zhang Yuedong
     Function:This class for construct deck of Powerup card,the original file
@@ -21,20 +22,17 @@ public class DeckPowerup extends Deck<PowerupCard> {
 
     public DeckPowerup(){
 
-        int i;
 
         deck = new ArrayList<>();
 
         try{
             Gson gson = new Gson();
-            for (i = 2; i <= 13; i++) {
+            FileReader fileReader = new FileReader("resource/PowerupCard.json");
 
-                PowerupCard powerupCard = gson.fromJson(new
-                        FileReader("resource/PowerupCard/PowerupCard" + i + ".json"), PowerupCard.class);
+            PowerupCard[] powerupCards = gson.fromJson(fileReader,PowerupCard[].class);
 
-                PowerupCard powerupArray = powerupCard;
-                deck.add(powerupArray);
-            }
+            for (int i=0;i<powerupCards.length;i++)
+                deck.add(powerupCards[i]);
 
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
