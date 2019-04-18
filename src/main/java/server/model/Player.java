@@ -1,6 +1,7 @@
 package server.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  *  Use "new" for add a player
@@ -73,7 +74,9 @@ public class Player {
         this.position = position;
     }
 
-    public void setOldPosition(int oldPosition) {this.oldPosition = oldPosition;}
+    public void setOldPosition(int oldPosition) {
+        this.oldPosition = oldPosition;
+    }
 
     public int getPosition(){
         return this.position;
@@ -81,5 +84,24 @@ public class Player {
 
     public int getOldPosition() {
         return oldPosition;
+    }
+
+
+
+    //Just for test, Put here a little times
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", color=" + color +
+                ", score=" + score +
+                ", ammoBox=" + Arrays.toString(ammoBox) +
+                ", damage=" + damage +
+                ", powerup=" + powerup +
+                ", weaponCard=" + weaponCard +
+                ", deaths=" + Arrays.toString(deaths) +
+                ", position=" + position +
+                ", oldPosition=" + oldPosition +
+                '}';
     }
 }

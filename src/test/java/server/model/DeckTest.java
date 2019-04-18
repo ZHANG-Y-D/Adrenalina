@@ -2,6 +2,7 @@ package server.model;
 
 
 
-public class DeckTset {
+public class DeckTest {
+
 
 }

@@ -7,8 +7,12 @@ import java.util.Arrays;
 public class DeckPowerupTest {
 
     @Test
-    void DeckPowerup() {
+    void PrintDeckPowerup() {
+
+
         DeckPowerup deckPowerup = new DeckPowerup();
+        System.out.print((deckPowerup.toString()));
+
 
     }
 }

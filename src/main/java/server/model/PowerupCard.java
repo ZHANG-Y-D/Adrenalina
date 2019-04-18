@@ -23,4 +23,14 @@ public class PowerupCard {
     public void PlayFunction(){
         //ToDo
     }
+
+    @Override
+    public String toString() {
+        return "PowerupCard{" +
+                "name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", manual='" + manual + '\'' +
+                ", isUseInTurn=" + isUseInTurn +
+                '}';
+    }
 }

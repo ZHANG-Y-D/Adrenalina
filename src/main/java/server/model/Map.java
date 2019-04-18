@@ -34,7 +34,7 @@ public class Map {
         this.columns = columns;
         mapSquares = new Square[rows][columns];
         mapWalls = new ArrayList<>();
-        String path = "Map" + num + ".txt";        //resource file in resource directory
+        String path = "resource/Map" + num + ".txt";        //resource file in resource directory
         buildMap(path);
     }
 
