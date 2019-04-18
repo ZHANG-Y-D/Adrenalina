@@ -7,9 +7,9 @@ package server.model;
 public class PowerupCard {
 
     private String name;
-    private char color;
+    private String color;
     private String manual;
-    private int useTime;
+    private boolean isUseInTurn; //ture: you can use is in your turn; false:you can't use it in your turn
 
     /*
     public PowerupCard(String name,char color, String manual, int useTime) {
