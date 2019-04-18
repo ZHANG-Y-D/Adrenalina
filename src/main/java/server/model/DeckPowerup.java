@@ -17,7 +17,7 @@ import java.io.ObjectInputStream;
              name is PowerupCard.json in FILE
 
  */
-public class DeckPowerup extends Deck {
+public class DeckPowerup extends Deck<PowerupCard> {
 
 
     //TODO
