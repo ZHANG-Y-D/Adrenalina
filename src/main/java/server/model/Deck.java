@@ -20,4 +20,5 @@ public abstract class Deck<T> {
     public void shuffle(){
         Collections.shuffle(deck);
     }
+
 }

@@ -8,6 +8,7 @@ public class DeckAmmoTest {
     void PrintDeckAmmo() {
         DeckAmmo deckAmmo = new DeckAmmo();
         System.out.println(deckAmmo.toString());
+
     }
 
 

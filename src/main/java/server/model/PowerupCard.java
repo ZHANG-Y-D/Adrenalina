@@ -21,7 +21,7 @@ public class PowerupCard {
     }
 
     public void PlayFunction(){
-        //ToDo
+       // if (this.name==)
     }
 
     @Override

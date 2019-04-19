@@ -23,63 +23,35 @@
 package server.model;
 
 
+import java.util.Arrays;
+
 public class AmmoCard {
 
-    private String ammoContent;   //Seq: r b y p   r=red b=blue y=yellow p=powerup
+    private int[] ammoContent;   //Seq: r b y p   r=red b=blue y=yellow p=powerup
     private int numAmmoCard;      //This num for read the graphic of AmmoCard
 
 
-    public AmmoCard(String ammoContent, int numAmmoCard) {
+    public AmmoCard(int[] ammoContent, int numAmmoCard) {
         this.ammoContent = ammoContent;
         this.numAmmoCard = numAmmoCard;
     }
 
 
-    //This method use for Input Ammo Card graphic
+    public int[] getAmmoContent() {
+        return ammoContent;
+    }
+
     public int getNumAmmoCard() {
         return numAmmoCard;
     }
 
-
-
-    //This method transfer String(Es:rbb) to int array(Es: {1,2,0,0})
-    public int[] getAmmoContent() {   //Seq: r b y p
-
-        char[] a;
-        int[] b;
-
-
-        a=this.ammoContent.toCharArray();
-
-        b = new int[]{0,0,0,0};
-
-
-        for (int i=0;i<=2;i++) {
-            if (a[i] == 'r')
-                b[0]++;
-            else if (a[i] == 'b')
-                b[1]++;
-            else if (a[i] == 'y')
-                b[2]++;
-            else if (a[i] == 'p')
-                b[3]++;
-            else
-              System.out.print("Ammo.json File Error!!! Check it!!!");  // Here maybe have to add a Exception
-        }
-
-        return b;
-    }
-
-
-    //Just for test, Put here a little times
     @Override
     public String toString() {
         return "AmmoCard{" +
-                "ammoContent='" + ammoContent + '\'' +
+                "ammoContent=" + Arrays.toString(ammoContent) +
                 ", numAmmoCard=" + numAmmoCard +
                 '}';
     }
-
 }
 
 
