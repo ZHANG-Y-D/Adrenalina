@@ -23,7 +23,7 @@ public class DeckAmmo extends Deck<AmmoCard>{
         try {
 
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("resource/Jsonsrc/Ammo.json");
+            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Ammo.json");
 
             AmmoCard[] ammoCards = gson.fromJson(fileReader,AmmoCard[].class);
             for (int i=0;i<ammoCards.length;i++) {

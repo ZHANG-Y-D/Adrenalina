@@ -28,7 +28,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
 
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("resource/Jsonsrc/PowerupCard.json");
+            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/PowerupCard.json");
 
             PowerupCard[] powerupCards = gson.fromJson(fileReader,PowerupCard[].class);
 
