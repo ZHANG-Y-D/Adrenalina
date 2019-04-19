@@ -13,9 +13,10 @@ import java.util.ArrayList;
 /*
     Autor:Zhang Yuedong
     Function:This class for construct deck of Powerup card,the original file
-             name is PowerupCard2.json in FILE
-
+             name is PowerupCard.json in resource
  */
+
+
 public class DeckPowerup extends Deck<PowerupCard> {
 
 
@@ -27,7 +28,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
 
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("resource/PowerupCard.json");
+            FileReader fileReader = new FileReader("resource/Jsonsrc/PowerupCard.json");
 
             PowerupCard[] powerupCards = gson.fromJson(fileReader,PowerupCard[].class);
 
@@ -38,7 +39,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
             System.out.println("JsonIOException!");
         }
         catch (FileNotFoundException e) {
-            System.out.println("PowerupCard file not found");
+            System.out.println("PowerupCard.json file not found");
         }
     }
 
