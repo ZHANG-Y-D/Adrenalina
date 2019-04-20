@@ -24,7 +24,7 @@ class WeaponCardTest {
         dmgmrk.add(new int[]{0,1});
         fm = new Firemode("Second Lock", new int[]{1,0,0}, 2, mvEffects, rngConstraints, trgConstraints, dmgmrk);
         fmList.add(fm);
-        weapon = new WeaponCard("Lock Rifle", new int[]{0,2,0}, fmList);
+    //    weapon = new WeaponCard("Lock Rifle", new int[]{0,2,0}, fmList);
 
         mvEffects.clear();
         rngConstraints.clear();
@@ -39,7 +39,7 @@ class WeaponCardTest {
         dmgmrk.set(0, new int[]{2,0});
         fm = new Firemode("Reaper Mode", new int[]{1,1,0}, 0, mvEffects, rngConstraints, trgConstraints, dmgmrk);
         fmList.add(fm);
-        weapon = new WeaponCard("Electroscythe", new int[]{0,1,0}, fmList);
+     //   weapon = new WeaponCard("Electroscythe", new int[]{0,1,0}, fmList);
 
         mvEffects.clear();
         rngConstraints.clear();
@@ -61,7 +61,7 @@ class WeaponCardTest {
         dmgmrk.add(new int[]{1,0});
         fm = new Firemode("Turret tripod + Focus shot", new int[]{0,1,1}, 3, mvEffects, rngConstraints, trgConstraints, dmgmrk);
         fmList.add(fm);
-        weapon = new WeaponCard("Machine gun", new int[]{1,1,0}, fmList);
+     //   weapon = new WeaponCard("Machine gun", new int[]{1,1,0}, fmList);
 
         mvEffects.clear();
         rngConstraints.clear();
@@ -78,7 +78,7 @@ class WeaponCardTest {
         dmgmrk.set(0, new int[]{3,0});
         fm = new Firemode("Punisher Mode", new int[]{1,0,1}, 1, mvEffects, rngConstraints, trgConstraints, dmgmrk);
         fmList.add(fm);
-        weapon = new WeaponCard("Tractor beam", new int[]{0,1,0}, fmList);
+    //    weapon = new WeaponCard("Tractor beam", new int[]{0,1,0}, fmList);
 
         mvEffects.clear();
         rngConstraints.clear();
