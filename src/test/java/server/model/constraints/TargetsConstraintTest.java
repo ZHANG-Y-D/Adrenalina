@@ -74,7 +74,7 @@ class TargetsConstraintTest {
         targets.get(2).setPosition(7);
         assertFalse(constraint.checkConst(shooter, targets, map));
         /* Trajectory */
-        constraint = new TrajectoryConstraint();
+        constraint = new ChargeConstraint();
         shooter.setOldPosition(4);
         shooter.setPosition(6);
         targets.get(0).setPosition(4);

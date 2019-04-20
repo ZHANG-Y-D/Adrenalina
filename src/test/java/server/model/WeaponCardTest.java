@@ -1,14 +1,9 @@
 package server.model;
 
 import org.junit.jupiter.api.Test;
-import server.model.constraints.InRadiusConstraint;
-import server.model.constraints.InSightConstraint;
-import server.model.constraints.RangeConstraint;
-import server.model.constraints.TargetsConstraint;
+import server.model.constraints.*;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WeaponCardTest {
     @Test
@@ -93,7 +88,35 @@ class WeaponCardTest {
         /* THOR */
         rngConstraints.add(new InSightConstraint());
         dmgmrk.add(new int[]{2,0});
+        fm = new Firemode("Basic", new int[]{0,0,0}, 1, mvEffects, rngConstraints, trgConstraints, dmgmrk);
+        fmList.add(fm);
+        dmgmrk.add(new int[]{1,0});
+        trgConstraints.add(new ThorConstraint());
+        fm = new Firemode("Chain Reaction", new int[]{0,1,0}, 2, mvEffects, rngConstraints, trgConstraints, dmgmrk);
+        fmList.add(fm);
+        dmgmrk.add(new int[]{2,0});
+        fm = new Firemode("High Voltage", new int[]{0,2,0}, 3, mvEffects, rngConstraints, trgConstraints, dmgmrk);
+        fmList.add(fm);
+        weapon = new WeaponCard("Thor", new int[]{1,1,0}, fmList);
 
+        mvEffects.clear();
+        rngConstraints.clear();
+        trgConstraints.clear();
+        dmgmrk.clear();
+
+        /* POWER GLOVE */
+        mvEffects.add(new MovementEffect(1, true, true , MovementEffect.Timing.PRE));
+        rngConstraints.add(new InRadiusConstraint(0));
+        dmgmrk.add(new int[]{1,2});
+        fm = new Firemode("Basic", new int[]{0,0,0}, 1, mvEffects, rngConstraints, trgConstraints, dmgmrk);
+        fmList.add(fm);
+        mvEffects.set(0, new MovementEffect(2, true, true, MovementEffect.Timing.PRE));
+        rngConstraints.add(new InRadiusConstraint(0));
+        trgConstraints.add(new ChargeConstraint());
+        dmgmrk.set(0, new int[]{2,0});
+        fm = new Firemode("Rocket fist", new int[]{0,1,0}, 2, mvEffects, rngConstraints, trgConstraints, dmgmrk);
+        fmList.add(fm);
+        weapon = new WeaponCard("Power glove", new int[]{0,1,0}, fmList);
 
     }
 }

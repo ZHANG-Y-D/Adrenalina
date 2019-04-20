@@ -2,7 +2,6 @@ package server.model;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import server.model.constraints.InSightConstraint;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +10,7 @@ class MovementEffectTest {
 
     @BeforeAll
     static void testMovementEffect(){
-        movementEffect = new MovementEffect(2, false, false, MovementEffect.Timing.PRE);
+        movementEffect = new MovementEffect(2, false, false , MovementEffect.Timing.PRE);
     }
 
     @Test
@@ -22,6 +21,8 @@ class MovementEffectTest {
     void isSelfTest(){
         assertEquals(false, movementEffect.isSelf());
     }
+    @Test
+    void isForcedTest() { assertEquals(false, movementEffect.isForced());}
     @Test
     void getTimingTest(){
         assertEquals(MovementEffect.Timing.PRE, movementEffect.getTiming());
