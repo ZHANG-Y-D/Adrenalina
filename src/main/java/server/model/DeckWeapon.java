@@ -1,7 +1,17 @@
 package server.model;
 
+
+/*
+ *
+ *
+ *
+ *  Responsible:Zhang Yuedong
+ *
+ *
+ */
+
+
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 
 import java.io.FileNotFoundException;
@@ -21,6 +31,7 @@ public class DeckWeapon extends Deck<WeaponCard>{
             WeaponCard[] weaponCards = gson.fromJson(fileReader,WeaponCard[].class);
 
             for (int i=0;i<weaponCards.length;i++)
+
                 deck.add(weaponCards[i]);
 
         }catch (JsonIOException e){

@@ -1,6 +1,16 @@
 package server.model;
 
 
+
+/*
+ *
+ *
+ *   Responsible： RICCARDO for functionnality
+ *                 ZHANG YUEDONG for Informations
+ *
+ *
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -37,14 +47,15 @@ public class WeaponCard {
     }
 
     @Override
-    public java.lang.String toString() {
+    public String toString() {
         return "WeaponCard{" +
-                "name=" + name +
+                "name='" + name + '\'' +
                 ", ammoCost=" + Arrays.toString(ammoCost) +
                 ", freeAmmo=" + freeAmmo +
-                ", manual=" + manual +
+                ", manual='" + manual + '\'' +
                 ", loaded=" + loaded +
                 ", numWeaponCard=" + numWeaponCard +
+                ", firemodes=" + firemodes +
                 '}';
     }
 }

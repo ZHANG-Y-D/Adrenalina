@@ -1,27 +1,14 @@
 
+package server.model;
 
 /*
- *  This is class for single AmmoCard.
- *
- *  Author Zhang YueDong
  *
  *
  *
- *  Attention from Zhang Yuedong:
- *
- *     Because the Gson or Other Json API,read object is the mode
- *     "no-argument (default) construtor to instantiate an object"
- *     SO now we just memory AmmoCard Like a char array, when use time
- *     we can use the getter method  getAmmoContent to get a int array
- *
+ *  Responsible:Zhang Yuedong
  *
  *
  */
-
-
-
-package server.model;
-
 
 import java.util.Arrays;
 

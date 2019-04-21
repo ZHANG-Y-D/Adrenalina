@@ -1,8 +1,15 @@
-/*
-    Author:Zhang Yuedong
- */
+
 package server.model;
 
+
+/*
+ *
+ *
+ *
+ *  Responsible:Zhang Yuedong
+ *
+ *
+ */
 
 public class PowerupCard {
 
@@ -21,8 +28,43 @@ public class PowerupCard {
         this.numPowerup = numPowerup;
     }
 
-    public void PlayFunction(){
-       // if (this.name==)
+
+
+
+
+    //Attention：to Playit,the Caller have to judgment good the condition,and then call it
+    public void Playit(Player fromPlayer,Player targetPlayer,int position){
+       switch (this.name){
+
+
+           case "GRNATA VANOM":
+                targetPlayer.addMark(fromPlayer);
+               break;
+
+
+           case "MIRINO":
+               targetPlayer.addDamage(fromPlayer,1);
+               break;
+
+
+           case "RAGGIO CINETICO":
+                targetPlayer.setPosition(position);
+               break;
+
+           case "TELETRASPORTO":
+                fromPlayer.setPosition(position);
+               break;
+
+
+           default:
+                System.out.print("Illegal execution！！！"); //Also can put Exception
+
+       }
+
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

@@ -17,5 +17,8 @@ public enum Color {
     WHITE,
 
     @SerializedName("black")
-    BLACK
+    BLACK,
+
+    @SerializedName("purple")
+    PURPLE
 }
