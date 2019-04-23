@@ -26,6 +26,7 @@ public class Player {
     private int[] runable;  //This's an attribute for index how much steps this player can move
                             //The first element is for steps,second is for index how much steps can move before grab
                             //The third element is for index how much steps can move before shoot
+
     private int numOfActions; //This's for index the times of action the player can choose.Max is 2.
                                 // When his turn is finished, This value will be reload at 2.
 
@@ -40,6 +41,7 @@ public class Player {
         ammoBox = new int[]{0, 0, 0};
 
         damage = new ArrayList<>();
+        mark = new ArrayList<>();
         powerup = new ArrayList<>();
         weaponCard = new ArrayList<>();
 
@@ -57,6 +59,7 @@ public class Player {
 
 
 
+
     public void setScore(int score) {
         this.score = score;
     }
@@ -70,12 +73,43 @@ public class Player {
         this.numOfActions = numOfActions;
     }
 
-    public void addDamage(Player damageOrigin, int amount) {
 
+
+
+    public void sufferDamage(Player damageOrigin, int amount) {
+
+        boolean damegeNotFinished = false;
 
         for (;amount>0;amount--) {
+            if (amount>1)
+                damegeNotFinished = true;
+            else
+                damegeNotFinished = false;
+            addDamegaToTrack(damageOrigin, damegeNotFinished);
+        }
 
-            damage.add(damageOrigin);
+        //If  this player have mark, Put all of them to damage track
+        if (!this.mark.isEmpty()) {
+            putMarkToDamageTrackAndClearThem();
+        }
+
+    }
+
+    public void addMark(Player markOrigin) {
+
+        mark.add(markOrigin);
+        //judgment size of mark not more than 3
+    }
+
+
+
+    //This function is for add damage to damage track.
+    //It will return a boolean value,this value is for index,if the this play is already died.
+    //Attention: this function is Private, if other class want to add damage,please call class public "sufferDageme"
+    private boolean addDamegaToTrack(Player damageOrigin, boolean damegeNotFinished){
+
+
+            this.damage.add(damageOrigin);
 
             //First blood
             if (this.damage.size() == 1)
@@ -89,27 +123,40 @@ public class Player {
                 this.runable[2] = 1;
 
             //kill
-            if(this.damage.size()==11 && amount==1){
+            if (this.damage.size() == 11 && !damegeNotFinished) {
                 //kill
-                break;
+                return true;
             }
 
             //overkill
-            if (this.damage.size()==12){
+            if (this.damage.size() == 12) {
                 //overkill and break
-                break;
+                return true;
             }
 
+            return false;
+    }
+
+
+
+    private void putMarkToDamageTrackAndClearThem(){
+
+        boolean markNotFinished = false;
+
+        if (!this.mark.isEmpty()){
+            for (int i=0;i<this.mark.size();i++){
+                if (i < this.mark.size()-1)
+                    markNotFinished = true;
+                else
+                    markNotFinished =false;
+
+                if(addDamegaToTrack(this.mark.get(i),markNotFinished))
+                    break;
+            }
+            this.mark.clear();
         }
-
-
     }
 
-    public void addMark(Player markOrigin) {
-
-        mark.add(markOrigin);
-        //judgment size of mark not more than 3
-    }
 
     public void addPowerup(PowerupCard powerupcard) {
 
@@ -141,6 +188,8 @@ public class Player {
     public int getOldPosition() {
         return oldPosition;
     }
+
+
 
 
     @Override

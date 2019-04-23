@@ -29,7 +29,7 @@ class PlayerTest {
         Player playerDamegaOrigin = new Player("Anna",Color.PURPLE);
         Player playerDamageTarget =new Player("Bob",Color.BLUE);
 
-        playerDamageTarget.addDamage(playerDamegaOrigin,1);
+        playerDamageTarget.sufferDamage(playerDamegaOrigin,1);
 
     }
 }

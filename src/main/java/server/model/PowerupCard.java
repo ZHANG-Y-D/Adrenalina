@@ -43,7 +43,7 @@ public class PowerupCard {
 
 
            case "MIRINO":
-               targetPlayer.addDamage(fromPlayer,1);
+               targetPlayer.sufferDamage(fromPlayer,1);
                break;
 
 
