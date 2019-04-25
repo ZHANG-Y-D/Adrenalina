@@ -48,14 +48,17 @@ public class WeaponCard {
 
     @Override
     public String toString() {
-        return "WeaponCard{" +
+        String string = "WeaponCard{" +
                 "name='" + name + '\'' +
                 ", ammoCost=" + Arrays.toString(ammoCost) +
                 ", freeAmmo=" + freeAmmo +
                 ", manual='" + manual + '\'' +
                 ", loaded=" + loaded +
-                ", numWeaponCard=" + numWeaponCard +
-                ", firemodes=" + firemodes +
-                '}';
+                ", numWeaponCard=" + numWeaponCard;
+        for(Firemode fm : firemodes) {
+            string += "\n\t" + fm.toString();
+        }
+        string += "\n}";
+        return string;
     }
 }

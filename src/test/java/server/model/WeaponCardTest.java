@@ -1,11 +1,32 @@
 package server.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 import server.model.constraints.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class WeaponCardTest {
+    @Test
+    void WeaponCardModelerFromJson(){
+        try {
+            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/TestWeaponCard.json");
+
+            GsonBuilder gsonBld = new GsonBuilder();
+            gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomDeserializer())
+                    .registerTypeAdapter(TargetsConstraint.class, new CustomDeserializer());
+            Gson gson = gsonBld.create();
+            WeaponCard jsonWeapon = gson.fromJson(fileReader, WeaponCard.class);
+
+            System.out.println(jsonWeapon.toString());
+        }catch(FileNotFoundException e){System.out.println("ERROR!");}
+    }
+
     @Test
     void weaponCardModelerTest(){
         WeaponCard weapon;
@@ -117,6 +138,6 @@ class WeaponCardTest {
         fm = new Firemode("Rocket fist", new int[]{0,1,0}, 2, mvEffects, rngConstraints, trgConstraints, dmgmrk);
         fmList.add(fm);
         weapon = new WeaponCard("Power glove", new int[]{0,1,0}, Color.BLACK, "", 0,  fmList);
-
     }
+
 }

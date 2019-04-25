@@ -4,6 +4,7 @@ import server.InvalidTargetsException;
 import server.model.constraints.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Firemode {
     private String name;
@@ -60,4 +61,21 @@ public class Firemode {
         return returnToEachTarget;
     }
 
+    @Override
+    public String toString() {
+        String string = "Firemode{" +
+                "name='" + name + '\'' +
+                ", extraCost=" + Arrays.toString(extraCost) +
+                ", targetLimit=" + targetLimit;
+        string += "\n\t\tRange Constraints: ";
+        for(RangeConstraint rngConst : rngConstraints){
+            string += "\t\t"+ rngConst.getClass().getName() + " ";
+        }
+        string += "\n\t\tTargets Constraints: ";
+        for(TargetsConstraint trgConst : trgConstraints){
+            string += "\t\t" + trgConst.getClass().getName() + " ";
+        }
+        string += "\n\t}";
+        return string;
+    }
 }

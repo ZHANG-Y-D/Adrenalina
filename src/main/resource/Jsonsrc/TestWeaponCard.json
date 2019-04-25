@@ -1,0 +1,68 @@
+{
+  "name": "IMAGINARY WEAPON",
+  "ammoCost": [0,2,0],
+  "freeAmmo": "blue",
+  "manual": "just testing.",
+  "loaded": true,
+  "numWeaponCard": 100,
+  "firemodes": [
+    {
+      "name": "basic",
+      "extraCost": [0,0,0],
+      "targetLimit": 2,
+      "mvEffects": [],
+      "rngConstraints": [
+        {
+          "type": "server.model.constraints.InSightConstraint",
+          "properties": {}
+        },
+        {
+          "type": "server.model.constraints.ExcRadiusConstraint",
+          "properties": { "radius" :  2}
+        }
+      ],
+      "trgConstraints": [
+        {
+          "type": "server.model.constraints.DifferentSquaresConstraint",
+          "properties": { "specialRange":  false}
+        }
+      ],
+      "dmgmrkToEachTarget": [
+        [2,1]
+      ]
+    },
+    {
+      "name": "super mode",
+      "extraCost": [0,0,1],
+      "targetLimit": 3,
+      "mvEffects": [
+        {
+          "movementRange": 2,
+          "self": true,
+          "forced": false,
+          "timing": "PRE"
+        }
+      ],
+      "rngConstraints": [
+        {
+          "type": "server.model.constraints.InSightConstraint",
+          "properties": {}
+        }
+      ],
+      "trgConstraints": [
+        {
+          "type": "server.model.constraints.DifferentSquaresConstraint",
+          "properties": { "specialRange":  false}
+        },
+        {
+          "type": "server.model.constraints.SameRoomConstraint",
+          "properties": { "specialRange":  false}
+        }
+      ],
+      "dmgmrkToEachTarget": [
+        [2,0],
+        [0,2]
+      ]
+    }
+  ]
+}
