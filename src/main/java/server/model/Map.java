@@ -49,23 +49,23 @@ public class Map {
     private void buildMap(String path){
         try{
             File file = new File(path);
-            Scanner scanner = new Scanner(file);
+            try (Scanner scanner = new Scanner(file)) {
 
-            for(int i = 0; i < rows; i++) {
-                    for (int j = 0; j < columns; j++) {
+                for (int i = 0; i < rows; i++) {
+                        for (int j = 0; j < columns; j++) {
                             String color = scanner.nextLine();
                             String temp = scanner.nextLine();
                             boolean spawn;
-                            if(temp == "T") spawn = true;
+                            if (temp.equals("T")) spawn = true;
                             else spawn = false;
-                            mapSquares[i][j] = new Square(color,spawn);
-                    }
+                            mapSquares[i][j] = new Square(color, spawn);
+                        }
+                }
+                while (scanner.hasNextLine()) {
+                    int[] w1 = {scanner.nextInt(), scanner.nextInt()};
+                    mapWalls.add(w1);
+                }
             }
-            while(scanner.hasNextLine()){
-                int[] w1 = {scanner.nextInt(), scanner.nextInt()};
-                mapWalls.add(w1);
-            }
-            scanner.close();
         }catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
