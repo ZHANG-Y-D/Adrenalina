@@ -5,7 +5,6 @@ import server.controller.PlayerShell;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 
 /*
@@ -230,8 +229,15 @@ public class PlayerCore {
     }
 
 
+
     public void setOldPosition(int oldPosition) {
+
         this.oldPosition = oldPosition;
+    }
+
+    public void deletePowerup(PowerupCard powerup) {
+
+        this.getPowerup().remove(powerup);
     }
 
     public int getPosition(){
@@ -250,8 +256,23 @@ public class PlayerCore {
 
     }
 
+    public void addPowerup(PowerupCard newPowerUpCard) {
+
+        if (this.powerup.size()<3) {
+            this.powerup.add(newPowerUpCard);
+        }
+        else
+            //max tre powerupcard
+            ;
+
+    }
+
     public ArrayList<PlayerShell> getDamageTrack() {
         return damage;
+    }
+
+    public ArrayList<PowerupCard> getPowerup() {
+        return powerup;
     }
 
     @Override

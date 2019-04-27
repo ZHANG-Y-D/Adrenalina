@@ -16,13 +16,13 @@ import server.controller.PlayerShell;
 public class PowerupCard {
 
     private String name;
-    private String color;
+    private Color color;
     private String manual;
     private boolean isUseInTurn; //ture: you can use is in your turn; false:you can't use it in your turn
     private int numPowerup;
 
 
-    public PowerupCard(String name, String color, String manual, boolean isUseInTurn, int numPowerup) {
+    public PowerupCard(String name, Color color, String manual, boolean isUseInTurn, int numPowerup) {
         this.name = name;
         this.color = color;
         this.manual = manual;
@@ -30,24 +30,20 @@ public class PowerupCard {
         this.numPowerup = numPowerup;
     }
 
-
-
-
-
     //Attention：to Playit,the Caller have to judgment good the condition,and then call it
     //fromPlayer is me, targetPlayer is who I want to attack mark or change position
-    public void Playit(PlayerShell fromPlayer, PlayerShell targetPlayer, int position){
+    public void Playit(PlayerShell thisPowerupCardOwner, PlayerShell targetPlayer, int position){
 
        switch (this.name){
 
 
            case "GRNATA VANOM":
-                targetPlayer.getPlayerCore().addMark(fromPlayer);
+                targetPlayer.getPlayerCore().addMark(thisPowerupCardOwner);
                break;
 
 
            case "MIRINO":
-               targetPlayer.getPlayerCore().sufferDamage(fromPlayer,1);
+               targetPlayer.getPlayerCore().sufferDamage(thisPowerupCardOwner,1);
                break;
 
 
@@ -56,7 +52,7 @@ public class PowerupCard {
                break;
 
            case "TELETRASPORTO":
-                fromPlayer.getPlayerCore().setPosition(position);
+                thisPowerupCardOwner.getPlayerCore().setPosition(position);
                break;
 
 
@@ -65,11 +61,10 @@ public class PowerupCard {
 
        }
 
+       thisPowerupCardOwner.getPlayerCore().deletePowerup(this);
+
     }
 
-    public String getName() {
-        return name;
-    }
 
     @Override
     public String toString() {
