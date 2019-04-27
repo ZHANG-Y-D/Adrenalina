@@ -25,16 +25,21 @@ import java.util.Arrays;
  * Why I have created these two different class
  *
  *      For Better distinguish its functionality and information
+ *      So that,when someone is dead,just free PlayerCore instead of reset a lot of parameter in the Player
+ *      More modular and more stable,and improve scalability
  *
  *
  * How to use them
  *
+ *
  *      When a player(Bob) has joined, new a class PlayerShell.
- *      When Bob begins his turn, new a class PlayerCore.
+ *      When Bob begins his turn, use method newPlayerCore in the PlayerShell,
+ *          and use method getPlayerCore to get this class;
  *      When Bob has dead, free PlayerCore.
- *      When Bob is resurrected, new PlayerCore.
+ *      When Bob is resurrected, reuse method newPlayerCore.
  *      However the PlayerShell for information, the PlayerCore for functionality
  *
+ *      PlayerShell always exist,PlayCore only exist when this player is still alive
  *
  */
 
@@ -69,24 +74,30 @@ public class PlayerCore {
         mark = new ArrayList<>();
         powerup = new ArrayList<>();
         weaponCard = new ArrayList<>();
-
-
-        //Use a int array per index Death,For put Skeleton,write '0'
-        if (playerShell.getModeOfGame() == 1) {
-            scoreBoard = new int[]{8, 6, 4, 2, 1, 1};
-            numOfActions = 2;
-
-        }
-        else if (playerShell.getModeOfGame() == 2)
-            scoreBoard = new int[]{2, 1, 1, 1};
-        else
-            //other mode
-            ;
-
-
         position = 0;
         oldPosition = 0;
 
+
+
+        //Use a int array per index Death,For put Skeleton,write '0'
+        try {
+            if (playerShell.getModeOfGame() == 1) {
+                scoreBoard = new int[]{8, 6, 4, 2, 1, 1};
+                numOfActions = 2;
+                this.runable=new int[]{3,1,0};
+            }
+            else if (playerShell.getModeOfGame() == 2) {
+
+                scoreBoard = new int[]{2, 1, 1, 1};
+                //still to be defined
+            }
+            else
+                //other mode
+                ;
+
+        }catch (NullPointerException e){
+            System.err.println("PlayerShell Not initialized");
+        }
 
     }
 
@@ -139,7 +150,13 @@ public class PlayerCore {
 
     }
 
+    public void clearMark() {
+        this.mark.clear();
+    }
 
+    public ArrayList<PlayerShell> getMark() {
+        return mark;
+    }
 
     //This function is for add damage to damage track.
     //It will return a boolean value,this value is for index,if the this play is already died.
@@ -148,10 +165,12 @@ public class PlayerCore {
 
             this.damage.add(damageOrigin);
 
+
             //Attention: This is only available for mode 1.
             //First blood
             if (this.damage.size() == 1)
                 damageOrigin.addScore(1);
+
 
             //judgment for upgrade
             if (this.damage.size() >= 3)
@@ -160,10 +179,11 @@ public class PlayerCore {
             if (this.damage.size() >= 6)
                 this.runable[2] = 1;
 
+
             //kill
             if (this.damage.size() == 11 && !addDamegeNotFinishe) {
                 //set score kill
-
+                
 
                 //set status dead
                 this.playerShell.setStatusDead(true);
@@ -203,22 +223,25 @@ public class PlayerCore {
                 if(addDamegaToTrack(this.mark.get(i),markNotFinished))
                     return true;
             }
+            clearMark();
         }
         return false;
     }
 
+
     public void addPowerup(PowerupCard powerupcard) {
 
         this.powerup.add(powerupcard);
+
     }
+
 
     public void addWeaponCard(ArrayList weaponCard) {
+
         this.weaponCard = weaponCard;
+
     }
 
-    public void setScoreBoard(int[] scoreBoard) {
-        this.scoreBoard = scoreBoard;
-    }
 
     public void setPosition(int position) {
 
@@ -226,18 +249,30 @@ public class PlayerCore {
         this.position = position;
     }
 
+
     public void setOldPosition(int oldPosition) {
         this.oldPosition = oldPosition;
     }
 
     public int getPosition(){
+
         return this.position;
+
+    }
+
+    public int[] getRunable() {
+        return runable;
     }
 
     public int getOldPosition() {
-        return oldPosition;
+
+        return this.oldPosition;
+
     }
 
+    public ArrayList<PlayerShell> getDamageTrack() {
+        return damage;
+    }
 
     @Override
     public String toString() {
@@ -255,4 +290,5 @@ public class PlayerCore {
                 ", numOfActions=" + numOfActions +
                 '}';
     }
+
 }

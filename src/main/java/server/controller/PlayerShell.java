@@ -10,6 +10,7 @@ import server.model.PlayerCore;
  *
  * Attention from Zhang
  *
+ *
  * About Class PlayerCore and Class PlayerShell
  *
  *      The PlayerShell is made for index the actual player,
@@ -17,21 +18,25 @@ import server.model.PlayerCore;
  *      when someone is dead, this class will be free. When it is resurrected,
  *      the class PlayerShell have to renew it.
  *
+ *
  * Why I have created these two different class
  *
  *      For Better distinguish its functionality and information
+ *      So that,when someone is dead,just free PlayerCore instead of reset a lot of parameter in the Player
+ *      More modular and more stable,and improve scalability
+ *
  *
  * How to use them
  *
+ *
  *      When a player(Bob) has joined, new a class PlayerShell.
- *      When Bob begins his turn, new a class PlayerCore.
+ *      When Bob begins his turn, use method newPlayerCore in the PlayerShell,
+ *          and use method getPlayerCore to get this class;
  *      When Bob has dead, free PlayerCore.
- *      When Bob is resurrected, new PlayerCore.
+ *      When Bob is resurrected, reuse method newPlayerCore.
  *      However the PlayerShell for information, the PlayerCore for functionality
  *
- *
- *
- *
+ *      PlayerShell always exist,PlayCore only exist when this player is still alive
  *
  */
 
@@ -59,6 +64,17 @@ public class PlayerShell {
         this.modeOfGame = modeOfGame;
     }
 
+    public void newPlayerCore(){
+
+        if (isStatusDead == false){
+            System.err.print("You are still alive,can't not do this");
+            return;
+        }
+        this.playerCore=new PlayerCore(this);
+        isStatusDead = false;
+
+    }
+
     public void setStatusDead(boolean statusDead) {
         isStatusDead = statusDead;
     }
@@ -77,9 +93,14 @@ public class PlayerShell {
 
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public PlayerCore getPlayerCore() {
         return playerCore;
     }
+
 
     @Override
     public String toString() {
@@ -89,7 +110,6 @@ public class PlayerShell {
                 ", score=" + score +
                 ", numberOfDeaths=" + numberOfDeaths +
                 ", isStatusDead=" + isStatusDead +
-                ", playerCore=" + playerCore +
                 ", modeOfGame=" + modeOfGame +
                 '}';
     }
