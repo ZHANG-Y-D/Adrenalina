@@ -3,7 +3,7 @@ package server.model.constraints;
 import org.junit.jupiter.api.Test;
 import server.model.Color;
 import server.model.Map;
-import server.model.Player;
+import server.model.PlayerCore;
 
 import java.util.ArrayList;
 
@@ -13,13 +13,13 @@ class TargetsConstraintTest {
     @Test
     void checkConstTest(){
         Map map = new Map(1,3,4);
-        Player shooter = new Player("Tester", Color.BLACK );
+        PlayerCore shooter = new PlayerCore("Tester", Color.BLACK );
         /* Different Squares */
         TargetsConstraint constraint = new DifferentSquaresConstraint();
-        ArrayList<Player> targets = new ArrayList<>();
-        targets.add(new Player("Red", Color.RED));
-        targets.add(new Player("Yellow", Color.YELLOW));
-        targets.add(new Player("Blue", Color.BLUE));
+        ArrayList<PlayerCore> targets = new ArrayList<>();
+        targets.add(new PlayerCore("Red", Color.RED));
+        targets.add(new PlayerCore("Yellow", Color.YELLOW));
+        targets.add(new PlayerCore("Blue", Color.BLUE));
         targets.get(0).setPosition(0);
         targets.get(1).setPosition(7);
         targets.get(2).setPosition(11);
@@ -60,8 +60,8 @@ class TargetsConstraintTest {
         targets.remove(1);
         targets.remove(1);
         assertTrue(constraint.checkConst(shooter, targets, map));
-        targets.add(new Player("Yellow", Color.YELLOW));
-        targets.add(new Player("Blue", Color.BLUE));
+        targets.add(new PlayerCore("Yellow", Color.YELLOW));
+        targets.add(new PlayerCore("Blue", Color.BLUE));
         /* Same Room */
         constraint = new SameRoomConstraint();
         targets.get(0).setPosition(4);

@@ -1,7 +1,7 @@
 {
   "name": "IMAGINARY WEAPON",
   "ammoCost": [0,2,0],
-  "freeAmmo": "blue",
+  "gratisAmmo": "blue",
   "manual": "just testing.",
   "loaded": true,
   "numWeaponCard": 100,

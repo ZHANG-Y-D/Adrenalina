@@ -11,6 +11,8 @@ package server.model;
  *
  */
 
+import server.controller.PlayerShell;
+
 public class PowerupCard {
 
     private String name;
@@ -33,26 +35,28 @@ public class PowerupCard {
 
 
     //Attention：to Playit,the Caller have to judgment good the condition,and then call it
-    public void Playit(Player fromPlayer,Player targetPlayer,int position){
+    //fromPlayer is me, targetPlayer is who I want to attack mark or change position
+    public void Playit(PlayerShell fromPlayer, PlayerShell targetPlayer, int position){
+
        switch (this.name){
 
 
            case "GRNATA VANOM":
-                targetPlayer.addMark(fromPlayer);
+                targetPlayer.getPlayerCore().addMark(fromPlayer);
                break;
 
 
            case "MIRINO":
-               targetPlayer.sufferDamage(fromPlayer,1);
+               targetPlayer.getPlayerCore().sufferDamage(fromPlayer,1);
                break;
 
 
            case "RAGGIO CINETICO":
-                targetPlayer.setPosition(position);
+                targetPlayer.getPlayerCore().setPosition(position);
                break;
 
            case "TELETRASPORTO":
-                fromPlayer.setPosition(position);
+                fromPlayer.getPlayerCore().setPosition(position);
                break;
 
 

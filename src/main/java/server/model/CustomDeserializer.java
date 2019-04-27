@@ -5,6 +5,7 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 
 public class CustomDeserializer implements JsonDeserializer<Object> {
+
     @Override
     public Object deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObj = jsonElement.getAsJsonObject();

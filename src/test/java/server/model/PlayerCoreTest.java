@@ -10,13 +10,13 @@ package server.model;
 
 import org.junit.jupiter.api.Test;
 
-class PlayerTest {
+class PlayerCoreTest {
 
 
     @Test
     void PrintPlayInfo(){
 
-        Player player = new Player("ZHANG",Color.BLUE);
+        PlayerCore player = new PlayerCore("ZHANG",Color.BLUE);
         System.out.println(player.toString());
 
     }
@@ -26,8 +26,8 @@ class PlayerTest {
     void addDamegeTest() {
 
 
-        Player playerDamegaOrigin = new Player("Anna",Color.PURPLE);
-        Player playerDamageTarget =new Player("Bob",Color.BLUE);
+        PlayerCore playerDamegaOrigin = new PlayerCore("Anna",Color.PURPLE);
+        PlayerCore playerDamageTarget =new PlayerCore("Bob",Color.BLUE);
 
         playerDamageTarget.sufferDamage(playerDamegaOrigin,1);
 

@@ -44,8 +44,8 @@ public class Firemode {
     }
 
 
-    public ArrayList<int[]> fire(Player shooter, ArrayList<Player> targets, ArrayList<Integer> validSquares, Map map) throws InvalidTargetsException {
-        for(Player trg : targets) {
+    public ArrayList<int[]> fire(PlayerCore shooter, ArrayList<PlayerCore> targets, ArrayList<Integer> validSquares, Map map) throws InvalidTargetsException {
+        for(PlayerCore trg : targets) {
             if (!validSquares.contains(trg.getPosition())){
                 if(targets.indexOf(trg)==0 || trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) throw new InvalidTargetsException();
             }
@@ -55,7 +55,7 @@ public class Firemode {
         }
         //TARGETS VALID
         ArrayList<int[]> returnToEachTarget = new ArrayList<>();
-        for(Player trg : targets) {
+        for(PlayerCore trg : targets) {
             returnToEachTarget.add(dmgmrkToEachTarget.get(targets.indexOf(trg) < dmgmrkToEachTarget.size() ? targets.indexOf(trg) : dmgmrkToEachTarget.size()-1));
         }
         return returnToEachTarget;
