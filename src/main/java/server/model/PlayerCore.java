@@ -5,6 +5,7 @@ import server.controller.PlayerShell;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 
 /*
@@ -103,18 +104,6 @@ public class PlayerCore {
 
 
 
-
-    public void setAmmoBox(int[] ammoBox) {
-        this.ammoBox = ammoBox;
-    }
-
-
-    public void setNumOfActions(int numOfActions) {
-        this.numOfActions = numOfActions;
-    }
-
-
-
     //It will return a boolean value,this value is for index,if the this play is already died.
     public boolean sufferDamage(PlayerShell damageOrigin, int amount) {
 
@@ -150,7 +139,8 @@ public class PlayerCore {
 
     }
 
-    public void clearMark() {
+    private void clearMark() {
+
         this.mark.clear();
     }
 
@@ -183,12 +173,15 @@ public class PlayerCore {
             //kill
             if (this.damage.size() == 11 && !addDamegeNotFinishe) {
                 //set score kill
-                
+
+                //Collections.frequency(this.damage,damageOrigin);
 
                 //set status dead
                 this.playerShell.setStatusDead(true);
                 return true;
             }
+
+
 
             //overkill
             if (this.damage.size() == 12) {
@@ -228,19 +221,6 @@ public class PlayerCore {
         return false;
     }
 
-
-    public void addPowerup(PowerupCard powerupcard) {
-
-        this.powerup.add(powerupcard);
-
-    }
-
-
-    public void addWeaponCard(ArrayList weaponCard) {
-
-        this.weaponCard = weaponCard;
-
-    }
 
 
     public void setPosition(int position) {

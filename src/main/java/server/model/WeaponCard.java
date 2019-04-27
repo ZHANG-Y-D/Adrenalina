@@ -58,9 +58,13 @@ public class WeaponCard {
                 ", manual='" + manual + '\'' +
                 ", loaded=" + loaded +
                 ", numWeaponCard=" + numWeaponCard;
+
+        /* Temporarily closed because it is not completed
         for(Firemode fm : firemodes) {
             string += "\n\t" + fm.toString();
         }
+         */
+
         string += "\n}";
         return string;
     }

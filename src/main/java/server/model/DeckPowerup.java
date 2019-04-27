@@ -7,12 +7,13 @@ import com.google.gson.JsonIOException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 
 /*
     Autor:Zhang Yuedong
-    Function:This class for construct deck of Powerup card,the original file
+    Function:This class for construct cardsDeck of Powerup card,the original file
              name is PowerupCard.json in resource
  */
 
@@ -24,7 +25,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
     public DeckPowerup(){
 
 
-        deck = new ArrayList<>();
+        cardsDeck = new ArrayList<>();
 
         try{
             Gson gson = new Gson();
@@ -32,8 +33,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
 
             PowerupCard[] powerupCards = gson.fromJson(fileReader,PowerupCard[].class);
 
-            for (int i=0;i<powerupCards.length;i++)
-                deck.add(powerupCards[i]);
+            cardsDeck.addAll(Arrays.asList(powerupCards));
 
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
@@ -50,7 +50,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
     public String toString() {
 
         return "DeckPowerup{" +
-                "deck=" + deck +
+                "cardsDeck=" + cardsDeck +
                 '}';
     }
 }

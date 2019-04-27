@@ -15,12 +15,12 @@ import java.util.Collections;
 
 public abstract class Deck<T> {
 
-    protected ArrayList<T> deck;
+    protected ArrayList<T> cardsDeck;   //Sonar reminds that cannot use name "deck"
     protected ArrayList<T> discarded;
 
 
     public T draw(){
-        return deck.remove(deck.size() -1);
+        return cardsDeck.remove(cardsDeck.size() -1);
     }
 
     public void addDiscarded(T card){
@@ -28,7 +28,7 @@ public abstract class Deck<T> {
     }
 
     public void shuffle(){
-        Collections.shuffle(deck);
+        Collections.shuffle(cardsDeck);
     }
 
 }

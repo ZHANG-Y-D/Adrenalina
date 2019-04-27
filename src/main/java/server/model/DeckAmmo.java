@@ -12,13 +12,14 @@ import com.google.gson.Gson;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DeckAmmo extends Deck<AmmoCard>{
 
 
     public DeckAmmo() {
 
-        deck = new ArrayList<>();
+        cardsDeck = new ArrayList<>();
 
         try {
 
@@ -26,9 +27,7 @@ public class DeckAmmo extends Deck<AmmoCard>{
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Ammo.json");
 
             AmmoCard[] ammoCards = gson.fromJson(fileReader,AmmoCard[].class);
-            for (int i=0;i<ammoCards.length;i++) {
-                deck.add(ammoCards[i]);
-            }
+            cardsDeck.addAll(Arrays.asList(ammoCards));
 
         }catch (FileNotFoundException e){
             System.out.println("Ammo.json file not found");
@@ -40,7 +39,7 @@ public class DeckAmmo extends Deck<AmmoCard>{
     @Override
     public String toString() {
         return "DeckAmmo{" +
-                "deck=" + deck +
+                "cardsDeck=" + cardsDeck +
                 '}';
     }
 
