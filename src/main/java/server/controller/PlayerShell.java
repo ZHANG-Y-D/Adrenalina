@@ -63,6 +63,13 @@ public class PlayerShell {
         isStatusDead = statusDead;
     }
 
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+    public int getModeOfGame() {
+        return modeOfGame;
+    }
 
     public void addScore(int score) {
 
@@ -72,5 +79,18 @@ public class PlayerShell {
 
     public PlayerCore getPlayerCore() {
         return playerCore;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerShell{" +
+                "name='" + name + '\'' +
+                ", color=" + color +
+                ", score=" + score +
+                ", numberOfDeaths=" + numberOfDeaths +
+                ", isStatusDead=" + isStatusDead +
+                ", playerCore=" + playerCore +
+                ", modeOfGame=" + modeOfGame +
+                '}';
     }
 }

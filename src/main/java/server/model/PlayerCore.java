@@ -4,6 +4,7 @@ package server.model;
 import server.controller.PlayerShell;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /*
@@ -12,6 +13,7 @@ import java.util.ArrayList;
  *
  * Attention from Zhang
  *
+ *
  * About Class PlayerCore and Class PlayerShell
  *
  *      The PlayerShell is made for index the actual player,
@@ -19,20 +21,19 @@ import java.util.ArrayList;
  *      when someone is dead, this class will be free. When it is resurrected,
  *      the class PlayerShell have to renew it.
  *
+ *
  * Why I have created these two different class
  *
  *      For Better distinguish its functionality and information
+ *
  *
  * How to use them
  *
  *      When a player(Bob) has joined, new a class PlayerShell.
  *      When Bob begins his turn, new a class PlayerCore.
  *      When Bob has dead, free PlayerCore.
- *     When Bob is resurrected, new PlayerCore.
- *    However the PlayerShell for information, the PlayerCore for functionality
- *
- *
- *
+ *      When Bob is resurrected, new PlayerCore.
+ *      However the PlayerShell for information, the PlayerCore for functionality
  *
  *
  */
@@ -60,7 +61,7 @@ public class PlayerCore {
 
 
 
-    public PlayerCore(PlayerShell playerShell,int numberOfDeaths,int modeOfGame) {
+    public PlayerCore(PlayerShell playerShell) {
 
         this.playerShell=playerShell;
         ammoBox = new int[]{0, 0, 0};
@@ -71,9 +72,12 @@ public class PlayerCore {
 
 
         //Use a int array per index Death,For put Skeleton,write '0'
-        if (modeOfGame == 1)
+        if (playerShell.getModeOfGame() == 1) {
             scoreBoard = new int[]{8, 6, 4, 2, 1, 1};
-        else if (modeOfGame == 2)
+            numOfActions = 2;
+
+        }
+        else if (playerShell.getModeOfGame() == 2)
             scoreBoard = new int[]{2, 1, 1, 1};
         else
             //other mode
@@ -83,8 +87,6 @@ public class PlayerCore {
         position = 0;
         oldPosition = 0;
 
-        runable = new int[]{3,1,0};
-        numOfActions = 2;
 
     }
 
@@ -146,6 +148,7 @@ public class PlayerCore {
 
             this.damage.add(damageOrigin);
 
+            //Attention: This is only available for mode 1.
             //First blood
             if (this.damage.size() == 1)
                 damageOrigin.addScore(1);
@@ -160,7 +163,7 @@ public class PlayerCore {
             //kill
             if (this.damage.size() == 11 && !addDamegeNotFinishe) {
                 //set score kill
-                
+
 
                 //set status dead
                 this.playerShell.setStatusDead(true);
@@ -236,7 +239,20 @@ public class PlayerCore {
     }
 
 
-
-
-
+    @Override
+    public String toString() {
+        return "PlayerCore{" +
+                "playerShell=" + playerShell +
+                ", ammoBox=" + Arrays.toString(ammoBox) +
+                ", damage=" + damage +
+                ", powerup=" + powerup +
+                ", weaponCard=" + weaponCard +
+                ", mark=" + mark +
+                ", scoreBoard=" + Arrays.toString(scoreBoard) +
+                ", position=" + position +
+                ", oldPosition=" + oldPosition +
+                ", runable=" + Arrays.toString(runable) +
+                ", numOfActions=" + numOfActions +
+                '}';
+    }
 }
