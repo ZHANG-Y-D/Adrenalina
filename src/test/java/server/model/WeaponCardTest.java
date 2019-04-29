@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class WeaponCardTest {
     @Test
     void WeaponCardModelerFromJson(){

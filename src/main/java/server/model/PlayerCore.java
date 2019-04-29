@@ -223,16 +223,8 @@ public class PlayerCore {
 
 
     public void setPosition(int position) {
-
-        setOldPosition(this.position);
+        this.oldPosition = this.position;
         this.position = position;
-    }
-
-
-
-    public void setOldPosition(int oldPosition) {
-
-        this.oldPosition = oldPosition;
     }
 
     public void deletePowerup(PowerupCard powerup) {
