@@ -1,17 +1,17 @@
-/*
-
-    Responsible：ZHANG YUEDONG
-
-
- */
-
-
 
 package server.model;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+/*
+ *
+ * Responsible：ZHANG YUEDONG
+ *
+ *
+ */
+
 
 
 public class DeckPowerupTest {

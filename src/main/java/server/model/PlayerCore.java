@@ -247,8 +247,10 @@ public class PlayerCore {
     }
 
     public int[] getRunable() {
+
         return runable;
     }
+
 
     public int getOldPosition() {
 
@@ -266,6 +268,7 @@ public class PlayerCore {
             ;
 
     }
+
 
     public ArrayList<PlayerShell> getDamageTrack() {
         return damage;

@@ -30,9 +30,9 @@ public class PowerupCard {
         this.numPowerup = numPowerup;
     }
 
-    //Attention：to Playit,the Caller have to judgment good the condition,and then call it
+    //Attention：to playIt,the Caller have to judgment good the condition,and then call it
     //fromPlayer is me, targetPlayer is who I want to attack mark or change position
-    public void Playit(PlayerShell thisPowerupCardOwner, PlayerShell targetPlayer, int position){
+    public void playIt(PlayerShell thisPowerupCardOwner, PlayerShell targetPlayer, int position){
 
        switch (this.name){
 

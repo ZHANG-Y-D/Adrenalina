@@ -1,5 +1,9 @@
-
 package server.model;
+
+import org.junit.jupiter.api.Test;
+import server.controller.PlayerShell;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /*
  *
@@ -9,11 +13,6 @@ package server.model;
  *
  *
  */
-
-import org.junit.jupiter.api.Test;
-import server.controller.PlayerShell;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerCoreTest {
 

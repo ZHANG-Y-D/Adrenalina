@@ -40,6 +40,8 @@ import server.model.PlayerCore;
  *
  */
 
+
+
 public class PlayerShell {
 
     private String name;
@@ -64,9 +66,10 @@ public class PlayerShell {
         this.modeOfGame = modeOfGame;
     }
 
+
     public void newPlayerCore(){
 
-        if (isStatusDead == false){
+        if (!isStatusDead){
             System.err.print("You are still alive,can't not do this");
             return;
         }
