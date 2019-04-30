@@ -51,12 +51,13 @@ public class PlayerShell {
     private boolean isStatusDead;
     private PlayerCore playerCore;
     private int modeOfGame;    //  1:normal mode  2:final frenzy mode  3:to be defined
+    private Lobby lobby;
 
 
 
 
 
-    public PlayerShell(String name, Color color,int modeOfGame) {
+    public PlayerShell(String name, Color color,int modeOfGame,Lobby lobby) {
         this.name = name;
         this.color = color;
         score = 0;
@@ -64,6 +65,7 @@ public class PlayerShell {
         isStatusDead = true;
         playerCore = null;
         this.modeOfGame = modeOfGame;
+        this.lobby=lobby;
     }
 
 
@@ -104,6 +106,9 @@ public class PlayerShell {
         return playerCore;
     }
 
+    public Lobby getLobby() {
+        return lobby;
+    }
 
     @Override
     public String toString() {

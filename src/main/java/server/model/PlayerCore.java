@@ -1,10 +1,13 @@
 package server.model;
 
 
+import server.controller.Lobby;
 import server.controller.PlayerShell;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /*
@@ -104,6 +107,8 @@ public class PlayerCore {
 
 
     //It will return a boolean value,this value is for index,if the this play is already died.
+    //If someone is dead in this turn,the sufferDamage caller who have to judgment if double kill,
+    // and count this kill and overkill damage to the scoreBoard.
     public boolean sufferDamage(PlayerShell damageOrigin, int amount) {
 
         boolean sufferDamegeNotFinished;
@@ -113,15 +118,12 @@ public class PlayerCore {
                 sufferDamegeNotFinished = true;
             else
                 sufferDamegeNotFinished = false;
-            if(addDamegaToTrack(damageOrigin, sufferDamegeNotFinished))
+            if(addDamageToTrack(damageOrigin, sufferDamegeNotFinished))
                 return true;
         }
 
         //If  this player have mark, Put all of them to damage track
-        if (putMarkToDamageTrackAndClearThem())
-            return true;
-
-        return false;
+        return putMarkToDamageTrackAndClearThem();
 
     }
 
@@ -138,10 +140,12 @@ public class PlayerCore {
 
     }
 
+
     private void clearMark() {
 
         this.mark.clear();
     }
+
 
     public ArrayList<PlayerShell> getMark() {
         return mark;
@@ -150,7 +154,8 @@ public class PlayerCore {
     //This function is for add damage to damage track.
     //It will return a boolean value,this value is for index,if the this play is already died.
     //Attention: this function is Private, if other class want to add damage,please call class public "sufferDageme"
-    private boolean addDamegaToTrack(PlayerShell damageOrigin, boolean addDamegeNotFinishe){
+    private boolean addDamageToTrack(PlayerShell damageOrigin, boolean addDamegeNotFinishe){
+
 
             this.damage.add(damageOrigin);
 
@@ -171,9 +176,9 @@ public class PlayerCore {
 
             //kill
             if (this.damage.size() == 11 && !addDamegeNotFinishe) {
-                //set score kill
 
-                //Collections.frequency(this.damage,damageOrigin);
+                //set score kill
+                killAndOverkillScoreCount();
 
                 //set status dead
                 this.playerShell.setStatusDead(true);
@@ -184,8 +189,9 @@ public class PlayerCore {
 
             //overkill
             if (this.damage.size() == 12) {
-                //overkill and break
 
+                //overkill and break
+                killAndOverkillScoreCount();
 
                 //set status dead
                 this.playerShell.setStatusDead(true);
@@ -196,6 +202,68 @@ public class PlayerCore {
 
             return false;
     }
+
+
+    private void killAndOverkillScoreCount(){
+
+
+        ArrayList<PlayerShell> playerToBeSort;
+
+        Comparator comparator = (Comparator<PlayerShell>) (PlayerShell o1, PlayerShell o2) -> {
+
+            if (Collections.frequency(this.damage,o1)>Collections.frequency(this.damage,o2))
+                return 1;
+            else if (Collections.frequency(this.damage,o1)==Collections.frequency(this.damage,o2)
+                        && Collections.frequency(this.damage,o1)!=0){
+                if (this.damage.indexOf(o1)<this.damage.indexOf(o2))
+                    return 1;
+                else
+                    return -1;
+            }
+            else
+                return -1;
+        };
+
+        playerToBeSort = (ArrayList<PlayerShell>) this.playerShell.getLobby().getDeckOfPlayers().clone();
+
+        playerToBeSort.sort(comparator);
+
+
+
+
+
+        /*
+        int maxElement=0;
+        int a;
+        PlayerShell maxPlayer=null;
+
+        //Collections.frequency(this.damage,damageOrigin);
+
+
+        for (int i=0;i<this.playerShell.getLobby().getDeckOfPlayers().size();i++){
+            a = Collections.frequency(this.damage,this.playerShell.getLobby().getDeckOfPlayers().get(i));
+            if (a>maxElement){
+                maxElement=a;
+                maxPlayer=this.playerShell.getLobby().getDeckOfPlayers().get(i);
+            }
+            else if(a==maxElement && maxPlayer!=null && maxElement!=0){
+                if (this.damage.indexOf(this.playerShell.getLobby().getDeckOfPlayers().get(i))
+                        < this.damage.indexOf(maxPlayer)){
+                    maxElement=a;
+                    maxPlayer=this.playerShell.getLobby().getDeckOfPlayers().get(i);
+                }
+            }
+        }
+        maxPlayer.addScore(this.scoreBoard[this.playerShell.getNumberOfDeaths()]);
+         */
+
+
+
+
+    }
+
+
+
 
 
 
@@ -212,7 +280,7 @@ public class PlayerCore {
                 else
                     markNotFinished =false;
 
-                if(addDamegaToTrack(this.mark.get(i),markNotFinished))
+                if(addDamageToTrack(this.mark.get(i),markNotFinished))
                     return true;
             }
             clearMark();
