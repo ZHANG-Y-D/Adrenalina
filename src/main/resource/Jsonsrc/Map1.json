@@ -1,0 +1,61 @@
+{
+  "mapSquares": [
+    [
+      {
+        "color": "blue",
+        "spawn": false
+      },
+      {
+        "color": "blue",
+        "spawn": false
+      },
+      {
+        "color": "blue",
+        "spawn": true
+      },
+      {
+        "color": "black",
+        "spawn": false
+      }
+    ],
+    [
+      {
+        "color": "red",
+        "spawn": true
+      },
+      {
+        "color": "red",
+        "spawn": false
+      },
+      {
+        "color": "red",
+        "spawn": false
+      },
+      {
+        "color": "yellow",
+        "spawn": false
+      }
+    ],
+    [
+      {
+        "color": "black",
+        "spawn": false
+      },
+      {
+        "color": "white",
+        "spawn": false
+      },
+      {
+        "color": "white",
+        "spawn": false
+      },
+      {
+        "color": "yellow",
+        "spawn": false
+      }
+    ]
+  ],
+  "mapWalls": [[1,5],[6,10]],
+  "rows": 3,
+  "columns": 4
+}
