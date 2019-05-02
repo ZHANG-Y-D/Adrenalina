@@ -266,7 +266,6 @@ public class PlayerCore {
 
 
 
-
     //It will return a boolean value,this value is for index,if the this play is already died.
     //Attention: this function is Private, it only can be called by sufferDamage"
     private boolean putMarkToDamageTrackAndClearThem(){

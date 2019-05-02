@@ -10,6 +10,7 @@
 package server.model;
 
 import org.junit.jupiter.api.Test;
+import server.controller.Lobby;
 import server.controller.PlayerShell;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,10 +23,10 @@ public class PowerupCardTest {
     @Test
     void playitTest() {
 
-
-        PlayerShell ownerPlayer = new PlayerShell("Anna",Color.BLACK,1);
+        Lobby lobby = new Lobby(0,1,1);
+        PlayerShell ownerPlayer = new PlayerShell("Anna",Color.BLACK,1,lobby);
         ownerPlayer.newPlayerCore();
-        PlayerShell targetPlayer = new PlayerShell("Bob",Color.WHITE,1);
+        PlayerShell targetPlayer = new PlayerShell("Bob",Color.WHITE,1,lobby);
         targetPlayer.newPlayerCore();
 
         ownerPlayer.getPlayerCore().addPowerup(new PowerupCard("GRNATA VANOM",Color.BLUE,"For test",true,1));

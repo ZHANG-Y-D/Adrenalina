@@ -1,6 +1,7 @@
 package server.model;
 
 import org.junit.jupiter.api.Test;
+import server.controller.Lobby;
 import server.controller.PlayerShell;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,10 +30,11 @@ class PlayerCoreTest {
     void sufferDamageTest() {
 
         //Test 1 damege
-        PlayerShell damageOrigin = new PlayerShell("Anna",Color.RED,1);
+        Lobby lobby = new Lobby(0,1,1);
+        PlayerShell damageOrigin = new PlayerShell("Anna",Color.RED,1,lobby);
         damageOrigin.newPlayerCore();
 
-        PlayerShell Target = new PlayerShell("Bob",Color.YELLOW,1);
+        PlayerShell Target = new PlayerShell("Bob",Color.YELLOW,1,lobby);
         Target.newPlayerCore();
 
         //Anna attack Bob amount = 1
@@ -58,8 +60,9 @@ class PlayerCoreTest {
     @Test
     void addMarkTest() {
 
-        PlayerShell markOrigin = new PlayerShell("Ceci",Color.WHITE,1);
-        PlayerShell markTarget = new PlayerShell("Daniele",Color.BLACK,1);
+        Lobby lobby = new Lobby(0,1,1);
+        PlayerShell markOrigin = new PlayerShell("Ceci",Color.WHITE,1,lobby);
+        PlayerShell markTarget = new PlayerShell("Daniele",Color.BLACK,1,lobby);
         markOrigin.newPlayerCore();
         markTarget.newPlayerCore();
 
@@ -84,11 +87,6 @@ class PlayerCoreTest {
 
     @Test
     void killAndOverkillTest() {
-
-
-
     }
-
-
 
 }
