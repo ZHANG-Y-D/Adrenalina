@@ -1,5 +1,6 @@
 package server.model;
 
+import com.google.gson.Gson;
 import server.controller.PlayerShell;
 
 import java.io.*;
@@ -13,10 +14,10 @@ import java.util.stream.Collectors;
 public class Map {
 
     //playerPosition
-    private final Square[][] mapSquares;
+    private Square[][] mapSquares;
     private ArrayList<int[]> mapWalls;
-    private final int rows;
-    private final int columns;
+    private int rows;
+    private int columns;
     //private WeaponCard[] redWeapons;
     //private WeaponCard[] blueWeapons;
     //private WeaponCard[] yellowWeapons;
@@ -32,46 +33,9 @@ public class Map {
 
     //TODO add weapon
     public Map(int num, int rows, int columns){
-        this.rows = rows;
-        this.columns = columns;
-        mapSquares = new Square[rows][columns];
-        mapWalls = new ArrayList<>();
-        String path = "src/main/resource/Jsonsrc/Map" + num + ".txt";        //resource file in resource directory
-        buildMap(path);
+
     }
-
-    /**
-     * Builds the map taking the features from
-     * the file with the given path.
-     *
-     * @param path   the path of the file
-     * @throws FileNotFoundException if the path is wrong and the file is not found
-     */
-
-    private void buildMap(String path){
-        try{
-            File file = new File(path);
-            try (Scanner scanner = new Scanner(file)) {
-
-                for (int i = 0; i < rows; i++) {
-                        for (int j = 0; j < columns; j++) {
-                            String color = scanner.nextLine();
-                            String temp = scanner.nextLine();
-                            boolean spawn;
-                            if (temp.equals("T")) spawn = true;
-                            else spawn = false;
-                            mapSquares[i][j] = new Square(color, spawn);
-                        }
-                }
-                while (scanner.hasNextLine()) {
-                    int[] w1 = {scanner.nextInt(), scanner.nextInt()};
-                    mapWalls.add(w1);
-                }
-            }
-        }catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        }
-    }
+    
 
     public void printMap(){
         for(int i = 0; i < rows; i++){
