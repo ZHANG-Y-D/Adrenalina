@@ -17,10 +17,11 @@ public class Lobby implements Runnable{
     private DeckPowerup deckPowerup;
 
 
+
     public Lobby(ArrayList<ClientAPI> players) {
         lobbyID = UUID.randomUUID().toString();
 
-        map = new Map();
+        map = new Map(this);
         scoreBoard = new ScoreBoard();
         deckOfPlayers = new ArrayList<>();
         deckAmmo = new DeckAmmo();
@@ -39,10 +40,29 @@ public class Lobby implements Runnable{
 
     }
 
-    public int getPlayersCount(){
-        //TODO will return number of players in the lobby
-        return 0;
+    public DeckAmmo getDeckAmmo() {
+        return deckAmmo;
     }
+
+    public DeckWeapon getDeckWeapon() {
+        return deckWeapon;
+    }
+
+    //It will return how much Players have already entered
+    public int getNumOfPlayers(){
+
+        return this.getDeckOfPlayers().size();
+
+    }
+
+
+    //Use this method to add every player
+    public void addNewPlayerToDeck(PlayerShell newPlayer) {
+
+        this.getDeckOfPlayers().add(newPlayer);
+
+    }
+
 
     @Override
     public void run() {

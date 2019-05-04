@@ -15,20 +15,19 @@ import java.util.Collections;
 
 public abstract class Deck<T> {
 
-    protected ArrayList<T> cardsDeck;   //Sonar reminds that cannot use name "deck"
-    protected ArrayList<T> discarded;
+    ArrayList<T> cardsDeck;   //Sonar reminds that cannot use name "deck"
+    private ArrayList<T> usingDeckCard;
 
 
     public T draw(){
-        return cardsDeck.remove(cardsDeck.size() -1);
+
+        if (this.usingDeckCard.isEmpty()) {
+            this.usingDeckCard = (ArrayList<T>)cardsDeck.clone();
+            Collections.shuffle(usingDeckCard);
+        }
+        return this.usingDeckCard.remove(this.usingDeckCard.size()-1);
+
     }
 
-    public void addDiscarded(T card){
-        discarded.add(card);
-    }
-
-    public void shuffle(){
-        Collections.shuffle(cardsDeck);
-    }
 
 }

@@ -2,6 +2,7 @@ package server.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import server.controller.Lobby;
 import server.controller.PlayerShell;
 
 import java.io.*;
@@ -26,9 +27,49 @@ public class Map {
     private int rows;
     private int columns;
     private String description;
-    //private WeaponCard[] redWeapons;
-    //private WeaponCard[] blueWeapons;
-    //private WeaponCard[] yellowWeapons;
+    private ArrayList<WeaponCard> redWeapons;
+    private ArrayList<WeaponCard> blueWeapons;
+    private ArrayList<WeaponCard> yellowWeapons;
+    private ArrayList<AmmoCard> ammoCards;
+    private Lobby lobby;
+
+
+    //Attention:For integrate with Deck,I added this Constructor
+    public Map(Lobby lobby) {
+
+        this.lobby = lobby;
+        redWeapons = new ArrayList<>();
+        blueWeapons =new ArrayList<>();
+        yellowWeapons =new ArrayList<>();
+        ammoCards =new ArrayList<>();
+        complementAllMapResource();
+
+
+    }
+
+
+
+
+    public void complementAllMapResource() {
+
+
+        while (this.redWeapons.size()<3)
+            this.redWeapons.add(this.lobby.getDeckWeapon().draw());
+
+
+        while (this.blueWeapons.size()<3)
+            this.blueWeapons.add(this.lobby.getDeckWeapon().draw());
+
+
+        while (this.yellowWeapons.size()<3)
+            this.yellowWeapons.add(this.lobby.getDeckWeapon().draw());
+
+
+        while (this.ammoCards.size()<12)
+            this.ammoCards.add(this.lobby.getDeckAmmo().draw());
+
+    }
+
 
 
     public void printMap(){

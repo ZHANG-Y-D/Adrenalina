@@ -38,7 +38,7 @@ import java.util.Comparator;
  *      When a player(Bob) has joined, new a class PlayerShell.
  *      When Bob begins his turn, use method newPlayerCore in the PlayerShell,
  *          and use method getPlayerCore to get this class;
- *      When Bob has dead, free PlayerCore.
+ *      When Bob has dead, free PlayerCore (process automatic).
  *      When Bob is resurrected, reuse method newPlayerCore.
  *      However the PlayerShell for information, the PlayerCore for functionality
  *
