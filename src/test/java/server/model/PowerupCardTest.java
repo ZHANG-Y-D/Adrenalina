@@ -23,7 +23,7 @@ public class PowerupCardTest {
     @Test
     void playitTest() {
 
-        Lobby lobby = new Lobby(0,1,1);
+        Lobby lobby = new Lobby(null);
         PlayerShell ownerPlayer = new PlayerShell("Anna",Color.BLACK,1,lobby);
         ownerPlayer.newPlayerCore();
         PlayerShell targetPlayer = new PlayerShell("Bob",Color.WHITE,1,lobby);

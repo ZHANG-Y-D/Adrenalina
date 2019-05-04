@@ -30,7 +30,7 @@ class PlayerCoreTest {
     void sufferDamageTest() {
 
         //Test 1 damege
-        Lobby lobby = new Lobby(0,1,1);
+        Lobby lobby = new Lobby(null);
         PlayerShell damageOrigin = new PlayerShell("Anna",Color.RED,1,lobby);
         damageOrigin.newPlayerCore();
 
@@ -60,7 +60,7 @@ class PlayerCoreTest {
     @Test
     void addMarkTest() {
 
-        Lobby lobby = new Lobby(0,1,1);
+        Lobby lobby = new Lobby(null);
         PlayerShell markOrigin = new PlayerShell("Ceci",Color.WHITE,1,lobby);
         PlayerShell markTarget = new PlayerShell("Daniele",Color.BLACK,1,lobby);
         markOrigin.newPlayerCore();

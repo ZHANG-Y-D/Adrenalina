@@ -22,21 +22,7 @@ public class Map {
     //private WeaponCard[] redWeapons;
     //private WeaponCard[] blueWeapons;
     //private WeaponCard[] yellowWeapons;
-
-    /**
-     * Constructs a map with the given rows and columns
-     * and creates the file path using the given map number.
-     *
-     * @param num       the number of the selected map
-     * @param rows      the number of rows of the map
-     * @param columns   the number of columns of the map
-     */
-
-    //TODO add weapon
-    public Map(int num, int rows, int columns){
-
-    }
-
+    
 
     public void printMap(){
         for(int i = 0; i < rows; i++){
