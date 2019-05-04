@@ -1,11 +1,14 @@
 package server.controller;
 
+import client.ClientAPI;
 import server.model.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 
-public class Lobby {
+public class Lobby implements Runnable{
 
+    private final String lobbyID;
     private Map map;
     private ScoreBoard scoreBoard;
     private ArrayList<PlayerShell> deckOfPlayers;
@@ -14,9 +17,10 @@ public class Lobby {
     private DeckPowerup deckPowerup;
 
 
-    public Lobby(int num, int rows, int columns) {
+    public Lobby(ArrayList<ClientAPI> players) {
+        lobbyID = UUID.randomUUID().toString();
 
-        map = new Map(num,rows,columns);
+        map = new Map();
         scoreBoard = new ScoreBoard();
         deckOfPlayers = new ArrayList<>();
         deckAmmo = new DeckAmmo();
@@ -35,5 +39,13 @@ public class Lobby {
 
     }
 
+    public int getPlayersCount(){
+        //TODO will return number of players in the lobby
+        return 0;
+    }
 
+    @Override
+    public void run() {
+        //TODO handles the game flow
+    }
 }
