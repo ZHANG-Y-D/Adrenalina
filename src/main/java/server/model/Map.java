@@ -1,6 +1,7 @@
 package server.model;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import server.controller.PlayerShell;
 
 import java.io.*;
@@ -35,7 +36,7 @@ public class Map {
     public Map(int num, int rows, int columns){
 
     }
-    
+
 
     public void printMap(){
         for(int i = 0; i < rows; i++){
