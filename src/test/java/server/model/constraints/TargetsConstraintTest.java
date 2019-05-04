@@ -1,19 +1,43 @@
 package server.model.constraints;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import server.controller.PlayerShell;
 import server.model.Color;
 import server.model.Map;
 import server.model.PlayerCore;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TargetsConstraintTest {
+
+    private static Map map;
+
+    @BeforeAll
+    static void initMap(){
+        try{
+            Gson gson = new Gson();
+            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map1.json");
+
+            map = gson.fromJson(fileReader,Map.class);
+
+        }catch (JsonIOException e){
+            System.out.println("JsonIOException!");
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("PowerupCard.json file not found");
+        }
+    }
+
     @Test
     void checkConstTest(){
-        Map map = new Map(1,3,4);
+
         PlayerCore shooter = new PlayerCore(null);
 
 

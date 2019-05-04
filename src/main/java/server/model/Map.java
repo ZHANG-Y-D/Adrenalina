@@ -22,7 +22,7 @@ public class Map {
     //private WeaponCard[] redWeapons;
     //private WeaponCard[] blueWeapons;
     //private WeaponCard[] yellowWeapons;
-    
+
 
     public void printMap(){
         for(int i = 0; i < rows; i++){
