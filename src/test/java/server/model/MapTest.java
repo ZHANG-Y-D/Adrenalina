@@ -60,4 +60,17 @@ class MapTest {
         assertEquals(expected,map.getRoomSquares(9));
         assertEquals(expected,map.getRoomSquares(10));
     }
+
+    @Test
+    void areAlignedTest(){
+        assertTrue(map.areAligned(1,3));
+        assertTrue(map.areAligned(3,11));
+        assertFalse(map.areAligned(2,7));
+    }
+
+    @Test
+    void isEmptySquareTest(){
+        assertTrue(map.isEmptySquare(3));
+        assertFalse(map.isEmptySquare(11));
+    }
 }

@@ -2,7 +2,7 @@
   "mapSquares": [
     [
       {
-        "color": "blue",
+        "color": "red",
         "spawn": false
       },
       {
@@ -24,11 +24,11 @@
         "spawn": true
       },
       {
-        "color": "red",
+        "color": "purple",
         "spawn": false
       },
       {
-        "color": "red",
+        "color": "purple",
         "spawn": false
       },
       {
@@ -38,7 +38,7 @@
     ],
     [
       {
-        "color": "black",
+        "color": "white",
         "spawn": false
       },
       {
@@ -55,8 +55,8 @@
       }
     ]
   ],
-  "mapWalls": [[1,5],[6,10]],
+  "mapWalls": [[4,5],[6,10]],
   "rows": 3,
   "columns": 4,
-  "description": "This map is good for 3 or 4 players.\n"
+  "description": "This map is good for any number of players.\n"
 }

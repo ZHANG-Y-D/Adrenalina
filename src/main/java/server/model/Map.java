@@ -10,6 +10,12 @@ import java.util.stream.Collectors;
 
 /**
  * Represents the map during a Game.
+ * <p>
+ *     The map is represented by a matrix of Square objects.
+ *     The methods receive the index of the square
+ *     as a number from 0 to (#rows * #columns -1) and if it's
+ *     necessary it'll be converted in x and y coordinates.
+ * </p>
  */
 
 public class Map {
@@ -19,6 +25,7 @@ public class Map {
     private ArrayList<int[]> mapWalls;
     private int rows;
     private int columns;
+    private String description;
     //private WeaponCard[] redWeapons;
     //private WeaponCard[] blueWeapons;
     //private WeaponCard[] yellowWeapons;
