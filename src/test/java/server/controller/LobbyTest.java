@@ -17,7 +17,7 @@ public class LobbyTest {
     void readMapTest() {
 
         Lobby lobby = new Lobby(null);
-        lobby.chooseAndNewAMap(1);
+        lobby.chooseAndNewAMap(4);
         for (int i = 0; i < lobby.getMap().getRows(); i++) {
             for (int j = 0; j < lobby.getMap().getColumns(); j++) {
                 System.out.println(lobby.getMap().getMapSquares()[i][j].toString());

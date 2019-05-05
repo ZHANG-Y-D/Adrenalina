@@ -45,36 +45,48 @@ public class Lobby implements Runnable{
     public void chooseAndNewAMap(int num){
 
         this.mapNumber=num;
-        this.map= new Map(this);
+        this.map= new Map();
 
 
         try{
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+this.mapNumber+".json");
-
-            JsonObject jsonObject = new JsonParser().parse(fileReader).getAsJsonObject();
-            this.map.setRows(jsonObject.get("rows").getAsInt());
-            this.map.setColumns(jsonObject.get("columns").getAsInt());
-            this.map.newMapSquare();
-
-            fileReader.close();
-            fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+this.mapNumber+".json");
             this.map=gson.fromJson(fileReader,Map.class);
-            this.map.setLobby(this);
-            fileReader.close();
 
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
         }
         catch (FileNotFoundException e) {
             System.out.println("PowerupCard.json file not found");
-        }catch (IOException e){
-            System.out.println("IOException!");
         }
-
-        this.map.complementAllMapResource();
-
+        complementAllMapResource();
     }
+
+
+
+    public void complementAllMapResource(){
+
+        for (int i=0;i<this.map.getRows();i++){
+            for (int j=0;j<this.map.getColumns();j++){
+
+                if(!this.map.getMapSquares()[i][j].isSpawn() &&
+                        this.map.getMapSquares()[i][j].getColor()!=Color.BLACK &&
+                        this.map.getMapSquares()[i][j].getAmmoCard()==null)
+                    this.map.getMapSquares()[i][j].setAmmoCard(getDeckAmmo().draw());
+
+                if (this.map.getMapSquares()[i][j].isSpawn() &&
+                        this.map.getMapSquares()[i][j].getWeaponCardsDeck()==null)
+                    this.map.getMapSquares()[i][j].newWeaponCardsDeck();
+
+                while (this.map.getMapSquares()[i][j].isSpawn() &&
+                        this.map.getMapSquares()[i][j].getWeaponCardsDeck().size()<3) {
+                    this.map.getMapSquares()[i][j].getWeaponCardsDeck().add(getDeckWeapon().draw());
+                }
+
+            }
+        }
+    }
+
 
 
 

@@ -25,70 +25,19 @@ public class Map {
     private int rows;
     private int columns;
     private String description;
-    private Lobby lobby;
 
 
-    //Attention:For integrate with Deck,I added this Constructor
-    public Map(Lobby lobby) {
-
-        mapWalls = new ArrayList<>();
-        description = "";
-
-        this.lobby = lobby;
-
-    }
 
 
-    public void newMapSquare() {
 
-        mapSquares=new Square[rows][columns];
-        for (int i=0;i<rows;i++) {
-            for (int j = 0; j < columns; j++)
-                mapSquares[i][j]=new Square();
-        }
 
-    }
 
     public Square[][] getMapSquares() {
         return mapSquares;
     }
 
 
-    //For I/O
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
 
-    public void setColumns(int columns) {
-        this.columns = columns;
-    }
-
-    public void setLobby(Lobby lobby) {
-        this.lobby = lobby;
-    }
-
-    public void complementAllMapResource(){
-
-        for (int i=0;i<rows;i++){
-            for (int j=0;j<columns;j++){
-
-                    if(!mapSquares[i][j].isSpawn() &&
-                            mapSquares[i][j].getColor()!=Color.BLACK &&
-                            mapSquares[i][j].getAmmoCard()==null)
-                        mapSquares[i][j].setAmmoCard(lobby.getDeckAmmo().draw());
-
-                    if (mapSquares[i][j].isSpawn() &&
-                            mapSquares[i][j].getWeaponCardsDeck()==null)
-                        mapSquares[i][j].newWeaponCardsDeck();
-
-                    while (mapSquares[i][j].isSpawn() &&
-                            mapSquares[i][j].getWeaponCardsDeck().size()<3) {
-                        mapSquares[i][j].getWeaponCardsDeck().add(lobby.getDeckWeapon().draw());
-                    }
-
-            }
-        }
-    }
 
 
 
