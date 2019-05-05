@@ -16,13 +16,13 @@ public class DeckAmmoTest {
 
 
         //Test total
-        assertEquals(deckAmmo.cardsDeck.size(),36);
+        assertEquals(deckAmmo.getCardsDeck().size(),36);
 
 
         //Test the first element
         int[] num= new int[]{0,2,1,0};
-        assertArrayEquals(num,deckAmmo.cardsDeck.get(0).getAmmoContent());
-        assertEquals(2,deckAmmo.cardsDeck.get(0).getNumAmmoCard());
+        assertArrayEquals(num,deckAmmo.getCardsDeck().get(0).getAmmoContent());
+        assertEquals(2,deckAmmo.getCardsDeck().get(0).getNumAmmoCard());
 
 
     }

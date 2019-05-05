@@ -13,7 +13,16 @@ public class DeckWeaponTest {
         System.out.print((deckWeapon.toString()));
 
         //Test total
-        assertEquals(21,deckWeapon.cardsDeck.size());
+        assertEquals(21,deckWeapon.getCardsDeck().size());
+
+    }
+
+    @Test
+    void DrawTest(){
+
+        DeckWeapon deckWeapon = new DeckWeapon();
+        for (int i=0;i<=100;i++)
+            System.out.println(deckWeapon.draw().toString());
 
     }
 }

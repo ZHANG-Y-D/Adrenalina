@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import server.controller.Lobby;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -72,5 +73,19 @@ class MapTest {
     void isEmptySquareTest(){
         assertTrue(map.isEmptySquare(3));
         assertFalse(map.isEmptySquare(11));
+    }
+
+    @Test
+    void complementMethodTest(){
+
+        Lobby lobby = new Lobby(null);
+        lobby.chooseAndNewAMap(1);
+        for (int i = 0; i < lobby.getMap().getRows(); i++) {
+            for (int j = 0; j < lobby.getMap().getColumns(); j++) {
+                System.out.println(lobby.getMap().getMapSquares()[i][j].toString());
+            }
+        }
+        System.out.println(lobby.getMap().toString());
+
     }
 }

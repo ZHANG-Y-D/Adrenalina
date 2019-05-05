@@ -5,8 +5,8 @@ package server.model;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Arrays;
 
 
@@ -25,15 +25,13 @@ public class DeckPowerup extends Deck<PowerupCard> {
     public DeckPowerup(){
 
 
-        cardsDeck = new ArrayList<>();
-
         try{
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/PowerupCard.json");
 
             PowerupCard[] powerupCards = gson.fromJson(fileReader,PowerupCard[].class);
 
-            cardsDeck.addAll(Arrays.asList(powerupCards));
+            getCardsDeck().addAll(Arrays.asList(powerupCards));
 
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
@@ -50,7 +48,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
     public String toString() {
 
         return "DeckPowerup{" +
-                "cardsDeck=" + cardsDeck +
+                "cardsDeck=" + getCardsDeck() +
                 '}';
     }
 }

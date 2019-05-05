@@ -1,13 +1,11 @@
 package server.model;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
 import server.controller.Lobby;
-import server.controller.PlayerShell;
 
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
+
 
 /**
  * Represents the map during a Game.
@@ -27,47 +25,69 @@ public class Map {
     private int rows;
     private int columns;
     private String description;
-    private ArrayList<WeaponCard> redWeapons;
-    private ArrayList<WeaponCard> blueWeapons;
-    private ArrayList<WeaponCard> yellowWeapons;
-    private ArrayList<AmmoCard> ammoCards;
     private Lobby lobby;
 
 
     //Attention:For integrate with Deck,I added this Constructor
     public Map(Lobby lobby) {
 
-        this.lobby = lobby;
-        redWeapons = new ArrayList<>();
-        blueWeapons =new ArrayList<>();
-        yellowWeapons =new ArrayList<>();
-        ammoCards =new ArrayList<>();
-        complementAllMapResource();
+        mapWalls = new ArrayList<>();
+        description = "";
 
+        this.lobby = lobby;
 
     }
 
 
+    public void newMapSquare() {
+
+        mapSquares=new Square[rows][columns];
+        for (int i=0;i<rows;i++) {
+            for (int j = 0; j < columns; j++)
+                mapSquares[i][j]=new Square();
+        }
+
+    }
+
+    public Square[][] getMapSquares() {
+        return mapSquares;
+    }
 
 
-    public void complementAllMapResource() {
+    //For I/O
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
 
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
 
-        while (this.redWeapons.size()<3)
-            this.redWeapons.add(this.lobby.getDeckWeapon().draw());
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
 
+    public void complementAllMapResource(){
 
-        while (this.blueWeapons.size()<3)
-            this.blueWeapons.add(this.lobby.getDeckWeapon().draw());
+        for (int i=0;i<rows;i++){
+            for (int j=0;j<columns;j++){
 
+                    if(!mapSquares[i][j].isSpawn() &&
+                            mapSquares[i][j].getColor()!=Color.BLACK &&
+                            mapSquares[i][j].getAmmoCard()==null)
+                        mapSquares[i][j].setAmmoCard(lobby.getDeckAmmo().draw());
 
-        while (this.yellowWeapons.size()<3)
-            this.yellowWeapons.add(this.lobby.getDeckWeapon().draw());
+                    if (mapSquares[i][j].isSpawn() &&
+                            mapSquares[i][j].getWeaponCardsDeck()==null)
+                        mapSquares[i][j].newWeaponCardsDeck();
 
+                    while (mapSquares[i][j].isSpawn() &&
+                            mapSquares[i][j].getWeaponCardsDeck().size()<3) {
+                        mapSquares[i][j].getWeaponCardsDeck().add(lobby.getDeckWeapon().draw());
+                    }
 
-        while (this.ammoCards.size()<12)
-            this.ammoCards.add(this.lobby.getDeckAmmo().draw());
-
+            }
+        }
     }
 
 
@@ -212,5 +232,15 @@ public class Map {
 
     public boolean isEmptySquare(int pos) {
         return mapSquares[pos/columns][pos%columns].getColor() == Color.BLACK;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Map{" +
+                "mapSquares=" + Arrays.toString(mapSquares) +
+                ", rows=" + rows +
+                ", columns=" + columns +
+                '}';
     }
 }

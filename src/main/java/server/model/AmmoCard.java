@@ -18,11 +18,6 @@ public class AmmoCard {
     private int numAmmoCard;      //This num for read the graphic of AmmoCard
 
 
-    public AmmoCard(int[] ammoContent, int numAmmoCard) {
-        this.ammoContent = ammoContent;
-        this.numAmmoCard = numAmmoCard;
-    }
-
 
     public int[] getAmmoContent() {
         return ammoContent;

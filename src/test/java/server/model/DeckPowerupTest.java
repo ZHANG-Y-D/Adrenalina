@@ -25,8 +25,17 @@ public class DeckPowerupTest {
         System.out.print((deckPowerup.toString()));
 
         //Test total
-        assertEquals(12,deckPowerup.cardsDeck.size());
+        assertEquals(12,deckPowerup.getCardsDeck().size());
 
+
+    }
+
+    @Test
+    void DrawTest(){
+
+        DeckPowerup deckPowerup = new DeckPowerup();
+        for (int i=0;i<=50;i++)
+            System.out.println(deckPowerup.draw().toString());
 
     }
 

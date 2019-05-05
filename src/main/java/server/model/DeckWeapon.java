@@ -16,14 +16,12 @@ import com.google.gson.JsonIOException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DeckWeapon extends Deck<WeaponCard>{
 
     public DeckWeapon() {
 
-        cardsDeck = new ArrayList<>();
 
         try{
             Gson gson = new Gson();
@@ -31,7 +29,7 @@ public class DeckWeapon extends Deck<WeaponCard>{
 
             WeaponCard[] weaponCards = gson.fromJson(fileReader,WeaponCard[].class);
 
-            cardsDeck.addAll(Arrays.asList(weaponCards));
+            getCardsDeck().addAll(Arrays.asList(weaponCards));
 
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
@@ -45,7 +43,7 @@ public class DeckWeapon extends Deck<WeaponCard>{
     @Override
     public String toString() {
         return "DeckWeapon{" +
-                "cardsDeck=" + cardsDeck +
+                "cardsDeck=" + getCardsDeck() +
                 '}';
     }
 }
