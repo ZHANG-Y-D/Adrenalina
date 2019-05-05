@@ -26,21 +26,6 @@ public class Map {
     private int columns;
     private String description;
 
-
-
-
-
-
-
-    public Square[][] getMapSquares() {
-        return mapSquares;
-    }
-
-
-
-
-
-
     public void printMap(){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
@@ -50,15 +35,15 @@ public class Map {
         }
     }
 
+    public Square getSquare(int x, int y) { return mapSquares[x][y]; }
+
     /**
      * Gets the number of columns of the map.
      *
      * @return  the number of columns
      */
 
-    public int getColumns() {
-        return columns;
-    }
+    public int getColumns() { return columns; }
 
     /**
      * Gets the number of rows of the map.
@@ -66,9 +51,7 @@ public class Map {
      * @return  the number of rows
      */
 
-    public int getRows() {
-        return rows;
-    }
+    public int getRows() { return rows; }
 
     /**
      * Gets all the valid squares in which

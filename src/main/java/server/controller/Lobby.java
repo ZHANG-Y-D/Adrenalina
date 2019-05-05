@@ -59,30 +59,24 @@ public class Lobby implements Runnable{
         catch (FileNotFoundException e) {
             System.out.println("PowerupCard.json file not found");
         }
-        complementAllMapResource();
+        setSquaresCards();
     }
 
 
 
-    public void complementAllMapResource(){
+    public void setSquaresCards(){
 
         for (int i=0;i<this.map.getRows();i++){
             for (int j=0;j<this.map.getColumns();j++){
 
-                if(!this.map.getMapSquares()[i][j].isSpawn() &&
-                        this.map.getMapSquares()[i][j].getColor()!=Color.BLACK &&
-                        this.map.getMapSquares()[i][j].getAmmoCard()==null)
-                    this.map.getMapSquares()[i][j].setAmmoCard(getDeckAmmo().draw());
+                if(!this.map.getSquare(i,j).isSpawn() &&
+                        this.map.getSquare(i,j).getColor()!= Color.BLACK &&
+                        this.map.getSquare(i,j).getAmmoCard() == null)
+                    this.map.getSquare(i,j).setAmmoCard(getDeckAmmo().draw());
 
-                if (this.map.getMapSquares()[i][j].isSpawn() &&
-                        this.map.getMapSquares()[i][j].getWeaponCardsDeck()==null)
-                    this.map.getMapSquares()[i][j].newWeaponCardsDeck();
-
-                while (this.map.getMapSquares()[i][j].isSpawn() &&
-                        this.map.getMapSquares()[i][j].getWeaponCardsDeck().size()<3) {
-                    this.map.getMapSquares()[i][j].getWeaponCardsDeck().add(getDeckWeapon().draw());
-                }
-
+                if (this.map.getSquare(i,j).isSpawn())
+                    while(this.map.getSquare(i,j).getWeaponCardDeck().size() < 3)
+                        this.map.getSquare(i,j).getWeaponCardDeck().add(getDeckWeapon().draw());
             }
         }
     }
