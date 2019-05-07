@@ -31,7 +31,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
 
             PowerupCard[] powerupCards = gson.fromJson(fileReader,PowerupCard[].class);
 
-            getCardsDeck().addAll(Arrays.asList(powerupCards));
+            cards.addAll(Arrays.asList(powerupCards));
 
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
@@ -48,7 +48,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
     public String toString() {
 
         return "DeckPowerup{" +
-                "cardsDeck=" + getCardsDeck() +
+                "cardsDeck=" + cards +
                 '}';
     }
 }

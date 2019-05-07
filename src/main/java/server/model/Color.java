@@ -2,7 +2,9 @@ package server.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum Color {
+import java.io.Serializable;
+
+public enum Color implements Serializable {
 
     @SerializedName("red")
     RED,

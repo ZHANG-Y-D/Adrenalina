@@ -1,41 +1,32 @@
 package server.model;
 
-
-/*
- *
- *
- *  Responsible:Zhang Yuedong
- *
- *
- */
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 
 public abstract class Deck<T> {
 
-    private ArrayList<T> cardsDeck;   //Sonar reminds that cannot use name "deck"
-    private ArrayList<T> usingDeckCard;
+    protected ArrayList<T> cards;
+    protected ArrayList<T> discarded;
 
     public Deck() {
-        cardsDeck = new ArrayList<>();
-        usingDeckCard = new ArrayList<>();
+        cards = new ArrayList<>();
+        discarded = new ArrayList<>();
     }
 
-    public ArrayList<T> getCardsDeck() {
-        return cardsDeck;
+    public void shuffle(){
+        Collections.shuffle(cards);
     }
 
     public T draw(){
-
-        if (this.usingDeckCard.isEmpty()) {
-            this.usingDeckCard = (ArrayList<T>)cardsDeck.clone();
-            Collections.shuffle(usingDeckCard);
+        if(cards.isEmpty()){
+            cards = (ArrayList<T>)discarded.clone();
+            discarded.clear();
+            shuffle();
         }
-        return this.usingDeckCard.remove(this.usingDeckCard.size()-1);
-
+        return cards.remove(cards.size()-1);
     }
 
-
+    public void addToDiscarded(T card){
+        discarded.add(card);
+    }
 }

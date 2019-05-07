@@ -29,7 +29,7 @@ public class DeckWeapon extends Deck<WeaponCard>{
 
             WeaponCard[] weaponCards = gson.fromJson(fileReader,WeaponCard[].class);
 
-            getCardsDeck().addAll(Arrays.asList(weaponCards));
+            cards.addAll(Arrays.asList(weaponCards));
 
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
@@ -43,7 +43,7 @@ public class DeckWeapon extends Deck<WeaponCard>{
     @Override
     public String toString() {
         return "DeckWeapon{" +
-                "cardsDeck=" + getCardsDeck() +
+                "cardsDeck=" + cards +
                 '}';
     }
 }

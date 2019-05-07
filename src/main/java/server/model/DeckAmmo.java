@@ -25,7 +25,7 @@ public class DeckAmmo extends Deck<AmmoCard>{
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Ammo.json");
 
             AmmoCard[] ammoCards = gson.fromJson(fileReader,AmmoCard[].class);
-            getCardsDeck().addAll(Arrays.asList(ammoCards));
+            cards.addAll(Arrays.asList(ammoCards));
 
 
 
@@ -42,7 +42,7 @@ public class DeckAmmo extends Deck<AmmoCard>{
     @Override
     public String toString() {
         return "DeckAmmo{" +
-                "cardsDeck=" + getCardsDeck() +
+                "cardsDeck=" + cards +
                 '}';
     }
 

@@ -1,19 +1,23 @@
 package server.network;
 
 import client.ClientAPI;
+import server.model.Color;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class ClientSocketWrapper implements ClientAPI {
     private final String clientID;
+    private final String nickname;
     private Socket thisClient;
     private boolean active;
     private String inLobbyID;
 
-    public ClientSocketWrapper(Socket newClient){
+    public ClientSocketWrapper(Socket newClient, String nickname){
         this.thisClient = newClient;
         this.clientID = UUID.randomUUID().toString();
+        this.nickname = nickname;
         this.active = true;
         this.inLobbyID = null;
     }
@@ -23,7 +27,7 @@ public class ClientSocketWrapper implements ClientAPI {
         if(inLobbyID==null) inLobbyID = lobbyID;
     }
 
-    public void showLobbyDetails(){
+    public void showLobbyDetails(ArrayList<Color> availableColors){
 
     }
 }
