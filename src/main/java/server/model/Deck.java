@@ -8,6 +8,7 @@ public abstract class Deck<T> {
     protected ArrayList<T> cards;
     protected ArrayList<T> discarded;
 
+
     public Deck() {
         cards = new ArrayList<>();
         discarded = new ArrayList<>();
@@ -16,6 +17,7 @@ public abstract class Deck<T> {
     public void shuffle(){
         Collections.shuffle(cards);
     }
+
 
     public T draw(){
         if(cards.isEmpty()){

@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import server.controller.PlayerShell;
+import server.controller.Lobby;
 import server.model.Color;
 import server.model.Map;
-import server.model.PlayerCore;
+import server.model.Player;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -38,15 +38,16 @@ class TargetsConstraintTest {
     @Test
     void checkConstTest(){
 
-        PlayerCore shooter = new PlayerCore(null);
+        Lobby lobby = new Lobby(null);
+        Player shooter = new Player("Anna", Color.YELLOW,lobby);
 
 
         /* Different Squares */
         TargetsConstraint constraint = new DifferentSquaresConstraint();
-        ArrayList<PlayerCore> targets = new ArrayList<>();
-        targets.add(new PlayerCore(null));
-        targets.add(new PlayerCore(null));
-        targets.add(new PlayerCore(null));
+        ArrayList<Player> targets = new ArrayList<>();
+        targets.add(new Player("Bob",Color.RED,lobby));
+        targets.add(new Player("Ceci",Color.WHITE,lobby));
+        targets.add(new Player("Devie",Color.BLUE,lobby));
         targets.get(0).setPosition(0);
         targets.get(1).setPosition(7);
         targets.get(2).setPosition(11);
@@ -89,8 +90,8 @@ class TargetsConstraintTest {
         assertTrue(constraint.checkConst(shooter, targets, map));
 
 
-        targets.add(new PlayerCore(null));
-        targets.add(new PlayerCore(null));
+        targets.add(new Player("Emila",Color.BLACK,lobby));
+        targets.add(new Player("Frank",Color.PURPLE,lobby));
         /* Same Room */
         constraint = new SameRoomConstraint();
         targets.get(0).setPosition(4);

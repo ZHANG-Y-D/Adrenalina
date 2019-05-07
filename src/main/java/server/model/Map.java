@@ -26,6 +26,13 @@ public class Map {
     private int columns;
     private String description;
 
+
+
+    public Square[][] getMapSquares() {
+        return mapSquares;
+    }
+
+
     public void printMap(){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){

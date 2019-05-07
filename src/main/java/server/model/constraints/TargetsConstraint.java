@@ -1,7 +1,8 @@
 package server.model.constraints;
 
 import server.model.Map;
-import server.model.PlayerCore;
+import server.model.Player;
+import server.model.Player;
 
 import java.util.ArrayList;
 
@@ -12,5 +13,5 @@ abstract public class TargetsConstraint {
         return this.specialRange;
     }
 
-    public abstract boolean checkConst(PlayerCore shooter, ArrayList<PlayerCore> targets, Map map);
+    public abstract boolean checkConst(Player shooter, ArrayList<Player> targets, Map map);
 }

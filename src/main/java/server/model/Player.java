@@ -1,9 +1,6 @@
 package server.model;
 
-
 import server.controller.Lobby;
-import server.controller.PlayerShell;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,12 +14,12 @@ import java.util.Comparator;
  * Attention from Zhang
  *
  *
- * About Class PlayerCore and Class PlayerShell
+ * About Class PlayerCore and Class Player
  *
- *      The PlayerShell is made for index the actual player,
+ *      The Player is made for index the actual player,
  *      but the PlayerCore is in the level model for index the status of the player,
  *      when someone is dead, this class will be free. When it is resurrected,
- *      the class PlayerShell have to renew it.
+ *      the class Player have to renew it.
  *
  *
  * Why I have created these two different class
@@ -35,81 +32,88 @@ import java.util.Comparator;
  * How to use them
  *
  *
- *      When a player(Bob) has joined, new a class PlayerShell.
- *      When Bob begins his turn, use method newPlayerCore in the PlayerShell,
+ *      When a player(Bob) has joined, new a class Player.
+ *      When Bob begins his turn, use method newPlayerCore in the Player,
  *          and use method getPlayerCore to get this class;
- *      When Bob has dead, free PlayerCore (process automatic).
+ *      When Bob has dead, free PlayerCore(process automatic).
  *      When Bob is resurrected, reuse method newPlayerCore.
- *      However the PlayerShell for information, the PlayerCore for functionality
+ *      However the Player for information, the PlayerCore for functionality
  *
- *      PlayerShell always exist,PlayCore only exist when this player is still alive
+ *      Player always exist,PlayCore only exist when this player is still alive
  *
  */
 
 
-public class PlayerCore {
 
-    private PlayerShell playerShell;
+public class Player {
+
+    private String name;
+    private Color color;       //For index the color of Avatar
+    private int score;
+    private int numberOfDeaths;
+    private boolean isStatusDead;
+    private Lobby lobby;
     private int[] ammoBox;
-    private ArrayList<PlayerShell> damage;    //use a ArrayList for index the source of damage
+    private ArrayList<Player> damage;    //use a ArrayList for index the source of damage
     private ArrayList<PowerupCard> powerup;
     private ArrayList<WeaponCard> weaponCard;
-    private ArrayList<PlayerShell> mark;
+    private ArrayList<Player> mark;
     private int[] scoreBoard;    //For index if this players is died, how much score the other people can get.
-                            //Normal mode is [8,6,4,2,1,1]. The Final Frenzy rules is [5,1,1,1]
+                                //Normal mode is [8,6,4,2,1,1]. The Final Frenzy rules is [5,1,1,1]
     private int position;
     private int oldPosition;  //Last position
     private int[] runable;  //This's an attribute for index how much steps this player can move
-                            //The first element is for steps,second is for index how much steps can move before grab
-                            //The third element is for index how much steps can move before shoot
+                                //The first element is for steps,second is for index how much steps can move before grab
+                                //The third element is for index how much steps can move before shoot
 
     private int numOfActions; //This's for index the times of action the player can choose.Max is 2.
                                 // When his turn is finished, This value will be reload at 2.
 
 
-
-
-    public PlayerCore(PlayerShell playerShell) {
-
-        this.playerShell=playerShell;
-        ammoBox = new int[]{0, 0, 0};
-        damage = new ArrayList<>();
-        mark = new ArrayList<>();
-        powerup = new ArrayList<>();
-        weaponCard = new ArrayList<>();
-        position = 0;
-        oldPosition = 0;
-
-
-
-        //Use a int array per index Death,For put Skeleton,write '0'
-        try {
-            if (playerShell.getModeOfGame() == 1) {
-                scoreBoard = new int[]{8, 6, 4, 2, 1, 1};
-                numOfActions = 2;
-                this.runable=new int[]{3,1,0};
-            }
-            else if (playerShell.getModeOfGame() == 2) {
-
-                scoreBoard = new int[]{2, 1, 1, 1};
-                //still to be defined
-            }
-            else
-                //other mode
-                ;
-
-        }catch (NullPointerException e){
-            System.err.println("PlayerShell Not initialized");
-        }
-
+    public Player(String name, Color color, Lobby lobby) {
+        this.name = name;
+        this.color = color;
+        this.lobby = lobby;
+        damage=new ArrayList<>();
+        powerup=new ArrayList<>();
+        weaponCard=new ArrayList<>();
+        mark=new ArrayList<>();
+        scoreBoard=new int[]{8,6,4,2,1,1};
+        runable=new int[]{3,1,0};
     }
 
 
 
+
+
+    public void setStatusDead(boolean statusDead) {
+        isStatusDead = statusDead;
+    }
+
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+
+    public void addScore(int score) {
+
+        this.score= this.score+score;
+
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
     //It will return a boolean value,this value is for index,if the this play is already died.
     //If someone is dead in this turn,the sufferDamage caller who have to judgment if double kill,
     // and count this kill and overkill damage to the scoreBoard.
-    public boolean sufferDamage(PlayerShell damageOrigin, int amount) {
+    public boolean sufferDamage(Player damageOrigin, int amount) {
 
         boolean sufferDamegeNotFinished;
 
@@ -129,7 +133,7 @@ public class PlayerCore {
 
 
 
-    public void addMark(PlayerShell markOrigin) {
+    public void addMark(Player markOrigin) {
 
         if (this.mark.size()<3)
             mark.add(markOrigin);
@@ -141,80 +145,83 @@ public class PlayerCore {
     }
 
 
+
     private void clearMark() {
 
         this.mark.clear();
     }
 
 
-    public ArrayList<PlayerShell> getMark() {
+
+    public ArrayList<Player> getMark() {
         return mark;
     }
 
     //This function is for add damage to damage track.
     //It will return a boolean value,this value is for index,if the this play is already died.
     //Attention: this function is Private, if other class want to add damage,please call class public "sufferDageme"
-    private boolean addDamageToTrack(PlayerShell damageOrigin, boolean addDamegeNotFinishe){
+    private boolean addDamageToTrack(Player damageOrigin, boolean addDamegeNotFinishe){
 
 
-            this.damage.add(damageOrigin);
+        this.damage.add(damageOrigin);
 
 
-            //Attention: This is only available for mode 1.
-            //First blood
-            if (this.damage.size() == 1)
-                damageOrigin.addScore(1);
+        //Attention: This is only available for mode 1.
+        //First blood
+        if (this.damage.size() == 1)
+            damageOrigin.addScore(1);
 
 
-            //judgment for upgrade
-            if (this.damage.size() >= 3)
-                this.runable[1] = 2;
+        //judgment for upgrade
+        if (this.damage.size() >= 3)
+            this.runable[1] = 2;
 
-            if (this.damage.size() >= 6)
-                this.runable[2] = 1;
-
-
-            //kill
-            if (this.damage.size() == 11 && !addDamegeNotFinishe) {
-
-                //set score kill
-                killAndOverkillScoreCount();
-
-                //set status dead
-                this.playerShell.setStatusDead(true);
-                return true;
-            }
+        if (this.damage.size() >= 6)
+            this.runable[2] = 1;
 
 
+        //kill
+        if (this.damage.size() == 11 && !addDamegeNotFinishe) {
 
-            //overkill
-            if (this.damage.size() == 12) {
+            //set score kill
+            killAndOverkillScoreCount();
 
-                //overkill and break
-                killAndOverkillScoreCount();
+            //set status dead
+            setStatusDead(true);
+            return true;
+        }
 
-                //set status dead
-                this.playerShell.setStatusDead(true);
-                //If you overkill a player, that player will give you a mark representing his or her desire for revenge
-                damageOrigin.getPlayerCore().addMark(this.playerShell);
-                return true;
-            }
 
-            return false;
+
+        //overkill
+        if (this.damage.size() == 12) {
+
+            //overkill and break
+            killAndOverkillScoreCount();
+
+            //set status dead
+            setStatusDead(true);
+            //If you overkill a player, that player will give you a mark representing his or her desire for revenge
+            damageOrigin.addMark(this);
+            return true;
+        }
+
+        return false;
     }
+
 
 
     private void killAndOverkillScoreCount(){
 
 
-        ArrayList<PlayerShell> playerToBeSort;
+        ArrayList<Player> playerToBeSort;
 
-        Comparator comparator = (Comparator<PlayerShell>) (PlayerShell o1, PlayerShell o2) -> {
+        Comparator comparator = (Comparator<Player>) (Player o1, Player o2) -> {
 
             if (Collections.frequency(this.damage,o1)>Collections.frequency(this.damage,o2))
                 return 1;
             else if (Collections.frequency(this.damage,o1)==Collections.frequency(this.damage,o2)
-                        && Collections.frequency(this.damage,o1)!=0){
+                    && Collections.frequency(this.damage,o1)!=0){
                 if (this.damage.indexOf(o1)<this.damage.indexOf(o2))
                     return 1;
                 else
@@ -224,41 +231,36 @@ public class PlayerCore {
                 return -1;
         };
 
-        playerToBeSort = (ArrayList<PlayerShell>) this.playerShell.getLobby().getDeckOfPlayers().clone();
+
+        playerToBeSort = (ArrayList<Player>) getLobby().getDeckOfPlayers().clone();
 
         playerToBeSort.sort(comparator);
-
-
-
 
 
         /*
         int maxElement=0;
         int a;
-        PlayerShell maxPlayer=null;
+        Player maxPlayer=null;
 
         //Collections.frequency(this.damage,damageOrigin);
 
 
-        for (int i=0;i<this.playerShell.getLobby().getDeckOfPlayers().size();i++){
-            a = Collections.frequency(this.damage,this.playerShell.getLobby().getDeckOfPlayers().get(i));
+        for (int i=0;i<this.player.getLobby().getDeckOfPlayers().size();i++){
+            a = Collections.frequency(this.damage,this.player.getLobby().getDeckOfPlayers().get(i));
             if (a>maxElement){
                 maxElement=a;
-                maxPlayer=this.playerShell.getLobby().getDeckOfPlayers().get(i);
+                maxPlayer=this.player.getLobby().getDeckOfPlayers().get(i);
             }
             else if(a==maxElement && maxPlayer!=null && maxElement!=0){
-                if (this.damage.indexOf(this.playerShell.getLobby().getDeckOfPlayers().get(i))
+                if (this.damage.indexOf(this.player.getLobby().getDeckOfPlayers().get(i))
                         < this.damage.indexOf(maxPlayer)){
                     maxElement=a;
-                    maxPlayer=this.playerShell.getLobby().getDeckOfPlayers().get(i);
+                    maxPlayer=this.player.getLobby().getDeckOfPlayers().get(i);
                 }
             }
         }
-        maxPlayer.addScore(this.scoreBoard[this.playerShell.getNumberOfDeaths()]);
+        maxPlayer.addScore(this.scoreBoard[this.player.getNumberOfDeaths()]);
          */
-
-
-
 
     }
 
@@ -329,7 +331,7 @@ public class PlayerCore {
     }
 
 
-    public ArrayList<PlayerShell> getDamageTrack() {
+    public ArrayList<Player> getDamageTrack() {
         return damage;
     }
 
@@ -337,10 +339,16 @@ public class PlayerCore {
         return powerup;
     }
 
+
     @Override
     public String toString() {
-        return "PlayerCore{" +
-                "playerShell=" + playerShell +
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", color=" + color +
+                ", score=" + score +
+                ", numberOfDeaths=" + numberOfDeaths +
+                ", isStatusDead=" + isStatusDead +
+                ", lobby=" + lobby +
                 ", ammoBox=" + Arrays.toString(ammoBox) +
                 ", damage=" + damage +
                 ", powerup=" + powerup +
@@ -353,5 +361,4 @@ public class PlayerCore {
                 ", numOfActions=" + numOfActions +
                 '}';
     }
-
 }

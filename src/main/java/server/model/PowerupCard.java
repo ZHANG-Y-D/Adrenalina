@@ -11,14 +11,12 @@ package server.model;
  *
  */
 
-import server.controller.PlayerShell;
-
 public class PowerupCard {
 
     private String name;
     private Color color;
     private String manual;
-    private boolean isUseInTurn; //ture: you can use is in your turn; false:you can't use it in your turn
+    private boolean isUseInTurn;  //ture: you can use is in your turn; false:you can't use it in your turn
     private int numPowerup;
 
 
@@ -32,27 +30,27 @@ public class PowerupCard {
 
     //Attention：to playIt,the Caller have to judgment good the condition,and then call it
     //fromPlayer is me, targetPlayer is who I want to attack mark or change position
-    public void playIt(PlayerShell thisPowerupCardOwner, PlayerShell targetPlayer, int position){
+    public void playIt(Player thisPowerupCardOwner, Player targetPlayer, int position){
 
        switch (this.name){
 
 
            case "GRNATA VANOM":
-                targetPlayer.getPlayerCore().addMark(thisPowerupCardOwner);
+                targetPlayer.addMark(thisPowerupCardOwner);
                break;
 
 
            case "MIRINO":
-               targetPlayer.getPlayerCore().sufferDamage(thisPowerupCardOwner,1);
+               targetPlayer.sufferDamage(thisPowerupCardOwner,1);
                break;
 
 
            case "RAGGIO CINETICO":
-                targetPlayer.getPlayerCore().setPosition(position);
+                targetPlayer.setPosition(position);
                break;
 
            case "TELETRASPORTO":
-                thisPowerupCardOwner.getPlayerCore().setPosition(position);
+                thisPowerupCardOwner.setPosition(position);
                break;
 
 
@@ -61,7 +59,7 @@ public class PowerupCard {
 
        }
 
-       thisPowerupCardOwner.getPlayerCore().deletePowerup(this);
+       thisPowerupCardOwner.deletePowerup(this);
 
     }
 
