@@ -20,7 +20,7 @@ public class LobbyTest {
         lobby.chooseAndNewAMap(4);
         for (int i = 0; i < lobby.getMap().getRows(); i++) {
             for (int j = 0; j < lobby.getMap().getColumns(); j++) {
-                System.out.println(lobby.getMap().getMapSquares()[i][j].toString());
+                System.out.println(lobby.getMap().getSquare(i,j).toString());
             }
         }
         System.out.println(lobby.getMap().toString());

@@ -2,6 +2,7 @@ package server.network;
 
 import client.ClientAPI;
 
+import java.rmi.RemoteException;
 import java.util.UUID;
 
 public class ClientRMIWrapper implements ClientAPI {
@@ -20,5 +21,9 @@ public class ClientRMIWrapper implements ClientAPI {
     public void setLobby(String lobbyID){
         // inLobbyID is effectively final
         if(inLobbyID==null) inLobbyID = lobbyID;
+    }
+
+    public void showLobbyDetails() throws RemoteException {
+            thisClient.showLobbyDetails();
     }
 }

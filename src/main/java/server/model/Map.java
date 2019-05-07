@@ -28,10 +28,6 @@ public class Map {
 
 
 
-
-
-
-
     public Square[][] getMapSquares() {
         return mapSquares;
     }
@@ -46,15 +42,15 @@ public class Map {
         }
     }
 
+    public Square getSquare(int x, int y) { return mapSquares[x][y]; }
+
     /**
      * Gets the number of columns of the map.
      *
      * @return  the number of columns
      */
 
-    public int getColumns() {
-        return columns;
-    }
+    public int getColumns() { return columns; }
 
     /**
      * Gets the number of rows of the map.
@@ -62,9 +58,7 @@ public class Map {
      * @return  the number of rows
      */
 
-    public int getRows() {
-        return rows;
-    }
+    public int getRows() { return rows; }
 
     /**
      * Gets all the valid squares in which
