@@ -1,7 +1,6 @@
 package server.model;
 
 import org.junit.jupiter.api.Test;
-import server.controller.Lobby;
 
 public class SquareTest {
 

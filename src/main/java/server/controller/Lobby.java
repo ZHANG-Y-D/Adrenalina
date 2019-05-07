@@ -3,28 +3,24 @@ package server.controller;
 import client.ClientAPI;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import server.model.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 
 public class Lobby implements Runnable{
 
+
     private final String lobbyID;
     private Map map;
     private ScoreBoard scoreBoard;
-    private ArrayList<PlayerShell> deckOfPlayers;
+    private ArrayList<Player> deckOfPlayers;
     private DeckWeapon deckWeapon;
     private DeckAmmo deckAmmo;
     private DeckPowerup deckPowerup;
-    private int mapNumber;
 
 
 
@@ -41,16 +37,15 @@ public class Lobby implements Runnable{
     }
 
 
-
+    //For new Map,It has to ensure the map number entry 1~4
     public void chooseAndNewAMap(int num){
 
-        this.mapNumber=num;
         this.map= new Map();
 
 
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+this.mapNumber+".json");
+            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+ num +".json");
             this.map=gson.fromJson(fileReader,Map.class);
 
         }catch (JsonIOException e){
@@ -89,12 +84,11 @@ public class Lobby implements Runnable{
 
 
 
-
     public Map getMap() {
         return map;
     }
 
-    public ArrayList<PlayerShell> getDeckOfPlayers() {
+    public ArrayList<Player> getDeckOfPlayers() {
         return deckOfPlayers;
     }
 
@@ -104,13 +98,16 @@ public class Lobby implements Runnable{
 
     }
 
+
     public DeckAmmo getDeckAmmo() {
         return deckAmmo;
     }
 
+
     public DeckWeapon getDeckWeapon() {
         return deckWeapon;
     }
+
 
     //It will return how much Players have already entered
     public int getNumOfPlayers(){
@@ -121,7 +118,7 @@ public class Lobby implements Runnable{
 
 
     //Use this method to add every player
-    public void addNewPlayerToDeck(PlayerShell newPlayer) {
+    public void addNewPlayerToDeck(Player newPlayer) {
 
         this.getDeckOfPlayers().add(newPlayer);
 

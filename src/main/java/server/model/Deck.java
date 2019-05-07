@@ -18,14 +18,17 @@ public abstract class Deck<T> {
     private ArrayList<T> cardsDeck;   //Sonar reminds that cannot use name "deck"
     private ArrayList<T> usingDeckCard;
 
+
     public Deck() {
         cardsDeck = new ArrayList<>();
         usingDeckCard = new ArrayList<>();
     }
 
+
     public ArrayList<T> getCardsDeck() {
         return cardsDeck;
     }
+
 
     public T draw(){
 
