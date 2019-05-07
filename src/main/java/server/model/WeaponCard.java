@@ -41,6 +41,14 @@ public class WeaponCard {
         //TODO
     }
 
+    public int[] getAmmoCost() {
+        return ammoCost;
+    }
+
+    public Color getGratisAmmo() {
+        return gratisAmmo;
+    }
+
     public void FiremodeShoot() {
         //invoked by the controller
         // handles the selection of the desired firemode and returns it to the controller for use

@@ -11,36 +11,6 @@ import java.util.Comparator;
  *
  * Responsible: Zhang YueDong
  *
- * Attention from Zhang
- *
- *
- * About Class PlayerCore and Class Player
- *
- *      The Player is made for index the actual player,
- *      but the PlayerCore is in the level model for index the status of the player,
- *      when someone is dead, this class will be free. When it is resurrected,
- *      the class Player have to renew it.
- *
- *
- * Why I have created these two different class
- *
- *      For Better distinguish its functionality and information
- *      So that,when someone is dead,just free PlayerCore instead of reset a lot of parameter in the Player
- *      More modular and more stable,and improve scalability
- *
- *
- * How to use them
- *
- *
- *      When a player(Bob) has joined, new a class Player.
- *      When Bob begins his turn, use method newPlayerCore in the Player,
- *          and use method getPlayerCore to get this class;
- *      When Bob has dead, free PlayerCore(process automatic).
- *      When Bob is resurrected, reuse method newPlayerCore.
- *      However the Player for information, the PlayerCore for functionality
- *
- *      Player always exist,PlayCore only exist when this player is still alive
- *
  */
 
 
@@ -51,7 +21,6 @@ public class Player {
     private Color color;       //For index the color of Avatar
     private int score;
     private int numberOfDeaths;
-    private boolean isStatusDead;
     private Lobby lobby;
     private int[] ammoBox;
     private ArrayList<Player> damage;    //use a ArrayList for index the source of damage
@@ -80,15 +49,13 @@ public class Player {
         mark=new ArrayList<>();
         scoreBoard=new int[]{8,6,4,2,1,1};
         runable=new int[]{3,1,0};
+        ammoBox = new int[]{0,0,0};
+        numberOfDeaths=0;
+        score=0;
+        numOfActions=2;
     }
 
 
-
-
-
-    public void setStatusDead(boolean statusDead) {
-        isStatusDead = statusDead;
-    }
 
     public int getNumberOfDeaths() {
         return numberOfDeaths;
@@ -157,6 +124,8 @@ public class Player {
         return mark;
     }
 
+
+
     //This function is for add damage to damage track.
     //It will return a boolean value,this value is for index,if the this play is already died.
     //Attention: this function is Private, if other class want to add damage,please call class public "sufferDageme"
@@ -187,7 +156,6 @@ public class Player {
             killAndOverkillScoreCount();
 
             //set status dead
-            setStatusDead(true);
             return true;
         }
 
@@ -200,7 +168,6 @@ public class Player {
             killAndOverkillScoreCount();
 
             //set status dead
-            setStatusDead(true);
             //If you overkill a player, that player will give you a mark representing his or her desire for revenge
             damageOrigin.addMark(this);
             return true;
@@ -289,51 +256,60 @@ public class Player {
         return false;
     }
 
+    public ArrayList<WeaponCard> getWeaponCard() {
+        return weaponCard;
+    }
 
+
+    public void addWeaponCard(WeaponCard weaponCard) {
+
+        this.weaponCard.add(weaponCard);
+
+    }
 
     public void setPosition(int position) {
         this.oldPosition = this.position;
         this.position = position;
     }
 
+
     public void deletePowerup(PowerupCard powerup) {
 
         this.getPowerup().remove(powerup);
     }
 
-    public int getPosition(){
+    public int getPosition(){ return this.position;}
 
-        return this.position;
 
+    public int[] getRunable() { return runable;}
+
+    public void setRunable(int[] runable) { this.runable = runable; }
+
+    public int[] getAmmoBox() {
+        return ammoBox;
     }
 
-    public int[] getRunable() {
-
-        return runable;
+    public void setAmmoBox(int[] ammoBox) {
+        this.ammoBox = ammoBox;
     }
-
 
     public int getOldPosition() {
 
         return this.oldPosition;
-
     }
+
 
     public void addPowerup(PowerupCard newPowerUpCard) {
 
-        if (this.powerup.size()<3) {
+        if (this.powerup.size()<3)
             this.powerup.add(newPowerUpCard);
-        }
-        else
-            //max tre powerupcard
-            ;
-
     }
 
 
     public ArrayList<Player> getDamageTrack() {
         return damage;
     }
+
 
     public ArrayList<PowerupCard> getPowerup() {
         return powerup;
@@ -347,7 +323,6 @@ public class Player {
                 ", color=" + color +
                 ", score=" + score +
                 ", numberOfDeaths=" + numberOfDeaths +
-                ", isStatusDead=" + isStatusDead +
                 ", lobby=" + lobby +
                 ", ammoBox=" + Arrays.toString(ammoBox) +
                 ", damage=" + damage +

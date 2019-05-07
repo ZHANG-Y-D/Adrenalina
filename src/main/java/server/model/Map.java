@@ -1,6 +1,5 @@
 package server.model;
 
-import server.controller.Lobby;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +32,7 @@ public class Map {
     }
 
 
+
     public void printMap(){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
@@ -43,6 +43,13 @@ public class Map {
     }
 
     public Square getSquare(int x, int y) { return mapSquares[x][y]; }
+    public Square getSquare(int pos) { return mapSquares[pos/columns][pos%columns]; }
+
+    public AmmoCard getAmmoCard(int pos){return mapSquares[pos/columns][pos%columns].getAmmoCard();}
+
+    public WeaponCard getWeaponCard(int pos,int weaponNum){
+        return mapSquares[pos/columns][pos%columns].getWeaponCardDeck().remove(weaponNum);
+    }
 
     /**
      * Gets the number of columns of the map.
@@ -59,6 +66,8 @@ public class Map {
      */
 
     public int getRows() { return rows; }
+
+
 
     /**
      * Gets all the valid squares in which
@@ -172,6 +181,7 @@ public class Map {
     public boolean isEmptySquare(int pos) {
         return mapSquares[pos/columns][pos%columns].getColor() == Color.BLACK;
     }
+
 
 
     @Override

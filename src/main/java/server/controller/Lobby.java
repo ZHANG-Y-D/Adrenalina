@@ -56,6 +56,7 @@ public class Lobby implements Runnable{
     }
 
 
+
     //For new Map,It has to ensure the map number entry 1~4
     public void chooseAndNewAMap(int num){
 
@@ -111,6 +112,9 @@ public class Lobby implements Runnable{
 
     }
 
+    public DeckPowerup getDeckPowerup() {
+        return deckPowerup;
+    }
 
     public DeckAmmo getDeckAmmo() {
         return deckAmmo;

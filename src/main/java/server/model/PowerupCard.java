@@ -59,7 +59,9 @@ public class PowerupCard {
 
        }
 
+       thisPowerupCardOwner.getLobby().getDeckPowerup().addToDiscarded(this);
        thisPowerupCardOwner.deletePowerup(this);
+
 
     }
 

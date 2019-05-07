@@ -15,6 +15,11 @@ public class Square {
         return weaponCardDeck;
     }
 
+    public WeaponCard removeWeaponCardFromDeck(int indexToBeRemove) {
+
+        return getWeaponCardDeck().remove(indexToBeRemove);
+    }
+
     public Color getColor(){ return color; }
 
     public AmmoCard getAmmoCard() {
