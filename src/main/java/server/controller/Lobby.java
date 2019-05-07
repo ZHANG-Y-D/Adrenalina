@@ -10,8 +10,8 @@ import server.model.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -29,8 +29,15 @@ public class Lobby implements Runnable{
 
 
     public Lobby(ArrayList<ClientAPI> players) {
-
         lobbyID = UUID.randomUUID().toString();
+        for(ClientAPI c : players){
+            try {
+                c.setLobby(lobbyID);
+                c.showLobbyDetails();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
 
         scoreBoard = new ScoreBoard();
         deckOfPlayers = new ArrayList<>();

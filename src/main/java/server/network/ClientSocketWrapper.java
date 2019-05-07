@@ -22,4 +22,8 @@ public class ClientSocketWrapper implements ClientAPI {
         // inLobbyID is effectively final
         if(inLobbyID==null) inLobbyID = lobbyID;
     }
+
+    public void showLobbyDetails(){
+
+    }
 }
