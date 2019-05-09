@@ -29,8 +29,10 @@ public class DeckPowerup extends Deck<PowerupCard> {
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/PowerupCard.json");
 
-            PowerupCard[] powerupCards = gson.fromJson(fileReader,PowerupCard[].class);
 
+            //There are 24 powerup cards in total.So read two times
+            PowerupCard[] powerupCards = gson.fromJson(fileReader,PowerupCard[].class);
+            cards.addAll(Arrays.asList(powerupCards));
             cards.addAll(Arrays.asList(powerupCards));
 
         }catch (JsonIOException e){

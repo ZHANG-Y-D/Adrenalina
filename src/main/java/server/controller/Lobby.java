@@ -86,12 +86,15 @@ public class Lobby implements Runnable{
 
                 if(!this.map.getSquare(i,j).isSpawn() &&
                         this.map.getSquare(i,j).getColor()!= Color.BLACK &&
-                        this.map.getSquare(i,j).getAmmoCard() == null)
-                    this.map.getSquare(i,j).setAmmoCard(getDeckAmmo().draw());
+                        this.map.getSquare(i,j).getAmmoTile() == null)
+                    this.map.getSquare(i,j).setAmmoTile(getDeckAmmo().draw());
 
                 if (this.map.getSquare(i,j).isSpawn())
-                    while(this.map.getSquare(i,j).getWeaponCardDeck().size() < 3)
-                        this.map.getSquare(i,j).getWeaponCardDeck().add(getDeckWeapon().draw());
+                    while(this.map.getSquare(i,j).getWeaponCardDeck().size() < 3) {
+                        WeaponCard weaponCard=getDeckWeapon().draw();
+                        if (weaponCard!=null)
+                            this.map.getSquare(i, j).getWeaponCardDeck().add(weaponCard);
+                    }
             }
         }
     }

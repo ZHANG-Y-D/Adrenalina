@@ -1,5 +1,6 @@
 package server.controller;
 
+import server.model.AmmoCard;
 import server.model.Color;
 import server.model.Player;
 import server.model.WeaponCard;
@@ -9,27 +10,32 @@ public class Grab {
 
     public static void grabAmmoCard(Player graber){
 
-        int[] newAmmo,oldAmmo;
+        AmmoCard grabbedAmmoTile;
+        int[] grabbedAmmoContent;
+        int[] oldAmmoContent;
 
+        grabbedAmmoTile=graber.getLobby().getMap().getSquare(graber.getPosition()).getAmmoTile();
+        grabbedAmmoContent=grabbedAmmoTile.getAmmoContent();
+        oldAmmoContent=graber.getAmmoBox();
 
-        newAmmo=graber.getLobby().getMap().getAmmoCard(graber.getPosition()).getAmmoContent();
-        oldAmmo=graber.getAmmoBox();
 
         //4. Discard the tile. &&   1. Remove the ammo tile.
-        graber.getLobby().getDeckAmmo().addToDiscarded(graber.getLobby().getMap().getAmmoCard(graber.getPosition()));
-        graber.getLobby().getMap().getSquare(graber.getPosition()).setAmmoCard(null);
+        graber.getLobby().getDeckAmmo().addToDiscarded(grabbedAmmoTile);
+        graber.getLobby().getMap().getSquare(graber.getPosition()).setAmmoTile(null);
 
         //2. Move the depicted cubes into your ammo box.
         for (int i=0;i<3;i++){
             //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
-            if (newAmmo[i]<3)
-                newAmmo[i]=newAmmo[i]+oldAmmo[i];
+            if (grabbedAmmoContent[i]<3)
+                grabbedAmmoContent[i]=grabbedAmmoContent[i]+oldAmmoContent[i];
         }
-        graber.setAmmoBox(newAmmo);
+        graber.setAmmoBox(grabbedAmmoContent);
+
         //3. If the tile depicts a powerup card, draw one.
-        if (newAmmo[3]!=0){
+        if (grabbedAmmoContent[3]!=0){
             grabPowerup(graber);
         }
+
     }
 
 
@@ -49,10 +55,13 @@ public class Grab {
     public static void grabWeaponCard(Player graber,int numWeapon,int numWeaponSwitch){
 
 
-        //Exxchange WeaponCard
-        WeaponCard gotWeapon,exchangeWeapon;
+        //Exchange WeaponCard
+        WeaponCard gotWeapon;
+        WeaponCard exchangeWeapon;
+
         gotWeapon=graber.getLobby().getMap().getSquare(graber.getPosition()).removeWeaponCardFromDeck(numWeapon);
         exchangeWeapon=graber.getWeaponCard().remove(numWeapon);
+
         graber.getLobby().getMap().getSquare(graber.getPosition()).getWeaponCardDeck().add(exchangeWeapon);
         graber.getWeaponCard().add(gotWeapon);
 
@@ -62,10 +71,10 @@ public class Grab {
 
     private static void payForWeapon(Player graber, WeaponCard gotWeaponCard){
 
-        int[] ammoCost,ownAmmo;
+        int[] ammoCost;
+        int[] ownAmmo;
         Color gratisColor;
         int i=-1;
-
 
         //2. Pay the cost.
         ammoCost=gotWeaponCard.getAmmoCost();
@@ -98,7 +107,5 @@ public class Grab {
             graber.addPowerup(graber.getLobby().getDeckPowerup().draw());
 
     }
-
-
 
 }

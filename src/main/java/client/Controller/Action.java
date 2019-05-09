@@ -1,4 +1,4 @@
-package client.controller;
+package client.Controller;
 
 public class Action {
 }
