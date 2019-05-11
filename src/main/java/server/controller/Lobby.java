@@ -1,27 +1,24 @@
 package server.controller;
 
-import client.ClientAPI;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import server.network.Client;
 import server.model.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
-public class Lobby implements Runnable{
-
+public class Lobby implements Runnable {
 
     private final String lobbyID;
+    private HashMap <String, Player> players;
     private Map map;
     private ScoreBoard scoreBoard;
-    private HashMap <String, Player> players;
     private ArrayList<Player> deckOfPlayers;
     private DeckWeapon deckWeapon;
     private DeckAmmo deckAmmo;
@@ -29,22 +26,16 @@ public class Lobby implements Runnable{
 
 
 
-    public Lobby(ArrayList<ClientAPI> players) {
+    public Lobby(ArrayList<Client> players) {
         lobbyID = UUID.randomUUID().toString();
         try{
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Avatar.json");
             Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
             ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
-            for(ClientAPI c : players){
-                c.setLobby(lobbyID);
-                c.showLobbyDetails((ArrayList<Color>) avatars.stream().map(Avatar::getColor).collect(Collectors.toList()));
-            }
         }catch (JsonIOException e){
 
         }catch (FileNotFoundException e) {
-
-        }catch(RemoteException e) {
 
         }
         scoreBoard = new ScoreBoard();

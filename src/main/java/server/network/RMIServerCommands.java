@@ -17,18 +17,16 @@ public class RMIServerCommands extends UnicastRemoteObject implements ServerAPI 
         this.mainServer = mainServer;
     }
 
-    public void registerClient(ClientAPI clientAPI, String nickname) {
-        this.mainServer.registerClient(new ClientRMIWrapper(clientAPI, nickname));
+    public String registerRMIClient(ClientAPI clientAPI, String nickname) {
+        ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI, nickname);
+        this.mainServer.registerClient(wrapper);
         System.out.println("Client connected through RMI!");
+        return wrapper.getClientID();
     }
 
-    public void unregisterClient(ClientAPI clientAPI) {
-        this.mainServer.unregisterClient(clientAPI);
+    public void unregisterClient(String clientID) {
+        this.mainServer.unregisterClient(clientID);
         System.out.println("Client closed his RMI session!");
-    }
-
-    public void exampleMethod(String clientID) throws RemoteException {
-        //mainServer.getLobby(clientLobbyMap.get(clientID)).foo();
     }
 
 }
