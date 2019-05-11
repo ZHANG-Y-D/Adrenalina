@@ -30,4 +30,8 @@ public class ClientRMIWrapper implements ClientAPI {
     public void showLobbyDetails(ArrayList<Color> availableColors) throws RemoteException {
             thisClient.showLobbyDetails(availableColors);
     }
+
+    public String getID() {
+        return clientID;
+    }
 }

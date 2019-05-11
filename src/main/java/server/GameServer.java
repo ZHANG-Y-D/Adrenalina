@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameServer {
     private final int rmiPort = 1099;
@@ -18,7 +19,7 @@ public class GameServer {
 
     private ArrayList<ClientAPI> clients;
     private ArrayList<ClientAPI> clientsWaitingList;
-    private ArrayList<Lobby>  activeLobbies;
+    private HashMap<String, Lobby> activeLobbies;
 
     public static void main(String args[]){
         new GameServer().lifeCycle();
@@ -28,16 +29,17 @@ public class GameServer {
         try {
             System.out.println("Setting up RMI Server...");
             Registry registry = LocateRegistry.createRegistry(rmiPort);
-            RMIServerCommands adrenalineServer = new RMIServerCommands(this);
-            registry.bind("AdrenalineServer", adrenalineServer);
+            RMIServerCommands RMIAdrenalineServer = new RMIServerCommands(this);
+            registry.bind("AdrenalineServer", RMIAdrenalineServer);
 
             System.out.println("Setting up Socket Server...");
+            SocketServerCommands SocketAdrenalineServer = new SocketServerCommands(this);
             new Thread(() -> {
                 try {
                     ServerSocket serverSocket = new ServerSocket(socketPort);
                     while(true){
                         Socket client = serverSocket.accept();
-                        registerClient(new ClientSocketWrapper(client));
+                        SocketAdrenalineServer.createListener(client);
                         System.out.println("Client connected through Socket!");
                     }
                 }catch (IOException e) {
@@ -53,7 +55,7 @@ public class GameServer {
         }
         clients = new ArrayList<>();
         clientsWaitingList = new ArrayList<>();
-        activeLobbies = new ArrayList<>();
+        activeLobbies = new HashMap<>();
     }
 
     private void lifeCycle(){
@@ -64,7 +66,7 @@ public class GameServer {
                 while(clientsWaitingList.size()<5 && (System.currentTimeMillis() - timestart < TIMEOUT_IN_SECONDS*1000));
                 // starts new lobby and assigns players to it
                 Lobby newLobby = new Lobby(clientsWaitingList);
-                activeLobbies.add(newLobby);
+                activeLobbies.put(newLobby.getID(), newLobby);
                 new Thread(newLobby).start();
                 clientsWaitingList.clear();
             }
@@ -78,4 +80,7 @@ public class GameServer {
 
     public void unregisterClient(ClientAPI c) { this.clients.remove(c);}
 
+    public Lobby getLobby(String lobbyID) {
+        return activeLobbies.get(lobbyID);
+    }
 }

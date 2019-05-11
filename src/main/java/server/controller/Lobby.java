@@ -146,4 +146,8 @@ public class Lobby implements Runnable{
     public void run() {
         //TODO handles the game flow
     }
+
+    public String getID() {
+        return this.lobbyID;
+    }
 }
