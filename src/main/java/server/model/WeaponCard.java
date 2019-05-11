@@ -49,6 +49,14 @@ public class WeaponCard {
         return gratisAmmo;
     }
 
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
     public void FiremodeShoot() {
         //invoked by the controller
         // handles the selection of the desired firemode and returns it to the controller for use

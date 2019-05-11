@@ -45,11 +45,6 @@ public class Map {
     public Square getSquare(int x, int y) { return mapSquares[x][y]; }
     public Square getSquare(int pos) { return mapSquares[pos/columns][pos%columns]; }
 
-    public AmmoCard getAmmoCard(int pos){return mapSquares[pos/columns][pos%columns].getAmmoCard();}
-
-    public WeaponCard getWeaponCard(int pos,int weaponNum){
-        return mapSquares[pos/columns][pos%columns].getWeaponCardDeck().remove(weaponNum);
-    }
 
     /**
      * Gets the number of columns of the map.
@@ -77,6 +72,7 @@ public class Map {
      * @param num   is the maximum number of moves
      * @return      the list of valid squares
      */
+
 
     public ArrayList<Integer> getValidSquares(int pos, int num){
         ArrayList<Integer> validSquares = new ArrayList<>();

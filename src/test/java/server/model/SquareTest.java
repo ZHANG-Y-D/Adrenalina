@@ -10,7 +10,7 @@ public class SquareTest {
 
 
         Square square =new Square();
-        square.setAmmoCard(new AmmoCard());
+        square.setAmmoTile(new AmmoCard());
         System.out.print(square.toString());
 
 
