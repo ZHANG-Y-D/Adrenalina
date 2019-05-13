@@ -27,7 +27,11 @@ public class ClientRMIWrapper implements ClientAPI {
         if(inLobbyID==null) inLobbyID = lobbyID;
     }
 
-    public void showLobbyDetails(ArrayList<Color> availableColors) throws RemoteException {
-            thisClient.showLobbyDetails(availableColors);
+    public void showLobbyDetails(ArrayList<Color> availableColors, ArrayList<String> playersNicknames) throws RemoteException {
+            thisClient.showLobbyDetails(availableColors, playersNicknames );
+    }
+
+    public String getNickname() throws RemoteException {
+        return nickname;
     }
 }

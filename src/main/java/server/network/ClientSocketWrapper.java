@@ -4,6 +4,7 @@ import client.ClientAPI;
 import server.model.Color;
 
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -27,7 +28,11 @@ public class ClientSocketWrapper implements ClientAPI {
         if(inLobbyID==null) inLobbyID = lobbyID;
     }
 
-    public void showLobbyDetails(ArrayList<Color> availableColors){
+    public void showLobbyDetails(ArrayList<Color> availableColors, ArrayList<String> playersNicknames){
 
+    }
+
+    public String getNickname() throws RemoteException {
+        return nickname;
     }
 }

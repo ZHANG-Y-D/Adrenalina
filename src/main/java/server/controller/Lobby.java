@@ -7,6 +7,7 @@ import server.model.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,15 +37,19 @@ public class Lobby implements Runnable{
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Avatar.json");
             Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
             ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
+
             for(ClientAPI c : players){
                 c.setLobby(lobbyID);
-                c.showLobbyDetails((ArrayList<Color>) avatars.stream().map(Avatar::getColor).collect(Collectors.toList()));
+
+            }
+            for(ClientAPI c : players){
+
             }
         }catch (JsonIOException e){
 
         }catch (FileNotFoundException e) {
 
-        }catch(RemoteException e) {
+        }catch(RemoteException e){
 
         }
         scoreBoard = new ScoreBoard();

@@ -37,7 +37,7 @@ public class GameServer {
                     ServerSocket serverSocket = new ServerSocket(socketPort);
                     while(true){
                         Socket client = serverSocket.accept();
-                        registerClient(new ClientSocketWrapper(client));
+                        registerClient(new ClientSocketWrapper(client, /*TODO*/ ""));
                         System.out.println("Client connected through Socket!");
                     }
                 }catch (IOException e) {
