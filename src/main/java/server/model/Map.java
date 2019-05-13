@@ -1,6 +1,5 @@
 package server.model;
 
-import server.controller.Lobby;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +32,7 @@ public class Map {
     }
 
 
+
     public void printMap(){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
@@ -43,6 +43,8 @@ public class Map {
     }
 
     public Square getSquare(int x, int y) { return mapSquares[x][y]; }
+    public Square getSquare(int pos) { return mapSquares[pos/columns][pos%columns]; }
+
 
     /**
      * Gets the number of columns of the map.
@@ -60,6 +62,8 @@ public class Map {
 
     public int getRows() { return rows; }
 
+
+
     /**
      * Gets all the valid squares in which
      * the player can move from the given position.
@@ -68,6 +72,7 @@ public class Map {
      * @param num   is the maximum number of moves
      * @return      the list of valid squares
      */
+
 
     public ArrayList<Integer> getValidSquares(int pos, int num){
         ArrayList<Integer> validSquares = new ArrayList<>();
@@ -172,6 +177,7 @@ public class Map {
     public boolean isEmptySquare(int pos) {
         return mapSquares[pos/columns][pos%columns].getColor() == Color.BLACK;
     }
+
 
 
     @Override

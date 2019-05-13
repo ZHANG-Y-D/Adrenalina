@@ -1,37 +1,33 @@
 package server.network;
 
 import client.ClientAPI;
-import server.model.Color;
+import server.controller.Lobby;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.UUID;
 
-public class ClientRMIWrapper implements ClientAPI {
+public class ClientRMIWrapper implements Client {
     private final String clientID;
-    private final String nickname;
+    private String nickname;
     private ClientAPI thisClient;
     private boolean active;
-    private String inLobbyID;
 
     public ClientRMIWrapper(ClientAPI newClient, String nickname) {
-        thisClient = newClient;
         clientID = UUID.randomUUID().toString();
+        thisClient = newClient;
         this.nickname = nickname;
         active = true;
-        inLobbyID = null;
     }
 
-    public void setLobby(String lobbyID){
-        // inLobbyID is effectively final
-        if(inLobbyID==null) inLobbyID = lobbyID;
+    public String getClientID() {
+        return clientID;
     }
 
-    public void showLobbyDetails(ArrayList<Color> availableColors, ArrayList<String> playersNicknames) throws RemoteException {
-            thisClient.showLobbyDetails(availableColors, playersNicknames );
+
+    public void setLobby(Lobby lobby) {
+        setLobby(lobby.getID());
     }
 
-    public String getNickname() throws RemoteException {
-        return nickname;
+    public void setLobby(String lobbyID) {
+        thisClient.setLobby(lobbyID);
     }
 }

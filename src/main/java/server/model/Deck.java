@@ -31,4 +31,5 @@ public abstract class Deck<T> {
     public void addToDiscarded(T card){
         discarded.add(card);
     }
+
 }

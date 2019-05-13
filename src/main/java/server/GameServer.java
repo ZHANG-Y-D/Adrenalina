@@ -1,24 +1,26 @@
 package server;
 
-import client.ClientAPI;
 import server.controller.Lobby;
 import server.network.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameServer {
     private final int rmiPort = 1099;
     private final int socketPort = 1100;
     private final int TIMEOUT_IN_SECONDS = 60;
 
-    private ArrayList<ClientAPI> clients;
-    private ArrayList<ClientAPI> clientsWaitingList;
-    private ArrayList<Lobby>  activeLobbies;
+    private ArrayList<Client> clients;
+    private ArrayList<Client> clientsWaitingList;
+    private HashMap<String, Lobby> activeLobbies;
+    private HashMap<String, String> clientsLobbiesMap;
 
     public static void main(String args[]){
         new GameServer().lifeCycle();
@@ -27,17 +29,17 @@ public class GameServer {
     public GameServer(){
         try {
             System.out.println("Setting up RMI Server...");
-            Registry registry = LocateRegistry.createRegistry(rmiPort);
-            RMIServerCommands adrenalineServer = new RMIServerCommands(this);
-            registry.bind("AdrenalineServer", adrenalineServer);
+            RMIServerCommands RMIAdrenalineServer = new RMIServerCommands(this);
+            LocateRegistry.createRegistry(rmiPort).bind("AdrenalineServer", RMIAdrenalineServer);
 
             System.out.println("Setting up Socket Server...");
+            SocketServerCommands SocketAdrenalineServer = new SocketServerCommands(this);
             new Thread(() -> {
                 try {
                     ServerSocket serverSocket = new ServerSocket(socketPort);
                     while(true){
                         Socket client = serverSocket.accept();
-                        registerClient(new ClientSocketWrapper(client, /*TODO*/ ""));
+                        registerClient(new ClientSocketWrapper(client, SocketAdrenalineServer));
                         System.out.println("Client connected through Socket!");
                     }
                 }catch (IOException e) {
@@ -53,7 +55,7 @@ public class GameServer {
         }
         clients = new ArrayList<>();
         clientsWaitingList = new ArrayList<>();
-        activeLobbies = new ArrayList<>();
+        activeLobbies = new HashMap<>();
     }
 
     private void lifeCycle(){
@@ -62,20 +64,36 @@ public class GameServer {
             else{
                 long timestart = System.currentTimeMillis();
                 while(clientsWaitingList.size()<5 && (System.currentTimeMillis() - timestart < TIMEOUT_IN_SECONDS*1000));
-                // starts new lobby and assigns players to it
-                Lobby newLobby = new Lobby(clientsWaitingList);
-                activeLobbies.add(newLobby);
-                new Thread(newLobby).start();
-                clientsWaitingList.clear();
+
+                synchronized(clientsWaitingList) {
+                    Lobby newLobby = new Lobby(clientsWaitingList);
+                    activeLobbies.put(newLobby.getID(), newLobby);
+                    RMIexportLobby(newLobby);
+                    for (Client c : clientsWaitingList) {
+                        clientsLobbiesMap.put(c.getClientID(), newLobby.getID());
+                        c.setLobby(newLobby);
+                    }
+                    new Thread(newLobby).start();
+                    clientsWaitingList.clear();
+                }
             }
         }
 
     }
 
-    public void registerClient(ClientAPI c){
+    public void registerClient(Client c){
         this.clients.add(c);
     }
 
-    public void unregisterClient(ClientAPI c) { this.clients.remove(c);}
+    public void unregisterClient(String c) { }
 
+    private void RMIexportLobby(Lobby lobby){
+        try {
+            LocateRegistry.getRegistry(rmiPort).bind("Game;"+lobby.getID(), new LobbyExportable(lobby));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (AlreadyBoundException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -6,7 +6,7 @@ public class Square {
 
     private Color color;
     private boolean spawn;
-    private AmmoCard card;
+    private AmmoCard ammoTile;
     private ArrayList<WeaponCard> weaponCardDeck;
 
     public boolean isSpawn() { return spawn; }
@@ -15,20 +15,25 @@ public class Square {
         return weaponCardDeck;
     }
 
-    public Color getColor(){ return color; }
-
-    public AmmoCard getAmmoCard() {
-        return card;
+    public WeaponCard removeWeaponCardFromDeck(int indexToBeRemove) {
+        return getWeaponCardDeck().remove(indexToBeRemove);
     }
 
-    public void setAmmoCard(AmmoCard card) { this.card = card; }
+    public Color getColor(){ return color; }
+
+    public AmmoCard getAmmoTile() {
+        return ammoTile;
+    }
+
+
+    public void setAmmoTile(AmmoCard card) { this.ammoTile = card; }
 
     @Override
     public String toString() {
         return "Square{" +
                 "color=" + color +
                 ", spawn=" + spawn +
-                ", card=" + card +
+                ", ammoTile=" + ammoTile +
                 ", weaponCardDeck=" + weaponCardDeck +
                 '}';
     }
