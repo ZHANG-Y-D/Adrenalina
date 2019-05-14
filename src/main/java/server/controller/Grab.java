@@ -5,9 +5,16 @@ import server.model.Color;
 import server.model.Player;
 import server.model.WeaponCard;
 
-public class Grab {
+ class Grab {
 
 
+     /**
+      * For Grab AmmoTile in Map Square
+      *
+      * @param graber The player who wants to do Grab Action
+      *
+      * @return
+      */
     public static void grabAmmoCard(Player graber){
 
         AmmoCard grabbedAmmoTile;
@@ -38,7 +45,14 @@ public class Grab {
 
     }
 
-
+     /**
+      * For Grab WeaponCard in Map Square,Only for this player do not have to Switch
+      *
+      * @param graber The player who wants to do Grab Action
+      * @param numWeapon Which weapon Card the Player wants to Grab from 1 to 3
+      *
+      * @return
+      */
     public static void grabWeaponCard(Player graber,int numWeapon){
 
         //1. Choose 1 of the spawnpoint's 3 weapons. And
@@ -52,6 +66,17 @@ public class Grab {
 
     }
 
+
+     /**
+      * For Grab WeaponCard in Map Square
+      * Only for this player has to Switch cause of he already has 3 weapon cards
+      *
+      * @param graber The player who wants to do Grab Action
+      * @param numWeapon Which weapon Card the Player wants to Grab from 1 to 3
+      * @param numWeaponSwitch Which Weapon Card the player wants to switch from 1 to 3
+      *
+      * @return
+      */
     public static void grabWeaponCard(Player graber,int numWeapon,int numWeaponSwitch){
 
 
@@ -69,6 +94,16 @@ public class Grab {
 
     }
 
+     /**
+      *
+      * Use to grabWeaponCard Class, Pay AmmoBox for this Weapon card
+      *
+      * @param graber The player who wants to do Grab Action
+      * @param gotWeaponCard Which weapon Card the Player has got.
+      *
+      *
+      * @return
+      */
     private static void payForWeapon(Player graber, WeaponCard gotWeaponCard){
 
         int[] ammoCost;
@@ -100,7 +135,14 @@ public class Grab {
     }
 
 
-
+     /**
+      *
+      * Use to grab powerup card
+      *
+      * @param graber The player who wants to do Grab Action
+      *
+      * @return
+      */
     public static void grabPowerup(Player graber){
 
         if (graber.getPowerup().size()<3)

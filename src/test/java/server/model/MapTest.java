@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import server.controller.Lobby;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -32,6 +31,7 @@ class MapTest {
             System.out.println("PowerupCard.json file not found");
         }
     }
+
 
     @Test
     void getValidSquaresTest() {

@@ -43,16 +43,16 @@ public class Player {
         this.name = name;
         this.color = color;
         this.lobby = lobby;
-        damage=new ArrayList<>();
-        powerup=new ArrayList<>();
-        weaponCard=new ArrayList<>();
-        mark=new ArrayList<>();
-        scoreBoard=new int[]{8,6,4,2,1,1};
-        runable=new int[]{3,1,0};
+        damage = new ArrayList<>();
+        powerup = new ArrayList<>();
+        weaponCard = new ArrayList<>();
+        mark = new ArrayList<>();
+        scoreBoard = new int[]{8,6,4,2,1,1}; //
+        runable = new int[]{3,1,0};
         ammoBox = new int[]{0,0,0};
-        numberOfDeaths=0;
-        score=0;
-        numOfActions=2;
+        numberOfDeaths = 0;
+        score = 0;
+        numOfActions = 2;
     }
 
 
@@ -82,14 +82,14 @@ public class Player {
     // and count this kill and overkill damage to the scoreBoard.
     public boolean sufferDamage(Player damageOrigin, int amount) {
 
-        boolean sufferDamegeNotFinished;
+        boolean sufferDamageNotFinished;
 
         for (;amount>0;amount--) {
             if (amount>1 || !this.mark.isEmpty())
-                sufferDamegeNotFinished = true;
+                sufferDamageNotFinished = true;
             else
-                sufferDamegeNotFinished = false;
-            if(addDamageToTrack(damageOrigin, sufferDamegeNotFinished))
+                sufferDamageNotFinished = false;
+            if(addDamageToTrack(damageOrigin, sufferDamageNotFinished))
                 return true;
         }
 
@@ -129,7 +129,7 @@ public class Player {
     //This function is for add damage to damage track.
     //It will return a boolean value,this value is for index,if the this play is already died.
     //Attention: this function is Private, if other class want to add damage,please call class public "sufferDageme"
-    private boolean addDamageToTrack(Player damageOrigin, boolean addDamegeNotFinishe){
+    private boolean addDamageToTrack(Player damageOrigin, boolean addDamageNotFinished){
 
 
         this.damage.add(damageOrigin);
@@ -150,7 +150,7 @@ public class Player {
 
 
         //kill
-        if (this.damage.size() == 11 && !addDamegeNotFinishe) {
+        if (this.damage.size() == 11 && !addDamageNotFinished) {
 
             //set score kill
             killAndOverkillScoreCount();

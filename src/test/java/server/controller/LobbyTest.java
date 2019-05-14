@@ -2,8 +2,6 @@ package server.controller;
 
 import org.junit.jupiter.api.Test;
 
-import java.rmi.RemoteException;
-
 public class LobbyTest {
 
     @Test
