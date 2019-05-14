@@ -53,4 +53,8 @@ public class ClientSocketWrapper implements Client {
 
     public void setLobby(String lobbyID) {
     }
+
+    public String getNickname(){
+        return nickname;
+    }
 }

@@ -36,7 +36,6 @@ public class Lobby implements Runnable {
         }catch (JsonIOException e){
 
         }catch (FileNotFoundException e) {
-
         }
         scoreBoard = new ScoreBoard();
         deckOfPlayers = new ArrayList<>();
