@@ -45,7 +45,7 @@ public class Lobby implements Runnable {
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
         deckWeapon = new DeckWeapon();
-        initStates();
+        //initStates();
     }
 
 

@@ -62,9 +62,19 @@ public class PowerupCard {
        thisPowerupCardOwner.getLobby().getDeckPowerup().addToDiscarded(this);
        thisPowerupCardOwner.deletePowerup(this);
 
+    }
+
+
+    public void discardPowerupCard(Player thisPowerupCardOwner){
+
+        thisPowerupCardOwner.removePowerup(this);
+        thisPowerupCardOwner.getLobby().getDeckPowerup().addToDiscarded(this);
 
     }
 
+    public Color getColor() {
+        return color;
+    }
 
     @Override
     public String toString() {

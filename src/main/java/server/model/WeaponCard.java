@@ -18,11 +18,10 @@ import java.util.Arrays;
 public class WeaponCard {
 
     private String name;
-    private int[] ammoCost;     //Seq : red blue yellow powerup,
-                                //Attention the position powerup just for become same array with AmmoCard
+    private int[] ammoCost;     //Seq : red blue yellow powerup
     private Color gratisAmmo;
     private String manual;
-    private boolean loaded;     //true:loaded, falso: not ready loaded. Initial state is true.
+    private boolean loaded;     //true:loaded, false: not ready loaded. Initial state is true.
     private int numWeaponCard;
     private ArrayList<Firemode> firemodes;
 
