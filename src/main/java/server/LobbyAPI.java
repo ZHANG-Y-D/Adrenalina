@@ -11,4 +11,7 @@ public interface LobbyAPI extends Remote {
     void shootAction();
     void selectPlayers(ArrayList<Color> playersColor);
     void selectSquare(int index);
+    void selectPowerUp();
+    void selectWeapon();
+    void endOfTurnAction();
 }

@@ -1,18 +1,16 @@
-package server.network;
+package server.controller.states;
 
-import server.LobbyAPI;
 import server.controller.Lobby;
 import server.model.Color;
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
-    private Lobby lobbyRelay;
+public class ShootState implements GameState {
 
-    public LobbyExportable(Lobby lobby) throws RemoteException {
-        lobbyRelay = lobby;
+    private Lobby lobby;
+
+    public ShootState(Lobby lobby){
+        this.lobby = lobby;
     }
 
     @Override

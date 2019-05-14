@@ -11,29 +11,29 @@ import server.model.WeaponCard;
      /**
       * For Grab AmmoTile in Map Square
       *
-      * @param graber The player who wants to do Grab Action
+      * @param grabber The player who wants to do Grab Action
       *
       * @return true:The action is successful, false:unsuccessful cause of the ammotile have already got
       *
       */
 
-    public static boolean grabAmmoCard(Player graber){
+    public static boolean grabAmmoCard(Player grabber){
 
         AmmoCard grabbedAmmoTile;
         int[] grabbedAmmoContent;
         int[] oldAmmoContent;
 
-        grabbedAmmoTile=graber.getLobby().getMap().getSquare(graber.getPosition()).getAmmoTile();
+        grabbedAmmoTile=grabber.getLobby().getMap().getSquare(grabber.getPosition()).getAmmoTile();
         if (grabbedAmmoTile==null)
             return false;
 
         grabbedAmmoContent=grabbedAmmoTile.getAmmoContent();
-        oldAmmoContent=graber.getAmmoBox();
+        oldAmmoContent=grabber.getAmmoBox();
 
 
         //4. Discard the tile. &&   1. Remove the ammo tile.
-        graber.getLobby().getDeckAmmo().addToDiscarded(grabbedAmmoTile);
-        graber.getLobby().getMap().getSquare(graber.getPosition()).setAmmoTile(null);
+        grabber.getLobby().getDeckAmmo().addToDiscarded(grabbedAmmoTile);
+        grabber.getLobby().getMap().getSquare(grabber.getPosition()).setAmmoTile(null);
 
         //2. Move the depicted cubes into your ammo box.
         for (int i=0;i<3;i++){
@@ -41,11 +41,11 @@ import server.model.WeaponCard;
             if (grabbedAmmoContent[i]<3)
                 grabbedAmmoContent[i]=grabbedAmmoContent[i]+oldAmmoContent[i];
         }
-        graber.setAmmoBox(grabbedAmmoContent);
+        grabber.setAmmoBox(grabbedAmmoContent);
 
         //3. If the tile depicts a powerup card, draw one.
         if (grabbedAmmoContent[3]!=0){
-            grabPowerup(graber);
+            grabPowerup(grabber);
         }
 
         return true;

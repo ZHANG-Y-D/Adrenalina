@@ -2,6 +2,8 @@ package server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import server.controller.states.GameState;
+import server.controller.states.*;
 import server.network.Client;
 import server.model.*;
 
@@ -23,7 +25,8 @@ public class Lobby implements Runnable {
     private DeckWeapon deckWeapon;
     private DeckAmmo deckAmmo;
     private DeckPowerup deckPowerup;
-
+    private GameState currentState;
+    private HashMap<String, GameState> gameStates;
 
 
     public Lobby(ArrayList<Client> players) {
@@ -42,7 +45,7 @@ public class Lobby implements Runnable {
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
         deckWeapon = new DeckWeapon();
-
+        initStates();
     }
 
 
@@ -143,4 +146,27 @@ public class Lobby implements Runnable {
     public String getID() {
         return this.lobbyID;
     }
+
+    private void initStates(){
+        gameStates.put("SelectAtionState", new SelectActionState(this));
+        gameStates.put("RunState", new RunState(this));
+        gameStates.put("GrabState", new GrabState(this));
+        gameStates.put("ShootState", new ShootState(this));
+        gameStates.put("RealoadState", new SelectActionState(this));
+        currentState = gameStates.get("SelectActionState");
+    }
+
+    public void setState(String state){
+        currentState = gameStates.get(state);
+    }
+
+    public void endTurn(){
+        currentState = gameStates.put("SelectActionState", new SelectActionState(this));
+        //TODO cicla sui giocatori
+    }
+
+    public void nextPlayer(){
+        if (deckOfPlayers)
+    }
 }
+
