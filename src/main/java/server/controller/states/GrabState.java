@@ -14,42 +14,42 @@ public class GrabState implements GameState {
     }
 
     @Override
-    public void runAction() {
-
+    public String runAction() {
+        return null;
     }
 
     @Override
-    public void grabAction() {
-
+    public String grabAction() {
+        return null;
     }
 
     @Override
-    public void shootAction() {
-
+    public String shootAction() {
+        return null;
     }
 
     @Override
-    public void selectPlayers(ArrayList<Color> playersColor) {
-
+    public String selectPlayers(ArrayList<Color> playersColor) {
+        return null;
     }
 
     @Override
-    public void selectSquare(int index) {
-
+    public String selectSquare(int index) {
+        return null;
     }
 
     @Override
-    public void selectPowerUp() {
-
+    public String selectPowerUp() {
+        return null;
     }
 
     @Override
-    public void selectWeapon() {
-
+    public String selectWeapon() {
+        return null;
     }
 
     @Override
-    public void endOfTurnAction() {
-
+    public String endOfTurnAction() {
+        return null;
     }
 }

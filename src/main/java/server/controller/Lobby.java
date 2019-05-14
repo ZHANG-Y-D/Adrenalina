@@ -21,7 +21,7 @@ public class Lobby implements Runnable {
     private HashMap <String, Player> players;
     private Map map;
     private ScoreBoard scoreBoard;
-    private ArrayList<Player> deckOfPlayers;
+    private ArrayList<Player> listOfPlayers;
     private DeckWeapon deckWeapon;
     private DeckAmmo deckAmmo;
     private DeckPowerup deckPowerup;
@@ -41,7 +41,7 @@ public class Lobby implements Runnable {
         }catch (FileNotFoundException e) {
         }
         scoreBoard = new ScoreBoard();
-        deckOfPlayers = new ArrayList<>();
+        listOfPlayers = new ArrayList<>();
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
         deckWeapon = new DeckWeapon();
@@ -98,8 +98,8 @@ public class Lobby implements Runnable {
         return map;
     }
 
-    public ArrayList<Player> getDeckOfPlayers() {
-        return deckOfPlayers;
+    public ArrayList<Player> getListOfPlayers() {
+        return listOfPlayers;
     }
 
     public ScoreBoard getScoreBoard() {
@@ -125,7 +125,7 @@ public class Lobby implements Runnable {
     //It will return how much Players have already entered
     public int getNumOfPlayers(){
 
-        return this.getDeckOfPlayers().size();
+        return this.getListOfPlayers().size();
 
     }
 
@@ -133,7 +133,7 @@ public class Lobby implements Runnable {
     //Use this method to add every player
     public void addNewPlayerToDeck(Player newPlayer) {
 
-        this.getDeckOfPlayers().add(newPlayer);
+        this.getListOfPlayers().add(newPlayer);
 
     }
 
@@ -166,7 +166,6 @@ public class Lobby implements Runnable {
     }
 
     public void nextPlayer(){
-        if (deckOfPlayers)
     }
 }
 
