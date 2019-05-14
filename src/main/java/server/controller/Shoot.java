@@ -1,4 +1,4 @@
-/*Add this function when write Controller
+/*Add this function when write controller
 
         //IF the player has been attcked, Judgment if have PowerupCard "GRNATA VANOM"
         for (int i=0;i<this.powerup.size();i++){
