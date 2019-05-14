@@ -16,6 +16,8 @@ public class Square {
     }
 
     public WeaponCard removeWeaponCardFromDeck(int indexToBeRemove) {
+        if (indexToBeRemove < 0 || indexToBeRemove >= weaponCardDeck.size())
+            return null;
         return getWeaponCardDeck().remove(indexToBeRemove);
     }
 

@@ -5,7 +5,7 @@ import server.model.Color;
 import server.model.Player;
 import server.model.WeaponCard;
 
- class Grab {
+ public class Grab {
 
 
      /**
@@ -13,15 +13,20 @@ import server.model.WeaponCard;
       *
       * @param graber The player who wants to do Grab Action
       *
-      * @return
+      * @return true:The action is successful, false:unsuccessful cause of the ammotile have already got
+      *
       */
-    public static void grabAmmoCard(Player graber){
+
+    public static boolean grabAmmoCard(Player graber){
 
         AmmoCard grabbedAmmoTile;
         int[] grabbedAmmoContent;
         int[] oldAmmoContent;
 
         grabbedAmmoTile=graber.getLobby().getMap().getSquare(graber.getPosition()).getAmmoTile();
+        if (grabbedAmmoTile==null)
+            return false;
+
         grabbedAmmoContent=grabbedAmmoTile.getAmmoContent();
         oldAmmoContent=graber.getAmmoBox();
 
@@ -43,6 +48,8 @@ import server.model.WeaponCard;
             grabPowerup(graber);
         }
 
+        return true;
+
     }
 
      /**
@@ -51,18 +58,25 @@ import server.model.WeaponCard;
       * @param graber The player who wants to do Grab Action
       * @param numWeapon Which weapon Card the Player wants to Grab from 1 to 3
       *
-      * @return
+      * @return true:Action successful,
+      * false: Action unsuccessful cause of the weapon position is empty or AmmoBox not enough
       */
-    public static void grabWeaponCard(Player graber,int numWeapon){
+
+    public static boolean grabWeaponCard(Player graber,int numWeapon){
 
         //1. Choose 1 of the spawnpoint's 3 weapons. And
         //Take Weapon and deleted from Map
         WeaponCard gotWeaponCard;
         gotWeaponCard=graber.getLobby().getMap().getSquare(graber.getPosition()).removeWeaponCardFromDeck(numWeapon);
-        graber.addWeaponCard(gotWeaponCard);
+        if (gotWeaponCard==null)
+            return false;
 
-        payForWeapon(graber,gotWeaponCard);
-
+        if (payForWeapon(graber,gotWeaponCard)) {
+            graber.addWeaponCard(gotWeaponCard);
+            return true;
+        }
+        else
+            return false;
 
     }
 
@@ -75,9 +89,11 @@ import server.model.WeaponCard;
       * @param numWeapon Which weapon Card the Player wants to Grab from 1 to 3
       * @param numWeaponSwitch Which Weapon Card the player wants to switch from 1 to 3
       *
-      * @return
+      * @return true:Action successful,
+      * false: Action unsuccessful cause of the weapon position is empty or AmmoBox not enough
       */
-    public static void grabWeaponCard(Player graber,int numWeapon,int numWeaponSwitch){
+
+    public static boolean grabWeaponCard(Player graber,int numWeapon,int numWeaponSwitch){
 
 
         //Exchange WeaponCard
@@ -85,12 +101,17 @@ import server.model.WeaponCard;
         WeaponCard exchangeWeapon;
 
         gotWeapon=graber.getLobby().getMap().getSquare(graber.getPosition()).removeWeaponCardFromDeck(numWeapon);
+        if (gotWeapon==null)
+            return false;
         exchangeWeapon=graber.getWeaponCard().remove(numWeapon);
-
         graber.getLobby().getMap().getSquare(graber.getPosition()).getWeaponCardDeck().add(exchangeWeapon);
-        graber.getWeaponCard().add(gotWeapon);
 
-        payForWeapon(graber,gotWeapon);
+        if (payForWeapon(graber,gotWeapon)) {
+            graber.addWeaponCard(gotWeapon);
+            return true;
+        }
+        else
+            return false;
 
     }
 
@@ -102,9 +123,11 @@ import server.model.WeaponCard;
       * @param gotWeaponCard Which weapon Card the Player has got.
       *
       *
-      * @return
+      * @return true:AmmoBox is enough to pay, false AmmoBox is not enough to pay
+      *
       */
-    private static void payForWeapon(Player graber, WeaponCard gotWeaponCard){
+
+    private static boolean payForWeapon(Player graber, WeaponCard gotWeaponCard){
 
         int[] ammoCost;
         int[] ownAmmo;
@@ -130,8 +153,12 @@ import server.model.WeaponCard;
                 ownAmmo[j]=ownAmmo[j]-ammoCost[j]+1;
             else
                 ownAmmo[j]=ownAmmo[j]-ammoCost[j];
+
+            if (ownAmmo[j]<0)
+                return false;
         }
         graber.setAmmoBox(ownAmmo);
+        return true;
     }
 
 
@@ -141,13 +168,15 @@ import server.model.WeaponCard;
       *
       * @param graber The player who wants to do Grab Action
       *
-      * @return
+      * @return void
+      *
       */
-    public static void grabPowerup(Player graber){
+    private static void grabPowerup(Player graber){
 
         if (graber.getPowerup().size()<3)
             graber.addPowerup(graber.getLobby().getDeckPowerup().draw());
 
     }
+
 
 }

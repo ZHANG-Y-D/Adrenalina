@@ -15,5 +15,11 @@
 */
 package server.controller;
 
+import server.model.Player;
+import server.model.WeaponCard;
+
 public class Shoot {
+
+
+    //public static void doShoot(Player shooter, Player target, WeaponCard shootWeapon,)
 }
