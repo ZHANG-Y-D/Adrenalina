@@ -7,13 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-/*
- *
- * Responsible: Zhang YueDong
- *
- */
-
-
 
 public class Player {
 
@@ -98,7 +91,9 @@ public class Player {
 
     }
 
-
+    void removePowerup(PowerupCard powerup) {
+        this.powerup.remove(powerup);
+    }
 
     public void addMark(Player markOrigin) {
 

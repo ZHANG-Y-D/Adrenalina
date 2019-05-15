@@ -15,10 +15,14 @@ public class Square {
         return weaponCardDeck;
     }
 
-    public WeaponCard removeWeaponCardFromDeck(int indexToBeRemove) {
-        if (indexToBeRemove < 0 || indexToBeRemove >= weaponCardDeck.size())
+    public void removeWeaponCardFromDeck(int indexToBeRemove) {
+        getWeaponCardDeck().remove(indexToBeRemove);
+    }
+
+    public WeaponCard getWeaponCardFromDeck(int index){
+        if (index < 0 || index >= weaponCardDeck.size())
             return null;
-        return getWeaponCardDeck().remove(indexToBeRemove);
+        return getWeaponCardDeck().get(index);
     }
 
     public Color getColor(){ return color; }
