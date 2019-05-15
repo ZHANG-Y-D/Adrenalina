@@ -36,7 +36,7 @@ public class Lobby implements Runnable, LobbyAPI {
         clientMap = new LinkedHashMap<>();
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Avatar.json");
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Avatar.json");
             Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
             ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
         }catch (JsonIOException e){
@@ -63,7 +63,7 @@ public class Lobby implements Runnable, LobbyAPI {
 
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+ num +".json");
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map"+ num +".json");
             this.map=gson.fromJson(fileReader,Map.class);
 
         }catch (JsonIOException e){
