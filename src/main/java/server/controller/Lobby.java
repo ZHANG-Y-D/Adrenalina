@@ -51,7 +51,7 @@ public class Lobby implements Runnable, LobbyAPI {
     public void chooseAndNewAMap(int num){
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+ num +".json");
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map"+ num +".json");
             this.map=gson.fromJson(fileReader,Map.class);
 
         }catch (JsonIOException e){
