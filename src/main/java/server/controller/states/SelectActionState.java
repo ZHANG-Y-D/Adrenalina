@@ -56,12 +56,12 @@ public class SelectActionState implements GameState {
     }
 
     @Override
-    public String selectPowerUp() {
+    public String selectPowerUp(int powerUpID) {
         return "Select an action!";
     }
 
     @Override
-    public String selectWeapon() {
+    public String selectWeapon(int weaponID) {
         return "Select an action!";
     }
 

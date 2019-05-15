@@ -39,12 +39,12 @@ public class RunState implements GameState {
     }
 
     @Override
-    public String selectPowerUp() {
+    public String selectPowerUp(int powerUpID) {
         return null;
     }
 
     @Override
-    public String selectWeapon() {
+    public String selectWeapon(int weaponID) {
         return null;
     }
 

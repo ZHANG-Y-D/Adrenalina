@@ -38,12 +38,13 @@ public class ReloadState implements GameState{
     }
 
     @Override
-    public String selectPowerUp() {
+    public String selectPowerUp(int powerUpID) {
         return "You can't select power ups now";
     }
 
     @Override
-    public String selectWeapon() {
+    public String selectWeapon(int weaponID) {
+        //TODO add method to select weapon to reload
         return "OK";
     }
 

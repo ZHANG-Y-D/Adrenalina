@@ -2,35 +2,38 @@ package server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import server.LobbyAPI;
 import server.controller.states.GameState;
 import server.controller.states.*;
+import server.model.Map;
 import server.network.Client;
 import server.model.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 
-public class Lobby implements Runnable {
+public class Lobby implements Runnable, LobbyAPI {
 
     private final String lobbyID;
-    private HashMap <String, Player> players;
-    private Map map;
-    private ScoreBoard scoreBoard;
-    private ArrayList<Player> listOfPlayers;
-    private DeckWeapon deckWeapon;
-    private DeckAmmo deckAmmo;
-    private DeckPowerup deckPowerup;
+    private HashMap <String, Player> playersMap;
+    private LinkedHashMap<String, Client> clientMap;
+    private ArrayList<Player> playersList;
+    private String currentTurnPlayer;
     private GameState currentState;
     private HashMap<String, GameState> gameStates;
 
+    private Map map;
+    private ScoreBoard scoreBoard;
+    private DeckWeapon deckWeapon;
+    private DeckAmmo deckAmmo;
+    private DeckPowerup deckPowerup;
 
-    public Lobby(ArrayList<Client> players) {
+
+    public Lobby(ArrayList<Client> clients) {
         lobbyID = UUID.randomUUID().toString();
+        clientMap = new LinkedHashMap<>();
         try{
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Avatar.json");
@@ -40,12 +43,14 @@ public class Lobby implements Runnable {
 
         }catch (FileNotFoundException e) {
         }
+        for(Client c : clients){
+            clientMap.put(c.getClientID(),c);
+        }
         scoreBoard = new ScoreBoard();
-        listOfPlayers = new ArrayList<>();
+        playersList = new ArrayList<>();
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
         deckWeapon = new DeckWeapon();
-        initStates();
     }
 
 
@@ -98,8 +103,8 @@ public class Lobby implements Runnable {
         return map;
     }
 
-    public ArrayList<Player> getListOfPlayers() {
-        return listOfPlayers;
+    public ArrayList<Player> getPlayersList() {
+        return playersList;
     }
 
     public ScoreBoard getScoreBoard() {
@@ -125,7 +130,7 @@ public class Lobby implements Runnable {
     //It will return how much Players have already entered
     public int getNumOfPlayers(){
 
-        return this.getListOfPlayers().size();
+        return this.getPlayersList().size();
 
     }
 
@@ -133,13 +138,14 @@ public class Lobby implements Runnable {
     //Use this method to add every player
     public void addNewPlayerToDeck(Player newPlayer) {
 
-        this.getListOfPlayers().add(newPlayer);
+        this.getPlayersList().add(newPlayer);
 
     }
 
 
     @Override
     public void run() {
+        initStates();
         //TODO handles the game flow
     }
 
@@ -162,10 +168,55 @@ public class Lobby implements Runnable {
 
     public void endTurn(){
         currentState = gameStates.put("SelectActionState", new SelectActionState(this));
-        //TODO cicla sui giocatori
+        nextPlayer();
     }
 
     public void nextPlayer(){
+        Iterator<String> itr = clientMap.keySet().iterator();
+        String temp = itr.next();
+        while (!temp.equals(currentTurnPlayer)) temp= itr.next();
+        if (itr.hasNext()) currentTurnPlayer = itr.next();
+        else currentTurnPlayer = clientMap.keySet().iterator().next();
+    }
+
+    @Override
+    public void runAction() {
+
+    }
+
+    @Override
+    public void grabAction() {
+
+    }
+
+    @Override
+    public void shootAction() {
+
+    }
+
+    @Override
+    public void selectPlayers(ArrayList<Color> playersColor) {
+
+    }
+
+    @Override
+    public void selectSquare(int index) {
+
+    }
+
+    @Override
+    public void selectPowerUp() {
+
+    }
+
+    @Override
+    public void selectWeapon() {
+
+    }
+
+    @Override
+    public void endOfTurnAction() {
+
     }
 }
 
