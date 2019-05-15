@@ -10,8 +10,7 @@ import java.util.Comparator;
 
 public class Player {
 
-    private String name;
-    private Color color;       //For index the color of Avatar
+    private Avatar avatar;
     private int score;
     private int numberOfDeaths;
     private Lobby lobby;
@@ -32,9 +31,20 @@ public class Player {
                                 // When his turn is finished, This value will be reload at 2.
 
 
+    public Player(Avatar avatar){
+        this.avatar = avatar;
+        damage = new ArrayList<>();
+        powerup = new ArrayList<>();
+        weaponCard = new ArrayList<>();
+        mark = new ArrayList<>();
+        scoreBoard = new int[]{8,6,4,2,1,1}; //
+        runable = new int[]{3,1,0};
+        ammoBox = new int[]{0,0,0};
+        numberOfDeaths = 0;
+        score = 0;
+    }
+
     public Player(String name, Color color, Lobby lobby) {
-        this.name = name;
-        this.color = color;
         this.lobby = lobby;
         damage = new ArrayList<>();
         powerup = new ArrayList<>();
@@ -314,8 +324,6 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "name='" + name + '\'' +
-                ", color=" + color +
                 ", score=" + score +
                 ", numberOfDeaths=" + numberOfDeaths +
                 ", lobby=" + lobby +

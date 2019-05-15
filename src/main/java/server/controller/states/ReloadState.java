@@ -53,4 +53,14 @@ public class ReloadState implements GameState{
         lobby.endTurn();
         return "OK";
     }
+
+    @Override
+    public String selectAvatar(Color color) {
+        return null;
+    }
+
+    @Override
+    public String selectMap(int mapID, String voterID) {
+        return null;
+    }
 }

@@ -16,42 +16,52 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
     }
 
     @Override
-    public void runAction() {
+    public void runAction(String clientID) {
 
     }
 
     @Override
-    public void grabAction() {
+    public void grabAction(String clientID) {
 
     }
 
     @Override
-    public void shootAction() {
+    public void shootAction(String clientID) {
 
     }
 
     @Override
-    public void selectPlayers(ArrayList<Color> playersColor) {
+    public void selectPlayers(String clientID, ArrayList<Color> playersColor) {
 
     }
 
     @Override
-    public void selectSquare(int index) {
+    public void selectSquare(String clientID, int index) {
 
     }
 
     @Override
-    public void selectPowerUp() {
+    public void selectPowerUp(String clientID, int powerupID) {
 
     }
 
     @Override
-    public void selectWeapon() {
+    public void selectWeapon(String clientID, int weaponID) {
 
     }
 
     @Override
-    public void endOfTurnAction() {
+    public void endOfTurnAction(String clientID) {
+
+    }
+
+    @Override
+    public void selectAvatar(String clientID, Color color) {
+
+    }
+
+    @Override
+    public void selectMap(String clientID, int mapID) {
 
     }
 }
