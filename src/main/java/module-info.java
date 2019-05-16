@@ -5,5 +5,6 @@ module proj {
     requires java.rmi;
 
     exports client.view;
+    exports client.controller;
     exports server;
 }
