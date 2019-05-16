@@ -4,7 +4,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import server.model.Color;
 import server.model.Player;
+import server.model.PowerupCard;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +16,7 @@ public class GrabTest {
 
     private static Lobby lobby;
     private static Player player;
+    private static ArrayList<PowerupCard> discardPowerup;
 
 
     @BeforeAll
@@ -23,6 +26,7 @@ public class GrabTest {
         lobby.chooseAndNewAMap(1);
         player = new Player("Anna", Color.PURPLE,lobby);
         player.setPosition(0);
+        discardPowerup = new ArrayList<>();
 
     }
 
@@ -76,32 +80,32 @@ public class GrabTest {
         player.setPosition(4);
 
 
-        assertTrue(Grab.grabWeaponCard(player,1,null));
+        assertTrue(Grab.grabWeaponCard(player,1,discardPowerup));
         System.out.println(player.getWeaponCard().toString());
         System.out.println(Arrays.toString(player.getAmmoBox()));
         assertEquals(2,player.getLobby().getMap().getSquare(player.getPosition()).getWeaponCardDeck().size());
         assertEquals(1,player.getWeaponCard().size());
 
-        assertTrue(Grab.grabWeaponCard(player,2,null));
+        assertTrue(Grab.grabWeaponCard(player,2,discardPowerup));
         System.out.println(player.getWeaponCard().toString());
         System.out.println(Arrays.toString(player.getAmmoBox()));
         assertEquals(1,player.getLobby().getMap().getSquare(player.getPosition()).getWeaponCardDeck().size());
         assertEquals(2,player.getWeaponCard().size());
 
-        assertFalse(Grab.grabWeaponCard(player,2,null));
+        assertFalse(Grab.grabWeaponCard(player,2,discardPowerup));
 
-        assertTrue(Grab.grabWeaponCard(player,1,null));
+        assertTrue(Grab.grabWeaponCard(player,1,discardPowerup));
         System.out.println(player.getWeaponCard().toString());
         System.out.println(Arrays.toString(player.getAmmoBox()));
         assertEquals(0,player.getLobby().getMap().getSquare(player.getPosition()).getWeaponCardDeck().size());
         assertEquals(3,player.getWeaponCard().size());
 
 
-        assertFalse(Grab.grabWeaponCard(player,1,null));
+        assertFalse(Grab.grabWeaponCard(player,1,discardPowerup));
 
         lobby.setSquaresCards();
         assertEquals(3,player.getLobby().getMap().getSquare(player.getPosition()).getWeaponCardDeck().size());
-        assertFalse(Grab.grabWeaponCard(player,1,null));
+        assertFalse(Grab.grabWeaponCard(player,1,discardPowerup));
 
 
         ammoBox = new int[]{0,0,0};
@@ -111,7 +115,7 @@ public class GrabTest {
         lobby.setSquaresCards();
 
         for (int i=0;i<=4;i++) {
-            if (Grab.grabWeaponCard(player,i,null))
+            if (Grab.grabWeaponCard(player,i,discardPowerup))
                 System.out.println(player.getWeaponCard().toString());
             else
                 System.out.println("False case: i= " + i);

@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import server.model.Color;
 import server.model.Player;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class MoveTest {
 
@@ -21,8 +21,7 @@ public class MoveTest {
         Move.moveInturn(player,2,3);
         assertEquals(2,player.getPosition());
 
-
-        assertEquals(false,Move.moveInturn(player,10,3));
+        assertFalse(Move.moveInturn(player, 10, 3));
 
     }
 }

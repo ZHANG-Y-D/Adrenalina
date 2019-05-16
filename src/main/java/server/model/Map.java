@@ -27,10 +27,6 @@ public class Map {
 
 
 
-    public Square[][] getMapSquares() {
-        return mapSquares;
-    }
-
 
 
     public void printMap(){
@@ -42,7 +38,23 @@ public class Map {
         }
     }
 
+
+
+    /**
+     * Use x,y coordinate to get Square
+     *
+     * @return  the Square
+     */
+
     public Square getSquare(int x, int y) { return mapSquares[x][y]; }
+
+
+    /**
+     * Use Int Position to get Square
+     *
+     * @return  the Square
+     */
+
     public Square getSquare(int pos) { return mapSquares[pos/columns][pos%columns]; }
 
 
@@ -73,7 +85,6 @@ public class Map {
      * @return      the list of valid squares
      */
 
-
     public ArrayList<Integer> getValidSquares(int pos, int num){
         ArrayList<Integer> validSquares = new ArrayList<>();
 
@@ -96,6 +107,7 @@ public class Map {
         }
         return validSquares;
     }
+
 
     /**
      * Returns <code>true</code> if between the
@@ -120,6 +132,7 @@ public class Map {
         return false;
     }
 
+
     /**
      * Get all the squares that are in the same room
      * of the given square.
@@ -140,6 +153,7 @@ public class Map {
         return roomSquares;
     }
 
+
     /**
      * Returns <code>true</code> if the two given
      * squares are in the same row or in the same column.
@@ -155,6 +169,7 @@ public class Map {
         else return false;
     }
 
+
     /**
      * Returns the number of squares of the map.
      *
@@ -164,6 +179,7 @@ public class Map {
     public int getMaxSquare(){
         return rows*columns -1;
     }
+
 
     /**
      * Returns <code>true</code> if the given square

@@ -32,6 +32,8 @@ public class Player {
                                 // When his turn is finished, This value will be reload at 2.
 
 
+
+
     public Player(String name, Color color, Lobby lobby) {
         this.name = name;
         this.color = color;
@@ -50,11 +52,6 @@ public class Player {
 
 
 
-    public int getNumberOfDeaths() {
-        return numberOfDeaths;
-    }
-
-
     public void addScore(int score) {
 
         this.score= this.score+score;
@@ -69,6 +66,8 @@ public class Player {
     public Lobby getLobby() {
         return lobby;
     }
+
+
 
     //It will return a boolean value,this value is for index,if the this play is already died.
     //If someone is dead in this turn,the sufferDamage caller who have to judgment if double kill,

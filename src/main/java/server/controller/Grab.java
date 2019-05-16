@@ -57,6 +57,7 @@ public class Grab {
 
 
 
+
      /**
       * For Grab WeaponCard in Map Square,Only for this player do not have to Switch
       *
@@ -85,6 +86,7 @@ public class Grab {
         else
             return false;
     }
+
 
 
 
@@ -123,6 +125,7 @@ public class Grab {
 
 
 
+
      /**
       *
       * Use to grabWeaponCard Class, Pay AmmoBox for this Weapon card
@@ -156,23 +159,33 @@ public class Grab {
                     break;
         }
 
+
         //Pay with powerupCard
-        for (int i=0;i<discardPowerup.size();i++){
-            switch (discardPowerup.get(i).getColor()){
-                case RED: if (ammoCost[0]>0){
-                                ammoCost[0]--;
-                                discardPowerup.get(i).discardPowerupCard(grabber);}
-                            break;
-                case BLUE:if (ammoCost[1]>0){
-                                ammoCost[1]--;
-                                discardPowerup.get(i).discardPowerupCard(grabber);}
-                            break;
-                case YELLOW:if (ammoCost[2]>0){
-                                ammoCost[2]--;
-                                discardPowerup.get(i).discardPowerupCard(grabber);}
-                            break;
+        if (discardPowerup!=null) {
+            for (int i = 0; i < discardPowerup.size(); i++) {
+                switch (discardPowerup.get(i).getColor()) {
+                    case RED:
+                        if (ammoCost[0] > 0) {
+                            ammoCost[0]--;
+                            discardPowerup.get(i).discardPowerupCard(grabber);
+                        }
+                        break;
+                    case BLUE:
+                        if (ammoCost[1] > 0) {
+                            ammoCost[1]--;
+                            discardPowerup.get(i).discardPowerupCard(grabber);
+                        }
+                        break;
+                    case YELLOW:
+                        if (ammoCost[2] > 0) {
+                            ammoCost[2]--;
+                            discardPowerup.get(i).discardPowerupCard(grabber);
+                        }
+                        break;
+                }
             }
         }
+
 
         for (int j=0;j<3;j++){
 
@@ -192,9 +205,8 @@ public class Grab {
       *
       * @param grabber The player who wants to do Grab Action
       *
-      * @return void
-      *
       */
+
     private static void grabPowerup(Player grabber){
 
         if (grabber.getPowerup().size()<3)
