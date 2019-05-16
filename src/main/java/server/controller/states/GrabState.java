@@ -39,17 +39,27 @@ public class GrabState implements GameState {
     }
 
     @Override
-    public String selectPowerUp() {
+    public String selectPowerUp(int powerUpID) {
         return null;
     }
 
     @Override
-    public String selectWeapon() {
+    public String selectWeapon(int weaponID) {
         return null;
     }
 
     @Override
     public String endOfTurnAction() {
+        return null;
+    }
+
+    @Override
+    public String selectAvatar(Color color) {
+        return null;
+    }
+
+    @Override
+    public String selectMap(int mapID, String voterID) {
         return null;
     }
 }

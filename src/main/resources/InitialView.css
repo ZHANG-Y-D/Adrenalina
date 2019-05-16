@@ -1,0 +1,29 @@
+.root{
+    -fx-background-image: url("Title.png");
+    -fx-background-size: cover;
+}
+.button{
+    -fx-background-color: #261212;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.button:hover{
+    -fx-background-color: #322828;
+    -fx-cursor: hand;
+}
+.host{
+    -fx-background-color: #261212;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.port{
+    -fx-background-color: #261212;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}

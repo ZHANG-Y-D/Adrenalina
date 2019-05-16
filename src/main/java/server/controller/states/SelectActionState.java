@@ -56,12 +56,12 @@ public class SelectActionState implements GameState {
     }
 
     @Override
-    public String selectPowerUp() {
+    public String selectPowerUp(int powerUpID) {
         return "Select an action!";
     }
 
     @Override
-    public String selectWeapon() {
+    public String selectWeapon(int weaponID) {
         return "Select an action!";
     }
 
@@ -69,5 +69,15 @@ public class SelectActionState implements GameState {
     public String endOfTurnAction() {
         lobby.setState("ReloadState");
         return "OK";
+    }
+
+    @Override
+    public String selectAvatar(Color color) {
+        return null;
+    }
+
+    @Override
+    public String selectMap(int mapID, String voterID) {
+        return null;
     }
 }

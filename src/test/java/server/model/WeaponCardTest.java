@@ -13,7 +13,7 @@ class WeaponCardTest {
     @Test
     void WeaponCardModelerFromJson(){
         try {
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/TestWeaponCard.json");
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/TestWeaponCard.json");
 
             GsonBuilder gsonBld = new GsonBuilder();
             gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomDeserializer())

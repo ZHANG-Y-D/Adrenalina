@@ -38,12 +38,13 @@ public class ReloadState implements GameState{
     }
 
     @Override
-    public String selectPowerUp() {
+    public String selectPowerUp(int powerUpID) {
         return "You can't select power ups now";
     }
 
     @Override
-    public String selectWeapon() {
+    public String selectWeapon(int weaponID) {
+        //TODO add method to select weapon to reload
         return "OK";
     }
 
@@ -51,5 +52,15 @@ public class ReloadState implements GameState{
     public String endOfTurnAction() {
         lobby.endTurn();
         return "OK";
+    }
+
+    @Override
+    public String selectAvatar(Color color) {
+        return null;
+    }
+
+    @Override
+    public String selectMap(int mapID, String voterID) {
+        return null;
     }
 }

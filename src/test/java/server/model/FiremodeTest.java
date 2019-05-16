@@ -21,7 +21,7 @@ class FiremodeTest {
     static void initMap(){
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map1.json");
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map1.json");
 
             map = gson.fromJson(fileReader,Map.class);
 

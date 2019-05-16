@@ -10,8 +10,7 @@ import java.util.Comparator;
 
 public class Player {
 
-    private String name;
-    private Color color;       //For index the color of Avatar
+    private Avatar avatar;
     private int score;
     private int numberOfDeaths;
     private Lobby lobby;
@@ -33,11 +32,8 @@ public class Player {
 
 
 
-
-    public Player(String name, Color color, Lobby lobby) {
-        this.name = name;
-        this.color = color;
-        this.lobby = lobby;
+    public Player(Avatar avatar){
+        this.avatar = avatar;
         damage = new ArrayList<>();
         powerup = new ArrayList<>();
         weaponCard = new ArrayList<>();
@@ -49,6 +45,8 @@ public class Player {
         score = 0;
         numOfActions = 2;
     }
+
+
 
 
 
@@ -193,7 +191,7 @@ public class Player {
         };
 
 
-        playerToBeSort = (ArrayList<Player>) getLobby().getListOfPlayers().clone();
+        playerToBeSort = (ArrayList<Player>) getLobby().getPlayersList().clone();
 
         playerToBeSort.sort(comparator);
 
@@ -206,17 +204,17 @@ public class Player {
         //Collections.frequency(this.damage,damageOrigin);
 
 
-        for (int i=0;i<this.player.getLobby().getListOfPlayers().size();i++){
-            a = Collections.frequency(this.damage,this.player.getLobby().getListOfPlayers().get(i));
+        for (int i=0;i<this.player.getLobby().getPlayersList().size();i++){
+            a = Collections.frequency(this.damage,this.player.getLobby().getPlayersList().get(i));
             if (a>maxElement){
                 maxElement=a;
-                maxPlayer=this.player.getLobby().getListOfPlayers().get(i);
+                maxPlayer=this.player.getLobby().getPlayersList().get(i);
             }
             else if(a==maxElement && maxPlayer!=null && maxElement!=0){
-                if (this.damage.indexOf(this.player.getLobby().getListOfPlayers().get(i))
+                if (this.damage.indexOf(this.player.getLobby().getPlayersList().get(i))
                         < this.damage.indexOf(maxPlayer)){
                     maxElement=a;
-                    maxPlayer=this.player.getLobby().getListOfPlayers().get(i);
+                    maxPlayer=this.player.getLobby().getPlayersList().get(i);
                 }
             }
         }
@@ -313,8 +311,6 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "name='" + name + '\'' +
-                ", color=" + color +
                 ", score=" + score +
                 ", numberOfDeaths=" + numberOfDeaths +
                 ", lobby=" + lobby +
