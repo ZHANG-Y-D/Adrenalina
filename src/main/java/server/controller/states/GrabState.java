@@ -52,4 +52,14 @@ public class GrabState implements GameState {
     public String endOfTurnAction() {
         return null;
     }
+
+    @Override
+    public String selectAvatar(Color color) {
+        return null;
+    }
+
+    @Override
+    public String selectMap(int mapID, String voterID) {
+        return null;
+    }
 }
