@@ -55,6 +55,11 @@ public class AvatarSelectionState implements GameState {
     }
 
     @Override
+    public String goBack() {
+        return "KO";
+    }
+
+    @Override
     public String selectAvatar(Color color) {
         for(Avatar a : avatars) {
             if(a.getColor().equals(color)){

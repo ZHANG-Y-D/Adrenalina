@@ -2,8 +2,6 @@ package server.model;
 
 import org.junit.jupiter.api.Test;
 import server.controller.Lobby;
-import server.model.Color;
-import server.model.Player;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,12 +38,12 @@ public class playerTest {
         //Test 3 damage
         Target.sufferDamage(damageOrigin,2);
         int[] num1 = new int[]{3,2,0};
-        assertArrayEquals(Target.getRunable(), num1);
+        assertArrayEquals(Target.getAdrenalineState(), num1);
 
         //Test 6 damage
         Target.sufferDamage(damageOrigin,3);
         int[] num2 = new int[]{3,2,1};
-        assertArrayEquals(Target.getRunable(),num2);
+        assertArrayEquals(Target.getAdrenalineState(),num2);
         assertEquals(Target.getDamageTrack().size(),6);
 
 

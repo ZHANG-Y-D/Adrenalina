@@ -8,9 +8,12 @@ import java.util.ArrayList;
 public class ShootState implements GameState {
 
     private Lobby lobby;
+    private int actionNumber;
 
-    public ShootState(Lobby lobby){
+    public ShootState(Lobby lobby, int actionNumber){
+
         this.lobby = lobby;
+        this.actionNumber = actionNumber;
     }
 
     @Override
@@ -51,6 +54,12 @@ public class ShootState implements GameState {
     @Override
     public String endOfTurnAction() {
         return null;
+    }
+
+    @Override
+    public String goBack() {
+        lobby.setState(new SelectActionState(lobby, actionNumber-1));
+        return "OK";
     }
 
     @Override

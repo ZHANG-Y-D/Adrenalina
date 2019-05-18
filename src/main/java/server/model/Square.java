@@ -15,8 +15,8 @@ public class Square {
         return weaponCardDeck;
     }
 
-    public void removeWeaponCardFromDeck(int indexToBeRemove) {
-        getWeaponCardDeck().remove(indexToBeRemove);
+    public void removeWeaponCardFromDeck(int indexToBeRemoved) {
+        getWeaponCardDeck().remove(indexToBeRemoved);
     }
 
     public WeaponCard getWeaponCardFromDeck(int index){

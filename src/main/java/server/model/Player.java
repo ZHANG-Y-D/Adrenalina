@@ -11,19 +11,16 @@ import java.util.Comparator;
 public class Player {
 
     private Avatar avatar;
-    private int score;
-    private int numberOfDeaths;
     private Lobby lobby;
     private int[] ammoBox;
     private ArrayList<Player> damage;    //use a ArrayList for index the source of damage
+    private ArrayList<Player> mark;
     private ArrayList<PowerupCard> powerup;
     private ArrayList<WeaponCard> weaponCard;
-    private ArrayList<Player> mark;
-    private int[] scoreBoard;    //For index if this players is died, how much score the other people can get.
-                                //Normal mode is [8,6,4,2,1,1]. The Final Frenzy rules is [5,1,1,1]
+
     private int position;
     private int oldPosition;  //Last position
-    private int[] runable;  //This's an attribute for index how much steps this player can move
+    private int adrenalineState;  //This's an attribute for index how much steps this player can move
                                 //The first element is for steps,second is for index how much steps can move before grab
                                 //The third element is for index how much steps can move before shoot
 
@@ -38,11 +35,8 @@ public class Player {
         powerup = new ArrayList<>();
         weaponCard = new ArrayList<>();
         mark = new ArrayList<>();
-        scoreBoard = new int[]{8,6,4,2,1,1}; //
-        runable = new int[]{3,1,0};
+        adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
-        numberOfDeaths = 0;
-        score = 0;
         numOfActions = 2;
     }
 
@@ -52,12 +46,6 @@ public class Player {
 
     public void addScore(int score) {
 
-        this.score= this.score+score;
-
-    }
-
-    public int getScore() {
-        return score;
     }
 
 
@@ -135,10 +123,10 @@ public class Player {
 
         //judgment for upgrade
         if (this.damage.size() >= 3)
-            this.runable[1] = 2;
+            this.adrenalineState = 1;
 
         if (this.damage.size() >= 6)
-            this.runable[2] = 1;
+            this.adrenalineState = 2;
 
 
         //kill
@@ -273,9 +261,7 @@ public class Player {
     public int getPosition(){ return this.position;}
 
 
-    public int[] getRunable() { return runable;}
-
-    public void setRunable(int[] runable) { this.runable = runable; }
+    public int getAdrenalineState() { return adrenalineState;}
 
     public int[] getAmmoBox() {
         return ammoBox;
@@ -311,18 +297,15 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                ", score=" + score +
-                ", numberOfDeaths=" + numberOfDeaths +
                 ", lobby=" + lobby +
                 ", ammoBox=" + Arrays.toString(ammoBox) +
                 ", damage=" + damage +
                 ", powerup=" + powerup +
                 ", weaponCard=" + weaponCard +
                 ", mark=" + mark +
-                ", scoreBoard=" + Arrays.toString(scoreBoard) +
                 ", position=" + position +
                 ", oldPosition=" + oldPosition +
-                ", runable=" + Arrays.toString(runable) +
+                ", adrenalineState=" + adrenalineState +
                 ", numOfActions=" + numOfActions +
                 '}';
     }

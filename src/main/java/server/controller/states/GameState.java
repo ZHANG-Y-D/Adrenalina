@@ -13,6 +13,7 @@ public interface GameState {
     String selectPowerUp(int powerUpID);
     String selectWeapon(int weaponID);
     String endOfTurnAction();
+    String goBack();
     String selectAvatar(Color color);
     String selectMap(int mapID, String voterID);
 }

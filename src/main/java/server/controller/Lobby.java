@@ -23,7 +23,6 @@ public class Lobby implements Runnable, LobbyAPI {
     private ArrayList<Player> playersList;
     private String currentTurnPlayer;
     private GameState currentState;
-    private HashMap<String, GameState> gameStates;
 
     private Map map;
     private ScoreBoard scoreBoard;
@@ -39,11 +38,22 @@ public class Lobby implements Runnable, LobbyAPI {
         for(Client c : clients){
             clientMap.put(c.getClientID(),c);
         }
-        scoreBoard = new ScoreBoard();
+        playersMap = new HashMap<>();
+        playersColor = new HashMap<>();
         playersList = new ArrayList<>();
+
+        scoreBoard = new ScoreBoard();
+        deckWeapon = new DeckWeapon();
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
-        deckWeapon = new DeckWeapon();
+        try{
+            Gson gson = new Gson();
+            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Avatar.json");
+            Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
+            ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
+            currentState = new AvatarSelectionState(this, avatars);
+        }catch (JsonIOException e){
+        }catch (FileNotFoundException e) {}
     }
 
 
@@ -95,12 +105,6 @@ public class Lobby implements Runnable, LobbyAPI {
         return playersList;
     }
 
-    public ScoreBoard getScoreBoard() {
-
-        return scoreBoard;
-
-    }
-
     public DeckPowerup getDeckPowerup() {
         return deckPowerup;
     }
@@ -114,29 +118,11 @@ public class Lobby implements Runnable, LobbyAPI {
         return deckWeapon;
     }
 
-
-    //It will return how much Players have already entered
-    public int getNumOfPlayers(){
-
-        return this.getPlayersList().size();
-
-    }
-
-
-    //Use this method to add every player
-    public void addNewPlayerToDeck(Player newPlayer) {
-
-        this.getPlayersList().add(newPlayer);
-
-    }
-
-
     @Override
     public void run() {
-        initStates();
-        currentState = gameStates.get("AvatarSelectionState");
-        while(clientMap.size()>playersMap.size());
+        while(clientMap.size()>playersMap.size()); //waits for state to change from AvatarSelectionState
         initMap();
+        currentState = new SelectActionState(this, 0);
         //TODO handles the game flow
     }
 
@@ -144,33 +130,13 @@ public class Lobby implements Runnable, LobbyAPI {
         return this.lobbyID;
     }
 
-    private void initStates(){
-        gameStates.put("SelectAtionState", new SelectActionState(this));
-        gameStates.put("RunState", new RunState(this));
-        gameStates.put("GrabState", new GrabState(this));
-        gameStates.put("ShootState", new ShootState(this));
-        gameStates.put("RealoadState", new SelectActionState(this));
-        try{
-            Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Avatar.json");
-            Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
-            ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
-            gameStates.put("AvatarSelectionState", new AvatarSelectionState(this, avatars));
-        }catch (JsonIOException e){
-        }catch (FileNotFoundException e) {}
-    }
-
-    public void setState(String state){ currentState = gameStates.get(state);
-    }
+    public void setState(GameState newState){ currentState = newState; }
 
     public void runAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) currentState.runAction();
     }
 
-    public void grabAction(String clientID) {
-
-        if(clientID.equals(currentTurnPlayer)) currentState.grabAction();
-    }
+    public void grabAction(String clientID) { if(clientID.equals(currentTurnPlayer)) currentState.grabAction(); }
 
     public void shootAction(String clientID) {
 
@@ -212,8 +178,12 @@ public class Lobby implements Runnable, LobbyAPI {
         //else: user not part of the lobby
     }
 
+    public int getCurrentPlayerAdrenalineState(){
+        return playersMap.get(currentTurnPlayer).getAdrenalineState();
+    }
+
     public void endTurn(){
-        currentState = gameStates.put("SelectActionState", new SelectActionState(this));
+        currentState = new SelectActionState(this, 0);
         nextPlayer();
     }
 
@@ -244,8 +214,30 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         catch (FileNotFoundException e) {
         }
-
     }
 
+    public ArrayList<Integer> sendCurrentPlayerValidSquares(int range){
+        ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
+        //TODO sends list to client
+        return validSquares;
+    }
+
+    public void movePlayer(int squareIndex){
+        if(playersMap.get(currentTurnPlayer).getPosition()!= squareIndex) playersMap.get(currentTurnPlayer).setPosition(squareIndex);
+    }
+
+    public void movePlayer(int squareIndex, Color playerColor){
+        if(playersColor.get(playerColor).getPosition()!= squareIndex) playersColor.get(playerColor).setPosition(squareIndex);
+    }
+
+    public boolean grabAmmo(){
+        //TODO
+        return true;
+    }
+
+    public boolean grabWeapon(int ID){
+        //TODO
+        return true;
+    }
 }
 

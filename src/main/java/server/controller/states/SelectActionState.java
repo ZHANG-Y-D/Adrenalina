@@ -8,39 +8,36 @@ import java.util.ArrayList;
 public class SelectActionState implements GameState {
 
     private Lobby lobby;
-    private int remainingActions;
+    private int executedActions;
 
-    public SelectActionState(Lobby lobby){
+    public SelectActionState(Lobby lobby, int executedActions){
         this.lobby = lobby;
-        this.remainingActions = 2;
+        this.executedActions = executedActions;
     }
 
     @Override
     public String runAction() {
-        if (remainingActions == 0) return "You have run out of moves!";
+        if (executedActions >= 2) return "You have run out of moves!";
         else {
-            remainingActions--;
-            lobby.setState("RunState");
+            lobby.setState(new RunState(lobby, executedActions+1));
             return "OK";
         }
     }
 
     @Override
     public String grabAction() {
-        if (remainingActions == 0) return "You have run out of moves!";
+        if (executedActions >= 2) return "You have run out of moves!";
         else {
-            remainingActions--;
-            lobby.setState("GrabState");
+            lobby.setState(new GrabState(lobby, executedActions+1));
             return "OK";
         }
     }
 
     @Override
     public String shootAction() {
-        if (remainingActions == 0) return "You have run out of moves!";
+        if (executedActions >= 2) return "You have run out of moves!";
         else {
-            remainingActions--;
-            lobby.setState("ShootState");
+            lobby.setState(new ShootState(lobby,executedActions+1 ));
             return "OK";
         }
     }
@@ -56,9 +53,7 @@ public class SelectActionState implements GameState {
     }
 
     @Override
-    public String selectPowerUp(int powerUpID) {
-        return "Select an action!";
-    }
+    public String selectPowerUp(int powerUpID) { return "Select an action!"; }
 
     @Override
     public String selectWeapon(int weaponID) {
@@ -67,17 +62,18 @@ public class SelectActionState implements GameState {
 
     @Override
     public String endOfTurnAction() {
-        lobby.setState("ReloadState");
+        lobby.setState(new ReloadState(lobby));
         return "OK";
     }
 
     @Override
-    public String selectAvatar(Color color) {
-        return null;
+    public String goBack() {
+        return "You can't go back now!";
     }
 
     @Override
-    public String selectMap(int mapID, String voterID) {
-        return null;
-    }
+    public String selectAvatar(Color color) { return "KO"; }
+
+    @Override
+    public String selectMap(int mapID, String voterID) { return "KO"; }
 }
