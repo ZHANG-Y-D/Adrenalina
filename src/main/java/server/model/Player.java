@@ -30,7 +30,10 @@ public class Player {
     private int numOfActions; //This's for index the times of action the player can choose.Max is 2.
                                 // When his turn is finished, This value will be reload at 2.
 
+    //costruttore temporaneo per fare buildare il progetto
+    public Player(String avatar, Color color, Lobby lobby){
 
+    }
 
     public Player(Avatar avatar){
         this.avatar = avatar;

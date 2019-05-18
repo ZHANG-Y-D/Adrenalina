@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class ClientGui extends Application {
@@ -20,7 +21,8 @@ public class ClientGui extends Application {
         window = primaryStage;
         window.setTitle("Adrenalina");
         window.setResizable(false);
-        window.setScene(new Scene(root, 600, 400));
+        window.initStyle(StageStyle.UNDECORATED);
+        window.setScene(new Scene(root, 750, 500));
         window.show();
     }
 
