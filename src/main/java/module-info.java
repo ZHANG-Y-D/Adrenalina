@@ -4,7 +4,8 @@ module proj {
     requires gson;
     requires java.rmi;
 
-    exports client.view;
+    exports client;
     exports client.controller;
+    exports client.view;
     exports server;
 }

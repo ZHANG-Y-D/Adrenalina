@@ -1,5 +1,5 @@
-.root{
-    -fx-background-image: url("Title.png");
+#pane{
+    -fx-background-image: url("TitleScreen.png");
     -fx-background-size: cover;
 }
 .button{
@@ -13,17 +13,19 @@
     -fx-background-color: #322828;
     -fx-cursor: hand;
 }
-.host{
+.text-field{
     -fx-background-color: #261212;
     -fx-text-fill: white;
     -fx-border-color: white;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
-.port{
-    -fx-background-color: #261212;
-    -fx-text-fill: white;
-    -fx-border-color: white;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
+#close{
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+#close:hover{
+    -fx-highlight-text-fill: black;
 }

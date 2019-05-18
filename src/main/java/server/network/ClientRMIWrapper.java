@@ -3,6 +3,7 @@ package server.network;
 import client.ClientAPI;
 import server.controller.Lobby;
 
+import java.rmi.RemoteException;
 import java.util.UUID;
 
 public class ClientRMIWrapper implements Client {
@@ -23,11 +24,11 @@ public class ClientRMIWrapper implements Client {
     }
 
 
-    public void setLobby(Lobby lobby) {
+    public void setLobby(Lobby lobby) throws RemoteException{
         setLobby(lobby.getID());
     }
 
-    public void setLobby(String lobbyID) {
+    public void setLobby(String lobbyID) throws RemoteException{
         thisClient.setLobby(lobbyID);
     }
 }
