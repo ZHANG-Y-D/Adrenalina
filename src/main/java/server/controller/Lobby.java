@@ -2,7 +2,10 @@ package server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import server.exceptions.InvalidWeaponException;
 import server.LobbyAPI;
+import server.exceptions.NotEnoughAmmoException;
+import server.exceptions.WeaponHandFullException;
 import server.controller.states.GameState;
 import server.controller.states.*;
 import server.model.Map;
@@ -85,10 +88,10 @@ public class Lobby implements Runnable, LobbyAPI {
                     this.map.getSquare(i,j).setAmmoTile(getDeckAmmo().draw());
 
                 if (this.map.getSquare(i,j).isSpawn())
-                    while(this.map.getSquare(i,j).getWeaponCardDeck().size() < 3) {
+                    while(this.map.getSquare(i,j).getWeaponCards().size() < 3) {
                         WeaponCard weaponCard=getDeckWeapon().draw();
                         if (weaponCard!=null)
-                            this.map.getSquare(i, j).getWeaponCardDeck().add(weaponCard);
+                            this.map.getSquare(i, j).getWeaponCards().add(weaponCard);
                     }
             }
         }
@@ -231,13 +234,19 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public boolean grabAmmo(){
+        if(map.isSpawnSquare(playersMap.get(currentTurnPlayer).getPosition())) return false;
         //TODO
         return true;
     }
 
-    public boolean grabWeapon(int ID){
-        //TODO
-        return true;
+    public void grabWeapon(int ID) throws NotEnoughAmmoException, WeaponHandFullException, InvalidWeaponException {
+        int currentPos = playersMap.get(currentTurnPlayer).getPosition();
+        if(map.isSpawnSquare(currentPos)){
+            boolean found = false;
+            for(WeaponCard c : map.getSquareWeapons(currentPos)){
+                //TODO
+            }
+        }
     }
 }
 

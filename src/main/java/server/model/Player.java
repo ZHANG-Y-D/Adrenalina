@@ -29,7 +29,13 @@ public class Player {
 
     //costruttore temporaneo per fare buildare il progetto
     public Player(String avatar, Color color, Lobby lobby){
-
+        damage = new ArrayList<>();
+        powerup = new ArrayList<>();
+        weaponCard = new ArrayList<>();
+        mark = new ArrayList<>();
+        adrenalineState = 0;
+        ammoBox = new int[]{0,0,0};
+        numOfActions = 2;
     }
 
     public Player(Avatar avatar){

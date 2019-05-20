@@ -114,7 +114,7 @@ public class Grab {
                 payForWeapon(grabber,gotWeaponCard,discardPowerup)){
             exchangeWeapon=grabber.getWeaponCard().remove(numWeaponSwitch);
             grabber.getLobby().getMap().getSquare(grabber.getPosition()).removeWeaponCardFromDeck(numWeapon);
-            grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCardDeck().add(exchangeWeapon);
+            grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCards().add(exchangeWeapon);
             grabber.getWeaponCard().add(gotWeaponCard);
             return true;
         }

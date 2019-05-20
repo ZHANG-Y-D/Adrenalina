@@ -7,5 +7,5 @@ import java.rmi.RemoteException;
 
 public interface Client extends ClientAPI {
     String getClientID();
-    void setLobby(Lobby lobby) throws RemoteException;
+    void setLobby(Lobby lobby);
 }

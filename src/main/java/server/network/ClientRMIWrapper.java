@@ -24,11 +24,13 @@ public class ClientRMIWrapper implements Client {
     }
 
 
-    public void setLobby(Lobby lobby) throws RemoteException{
+    public void setLobby(Lobby lobby) {
         setLobby(lobby.getID());
     }
 
-    public void setLobby(String lobbyID) throws RemoteException{
-        thisClient.setLobby(lobbyID);
+    public void setLobby(String lobbyID){
+        try {
+            thisClient.setLobby(lobbyID);
+        } catch (RemoteException e) { }
     }
 }
