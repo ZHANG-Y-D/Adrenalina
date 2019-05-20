@@ -8,6 +8,13 @@ import java.util.Comparator;
 
 
 
+
+/**
+ *
+ * This class is for new a Player
+ *
+ */
+
 public class Player {
 
     private Avatar avatar;
@@ -51,17 +58,33 @@ public class Player {
 
 
 
+    /**
+     *
+     * This is for add score of player
+     *
+     * @param point Deposit the points got by the player at this time
+     *
+     */
 
+    public void addScore(int point) {
 
-    public void addScore(int score) {
-
-        this.score= this.score+score;
+        this.score= this.score+point;
 
     }
+
+
+    /**
+     *
+     * Get the score of this player
+     *
+     * @return The score of this player
+     *
+     */
 
     public int getScore() {
         return score;
     }
+
 
 
     public Lobby getLobby() {
@@ -70,9 +93,16 @@ public class Player {
 
 
 
-    //It will return a boolean value,this value is for index,if the this play is already died.
-    //If someone is dead in this turn,the sufferDamage caller who have to judgment if double kill,
-    // and count this kill and overkill damage to the scoreBoard.
+    /**
+     *
+     *
+     * Add damage for this player
+     *
+     * @return This boolean is for index if the this play is already died.
+     *
+     *
+     */
+
     public boolean sufferDamage(Player damageOrigin, int amount) {
 
         boolean sufferDamageNotFinished;
@@ -91,9 +121,29 @@ public class Player {
 
     }
 
+
+    /**
+     *
+     *
+     * For remove Power Card for this player.
+     *
+     * @param powerup The reference of the powerup to be removed
+     *
+     */
+
     void removePowerup(PowerupCard powerup) {
         this.powerup.remove(powerup);
     }
+
+
+    /**
+     *
+     *
+     * Add a mark from other to this Player
+     *
+     * @param markOrigin The Origin player of this mark
+     *
+     */
 
     public void addMark(Player markOrigin) {
 
@@ -107,6 +157,13 @@ public class Player {
     }
 
 
+    /**
+     *
+     *
+     * Clear all mark for this player
+     *
+     *
+     */
 
     private void clearMark() {
 
@@ -115,15 +172,32 @@ public class Player {
 
 
 
+    /**
+     *
+     *
+     * Return the mark arrayList of this player
+     *
+     * @return Return ArrayList of mark of this Player.
+     *
+     */
+
     public ArrayList<Player> getMark() {
         return mark;
     }
 
 
 
-    //This function is for add damage to damage track.
-    //It will return a boolean value,this value is for index,if the this play is already died.
-    //Attention: this function is Private, if other class want to add damage,please call class public "sufferDageme"
+
+    /**
+     *
+     *
+     * A private method,for add damage to damage track
+     *
+     * @param damageOrigin The damage origin player
+     * @param addDamageNotFinished The boolean value for index if the damage process is finished
+     *
+     */
+
     private boolean addDamageToTrack(Player damageOrigin, boolean addDamageNotFinished){
 
 
@@ -170,6 +244,7 @@ public class Player {
 
         return false;
     }
+
 
 
 
