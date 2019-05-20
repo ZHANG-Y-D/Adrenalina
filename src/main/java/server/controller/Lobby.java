@@ -38,8 +38,15 @@ public class Lobby implements Runnable, LobbyAPI {
     public Lobby(ArrayList<Client> clients) {
         lobbyID = UUID.randomUUID().toString();
         clientMap = new LinkedHashMap<>();
-        for(Client c : clients){
-            clientMap.put(c.getClientID(),c);
+
+        //ZHANG has added this try-catch for NullPointerException
+        //If not necessary，Delete it and retest Test code,add clients parameter
+        try {
+            for(Client c : clients){
+                clientMap.put(c.getClientID(),c);
+            }
+        }catch (NullPointerException e){
+            System.err.println("NullPointerException of clients ArrayList");
         }
         playersMap = new HashMap<>();
         playersColor = new HashMap<>();
@@ -51,7 +58,7 @@ public class Lobby implements Runnable, LobbyAPI {
         deckPowerup = new DeckPowerup();
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Avatar.json");
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Avatar.json");
             Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
             ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
             currentState = new AvatarSelectionState(this, avatars);

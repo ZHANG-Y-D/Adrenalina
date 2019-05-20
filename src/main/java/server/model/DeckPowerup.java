@@ -27,7 +27,7 @@ public class DeckPowerup extends Deck<PowerupCard> {
 
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/PowerupCard.json");
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/PowerupCard.json");
 
 
             //There are 24 powerup cards in total.So read two times

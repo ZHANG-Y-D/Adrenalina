@@ -24,6 +24,7 @@ public class Player {
     private ArrayList<Player> mark;
     private ArrayList<PowerupCard> powerup;
     private ArrayList<WeaponCard> weaponCard;
+    private int score;
 
     private int position;
     private int oldPosition;  //Last position
@@ -34,6 +35,8 @@ public class Player {
     private int numOfActions; //This's for index the times of action the player can choose.Max is 2.
                                 // When his turn is finished, This value will be reload at 2.
 
+
+
     //costruttore temporaneo per fare buildare il progetto
     public Player(String avatar, Color color, Lobby lobby){
         damage = new ArrayList<>();
@@ -43,7 +46,11 @@ public class Player {
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
         numOfActions = 2;
+        score = 0;
+        this.lobby = lobby;
+
     }
+
 
     public Player(Avatar avatar){
         this.avatar = avatar;
@@ -87,6 +94,16 @@ public class Player {
     }
 
 
+
+    /**
+     *
+     *
+     * This is a getter, It can get the lobby of this player
+     *
+     * @return The reference of lobby of this player
+     *
+     *
+     */
 
     public Lobby getLobby() {
         return lobby;
@@ -247,7 +264,13 @@ public class Player {
     }
 
 
-
+    /**
+     *
+     *
+     * This is a private class, for count the points,when someone is dead.
+     *
+     *
+     */
 
     private void killAndOverkillScoreCount(){
 
@@ -305,9 +328,14 @@ public class Player {
 
 
 
+    /**
+     *
+     *
+     * This is a private class, To put mark to damage track,and clean make track
+     *
+     * @return It will return a boolean value,this value is for index,if the this play is already died.
+     */
 
-    //It will return a boolean value,this value is for index,if the this play is already died.
-    //Attention: this function is Private, it only can be called by sufferDamage"
     private boolean putMarkToDamageTrackAndClearThem(){
 
         boolean markNotFinished;
@@ -326,6 +354,9 @@ public class Player {
         }
         return false;
     }
+
+
+
 
     public ArrayList<WeaponCard> getWeaponCard() {
         return weaponCard;

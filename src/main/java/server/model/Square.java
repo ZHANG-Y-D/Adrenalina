@@ -6,8 +6,8 @@ public class Square {
 
     private Color color;
     private boolean spawn;
-    private AmmoCard ammoTile = null;
-    private ArrayList<WeaponCard> weaponCards = null;
+    private AmmoCard ammoTile;
+    private ArrayList<WeaponCard> weaponCards;
 
     public boolean isSpawn() { return spawn; }
 

@@ -4,66 +4,66 @@
       {
         "color": "blue",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "blue",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "blue",
         "spawn": true,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "black",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       }
     ],
     [
       {
         "color": "red",
         "spawn": true,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "red",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "red",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "yellow",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       }
     ],
     [
       {
         "color": "black",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "white",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "white",
         "spawn": false,
-        "weaponCardDeck": []
+        "weaponCards": []
       },
       {
         "color": "yellow",
         "spawn": true,
-        "weaponCardDeck": []
+        "weaponCards": []
       }
     ]
   ],
