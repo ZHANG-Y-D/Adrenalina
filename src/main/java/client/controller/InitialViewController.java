@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
@@ -52,7 +53,9 @@ public class InitialViewController {
                 e.printStackTrace();
             } catch (NotBoundException e) {
                 e.printStackTrace();
-            }
+            } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

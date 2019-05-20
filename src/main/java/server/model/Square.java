@@ -6,23 +6,23 @@ public class Square {
 
     private Color color;
     private boolean spawn;
-    private AmmoCard ammoTile;
-    private ArrayList<WeaponCard> weaponCardDeck;
+    private AmmoCard ammoTile = null;
+    private ArrayList<WeaponCard> weaponCards = null;
 
     public boolean isSpawn() { return spawn; }
 
-    public ArrayList<WeaponCard> getWeaponCardDeck() {
-        return weaponCardDeck;
+    public ArrayList<WeaponCard> getWeaponCards() {
+        return weaponCards;
     }
 
-    public void removeWeaponCardFromDeck(int indexToBeRemove) {
-        getWeaponCardDeck().remove(indexToBeRemove);
+    public void removeWeaponCardFromDeck(int indexToBeRemoved) {
+        getWeaponCards().remove(indexToBeRemoved);
     }
 
     public WeaponCard getWeaponCardFromDeck(int index){
-        if (index < 0 || index >= weaponCardDeck.size())
+        if (index < 0 || index >= weaponCards.size())
             return null;
-        return getWeaponCardDeck().get(index);
+        return getWeaponCards().get(index);
     }
 
     public Color getColor(){ return color; }
@@ -40,7 +40,7 @@ public class Square {
                 "color=" + color +
                 ", spawn=" + spawn +
                 ", ammoTile=" + ammoTile +
-                ", weaponCardDeck=" + weaponCardDeck +
+                ", weaponCards=" + weaponCards +
                 '}';
     }
 }

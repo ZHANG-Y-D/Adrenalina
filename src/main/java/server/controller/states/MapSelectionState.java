@@ -4,7 +4,6 @@ import server.controller.Lobby;
 import server.model.Color;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
@@ -60,6 +59,11 @@ public class MapSelectionState implements GameState {
 
     @Override
     public String endOfTurnAction() {
+        return "KO";
+    }
+
+    @Override
+    public String goBack() {
         return "KO";
     }
 

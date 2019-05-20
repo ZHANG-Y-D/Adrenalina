@@ -2,8 +2,9 @@ package server.model;
 
 import org.junit.jupiter.api.Test;
 import server.controller.Lobby;
-import server.model.Color;
-import server.model.Player;
+import server.network.Client;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,7 @@ public class playerTest {
     void sufferDamageTest() {
 
         //Test 1 damege
-        Lobby lobby = new Lobby(null);
+        Lobby lobby = new Lobby(new ArrayList<Client>());
         Player damageOrigin = new Player("Anna",Color.RED,lobby);
 
 
@@ -35,17 +36,14 @@ public class playerTest {
         Target.sufferDamage(damageOrigin,1);
 
         assertEquals(damageOrigin,Target.getDamageTrack().get(0));
-        assertEquals(1,damageOrigin.getScore());
 
         //Test 3 damage
         Target.sufferDamage(damageOrigin,2);
-        int[] num1 = new int[]{3,2,0};
-        assertArrayEquals(Target.getRunable(), num1);
+        assertEquals(Target.getAdrenalineState(), 1);
 
         //Test 6 damage
         Target.sufferDamage(damageOrigin,3);
-        int[] num2 = new int[]{3,2,1};
-        assertArrayEquals(Target.getRunable(),num2);
+        assertEquals(Target.getAdrenalineState(),2);
         assertEquals(Target.getDamageTrack().size(),6);
 
 

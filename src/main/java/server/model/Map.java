@@ -195,6 +195,8 @@ public class Map {
     }
 
 
+    public boolean isSpawnSquare(int pos){ return mapSquares[pos/columns][pos%columns].isSpawn();}
+    public ArrayList<WeaponCard> getSquareWeapons(int pos){ return mapSquares[pos/columns][pos%columns].getWeaponCards();}
 
     @Override
     public String toString() {

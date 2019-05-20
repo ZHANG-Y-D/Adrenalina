@@ -22,7 +22,7 @@ public class GameServer {
     private HashMap<String, Lobby> activeLobbies;
     private HashMap<String, String> clientsLobbiesMap;
 
-    public static void main(String args[])throws RemoteException{
+    public static void main(String args[]){
         new GameServer().lifeCycle();
     }
 
@@ -58,7 +58,7 @@ public class GameServer {
         activeLobbies = new HashMap<>();
     }
 
-    private void lifeCycle()throws RemoteException{
+    private void lifeCycle(){
         while(true){
             if(clientsWaitingList.size()<3);
             else{

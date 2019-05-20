@@ -1,6 +1,6 @@
 package server.model;
 
-import server.InvalidTargetsException;
+import server.exceptions.InvalidTargetsException;
 import server.model.constraints.*;
 
 import java.util.ArrayList;
