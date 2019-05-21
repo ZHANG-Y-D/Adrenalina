@@ -19,7 +19,7 @@ public class GrabTest {
     private static ArrayList<PowerupCard> discardPowerup;
 
 
-    @BeforeAll
+   /* @BeforeAll
     static void IniLobbyAndPlayer(){
 
         lobby = new Lobby(null);
@@ -124,5 +124,5 @@ public class GrabTest {
 
         System.out.println("\n  -------For grabWeaponWithoutSwitchTest------   \n\n");
 
-    }
+    }*/
 }

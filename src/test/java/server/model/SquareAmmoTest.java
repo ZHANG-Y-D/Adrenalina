@@ -2,14 +2,14 @@ package server.model;
 
 import org.junit.jupiter.api.Test;
 
-public class SquareTest {
+public class SquareAmmoTest {
 
 
     @Test
     void getWeaponCardTest() {
 
 
-        Square square =new Square();
+        SquareAmmo square =new SquareAmmo();
         square.setAmmoTile(new AmmoCard());
         System.out.print(square.toString());
 

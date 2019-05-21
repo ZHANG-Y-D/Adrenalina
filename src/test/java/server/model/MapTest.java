@@ -1,6 +1,7 @@
 package server.model;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,18 +19,14 @@ class MapTest {
 
     @BeforeAll
     static void initMap(){
-        try{
-            Gson gson = new Gson();
+        try {
             FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map1.json");
 
+            GsonBuilder gsonBld = new GsonBuilder();
+            gsonBld.registerTypeAdapter(Square.class, new CustomDeserializer());
+            Gson gson = gsonBld.create();
             map = gson.fromJson(fileReader,Map.class);
-
-        }catch (JsonIOException e){
-            System.out.println("JsonIOException!");
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("PowerupCard.json file not found");
-        }
+        }catch(Exception e){System.out.println("ERROR!");}
     }
 
 

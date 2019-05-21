@@ -9,15 +9,16 @@ public class Grab {
 
 
      /**
-      * For Grab AmmoTile in Map Square
+      * For Grab AmmoTile in Map SquareAmmo
       *
       * @param grabber The player who wants to do Grab Action
       *
       * @return true:The action is successful,
       * false:unsuccessful cause of the ammotile have already got
-      *     or this square not is Weapon Square instead of Ammo Square
+      *     or this square not is Weapon SquareAmmo instead of Ammo SquareAmmo
       *
       */
+
 
     public static boolean grabAmmoCard(Player grabber){
 
@@ -59,7 +60,7 @@ public class Grab {
 
 
      /**
-      * For Grab WeaponCard in Map Square,Only for this player do not have to Switch
+      * For Grab WeaponCard in Map SquareAmmo,Only for this player do not have to Switch
       *
       * @param grabber The player who wants to do Grab Action
       * @param numWeapon Which weapon Card the Player wants to Grab from 1 to 3.
@@ -91,7 +92,7 @@ public class Grab {
 
 
      /**
-      * For Grab WeaponCard in Map Square
+      * For Grab WeaponCard in Map SquareAmmo
       * Only for this player has to Switch cause of he already has 3 weapon cards
       *
       * @param grabber The player who wants to do Grab Action

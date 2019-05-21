@@ -12,8 +12,6 @@ public class ClientGui extends Application {
 
     private Stage window;
 
-    public static void main(String[] args){launch(args); }
-
     public void start(Stage primaryStage)throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/SelectionView.fxml"));
         window = primaryStage;

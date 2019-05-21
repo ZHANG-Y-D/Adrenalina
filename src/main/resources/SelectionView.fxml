@@ -10,7 +10,7 @@
 
 <Pane fx:id="pane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.SelectionViewController">
    <children>
-      <ImageView fx:id="avatar4" fitHeight="185.0" fitWidth="247.0" layoutX="419.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="avatar4" fitHeight="185.0" fitWidth="126.0" layoutX="440.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Avatars/SPROG_FULL.png" />
          </image>
@@ -18,7 +18,7 @@
             <GaussianBlur radius="3.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="avatar3" fitHeight="185.0" fitWidth="126.0" layoutX="609.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="avatar3" fitHeight="185.0" fitWidth="126.0" layoutX="634.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Avatars/VIOLET_FULL.png" />
          </image>
@@ -26,7 +26,7 @@
             <GaussianBlur radius="3.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="avatar2" fitHeight="327.0" fitWidth="436.0" layoutX="700.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="avatar2" fitHeight="333.0" fitWidth="299.0" layoutX="665.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Avatars/DOZER_FULL.png" />
          </image>
@@ -34,7 +34,7 @@
             <GaussianBlur radius="2.5" />
          </effect>
       </ImageView>
-      <ImageView fx:id="avatar5" fitHeight="327.0" fitWidth="304.0" layoutX="246.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="avatar5" fitHeight="333.0" fitWidth="299.0" layoutX="246.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Avatars/BANSHEE_FULL.png" />
          </image>
@@ -42,7 +42,7 @@
             <GaussianBlur radius="2.5" />
          </effect>
       </ImageView>
-      <ImageView fx:id="avatar1" fitHeight="484.0" fitWidth="363.0" layoutX="390.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="avatar1" fitHeight="484.0" fitWidth="363.0" layoutX="418.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Avatars/DSTRUCTOR-FULL.png" />
          </image>

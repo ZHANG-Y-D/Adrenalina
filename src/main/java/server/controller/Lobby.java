@@ -2,10 +2,7 @@ package server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
-import server.exceptions.InvalidWeaponException;
 import server.LobbyAPI;
-import server.exceptions.NotEnoughAmmoException;
-import server.exceptions.WeaponHandFullException;
 import server.controller.states.GameState;
 import server.controller.states.*;
 import server.model.Map;
@@ -81,9 +78,10 @@ public class Lobby implements Runnable, LobbyAPI {
         catch (FileNotFoundException e) {
             System.out.println("PowerupCard.json file not found");
         }
-        setSquaresCards();
+        //setSquaresCards();
     }
 
+    /*
     public void setSquaresCards(){
 
         for (int i=0;i<this.map.getRows();i++){
@@ -103,7 +101,7 @@ public class Lobby implements Runnable, LobbyAPI {
             }
         }
     }
-
+    */
 
 
 
@@ -142,50 +140,59 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public void setState(GameState newState){ currentState = newState; }
 
-    public void runAction(String clientID) {
-        if(clientID.equals(currentTurnPlayer)) currentState.runAction();
+    public String runAction(String clientID) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.runAction();
+        else return "You can only do that during your turn!";
     }
 
-    public void grabAction(String clientID) { if(clientID.equals(currentTurnPlayer)) currentState.grabAction(); }
-
-    public void shootAction(String clientID) {
-
-        if(clientID.equals(currentTurnPlayer)) currentState.shootAction();
+    public String grabAction(String clientID) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.grabAction();
+        else return "You can only do that during your turn!";
     }
 
-    public void selectPlayers(String clientID, ArrayList<Color> playersColor) {
-        if(clientID.equals(currentTurnPlayer)) currentState.selectPlayers(playersColor);
+    public String shootAction(String clientID) {
+
+        if(clientID.equals(currentTurnPlayer)) return currentState.shootAction();
+        else return "You can only do that during your turn!";
     }
 
-    public void selectSquare(String clientID, int index) {
-
-        if(clientID.equals(currentTurnPlayer)) currentState.selectSquare(index);
+    public String selectPlayers(String clientID, ArrayList<Color> playersColor) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.selectPlayers(playersColor);
+        else return "You can only do that during your turn!";
     }
 
-    public void selectPowerUp(String clientID, int powerupID) {
-
-        if(clientID.equals(currentTurnPlayer)) currentState.selectPowerUp(powerupID);
+    public String selectSquare(String clientID, int index) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.selectSquare(index);
+        else return "You can only do that during your turn!";
     }
 
-    public void selectWeapon(String clientID, int weaponID) {
-
-        if(clientID.equals(currentTurnPlayer)) currentState.selectWeapon(weaponID);
+    public String selectPowerUp(String clientID, int powerupID) {
+        //TODO granata venom during opponent's turn
+        if(clientID.equals(currentTurnPlayer)) return currentState.selectPowerUp(powerupID);
+        else return "You can only do that during your turn!";
     }
 
-    public void endOfTurnAction(String clientID) {
-
-        if(clientID.equals(currentTurnPlayer)) currentState.endOfTurnAction();
+    public String selectWeapon(String clientID, int weaponID) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.selectWeapon(weaponID);
+        else return "You can only do that during your turn!";
     }
 
-    public void selectAvatar(String clientID, Color color) {
-        if(clientID.equals(currentTurnPlayer)) currentState.selectAvatar(color);
+    public String endOfTurnAction(String clientID) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.endOfTurnAction();
+        else return "You can only do that during your turn!";
     }
 
-    public void selectMap(String clientID, int mapID) {
+    public String selectAvatar(String clientID, Color color) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.selectAvatar(color);
+        else return "You can only do that during your turn!";
+    }
+
+    public String selectMap(String clientID, int mapID) {
         if(clientMap.keySet().contains(clientID)){
-            currentState.selectMap(mapID, clientID);
+            return currentState.selectMap(mapID, clientID);
         }
         //else: user not part of the lobby
+        return "You shouldn't be here!";
     }
 
     public int getCurrentPlayerAdrenalineState(){
@@ -240,20 +247,48 @@ public class Lobby implements Runnable, LobbyAPI {
         if(playersColor.get(playerColor).getPosition()!= squareIndex) playersColor.get(playerColor).setPosition(squareIndex);
     }
 
-    public boolean grabAmmo(){
-        if(map.isSpawnSquare(playersMap.get(currentTurnPlayer).getPosition())) return false;
-        //TODO
-        return true;
+    public void grabFromSquare(int squareIndex, int actionNumber){
+        map.getSquare(squareIndex).acceptGrab(this, actionNumber);
     }
 
-    public void grabWeapon(int ID) throws NotEnoughAmmoException, WeaponHandFullException, InvalidWeaponException {
-        int currentPos = playersMap.get(currentTurnPlayer).getPosition();
-        if(map.isSpawnSquare(currentPos)){
-            boolean found = false;
-            for(WeaponCard c : map.getSquareWeapons(currentPos)){
-                //TODO
+    public void grabFromSquare(SquareAmmo square, int actionNumber){
+        AmmoCard grabbedAmmoTile;
+        int[] grabbedAmmoContent;
+        int[] oldAmmoContent;
+
+        grabbedAmmoTile= square.getAmmoTile();
+
+        if (grabbedAmmoTile!=null) {
+
+            grabbedAmmoContent = grabbedAmmoTile.getAmmoContent();
+            oldAmmoContent = grabber.getAmmoBox();
+
+
+            //4. Discard the tile. &&   1. Remove the ammo tile.
+            grabber.getLobby().getDeckAmmo().addToDiscarded(grabbedAmmoTile);
+            grabber.getLobby().getMap().getSquare(grabber.getPosition()).setAmmoTile(null);
+
+            //2. Move the depicted cubes into your ammo box.
+            for (int i = 0; i < 3; i++) {
+                //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
+                oldAmmoContent[i] = grabbedAmmoContent[i] + oldAmmoContent[i];
+                if (oldAmmoContent[i] > 3)
+                    oldAmmoContent[i] = 3;
             }
+            grabber.setAmmoBox(oldAmmoContent);
+
+            //3. If the tile depicts a powerup card, draw one.
+            if (grabbedAmmoContent[3] != 0) {
+                grabPowerup(grabber);
+            }
+
         }
+        //TODO grab ammo
+        setState(new SelectActionState(this, actionNumber));
+    }
+
+    public void grabFromSquare(SquareSpawn square, int actionNumber){
+        setState(new WeaponGrabState(this, actionNumber, square.getWeaponCards()));
     }
 }
 
