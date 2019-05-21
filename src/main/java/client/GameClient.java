@@ -9,7 +9,7 @@ public class GameClient {
      *
      * The main method, The player have to choose view mode at this time
      *
-     * @param args Get to input stream
+     * @param args Get input stream
      *
      */
 

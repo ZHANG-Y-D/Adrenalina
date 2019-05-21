@@ -62,7 +62,7 @@ public class Grab {
       * For Grab WeaponCard in Map Square,Only for this player do not have to Switch
       *
       * @param grabber The player who wants to do Grab Action
-      * @param numWeapon Which weapon Card the Player wants to Grab from 1 to 3.
+      * @param numWeapon Which weapon Card the Player wants to Grab from 0 to 2.
       * @param discardPowerup A arrayList include the seq num of Powerup Card that player wants to discard for pay Weapon Card
       *
       * @return true:Action successful,
@@ -75,12 +75,12 @@ public class Grab {
         //1. Choose 1 of the spawnpoint's 3 weapons. And
         //Take Weapon and deleted from Map
         WeaponCard gotWeaponCard;
-        gotWeaponCard=grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCardFromDeck(numWeapon-1);
+        gotWeaponCard=grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCardFromDeck(numWeapon);
         if (gotWeaponCard != null &&
                 grabber.getWeaponCard().size()<3 &&
-                payForWeapon(grabber,gotWeaponCard,discardPowerup)) {
+                payForWeapon(grabber,gotWeaponCard,gotWeaponCard.getGratisAmmo(),discardPowerup)) {
             grabber.addWeaponCard(gotWeaponCard);
-            grabber.getLobby().getMap().getSquare(grabber.getPosition()).removeWeaponCardFromDeck(numWeapon-1);
+            grabber.getLobby().getMap().getSquare(grabber.getPosition()).removeWeaponCardFromDeck(numWeapon);
             return true;
         }
         else
@@ -95,9 +95,9 @@ public class Grab {
       * Only for this player has to Switch cause of he already has 3 weapon cards
       *
       * @param grabber The player who wants to do Grab Action
-      * @param numWeapon Which weapon Card the Player wants to Grab from 1 to 3
+      * @param numWeapon Which weapon Card the Player wants to Grab from 0 to 2
       * @param discardPowerup A arrayList include the seq num of Powerup Card that player wants to discard for pay Weapon Card
-      * @param numWeaponSwitch Which Weapon Card the player wants to switch from 1 to 3
+      * @param numWeaponSwitch Which Weapon Card the player wants to switch from 0 to 2
       *
       * @return true:Action successful,
       * false: Action unsuccessful cause of the weapon position is empty or AmmoBox not enough
@@ -111,7 +111,7 @@ public class Grab {
 
         gotWeaponCard=grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCardFromDeck(numWeapon);
         if ( gotWeaponCard != null &&
-                payForWeapon(grabber,gotWeaponCard,discardPowerup)){
+                payForWeapon(grabber,gotWeaponCard,gotWeaponCard.getGratisAmmo(),discardPowerup)){
             exchangeWeapon=grabber.getWeaponCard().remove(numWeaponSwitch);
             grabber.getLobby().getMap().getSquare(grabber.getPosition()).removeWeaponCardFromDeck(numWeapon);
             grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCards().add(exchangeWeapon);
@@ -128,35 +128,40 @@ public class Grab {
 
      /**
       *
-      * Use to grabWeaponCard Class, Pay AmmoBox for this Weapon card
+      * Use to grabWeaponCard Class, Pay AmmoBox for this Weapon card.
+      * This is a package-private class
       *
       * @param grabber The player who wants to do Grab Action
       * @param gotWeaponCard Which weapon Card the Player has got.
+      * @param gratisColor Input gratisColor, if it's case of reload,input null
       * @param discardPowerup A arrayList include the seq num of Powerup Card that player wants to discard for pay Weapon Card
       *
       * @return true:AmmoBox is enough to pay, false AmmoBox is not enough to pay
       *
       */
 
-    private static boolean payForWeapon(Player grabber, WeaponCard gotWeaponCard, ArrayList<PowerupCard> discardPowerup){
+    static boolean payForWeapon(Player grabber, WeaponCard gotWeaponCard, Color gratisColor, ArrayList<PowerupCard> discardPowerup){
 
         int[] ammoCost;
         int[] ownAmmo;
-        Color gratisColor;
-
+        int[] afterPay;
 
         //2. Pay the cost.
         ammoCost=gotWeaponCard.getAmmoCost().clone();
-        gratisColor=gotWeaponCard.getGratisAmmo();
         ownAmmo=grabber.getAmmoBox();
 
-        switch (gratisColor){
-            case RED: ammoCost[0]--;
+        if (gratisColor != null) {
+            switch (gratisColor) {
+                case RED:
+                    ammoCost[0]--;
                     break;
-            case BLUE:ammoCost[1]--;
+                case BLUE:
+                    ammoCost[1]--;
                     break;
-            case YELLOW:ammoCost[2]--;
+                case YELLOW:
+                    ammoCost[2]--;
                     break;
+            }
         }
 
 
@@ -186,15 +191,17 @@ public class Grab {
             }
         }
 
-
+        afterPay=ownAmmo.clone();
         for (int j=0;j<3;j++){
 
-            ownAmmo[j]=ownAmmo[j]-ammoCost[j];
-            if (ownAmmo[j]<0)
+            afterPay[j]=ownAmmo[j]-ammoCost[j];
+            if (ownAmmo[j]<0) {
+                grabber.setAmmoBox(ownAmmo);
                 return false;
+            }
 
         }
-        grabber.setAmmoBox(ownAmmo);
+        grabber.setAmmoBox(afterPay);
         return true;
     }
 
