@@ -35,6 +35,9 @@ public class Player {
     private int numOfActions; //This's for index the times of action the player can choose.Max is 2.
                                 // When his turn is finished, This value will be reload at 2.
 
+    private boolean isAlive; //For index is this player still alive. It can help shooter count score
+
+
 
 
     //costruttore temporaneo per fare buildare il progetto

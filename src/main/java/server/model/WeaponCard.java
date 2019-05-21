@@ -17,12 +17,12 @@ import java.util.Arrays;
 
 public class WeaponCard {
 
-    private String name;
-    private int[] ammoCost;     //Seq : red blue yellow powerup
-    private Color gratisAmmo;
-    private String manual;
+    private final String name;
+    private final int[] ammoCost;     //Seq : red blue yellow powerup
+    private final Color gratisAmmo;
+    private final String manual;
     private boolean loaded;     //true:loaded, false: not ready loaded. Initial state is true.
-    private int numWeaponCard;
+    private final int numWeaponCard;
     private ArrayList<Firemode> firemodes;
 
 

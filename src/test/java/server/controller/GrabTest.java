@@ -80,32 +80,32 @@ public class GrabTest {
         player.setPosition(4);
 
 
-        assertTrue(Grab.grabWeaponCard(player,1,discardPowerup));
+        assertTrue(Grab.grabWeaponCard(player,0,discardPowerup));
         System.out.println(player.getWeaponCard().toString());
         System.out.println(Arrays.toString(player.getAmmoBox()));
         assertEquals(2,player.getLobby().getMap().getSquare(player.getPosition()).getWeaponCards().size());
         assertEquals(1,player.getWeaponCard().size());
 
-        assertTrue(Grab.grabWeaponCard(player,2,discardPowerup));
+        assertTrue(Grab.grabWeaponCard(player,1,discardPowerup));
         System.out.println(player.getWeaponCard().toString());
         System.out.println(Arrays.toString(player.getAmmoBox()));
         assertEquals(1,player.getLobby().getMap().getSquare(player.getPosition()).getWeaponCards().size());
         assertEquals(2,player.getWeaponCard().size());
 
-        assertFalse(Grab.grabWeaponCard(player,2,discardPowerup));
+        assertFalse(Grab.grabWeaponCard(player,1,discardPowerup));
 
-        assertTrue(Grab.grabWeaponCard(player,1,discardPowerup));
+        assertTrue(Grab.grabWeaponCard(player,0,discardPowerup));
         System.out.println(player.getWeaponCard().toString());
         System.out.println(Arrays.toString(player.getAmmoBox()));
         assertEquals(0,player.getLobby().getMap().getSquare(player.getPosition()).getWeaponCards().size());
         assertEquals(3,player.getWeaponCard().size());
 
 
-        assertFalse(Grab.grabWeaponCard(player,1,discardPowerup));
+        assertFalse(Grab.grabWeaponCard(player,0,discardPowerup));
 
         lobby.setSquaresCards();
         assertEquals(3,player.getLobby().getMap().getSquare(player.getPosition()).getWeaponCards().size());
-        assertFalse(Grab.grabWeaponCard(player,1,discardPowerup));
+        assertFalse(Grab.grabWeaponCard(player,0,discardPowerup));
 
 
         ammoBox = new int[]{0,0,0};
