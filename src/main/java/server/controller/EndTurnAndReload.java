@@ -50,12 +50,12 @@ public class EndTurnAndReload {
      *
      */
 
-    public static void endTurn(Player player){
+    /*public static void endTurn(Player player){
 
         scoreKillshotPlayer();
         player.getLobby().setSquaresCards();
 
-    }
+    }*/
 
 
     /**

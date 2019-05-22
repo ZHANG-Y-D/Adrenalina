@@ -71,7 +71,7 @@ public class Grab {
       * AmmoBox not enough or this player already has 3 Weapon Card,he have to add numWeaponSwitch parameter
       */
 
-    public static boolean grabWeaponCard(Player grabber, int numWeapon, ArrayList<PowerupCard> discardPowerup){
+    /*public static boolean grabWeaponCard(Player grabber, int numWeapon, ArrayList<PowerupCard> discardPowerup){
 
         //1. Choose 1 of the spawnpoint's 3 weapons. And
         //Take Weapon and deleted from Map
@@ -86,7 +86,7 @@ public class Grab {
         }
         else
             return false;
-    }
+    }*/
 
 
 
@@ -104,7 +104,7 @@ public class Grab {
       * false: Action unsuccessful cause of the weapon position is empty or AmmoBox not enough
       */
 
-    public static boolean grabWeaponCard(Player grabber, int numWeapon, ArrayList<PowerupCard> discardPowerup,int numWeaponSwitch){
+    /*public static boolean grabWeaponCard(Player grabber, int numWeapon, ArrayList<PowerupCard> discardPowerup,int numWeaponSwitch){
 
         //Exchange WeaponCard
         WeaponCard gotWeaponCard;
@@ -122,7 +122,7 @@ public class Grab {
         else
             return false;
 
-    }
+    }*/
 
 
 

@@ -78,7 +78,6 @@ public class GameServer {
                 }
             }
         }
-
     }
 
     public void registerClient(Client c){
