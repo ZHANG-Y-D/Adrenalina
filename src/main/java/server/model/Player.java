@@ -24,7 +24,7 @@ public class Player {
     private ArrayList<Player> damage;    //use a ArrayList for index the source of damage
     private ArrayList<Player> mark;
     private ArrayList<PowerupCard> powerupCards;
-    private ArrayList<WeaponCard> weaponCard;
+    private ArrayList<WeaponCard> weaponCards;
     private int score;
 
     private int position;
@@ -45,7 +45,7 @@ public class Player {
     public Player(String avatar, Color color, Lobby lobby){
         damage = new ArrayList<>();
         powerupCards = new ArrayList<>();
-        weaponCard = new ArrayList<>();
+        weaponCards = new ArrayList<>();
         mark = new ArrayList<>();
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
@@ -60,7 +60,7 @@ public class Player {
         this.avatar = avatar;
         damage = new ArrayList<>();
         powerupCards = new ArrayList<>();
-        weaponCard = new ArrayList<>();
+        weaponCards = new ArrayList<>();
         mark = new ArrayList<>();
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
@@ -362,12 +362,20 @@ public class Player {
 
 
 
-    public ArrayList<WeaponCard> getWeaponCard() {
-        return weaponCard;
+    public ArrayList<WeaponCard> getWeaponCards() {
+        return weaponCards;
     }
 
+    public WeaponCard getWeaponCard(int weaponID){
+        for(WeaponCard wc : weaponCards){
+            if(wc.getWeaponID() == weaponID) return wc;
+        }
+        return null;
+    }
 
-    public void addWeaponCard(WeaponCard weaponCard) { this.weaponCard.add(weaponCard); }
+    public void addWeaponCard(WeaponCard weaponCard) { weaponCards.add(weaponCard); }
+
+    public boolean removeWeaponCard(WeaponCard weaponCard) { return weaponCards.remove(weaponCard);}
 
     public int getPosition(){ return this.position;}
 
@@ -390,9 +398,25 @@ public class Player {
     public void addAmmoBox(int[] grabbedAmmoBox) {
         for (int i = 0; i < 3; i++) {
             //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
-            ammoBox[i] = grabbedAmmoBox[i] + ammoBox[i];
-            if (ammoBox[i] > 3)
-                ammoBox[i] = 3;
+            ammoBox[i] = (ammoBox[i] + grabbedAmmoBox[i] <= 3)? ammoBox[i] + grabbedAmmoBox[i] : 3;
+        }
+    }
+
+    public boolean canPayCost(int[] ammoCost){
+        for(int i=0; i<3; i++){
+            if(ammoCost[i] > (ammoBox[i] + tempAmmoBox[i])) return false;
+        }
+        return true;
+    }
+
+    public void payCost(int[] ammoCost){
+        for(int i=0; i<3; i++){
+            if(tempAmmoBox[i] - ammoCost[i] < 0){
+                ammoBox[i] -= (tempAmmoBox[i] - ammoCost[i]);
+                tempAmmoBox[i] = 0;
+            }else{
+                tempAmmoBox[i] -= ammoCost[i];
+            }
         }
     }
 
@@ -414,7 +438,7 @@ public class Player {
     public void addPowerup(PowerupCard newPowerUpCard) {this.powerupCards.add(newPowerUpCard); }
 
     public int getPowerupHandSize(){return powerupCards.size();}
-
+    public int getWeaponHandSize(){return weaponCards.size();}
 
     public ArrayList<Player> getDamageTrack() {
         return damage;
@@ -433,7 +457,7 @@ public class Player {
                 ", ammoBox=" + Arrays.toString(ammoBox) +
                 ", damage=" + damage +
                 ", powerupCards=" + powerupCards +
-                ", weaponCard=" + weaponCard +
+                ", weaponCards=" + weaponCards +
                 ", mark=" + mark +
                 ", position=" + position +
                 ", oldPosition=" + oldPosition +

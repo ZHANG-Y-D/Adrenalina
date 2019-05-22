@@ -64,22 +64,22 @@
       </Label>
       <ImageView fx:id="map1" fitHeight="310.0" fitWidth="400.0" layoutX="150.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@mappa2.png" />
+            <Image url="@Maps/MAP1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="map2" fitHeight="310.0" fitWidth="400.0" layoutX="650.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@mappa2.png" />
+            <Image url="@Maps/MAP2.png" />
          </image>
       </ImageView>
       <ImageView fx:id="map3" fitHeight="310.0" fitWidth="400.0" layoutX="150.0" layoutY="470.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@mappa2.png" />
+            <Image url="@Maps/MAP3.png" />
          </image>
       </ImageView>
       <ImageView fx:id="map4" fitHeight="310.0" fitWidth="400.0" layoutX="650.0" layoutY="470.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@mappa2.png" />
+            <Image url="@Maps/MAP4.png" />
          </image>
       </ImageView>
    </children>

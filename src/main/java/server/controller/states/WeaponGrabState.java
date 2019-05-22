@@ -1,7 +1,11 @@
 package server.controller.states;
 
 import server.controller.Lobby;
+import server.exceptions.InvalidWeaponException;
+import server.exceptions.NotEnoughAmmoException;
+import server.exceptions.WeaponHandFullException;
 import server.model.Color;
+import server.model.SquareSpawn;
 import server.model.WeaponCard;
 
 import java.util.ArrayList;
@@ -10,12 +14,14 @@ public class WeaponGrabState implements GameState {
 
     private Lobby lobby;
     private int actionNumber;
-    private ArrayList<WeaponCard> weaponCards;
+    private SquareSpawn weaponSquare;
+    private boolean swapping = false;
+    private WeaponCard selectedCard;
 
-    public WeaponGrabState(Lobby lobby, int actionNumber, ArrayList<WeaponCard> weaponCards){
+    public WeaponGrabState(Lobby lobby, int actionNumber, SquareSpawn weaponSquare){
         this.lobby = lobby;
         this.actionNumber = actionNumber;
-        this.weaponCards = weaponCards;
+        this.weaponSquare = weaponSquare;
     }
 
     @Override
@@ -43,13 +49,34 @@ public class WeaponGrabState implements GameState {
 
     @Override
     public String selectPowerUp(int powerUpID) {
-        lobby.consumePowerup(powerUpID);
-        return "OK";
+        return lobby.consumePowerup(powerUpID);
     }
 
     @Override
     public String selectWeapon(int weaponID) {
-        return null;
+        if(!swapping) {
+            WeaponCard weaponCard = weaponSquare.getWeaponCard(weaponID);
+            if(weaponCard==null) return "Invalid card selection!";
+            try {
+                lobby.grabWeapon(weaponCard);
+                weaponSquare.removeCard(weaponCard);
+                return "OK";
+            } catch (NotEnoughAmmoException e) {
+                return "You can't pay the ammo price for that weapon! Remember: powerups can be expended too...";
+            } catch (WeaponHandFullException e) {
+                selectedCard = weaponCard;
+                swapping = true;
+                return "You can't hold more than 3 weapons! Please select a card from your hand to swap it";
+            }
+        }else{
+            try{
+                weaponSquare.addCard(lobby.swapWeapon(selectedCard, weaponID));
+                weaponSquare.removeCard(selectedCard);
+                return "OK";
+            } catch (InvalidWeaponException e) {
+                return "Invalid card selection!";
+            }
+        }
     }
 
     @Override

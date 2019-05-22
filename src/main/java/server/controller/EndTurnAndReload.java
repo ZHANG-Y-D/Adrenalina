@@ -22,13 +22,13 @@ public class EndTurnAndReload {
 
     public static boolean reloadWeapon(Player player, int numWeapon, ArrayList<PowerupCard> discardPowerup){
 
-        if (player.getWeaponCard().get(numWeapon).isLoaded()
+        if (player.getWeaponCards().get(numWeapon).isLoaded()
                || numWeapon>=3 ||
-                !Grab.payForWeapon(player,player.getWeaponCard().get(numWeapon),null,discardPowerup)){
+                !Grab.payForWeapon(player,player.getWeaponCards().get(numWeapon),null,discardPowerup)){
             return false;
         }
         else {
-            player.getWeaponCard().get(numWeapon).setLoaded(true);
+            player.getWeaponCards().get(numWeapon).setLoaded(true);
             return true;
         }
     }
@@ -49,13 +49,13 @@ public class EndTurnAndReload {
      *
      *
      */
-
+    /*
     public static void endTurn(Player player){
 
         scoreKillshotPlayer();
         player.getLobby().setSquaresCards();
 
-    }
+    }*/
 
 
     /**

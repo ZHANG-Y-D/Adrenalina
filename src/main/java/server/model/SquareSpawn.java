@@ -13,7 +13,13 @@ public class SquareSpawn extends Square {
         lobby.grabFromSquare(this, actionNumber);
     }
 
-    public ArrayList<WeaponCard> getWeaponCards() {
-        return weaponCards;
+    public WeaponCard getWeaponCard(int weaponID) {
+        for(WeaponCard wc : weaponCards){
+            if(wc.getWeaponID() == weaponID) return wc;
+        }
+        return null;
     }
+
+    public boolean removeCard(WeaponCard card){ return weaponCards.remove(card);}
+    public void addCard(WeaponCard card){weaponCards.add(card);}
 }
