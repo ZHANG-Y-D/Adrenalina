@@ -3,6 +3,7 @@ package server.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 
@@ -23,22 +24,7 @@ public class Map {
     private ArrayList<int[]> mapWalls;
     private int rows;
     private int columns;
-    private String description;
-
-
-
-
-
-    public void printMap(){
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < columns; j++){
-                System.out.print(mapSquares[i][j].getColor());
-            }
-            System.out.println();
-        }
-    }
-
-
+    private HashMap<Color,Integer> spawnMap;
 
     /**
      * Use x,y coordinate to get SquareAmmo
@@ -194,6 +180,10 @@ public class Map {
         return mapSquares[pos/columns][pos%columns].getColor() == Color.BLACK;
     }
 
+
+    public int getSpawnIndex(Color color){
+        return spawnMap.get(color);
+    }
 
     @Override
     public String toString() {

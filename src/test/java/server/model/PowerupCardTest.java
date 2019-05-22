@@ -17,10 +17,10 @@ public class PowerupCardTest {
         Player ownerPlayer = new Player("Anna",Color.BLACK,lobby);
         Player targetPlayer = new Player("Bob",Color.WHITE,lobby);
 
-        ownerPlayer.addPowerup(new PowerupCard("GRNATA VANOM",Color.BLUE,"For test",true,1));
-        ownerPlayer.addPowerup(new PowerupCard("MIRINO", Color.RED, "For test", true, 1));
-        ownerPlayer.addPowerup(new PowerupCard("RAGGIO CINETICO", Color.YELLOW, "For test", true, 1));
-        ownerPlayer.addPowerup(new PowerupCard("ABC", Color.RED, "For test", true, 1));
+        ownerPlayer.addPowerupCard(new PowerupCard("GRNATA VANOM",Color.BLUE,"For test",true,1));
+        ownerPlayer.addPowerupCard(new PowerupCard("MIRINO", Color.RED, "For test", true, 1));
+        ownerPlayer.addPowerupCard(new PowerupCard("RAGGIO CINETICO", Color.YELLOW, "For test", true, 1));
+        ownerPlayer.addPowerupCard(new PowerupCard("ABC", Color.RED, "For test", true, 1));
 
         //Test max numbers of PowerUp Cards
         assertEquals(3,ownerPlayer.getPowerupCards().size());
@@ -39,7 +39,7 @@ public class PowerupCardTest {
         assertEquals(3,targetPlayer.getPosition());
 
         //Test for PowerupCard TELETRASPORTO
-        ownerPlayer.addPowerup(new PowerupCard("TELETRASPORTO",Color.RED,"For test",true,1));
+        ownerPlayer.addPowerupCard(new PowerupCard("TELETRASPORTO",Color.RED,"For test",true,1));
         ownerPlayer.getPowerupCards().get(0).playIt(ownerPlayer,null,4);
         assertEquals(4,ownerPlayer.getPosition());
 

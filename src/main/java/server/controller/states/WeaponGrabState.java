@@ -1,7 +1,7 @@
 package server.controller.states;
 
 import server.controller.Lobby;
-import server.exceptions.InvalidWeaponException;
+import server.exceptions.InvalidCardException;
 import server.exceptions.NotEnoughAmmoException;
 import server.exceptions.WeaponHandFullException;
 import server.model.Color;
@@ -73,7 +73,7 @@ public class WeaponGrabState implements GameState {
                 weaponSquare.addCard(lobby.swapWeapon(selectedCard, weaponID));
                 weaponSquare.removeCard(selectedCard);
                 return "OK";
-            } catch (InvalidWeaponException e) {
+            } catch (InvalidCardException e) {
                 return "Invalid card selection!";
             }
         }
