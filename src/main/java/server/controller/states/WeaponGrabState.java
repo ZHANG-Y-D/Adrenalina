@@ -34,9 +34,7 @@ public class WeaponGrabState implements GameState {
     }
 
     @Override
-    public String selectPlayers(ArrayList<Color> playersColor) {
-        return "Select a weapon to grab it or GO BACK to terminate your action";
-    }
+    public String selectPlayers(ArrayList<Color> playersColor) { return "Select a weapon to grab it or GO BACK to terminate your action"; }
 
     @Override
     public String selectSquare(int index) {
@@ -45,7 +43,8 @@ public class WeaponGrabState implements GameState {
 
     @Override
     public String selectPowerUp(int powerUpID) {
-        return null;
+        lobby.consumePowerup(powerUpID);
+        return "OK";
     }
 
     @Override

@@ -5,7 +5,7 @@
     "color": "blue",
     "manual": "You may play this card when you receive damage from a player you can see. Give that player 1 mark.\n",
     "isUseInTurn": false,
-    "numPowerup": 2
+    "powerUpID": 2
   },
 
   {
@@ -13,7 +13,7 @@
     "color": "red",
     "manual": "You may play this card when you receive damage from a player you can see. Give that player 1 mark.\n",
     "isUseInTurn": false,
-    "numPowerup": 3
+    "powerUpID": 3
   },
 
   {
@@ -21,7 +21,7 @@
     "color": "yellow",
     "manual": "You may play this card when you receive damage from a player you can see. Give that player 1 mark.\n",
     "isUseInTurn": false,
-    "numPowerup": 4
+    "powerUpID": 4
   },
 
   {
@@ -29,7 +29,7 @@
     "color": "blue",
     "manual": "You may play this card when you are dealing damage to one or more targets. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannot use this to do 1 damage to a target that is receiving only marks.\n",
     "isUseInTurn": true,
-    "numPowerup": 5
+    "powerUpID": 5
   },
 
   {
@@ -37,7 +37,7 @@
     "color": "red",
     "manual": "You may play this card when you are dealing damage to one or more targets. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannot use this to do 1 damage to a target that is receiving only marks.\n",
     "isUseInTurn": true,
-    "numPowerup": 6
+    "powerUpID": 6
   },
 
   {
@@ -45,7 +45,7 @@
     "color": "yellow",
     "manual": "You may play this card when you are dealing damage to one or more targets. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannot use this to do 1 damage to a target that is receiving only marks.\n",
     "isUseInTurn": true,
-    "numPowerup": 7
+    "powerUpID": 7
   },
 
   {
@@ -53,7 +53,7 @@
     "color": "blue",
     "manual": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n",
     "isUseInTurn": true,
-    "numPowerup": 8
+    "powerUpID": 8
   },
 
   {
@@ -61,7 +61,7 @@
     "color": "red",
     "manual": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n",
     "isUseInTurn": true,
-    "numPowerup": 9
+    "powerUpID": 9
   },
 
   {
@@ -69,7 +69,7 @@
     "color": "yellow",
     "manual": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n",
     "isUseInTurn": true,
-    "numPowerup": 10
+    "powerUpID": 10
   },
 
   {
@@ -77,7 +77,7 @@
     "color": "blue",
     "manual": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)\n",
     "isUseInTurn": true,
-    "numPowerup": 11
+    "powerUpID": 11
   },
 
   {
@@ -85,7 +85,7 @@
     "color": "red",
     "manual": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)\n",
     "isUseInTurn": true,
-    "numPowerup": 12
+    "powerUpID": 12
   },
 
   {
@@ -93,6 +93,6 @@
     "color": "yellow",
     "manual": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)\n",
     "isUseInTurn": true,
-    "numPowerup": 13
+    "powerUpID": 13
   }
 ]

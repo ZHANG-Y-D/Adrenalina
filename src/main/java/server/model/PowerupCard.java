@@ -17,16 +17,18 @@ public class PowerupCard {
     private Color color;
     private String manual;
     private boolean isUseInTurn;  //ture: you can use is in your turn; false:you can't use it in your turn
-    private int numPowerup;
+    private int powerUpId;
 
 
-    public PowerupCard(String name, Color color, String manual, boolean isUseInTurn, int numPowerup) {
+    public PowerupCard(String name, Color color, String manual, boolean isUseInTurn, int powerUpId) {
         this.name = name;
         this.color = color;
         this.manual = manual;
         this.isUseInTurn = isUseInTurn;
-        this.numPowerup = numPowerup;
+        this.powerUpId = powerUpId;
     }
+
+    public int getPowerUpId(){return powerUpId;}
 
     //Attention：to playIt,the Caller have to judgment good the condition,and then call it
     //fromPlayer is me, targetPlayer is who I want to attack mark or change position
@@ -83,7 +85,7 @@ public class PowerupCard {
                 ", color='" + color + '\'' +
                 ", manual='" + manual + '\'' +
                 ", isUseInTurn=" + isUseInTurn +
-                ", numPowerup=" + numPowerup +
+                ", powerUpId=" + powerUpId +
                 '}';
     }
 }

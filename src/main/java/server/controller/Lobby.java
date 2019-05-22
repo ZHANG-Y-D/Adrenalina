@@ -252,43 +252,27 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public void grabFromSquare(SquareAmmo square, int actionNumber){
-        AmmoCard grabbedAmmoTile;
-        int[] grabbedAmmoContent;
-        int[] oldAmmoContent;
-
-        grabbedAmmoTile= square.getAmmoTile();
-
+        Player currentPlayer = playersMap.get(currentTurnPlayer);
+        AmmoCard grabbedAmmoTile= square.getAmmoTile();
         if (grabbedAmmoTile!=null) {
-
-            grabbedAmmoContent = grabbedAmmoTile.getAmmoContent();
-            oldAmmoContent = grabber.getAmmoBox();
-
-
-            //4. Discard the tile. &&   1. Remove the ammo tile.
-            grabber.getLobby().getDeckAmmo().addToDiscarded(grabbedAmmoTile);
-            grabber.getLobby().getMap().getSquare(grabber.getPosition()).setAmmoTile(null);
-
-            //2. Move the depicted cubes into your ammo box.
-            for (int i = 0; i < 3; i++) {
-                //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
-                oldAmmoContent[i] = grabbedAmmoContent[i] + oldAmmoContent[i];
-                if (oldAmmoContent[i] > 3)
-                    oldAmmoContent[i] = 3;
-            }
-            grabber.setAmmoBox(oldAmmoContent);
-
-            //3. If the tile depicts a powerup card, draw one.
-            if (grabbedAmmoContent[3] != 0) {
-                grabPowerup(grabber);
-            }
-
+            int[] grabbedAmmoContent = grabbedAmmoTile.getAmmoContent();
+            //Discard the tile. && Remove the ammo tile.
+            deckAmmo.addToDiscarded(grabbedAmmoTile);
+            square.setAmmoTile(null);
+            //Move the depicted cubes into your ammo box.
+            currentPlayer.addAmmoBox(grabbedAmmoContent);
+            //If the tile depicts a powerup card, draw one.
+            if (grabbedAmmoContent[3] != 0 && currentPlayer.getPowerupHandSize()<3) currentPlayer.addPowerup(deckPowerup.draw());
         }
-        //TODO grab ammo
         setState(new SelectActionState(this, actionNumber));
     }
 
     public void grabFromSquare(SquareSpawn square, int actionNumber){
         setState(new WeaponGrabState(this, actionNumber, square.getWeaponCards()));
+    }
+
+    public void consumePowerup(int powerUpID){
+        playersMap.get(currentTurnPlayer).consumePower(powerUpID);
     }
 }
 

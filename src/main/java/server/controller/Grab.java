@@ -19,7 +19,7 @@ public class Grab {
       *
       */
 
-
+/*
     public static boolean grabAmmoCard(Player grabber){
 
         AmmoCard grabbedAmmoTile;
@@ -45,7 +45,7 @@ public class Grab {
             if (oldAmmoContent[i]>3)
                 oldAmmoContent[i]=3;
         }
-        grabber.setAmmoBox(oldAmmoContent);
+        grabber.addAmmoBox(oldAmmoContent);
 
         //3. If the tile depicts a powerup card, draw one.
         if (grabbedAmmoContent[3]!=0){
@@ -54,7 +54,7 @@ public class Grab {
 
         return true;
 
-    }
+    }*/
 
 
 
@@ -197,12 +197,12 @@ public class Grab {
 
             afterPay[j]=ownAmmo[j]-ammoCost[j];
             if (ownAmmo[j]<0) {
-                grabber.setAmmoBox(ownAmmo);
+                grabber.addAmmoBox(ownAmmo);
                 return false;
             }
 
         }
-        grabber.setAmmoBox(afterPay);
+        grabber.addAmmoBox(afterPay);
         return true;
     }
 
@@ -214,13 +214,13 @@ public class Grab {
       * @param grabber The player who wants to do Grab Action
       *
       */
-
+/*
     private static void grabPowerup(Player grabber){
 
-        if (grabber.getPowerup().size()<3)
+        if (grabber.getPowerupCards().size()<3)
             grabber.addPowerup(grabber.getLobby().getDeckPowerup().draw());
 
     }
-
+*/
 
 }

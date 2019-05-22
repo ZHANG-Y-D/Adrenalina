@@ -46,7 +46,7 @@ public class GrabTest {
 
             Grab.grabAmmoCard(player);
             System.out.println(Arrays.toString(player.getAmmoBox()));
-            System.out.println(player.getPowerup().size());
+            System.out.println(player.getPowerupCards().size());
 
             Grab.grabAmmoCard(player);
             assertFalse(Grab.grabAmmoCard(player));
@@ -76,7 +76,7 @@ public class GrabTest {
 
         player.setPosition(0);
         ammoBox = new int[]{3,3,3};
-        player.setAmmoBox(ammoBox);
+        player.addAmmoBox(ammoBox);
         player.setPosition(4);
 
 
@@ -110,7 +110,7 @@ public class GrabTest {
 
         ammoBox = new int[]{0,0,0};
         player = new Player("Bob",Color.BLACK,lobby);
-        player.setAmmoBox(ammoBox);
+        player.addAmmoBox(ammoBox);
         player.setPosition(4);
         lobby.setSquaresCards();
 

@@ -20,9 +20,10 @@ public class Player {
     private Avatar avatar;
     private Lobby lobby;
     private int[] ammoBox;
+    private int[] tempAmmoBox;
     private ArrayList<Player> damage;    //use a ArrayList for index the source of damage
     private ArrayList<Player> mark;
-    private ArrayList<PowerupCard> powerup;
+    private ArrayList<PowerupCard> powerupCards;
     private ArrayList<WeaponCard> weaponCard;
     private int score;
 
@@ -43,7 +44,7 @@ public class Player {
     //costruttore temporaneo per fare buildare il progetto
     public Player(String avatar, Color color, Lobby lobby){
         damage = new ArrayList<>();
-        powerup = new ArrayList<>();
+        powerupCards = new ArrayList<>();
         weaponCard = new ArrayList<>();
         mark = new ArrayList<>();
         adrenalineState = 0;
@@ -58,7 +59,7 @@ public class Player {
     public Player(Avatar avatar){
         this.avatar = avatar;
         damage = new ArrayList<>();
-        powerup = new ArrayList<>();
+        powerupCards = new ArrayList<>();
         weaponCard = new ArrayList<>();
         mark = new ArrayList<>();
         adrenalineState = 0;
@@ -148,12 +149,12 @@ public class Player {
      *
      * For remove Power Card for this player.
      *
-     * @param powerup The reference of the powerup to be removed
+     * @param powerup The reference of the powerupCards to be removed
      *
      */
 
     void removePowerup(PowerupCard powerup) {
-        this.powerup.remove(powerup);
+        this.powerupCards.remove(powerup);
     }
 
 
@@ -366,24 +367,18 @@ public class Player {
     }
 
 
-    public void addWeaponCard(WeaponCard weaponCard) {
+    public void addWeaponCard(WeaponCard weaponCard) { this.weaponCard.add(weaponCard); }
 
-        this.weaponCard.add(weaponCard);
-
-    }
+    public int getPosition(){ return this.position;}
 
     public void setPosition(int position) {
         this.oldPosition = this.position;
         this.position = position;
     }
 
+    public int getOldPosition() { return this.oldPosition; }
 
-    public void deletePowerup(PowerupCard powerup) {
-
-        this.getPowerup().remove(powerup);
-    }
-
-    public int getPosition(){ return this.position;}
+    public void deletePowerup(PowerupCard powerup) { powerupCards.remove(powerup); }
 
 
     public int getAdrenalineState() { return adrenalineState;}
@@ -392,21 +387,33 @@ public class Player {
         return ammoBox;
     }
 
-    public void setAmmoBox(int[] ammoBox) {
-        this.ammoBox = ammoBox;
+    public void addAmmoBox(int[] grabbedAmmoBox) {
+        for (int i = 0; i < 3; i++) {
+            //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
+            ammoBox[i] = grabbedAmmoBox[i] + ammoBox[i];
+            if (ammoBox[i] > 3)
+                ammoBox[i] = 3;
+        }
     }
 
-    public int getOldPosition() {
-
-        return this.oldPosition;
+    public PowerupCard consumePower(int powerUpID){
+        for(PowerupCard pwc : powerupCards){
+            if(pwc.getPowerUpId() == powerUpID){
+                switch (pwc.getColor()){
+                    case RED: tempAmmoBox[0]++; break;
+                    case BLUE: tempAmmoBox[1]++; break;
+                    case YELLOW: tempAmmoBox[2]++; break;
+                }
+                return pwc;
+            }
+        }
+        return null;
     }
 
 
-    public void addPowerup(PowerupCard newPowerUpCard) {
+    public void addPowerup(PowerupCard newPowerUpCard) {this.powerupCards.add(newPowerUpCard); }
 
-        if (this.powerup.size()<3)
-            this.powerup.add(newPowerUpCard);
-    }
+    public int getPowerupHandSize(){return powerupCards.size();}
 
 
     public ArrayList<Player> getDamageTrack() {
@@ -414,8 +421,8 @@ public class Player {
     }
 
 
-    public ArrayList<PowerupCard> getPowerup() {
-        return powerup;
+    public ArrayList<PowerupCard> getPowerupCards() {
+        return powerupCards;
     }
 
 
@@ -425,7 +432,7 @@ public class Player {
                 ", lobby=" + lobby +
                 ", ammoBox=" + Arrays.toString(ammoBox) +
                 ", damage=" + damage +
-                ", powerup=" + powerup +
+                ", powerupCards=" + powerupCards +
                 ", weaponCard=" + weaponCard +
                 ", mark=" + mark +
                 ", position=" + position +

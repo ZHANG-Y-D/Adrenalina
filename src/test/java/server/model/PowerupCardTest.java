@@ -23,24 +23,24 @@ public class PowerupCardTest {
         ownerPlayer.addPowerup(new PowerupCard("ABC", Color.RED, "For test", true, 1));
 
         //Test max numbers of PowerUp Cards
-        assertEquals(3,ownerPlayer.getPowerup().size());
+        assertEquals(3,ownerPlayer.getPowerupCards().size());
 
         //Test for PowerupCard GRNATA VANOM
-        ownerPlayer.getPowerup().get(0).playIt(ownerPlayer,targetPlayer,0);
+        ownerPlayer.getPowerupCards().get(0).playIt(ownerPlayer,targetPlayer,0);
         assertEquals(ownerPlayer,targetPlayer.getMark().get(0));
 
 
         //Test for PowerupCard MIRINO
-        ownerPlayer.getPowerup().get(0).playIt(ownerPlayer,targetPlayer,0);
+        ownerPlayer.getPowerupCards().get(0).playIt(ownerPlayer,targetPlayer,0);
         assertEquals(ownerPlayer,targetPlayer.getDamageTrack().get(0));
 
         //Test for PowerupCard RAGGIO CINETICO
-        ownerPlayer.getPowerup().get(0).playIt(ownerPlayer,targetPlayer,3);
+        ownerPlayer.getPowerupCards().get(0).playIt(ownerPlayer,targetPlayer,3);
         assertEquals(3,targetPlayer.getPosition());
 
         //Test for PowerupCard TELETRASPORTO
         ownerPlayer.addPowerup(new PowerupCard("TELETRASPORTO",Color.RED,"For test",true,1));
-        ownerPlayer.getPowerup().get(0).playIt(ownerPlayer,null,4);
+        ownerPlayer.getPowerupCards().get(0).playIt(ownerPlayer,null,4);
         assertEquals(4,ownerPlayer.getPosition());
 
     }
