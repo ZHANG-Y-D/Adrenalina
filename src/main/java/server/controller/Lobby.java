@@ -5,6 +5,9 @@ import com.google.gson.JsonIOException;
 import server.LobbyAPI;
 import server.controller.states.GameState;
 import server.controller.states.*;
+import server.exceptions.InvalidWeaponException;
+import server.exceptions.NotEnoughAmmoException;
+import server.exceptions.WeaponHandFullException;
 import server.model.Map;
 import server.network.Client;
 import server.model.*;
@@ -93,10 +96,10 @@ public class Lobby implements Runnable, LobbyAPI {
                     this.map.getSquare(i,j).setAmmoTile(getDeckAmmo().draw());
 
                 if (this.map.getSquare(i,j).isSpawn())
-                    while(this.map.getSquare(i,j).getWeaponCards().size() < 3) {
+                    while(this.map.getSquare(i,j).getWeaponCard().size() < 3) {
                         WeaponCard weaponCard=getDeckWeapon().draw();
                         if (weaponCard!=null)
-                            this.map.getSquare(i, j).getWeaponCards().add(weaponCard);
+                            this.map.getSquare(i, j).getWeaponCard().add(weaponCard);
                     }
             }
         }
@@ -268,11 +271,38 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public void grabFromSquare(SquareSpawn square, int actionNumber){
-        setState(new WeaponGrabState(this, actionNumber, square.getWeaponCards()));
+        setState(new WeaponGrabState(this, actionNumber, square));
     }
 
-    public void consumePowerup(int powerUpID){
-        playersMap.get(currentTurnPlayer).consumePower(powerUpID);
+    public void grabWeapon(WeaponCard weaponCard) throws NotEnoughAmmoException, WeaponHandFullException {
+        Player currPlayer = playersMap.get(currentTurnPlayer);
+        int[] cost = weaponCard.getAmmoCost();
+        switch(weaponCard.getFreeAmmo()){
+            case RED: cost[0]--; break;
+            case BLUE: cost[1]--; break;
+            case YELLOW: cost[2]--; break;
+        }
+        if(!currPlayer.canPayCost(cost)) throw new NotEnoughAmmoException();
+        if(!(currPlayer.getWeaponHandSize()<3)) throw new WeaponHandFullException();
+        currPlayer.payCost(cost);
+        currPlayer.addWeaponCard(weaponCard);
+    }
+
+    public WeaponCard swapWeapon(WeaponCard grabbedWeapon, int droppedWeaponID) throws InvalidWeaponException {
+        WeaponCard droppedWeapon = playersMap.get(currentTurnPlayer).getWeaponCard(droppedWeaponID);
+        if(droppedWeapon == null) throw new InvalidWeaponException();
+        playersMap.get(currentTurnPlayer).removeWeaponCard(droppedWeapon);
+        try { grabWeapon(grabbedWeapon); } catch (Exception e) {}
+        return droppedWeapon;
+    }
+
+    public String consumePowerup(int powerUpID){
+        PowerupCard card = playersMap.get(currentTurnPlayer).consumePower(powerUpID);
+        if(card == null) return "Invalid card selection!";
+        else{
+            deckPowerup.addToDiscarded(card);
+            return "OK";
+        }
     }
 }
 

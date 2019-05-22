@@ -19,45 +19,6 @@ public class Grab {
       *
       */
 
-/*
-    public static boolean grabAmmoCard(Player grabber){
-
-        AmmoCard grabbedAmmoTile;
-        int[] grabbedAmmoContent;
-        int[] oldAmmoContent;
-
-        grabbedAmmoTile=grabber.getLobby().getMap().getSquare(grabber.getPosition()).getAmmoTile();
-        if (grabbedAmmoTile==null)
-            return false;
-
-        grabbedAmmoContent=grabbedAmmoTile.getAmmoContent();
-        oldAmmoContent=grabber.getAmmoBox();
-
-
-        //4. Discard the tile. &&   1. Remove the ammo tile.
-        grabber.getLobby().getDeckAmmo().addToDiscarded(grabbedAmmoTile);
-        grabber.getLobby().getMap().getSquare(grabber.getPosition()).setAmmoTile(null);
-
-        //2. Move the depicted cubes into your ammo box.
-        for (int i=0;i<3;i++){
-            //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
-            oldAmmoContent[i]=grabbedAmmoContent[i]+oldAmmoContent[i];
-            if (oldAmmoContent[i]>3)
-                oldAmmoContent[i]=3;
-        }
-        grabber.addAmmoBox(oldAmmoContent);
-
-        //3. If the tile depicts a powerup card, draw one.
-        if (grabbedAmmoContent[3]!=0){
-            grabPowerup(grabber);
-        }
-
-        return true;
-
-    }*/
-
-
-
 
      /**
       * For Grab WeaponCard in Map SquareAmmo,Only for this player do not have to Switch
@@ -79,7 +40,7 @@ public class Grab {
         gotWeaponCard=grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCardFromDeck(numWeapon);
         if (gotWeaponCard != null &&
                 grabber.getWeaponCard().size()<3 &&
-                payForWeapon(grabber,gotWeaponCard,gotWeaponCard.getGratisAmmo(),discardPowerup)) {
+                payForWeapon(grabber,gotWeaponCard,gotWeaponCard.getFreeAmmo(),discardPowerup)) {
             grabber.addWeaponCard(gotWeaponCard);
             grabber.getLobby().getMap().getSquare(grabber.getPosition()).removeWeaponCardFromDeck(numWeapon);
             return true;
@@ -87,9 +48,6 @@ public class Grab {
         else
             return false;
     }*/
-
-
-
 
      /**
       * For Grab WeaponCard in Map SquareAmmo
@@ -112,10 +70,10 @@ public class Grab {
 
         gotWeaponCard=grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCardFromDeck(numWeapon);
         if ( gotWeaponCard != null &&
-                payForWeapon(grabber,gotWeaponCard,gotWeaponCard.getGratisAmmo(),discardPowerup)){
+                payForWeapon(grabber,gotWeaponCard,gotWeaponCard.getFreeAmmo(),discardPowerup)){
             exchangeWeapon=grabber.getWeaponCard().remove(numWeaponSwitch);
             grabber.getLobby().getMap().getSquare(grabber.getPosition()).removeWeaponCardFromDeck(numWeapon);
-            grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCards().add(exchangeWeapon);
+            grabber.getLobby().getMap().getSquare(grabber.getPosition()).getWeaponCard().add(exchangeWeapon);
             grabber.getWeaponCard().add(gotWeaponCard);
             return true;
         }
@@ -123,6 +81,7 @@ public class Grab {
             return false;
 
     }*/
+
 
 
 
