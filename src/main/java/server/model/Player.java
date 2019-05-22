@@ -20,11 +20,13 @@ public class Player {
     private Avatar avatar;
     private Lobby lobby;
     private int[] ammoBox;
+    private int[] tempAmmoBox;
     private ArrayList<Player> damage;    //use a ArrayList for index the source of damage
     private ArrayList<Player> mark;
-    private ArrayList<PowerupCard> powerup;
-    private ArrayList<WeaponCard> weaponCard;
-    private int score;  // Put here,when ScoreBoard is finished, delete it
+    private ArrayList<PowerupCard> powerupCards;
+    private ArrayList<WeaponCard> weaponCards;
+    private int score;
+
 
     private int position;
     private int oldPosition;  //Last position
@@ -43,8 +45,8 @@ public class Player {
     //costruttore temporaneo per fare buildare il progetto
     public Player(String avatar, Color color, Lobby lobby){
         damage = new ArrayList<>();
-        powerup = new ArrayList<>();
-        weaponCard = new ArrayList<>();
+        powerupCards = new ArrayList<>();
+        weaponCards = new ArrayList<>();
         mark = new ArrayList<>();
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
@@ -58,8 +60,8 @@ public class Player {
     public Player(Avatar avatar){
         this.avatar = avatar;
         damage = new ArrayList<>();
-        powerup = new ArrayList<>();
-        weaponCard = new ArrayList<>();
+        powerupCards = new ArrayList<>();
+        weaponCards = new ArrayList<>();
         mark = new ArrayList<>();
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
@@ -148,12 +150,12 @@ public class Player {
      *
      * For remove Power Card for this player.
      *
-     * @param powerup The reference of the powerup to be removed
+     * @param powerup The reference of the powerupCards to be removed
      *
      */
 
     void removePowerup(PowerupCard powerup) {
-        this.powerup.remove(powerup);
+        this.powerupCards.remove(powerup);
     }
 
 
@@ -361,29 +363,31 @@ public class Player {
 
 
 
-    public ArrayList<WeaponCard> getWeaponCard() {
-        return weaponCard;
+    public ArrayList<WeaponCard> getWeaponCards() {
+        return weaponCards;
     }
 
-
-    public void addWeaponCard(WeaponCard weaponCard) {
-
-        this.weaponCard.add(weaponCard);
-
+    public WeaponCard getWeaponCard(int weaponID){
+        for(WeaponCard wc : weaponCards){
+            if(wc.getWeaponID() == weaponID) return wc;
+        }
+        return null;
     }
+
+    public void addWeaponCard(WeaponCard weaponCard) { weaponCards.add(weaponCard); }
+
+    public boolean removeWeaponCard(WeaponCard weaponCard) { return weaponCards.remove(weaponCard);}
+
+    public int getPosition(){ return this.position;}
 
     public void setPosition(int position) {
         this.oldPosition = this.position;
         this.position = position;
     }
 
+    public int getOldPosition() { return this.oldPosition; }
 
-    public void deletePowerup(PowerupCard powerup) {
-
-        this.getPowerup().remove(powerup);
-    }
-
-    public int getPosition(){ return this.position;}
+    public void deletePowerup(PowerupCard powerup) { powerupCards.remove(powerup); }
 
 
     public int getAdrenalineState() { return adrenalineState;}
@@ -392,30 +396,58 @@ public class Player {
         return ammoBox;
     }
 
-    public void setAmmoBox(int[] ammoBox) {
-        this.ammoBox = ammoBox;
+    public void addAmmoBox(int[] grabbedAmmoBox) {
+        for (int i = 0; i < 3; i++) {
+            //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
+            ammoBox[i] = (ammoBox[i] + grabbedAmmoBox[i] <= 3)? ammoBox[i] + grabbedAmmoBox[i] : 3;
+        }
     }
 
-    public int getOldPosition() {
+    public boolean canPayCost(int[] ammoCost){
+        for(int i=0; i<3; i++){
+            if(ammoCost[i] > (ammoBox[i] + tempAmmoBox[i])) return false;
+        }
+        return true;
+    }
 
-        return this.oldPosition;
+    public void payCost(int[] ammoCost){
+        for(int i=0; i<3; i++){
+            if(tempAmmoBox[i] - ammoCost[i] < 0){
+                ammoBox[i] -= (tempAmmoBox[i] - ammoCost[i]);
+                tempAmmoBox[i] = 0;
+            }else{
+                tempAmmoBox[i] -= ammoCost[i];
+            }
+        }
+    }
+
+    public PowerupCard consumePower(int powerUpID){
+        for(PowerupCard pwc : powerupCards){
+            if(pwc.getPowerUpId() == powerUpID){
+                switch (pwc.getColor()){
+                    case RED: tempAmmoBox[0]++; break;
+                    case BLUE: tempAmmoBox[1]++; break;
+                    case YELLOW: tempAmmoBox[2]++; break;
+                }
+                return pwc;
+            }
+        }
+        return null;
     }
 
 
-    public void addPowerup(PowerupCard newPowerUpCard) {
+    public void addPowerup(PowerupCard newPowerUpCard) {this.powerupCards.add(newPowerUpCard); }
 
-        if (this.powerup.size()<3)
-            this.powerup.add(newPowerUpCard);
-    }
-
+    public int getPowerupHandSize(){return powerupCards.size();}
+    public int getWeaponHandSize(){return weaponCards.size();}
 
     public ArrayList<Player> getDamageTrack() {
         return damage;
     }
 
 
-    public ArrayList<PowerupCard> getPowerup() {
-        return powerup;
+    public ArrayList<PowerupCard> getPowerupCards() {
+        return powerupCards;
     }
 
 
@@ -425,8 +457,8 @@ public class Player {
                 ", lobby=" + lobby +
                 ", ammoBox=" + Arrays.toString(ammoBox) +
                 ", damage=" + damage +
-                ", powerup=" + powerup +
-                ", weaponCard=" + weaponCard +
+                ", powerupCards=" + powerupCards +
+                ", weaponCards=" + weaponCards +
                 ", mark=" + mark +
                 ", position=" + position +
                 ", oldPosition=" + oldPosition +

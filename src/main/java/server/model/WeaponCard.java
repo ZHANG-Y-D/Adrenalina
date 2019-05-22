@@ -17,9 +17,10 @@ import java.util.Arrays;
 
 public class WeaponCard {
 
+    private int weaponID;
     private final String name;
-    private final int[] ammoCost;     //Seq : red blue yellow powerup
-    private final Color gratisAmmo;
+    private final int[] ammoCost;     //Seq : red blue yellow
+    private final Color freeAmmo;
     private final String manual;
     private boolean loaded;     //true:loaded, false: not ready loaded. Initial state is true.
     private final int numWeaponCard;
@@ -29,7 +30,7 @@ public class WeaponCard {
     public WeaponCard(String name, int[] ammoCost, Color gratisAmmo, String manual, int numWeaponCard, ArrayList<Firemode> firemodes) {
         this.name = name;
         this.ammoCost = ammoCost;
-        this.gratisAmmo = gratisAmmo;
+        this.freeAmmo = gratisAmmo;
         this.manual = manual;
         this.loaded = true;
         this.numWeaponCard = numWeaponCard;
@@ -44,8 +45,8 @@ public class WeaponCard {
         return ammoCost;
     }
 
-    public Color getGratisAmmo() {
-        return gratisAmmo;
+    public Color getFreeAmmo() {
+        return freeAmmo;
     }
 
     public boolean isLoaded() {
@@ -69,7 +70,7 @@ public class WeaponCard {
         String string = "WeaponCard{" +
                 "name='" + name + '\'' +
                 ", ammoCost=" + Arrays.toString(ammoCost) +
-                ", gratisAmmo=" + gratisAmmo +
+                ", freeAmmo=" + freeAmmo +
                 ", manual='" + manual + '\'' +
                 ", loaded=" + loaded +
                 ", numWeaponCard=" + numWeaponCard;
@@ -85,5 +86,5 @@ public class WeaponCard {
     }
 
 
-
+    public int getWeaponID() { return weaponID; }
 }

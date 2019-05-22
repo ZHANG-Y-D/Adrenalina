@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,11 +8,11 @@
    <children>
       <TextField fx:id="host" layoutX="291.0" layoutY="302.0" prefWidth="168.0" promptText="Host" />
       <TextField fx:id="port" layoutX="291.0" layoutY="339.0" prefWidth="168.0" promptText="Port" />
-      <Button fx:id="rmi" layoutX="247.0" layoutY="405.0" mnemonicParsing="false" onAction="#RMISelected" prefHeight="45.0" prefWidth="94.0" text="RMI" />
-      <Button fx:id="socket" layoutX="414.0" layoutY="406.0" mnemonicParsing="false" onAction="#SocketSelected" prefHeight="45.0" prefWidth="94.0" text="SOCKET" />
+      <Button fx:id="rmi" layoutX="247.0" layoutY="405.0" onAction="#RMISelected" prefHeight="45.0" prefWidth="94.0" text="RMI" />
+      <Button fx:id="socket" layoutX="414.0" layoutY="406.0" onAction="#SocketSelected" prefHeight="45.0" prefWidth="94.0" text="SOCKET" />
       <TextField fx:id="name" layoutX="291.0" layoutY="325.0" prefWidth="168.0" promptText="Nickname" visible="false" />
-      <Button fx:id="search" layoutX="317.0" layoutY="405.0" mnemonicParsing="false" onAction="#createClient" prefHeight="45.0" prefWidth="117.0" text="SEARCH GAME" visible="false" />
-      <Button fx:id="close" layoutX="718.0" layoutY="-6.0" mnemonicParsing="false" onAction="#close" text="X" />
+      <Button fx:id="search" layoutX="317.0" layoutY="405.0" onAction="#createClient" prefHeight="45.0" prefWidth="117.0" text="SEARCH GAME" visible="false" />
+      <Button fx:id="close" layoutX="718.0" layoutY="-6.0" onAction="#close" text="X" />
    </children>
    <stylesheets>
       <URL value="@InitialView.css" />

@@ -26,6 +26,10 @@ public class SelectionViewController {
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),60);
         title.setFont(font);
         next.setFont(font);
+        map1.getStyleClass().add("map");
+        map2.getStyleClass().add("map");
+        map3.getStyleClass().add("map");
+        map4.getStyleClass().add("map");
     }
 
     public void nextImage(){

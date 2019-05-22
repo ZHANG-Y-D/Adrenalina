@@ -1,5 +1,8 @@
 package client;
 
+import client.view.ClientGui;
+import javafx.application.Application;
+
 import java.util.Scanner;
 
 public class GameClient {
@@ -43,9 +46,7 @@ public class GameClient {
             //TODO OPEN CLI
 
         } else if (input.equalsIgnoreCase("gui")) {
-
-            //TODO OPEN GUI
-
+            Application.launch(ClientGui.class);
         } else
             return false;
 

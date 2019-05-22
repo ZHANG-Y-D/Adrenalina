@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Represents the map during a Game.
  * <p>
- *     The map is represented by a matrix of Square objects.
+ *     The map is represented by a matrix of SquareAmmo objects.
  *     The methods receive the index of the square
  *     as a number from 0 to (#rows * #columns -1) and if it's
  *     necessary it'll be converted in x and y coordinates.
@@ -41,18 +41,18 @@ public class Map {
 
 
     /**
-     * Use x,y coordinate to get Square
+     * Use x,y coordinate to get SquareAmmo
      *
-     * @return  the Square
+     * @return  the SquareAmmo
      */
 
     public Square getSquare(int x, int y) { return mapSquares[x][y]; }
 
 
     /**
-     * Use Int Position to get Square
+     * Use Int Position to get SquareAmmo
      *
-     * @return  the Square
+     * @return  the SquareAmmo
      */
 
     public Square getSquare(int pos) { return mapSquares[pos/columns][pos%columns]; }
@@ -97,10 +97,10 @@ public class Map {
             for(int j = oldSize; j < size; j++){
                 nodeX = validSquares.get(j) % columns;
                 nodeY = validSquares.get(j)/columns;
-                if((nodeX+1 < columns)&&(nodeX+1 >= 0)&&(mapSquares[nodeY][nodeX+1].getColor() != Color.BLACK)&&(!isWall(nodeX,nodeY,nodeX+1,nodeY))) validSquares.add((nodeY*4) + (nodeX+1));
-                if((nodeX-1 < columns)&&(nodeX-1 >= 0)&&(mapSquares[nodeY][nodeX-1].getColor() != Color.BLACK)&&(!isWall(nodeX,nodeY,nodeX-1,nodeY))) validSquares.add(nodeY*4 + nodeX-1);
-                if((nodeY+1 < rows)&&(nodeY+1 >= 0)&&(mapSquares[nodeY+1][nodeX].getColor() != Color.BLACK)&&(!isWall(nodeX,nodeY,nodeX,nodeY+1))) validSquares.add((nodeY+1)*4 + nodeX);
-                if((nodeY-1 < rows)&&(nodeY-1 >= 0)&&(mapSquares[nodeY-1][nodeX].getColor() != Color.BLACK)&&(!isWall(nodeX,nodeY,nodeX,nodeY-1))) validSquares.add((nodeY-1)*4 + nodeX);
+                if((nodeX+1 < columns)&&(nodeX+1 >= 0)&&(!isEmptySquare(nodeY*4 + nodeX+1))&&(!isWall(nodeX,nodeY,nodeX+1,nodeY))) validSquares.add((nodeY*4) + (nodeX+1));
+                if((nodeX-1 < columns)&&(nodeX-1 >= 0)&&(!isEmptySquare(nodeY*4 + nodeX-1))&&(!isWall(nodeX,nodeY,nodeX-1,nodeY))) validSquares.add(nodeY*4 + nodeX-1);
+                if((nodeY+1 < rows)&&(nodeY+1 >= 0)&&(!isEmptySquare((nodeY+1)*4 + nodeX)&&(!isWall(nodeX,nodeY,nodeX,nodeY+1)))) validSquares.add((nodeY+1)*4 + nodeX);
+                if((nodeY-1 < rows)&&(nodeY-1 >= 0)&&(!isEmptySquare((nodeY-1)*4 + nodeX))&&(!isWall(nodeX,nodeY,nodeX,nodeY-1))) validSquares.add((nodeY-1)*4 + nodeX);
             }
             validSquares = (ArrayList<Integer>) validSquares.stream().distinct().collect(Collectors.toList());
             oldSize = size;
@@ -194,9 +194,6 @@ public class Map {
         return mapSquares[pos/columns][pos%columns].getColor() == Color.BLACK;
     }
 
-
-    public boolean isSpawnSquare(int pos){ return mapSquares[pos/columns][pos%columns].isSpawn();}
-    public ArrayList<WeaponCard> getSquareWeapons(int pos){ return mapSquares[pos/columns][pos%columns].getWeaponCards();}
 
     @Override
     public String toString() {

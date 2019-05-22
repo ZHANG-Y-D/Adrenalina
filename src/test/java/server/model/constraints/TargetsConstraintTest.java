@@ -57,7 +57,7 @@ class TargetsConstraintTest {
         targets.get(1).setPosition(7);
         targets.get(2).setPosition(7);
         assertFalse(constraint.checkConst(shooter, targets, map));
-        /*Same SquareTest */
+        /*Same SquareAmmoTest */
         constraint = new SameSquareConstraint();
         targets.get(0).setPosition(1);
         targets.get(1).setPosition(5);

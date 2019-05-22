@@ -16,52 +16,52 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
     }
 
     @Override
-    public void runAction(String clientID) {
-
+    public String runAction(String clientID) {
+        return lobbyRelay.runAction(clientID);
     }
 
     @Override
-    public void grabAction(String clientID) {
-
+    public String grabAction(String clientID) {
+        return lobbyRelay.grabAction(clientID);
     }
 
     @Override
-    public void shootAction(String clientID) {
-
+    public String shootAction(String clientID) {
+        return lobbyRelay.shootAction(clientID);
     }
 
     @Override
-    public void selectPlayers(String clientID, ArrayList<Color> playersColor) {
-
+    public String selectPlayers(String clientID, ArrayList<Color> playersColor) {
+        return lobbyRelay.selectPlayers(clientID,playersColor);
     }
 
     @Override
-    public void selectSquare(String clientID, int index) {
-
+    public String selectSquare(String clientID, int index) {
+        return lobbyRelay.selectSquare(clientID,index);
     }
 
     @Override
-    public void selectPowerUp(String clientID, int powerupID) {
-
+    public String selectPowerUp(String clientID, int powerupID) {
+        return lobbyRelay.selectPowerUp(clientID,powerupID);
     }
 
     @Override
-    public void selectWeapon(String clientID, int weaponID) {
-
+    public String selectWeapon(String clientID, int weaponID) {
+        return lobbyRelay.selectWeapon(clientID,weaponID);
     }
 
     @Override
-    public void endOfTurnAction(String clientID) {
-
+    public String endOfTurnAction(String clientID) {
+        return lobbyRelay.endOfTurnAction(clientID);
     }
 
     @Override
-    public void selectAvatar(String clientID, Color color) {
-
+    public String selectAvatar(String clientID, Color color) {
+        return lobbyRelay.selectAvatar(clientID,color);
     }
 
     @Override
-    public void selectMap(String clientID, int mapID) {
-
+    public String selectMap(String clientID, int mapID) {
+        return lobbyRelay.selectMap(clientID,mapID);
     }
 }

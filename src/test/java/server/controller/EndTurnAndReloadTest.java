@@ -24,14 +24,14 @@ public class EndTurnAndReloadTest {
         WeaponCard weaponCard = new WeaponCard("test",new int[]{3,3,3},Color.YELLOW,"Test",2,null);
 
         player.addWeaponCard(weaponCard);
-        player.getWeaponCard().get(0).setLoaded(false);
-        player.setAmmoBox(new int[]{3,3,3});
+        player.getWeaponCards().get(0).setLoaded(false);
+        player.addAmmoBox(new int[]{3,3,3});
 
         assertTrue(EndTurnAndReload.reloadWeapon(player,0,null));
 
         //Try pay with Poeerup
-        player.getWeaponCard().get(0).setLoaded(false);
-        player.setAmmoBox(new int[]{0,3,3});
+        player.getWeaponCards().get(0).setLoaded(false);
+        player.addAmmoBox(new int[]{0,3,3});
         PowerupCard powerupCard = new PowerupCard("test",Color.RED,"Test",true,2);
 
         discardPowerup = new ArrayList<>();

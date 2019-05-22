@@ -4,9 +4,7 @@ import client.RMIClient;
 import client.SocketClient;
 import client.view.ConfirmBox;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -28,15 +26,15 @@ public class InitialViewController {
 
     public void RMISelected(){
         choice = 0;
-        change();
+        changeScene();
     }
 
     public void SocketSelected(){
         choice = 1;
-        change();
+        changeScene();
     }
 
-    public void change(){
+    public void changeScene(){
         rmi.setVisible(false);
         socket.setVisible(false);
         host.setVisible(false);

@@ -2,68 +2,83 @@
   "mapSquares": [
     [
       {
-        "color": "blue",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "blue"
+        }
       },
       {
-        "color": "blue",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "blue"
+        }
       },
       {
-        "color": "blue",
-        "spawn": true,
-        "weaponCards": []
+        "type": "server.model.SquareSpawn",
+        "properties": {
+          "color": "blue",
+          "weaponCards": []
+        }
       },
       {
-        "color": "black",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "black"
+        }
       }
     ],
     [
       {
-        "color": "red",
-        "spawn": true,
-        "weaponCards": []
+        "type": "server.model.SquareSpawn",
+        "properties": {
+          "color": "red",
+          "weaponCards": []
+        }
       },
       {
-        "color": "red",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "red"
+        }
       },
       {
-        "color": "red",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "red"
+        }
       },
       {
-        "color": "yellow",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "yellow"
+        }
       }
     ],
     [
       {
-        "color": "black",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "black"
+        }
       },
       {
-        "color": "white",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "white"
+        }
       },
       {
-        "color": "white",
-        "spawn": false,
-        "weaponCards": []
+        "type": "server.model.SquareAmmo",
+        "properties": {
+          "color": "white"
+        }
       },
       {
-        "color": "yellow",
-        "spawn": true,
-        "weaponCards": []
+        "type": "server.model.SquareSpawn",
+        "properties": {
+          "color": "yellow",
+          "weaponCards": []
+        }
       }
     ]
   ],

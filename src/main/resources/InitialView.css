@@ -33,3 +33,6 @@
 #close:hover{
     -fx-highlight-text-fill: black;
 }
+.map:hover{
+    -fx-cursor: hand;
+}
