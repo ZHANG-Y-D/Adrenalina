@@ -53,7 +53,8 @@ public class SelectActionState implements GameState {
     }
 
     @Override
-    public String selectPowerUp(int powerUpID) { return "Select an action!"; }
+    public String selectPowerUp(int powerUpID) { //TODO
+         return null; }
 
     @Override
     public String selectWeapon(int weaponID) {
@@ -76,4 +77,5 @@ public class SelectActionState implements GameState {
 
     @Override
     public String selectMap(int mapID, String voterID) { return "KO"; }
+
 }

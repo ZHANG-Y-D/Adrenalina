@@ -27,6 +27,7 @@ public class Player {
     private ArrayList<WeaponCard> weaponCards;
     private int score;
 
+
     private int position;
     private int oldPosition;  //Last position
     private int adrenalineState;  //This's an attribute for index how much steps this player can move
