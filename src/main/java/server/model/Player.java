@@ -24,7 +24,7 @@ public class Player {
     private ArrayList<Player> mark;
     private ArrayList<PowerupCard> powerup;
     private ArrayList<WeaponCard> weaponCard;
-    private int score;
+    private int score;  // Put here,when ScoreBoard is finished, delete it
 
     private int position;
     private int oldPosition;  //Last position
