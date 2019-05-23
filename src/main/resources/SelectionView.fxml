@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Tooltip.*?>
 
-<Pane fx:id="pane1" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.SelectionViewController">
+<Pane fx:id="pane1" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.SelectionViewController">
    <children>
-      <Label fx:id="title" alignment="CENTER" layoutX="300.0" prefHeight="150.0" prefWidth="600.0" text="SELECT AVATAR" textAlignment="CENTER" textFill="#ffffff"/>
-      <ImageView fx:id="avatar4" fitHeight="185.0" fitWidth="126.0" layoutX="440.0" layoutY="153.0">
+      <Label fx:id="title" alignment="CENTER" layoutX="340.0" prefHeight="150.0" prefWidth="600.0" text="SELECT AVATAR" textAlignment="CENTER" textFill="#ffffff" />
+      <ImageView fx:id="avatar4" fitHeight="185.0" fitWidth="150.0" layoutX="460.0" layoutY="153.0">
          <image>
             <Image url="@Avatars/SPROG_FULL.png" />
          </image>
@@ -18,7 +20,7 @@
             <GaussianBlur radius="3.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="avatar3" fitHeight="185.0" fitWidth="126.0" layoutX="634.0" layoutY="153.0">
+      <ImageView fx:id="avatar3" fitHeight="185.0" fitWidth="150.0" layoutX="670.0" layoutY="153.0">
          <image>
             <Image url="@Avatars/VIOLET_FULL.png" />
          </image>
@@ -26,7 +28,7 @@
             <GaussianBlur radius="3.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="avatar2" fitHeight="333.0" fitWidth="299.0" layoutX="665.0" layoutY="218.0">
+      <ImageView fx:id="avatar2" fitHeight="333.0" fitWidth="271.0" layoutX="729.0" layoutY="218.0">
          <image>
             <Image url="@Avatars/DOZER_FULL.png" />
          </image>
@@ -34,7 +36,7 @@
             <GaussianBlur radius="2.5" />
          </effect>
       </ImageView>
-      <ImageView fx:id="avatar5" fitHeight="333.0" fitWidth="299.0" layoutX="246.0" layoutY="218.0">
+      <ImageView fx:id="avatar5" fitHeight="333.0" fitWidth="271.0" layoutX="280.0" layoutY="218.0">
          <image>
             <Image url="@Avatars/BANSHEE_FULL.png" />
          </image>
@@ -42,41 +44,57 @@
             <GaussianBlur radius="2.5" />
          </effect>
       </ImageView>
-      <ImageView fx:id="avatar1" fitHeight="484.0" fitWidth="363.0" layoutX="418.0" layoutY="275.0">
+      <ImageView fx:id="avatar1" fitHeight="484.0" fitWidth="394.0" layoutX="443.0" layoutY="260.0">
          <image>
             <Image url="@Avatars/DSTRUCTOR-FULL.png" />
          </image>
       </ImageView>
-      <Button fx:id="ok" layoutX="217.0" layoutY="630.0" onAction="#changeScene" prefHeight="70.0" prefWidth="100.0" text="OK">
+      <Button fx:id="ok" layoutX="320.0" layoutY="620.0" onAction="#changeScene" prefHeight="70.0" prefWidth="100.0" text="OK">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-      <Button fx:id="next" layoutX="839.0" layoutY="630.0" onAction="#nextImage" prefHeight="70.0" prefWidth="100.0" text=">">
+      <Button fx:id="next" layoutX="860.0" layoutY="620.0" onAction="#nextImage" prefHeight="70.0" prefWidth="100.0" text="&gt;">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-      <ImageView fx:id="map1" fitHeight="310.0" fitWidth="400.0" layoutX="150.0" layoutY="130.0" visible="false">
-         <image>
-            <Image url="@Maps/MAP1.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="map2" fitHeight="310.0" fitWidth="400.0" layoutX="650.0" layoutY="130.0" visible="false">
-         <image>
-            <Image url="@Maps/MAP2.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="map3" fitHeight="310.0" fitWidth="400.0" layoutX="150.0" layoutY="470.0" visible="false">
-         <image>
-            <Image url="@Maps/MAP3.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="map4" fitHeight="310.0" fitWidth="400.0" layoutX="650.0" layoutY="470.0" visible="false">
-         <image>
-            <Image url="@Maps/MAP4.png" />
-         </image>
-      </ImageView>
+      <StackPane fx:id="stack1" layoutX="205.0" layoutY="115.0" visible="false">
+         <children>
+            <ImageView fx:id="map1" fitHeight="300.0" fitWidth="395.0" onMouseEntered="#mapHover" onMouseExited="#mapDefault">
+               <image>
+                  <Image url="@Maps/MAP1.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+      <StackPane fx:id="stack2" layoutX="680.0" layoutY="115.0" visible="false">
+         <children>
+            <ImageView fx:id="map2" fitHeight="300.0" fitWidth="395.0" onMouseEntered="#mapHover" onMouseExited="#mapDefault">
+               <image>
+                  <Image url="@Maps/MAP2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+      <StackPane fx:id="stack3" layoutX="205.0" layoutY="440.0" visible="false">
+         <children>
+            <ImageView fx:id="map3" fitHeight="300.0" fitWidth="395.0" onMouseEntered="#mapHover" onMouseExited="#mapDefault">
+               <image>
+                  <Image url="@Maps/MAP3.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+      <StackPane fx:id="stack4" layoutX="680.0" layoutY="440.0" visible="false">
+         <children>
+            <ImageView fx:id="map4" fitHeight="300.0" fitWidth="395.0" onMouseEntered="#mapHover" onMouseExited="#mapDefault">
+               <image>
+                  <Image url="@Maps/MAP4.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
    </children>
    <stylesheets>
       <URL value="@InitialView.css" />

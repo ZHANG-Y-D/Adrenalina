@@ -18,7 +18,7 @@ public class ClientGui extends Application {
         window.setTitle("Adrenalina");
         window.setResizable(false);
         window.initStyle(StageStyle.UNDECORATED);
-        window.setScene(new Scene(root, 1200, 800));
+        window.setScene(new Scene(root, 1280, 768));
         window.show();
     }
 

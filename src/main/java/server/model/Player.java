@@ -428,6 +428,7 @@ public class Player {
                     case BLUE: tempAmmoBox[1]++; break;
                     case YELLOW: tempAmmoBox[2]++; break;
                 }
+                powerupCards.remove(pwc);
                 return pwc;
             }
         }

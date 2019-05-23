@@ -33,6 +33,11 @@
 #close:hover{
     -fx-highlight-text-fill: black;
 }
+.stack{
+    -fx-padding: 4;
+    -fx-background-radius: 4;
+    -fx-background-color: #A9A8AF;
+}
 .map:hover{
     -fx-cursor: hand;
 }
