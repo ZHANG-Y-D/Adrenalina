@@ -5,7 +5,7 @@ import com.google.gson.JsonIOException;
 import server.LobbyAPI;
 import server.controller.states.GameState;
 import server.controller.states.*;
-import server.exceptions.InvalidWeaponException;
+import server.exceptions.InvalidCardException;
 import server.exceptions.NotEnoughAmmoException;
 import server.exceptions.WeaponHandFullException;
 import server.model.Map;
@@ -23,24 +23,22 @@ public class Lobby implements Runnable, LobbyAPI {
     private LinkedHashMap<String, Client> clientMap;
     private HashMap <String, Player> playersMap;
     private HashMap <Color, Player> playersColor;
-    private ArrayList<Player> playersList;
-    private String currentTurnPlayer;
     private GameState currentState;
+    private String currentTurnPlayer;
+    private String nextTurnPlayer;
 
     private Map map;
     private ScoreBoard scoreBoard;
     private DeckWeapon deckWeapon;
     private DeckAmmo deckAmmo;
     private DeckPowerup deckPowerup;
+    private ArrayList<String> deadPlayers;
 
 
 
     public Lobby(ArrayList<Client> clients) {
         lobbyID = UUID.randomUUID().toString();
         clientMap = new LinkedHashMap<>();
-
-        //ZHANG has added this try-catch for NullPointerException
-        //If not necessary，Delete it and retest Test code,add clients parameter
         try {
             for(Client c : clients){
                 clientMap.put(c.getClientID(),c);
@@ -50,12 +48,12 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         playersMap = new HashMap<>();
         playersColor = new HashMap<>();
-        playersList = new ArrayList<>();
 
         scoreBoard = new ScoreBoard();
         deckWeapon = new DeckWeapon();
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
+        deadPlayers = new ArrayList<>();
         try{
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Avatar.json");
@@ -110,10 +108,6 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public Map getMap() {
         return map;
-    }
-
-    public ArrayList<Player> getPlayersList() {
-        return playersList;
     }
 
     public DeckPowerup getDeckPowerup() {
@@ -202,17 +196,30 @@ public class Lobby implements Runnable, LobbyAPI {
         return playersMap.get(currentTurnPlayer).getAdrenalineState();
     }
 
-    public void endTurn(){
-        currentState = new SelectActionState(this, 0);
-        nextPlayer();
+    public synchronized void endTurn(){
+        checkDeadPlayers();
+        if(deadPlayers.size() > 0){
+            String dead = deadPlayers.get(0);
+            for(int i = 1; i<deadPlayers.size();i++) deadPlayers.set(i-1, deadPlayers.get(i));
+            deadPlayers.remove(deadPlayers.size()-1);
+            //NOTE: this is to preserve the same order of players between respawns and regular turns
+            playersMap.get(dead).addPowerupCard(deckPowerup.draw());
+            currentTurnPlayer = dead;
+            currentState = new RespawnState(this);
+        }else {
+            currentState = new SelectActionState(this, 0);
+            nextPlayer();
+        }
     }
 
-    public void nextPlayer(){
+    private synchronized void nextPlayer(){
+        currentTurnPlayer = nextTurnPlayer;
+
         Iterator<String> itr = clientMap.keySet().iterator();
         String temp = itr.next();
         while (!temp.equals(currentTurnPlayer)) temp= itr.next();
-        if (itr.hasNext()) currentTurnPlayer = itr.next();
-        else currentTurnPlayer = clientMap.keySet().iterator().next();
+        if (itr.hasNext()) nextTurnPlayer = itr.next();
+        else nextTurnPlayer = clientMap.keySet().iterator().next();
     }
 
     public synchronized void initCurrentPlayer(Avatar chosen){
@@ -236,10 +243,25 @@ public class Lobby implements Runnable, LobbyAPI {
         }
     }
 
+    private void checkDeadPlayers(){
+        for(String s : clientMap.keySet()){
+            if(!playersMap.get(s).isAlive()) deadPlayers.add(s);
+        }
+    }
+
     public ArrayList<Integer> sendCurrentPlayerValidSquares(int range){
         ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
         //TODO sends list to client
         return validSquares;
+    }
+
+    public void respawnWithPowerup(int powerupID) throws InvalidCardException {
+        Player currPlayer = playersMap.get(currentTurnPlayer);
+        PowerupCard discardedPowerup = currPlayer.getPowerupCard(powerupID);
+        if(discardedPowerup == null) throw new InvalidCardException();
+        currPlayer.setPosition(map.getSpawnIndex(discardedPowerup.getColor()));
+        currPlayer.removePowerupCard(discardedPowerup);
+        deckPowerup.addToDiscarded(discardedPowerup);
     }
 
     public void movePlayer(int squareIndex){
@@ -265,7 +287,7 @@ public class Lobby implements Runnable, LobbyAPI {
             //Move the depicted cubes into your ammo box.
             currentPlayer.addAmmoBox(grabbedAmmoContent);
             //If the tile depicts a powerup card, draw one.
-            if (grabbedAmmoContent[3] != 0 && currentPlayer.getPowerupHandSize()<3) currentPlayer.addPowerup(deckPowerup.draw());
+            if (grabbedAmmoContent[3] != 0 && currentPlayer.getPowerupHandSize()<3) currentPlayer.addPowerupCard(deckPowerup.draw());
         }
         setState(new SelectActionState(this, actionNumber));
     }
@@ -288,9 +310,9 @@ public class Lobby implements Runnable, LobbyAPI {
         currPlayer.addWeaponCard(weaponCard);
     }
 
-    public WeaponCard swapWeapon(WeaponCard grabbedWeapon, int droppedWeaponID) throws InvalidWeaponException {
+    public WeaponCard swapWeapon(WeaponCard grabbedWeapon, int droppedWeaponID) throws InvalidCardException {
         WeaponCard droppedWeapon = playersMap.get(currentTurnPlayer).getWeaponCard(droppedWeaponID);
-        if(droppedWeapon == null) throw new InvalidWeaponException();
+        if(droppedWeapon == null) throw new InvalidCardException();
         playersMap.get(currentTurnPlayer).removeWeaponCard(droppedWeapon);
         try { grabWeapon(grabbedWeapon); } catch (Exception e) {}
         return droppedWeapon;

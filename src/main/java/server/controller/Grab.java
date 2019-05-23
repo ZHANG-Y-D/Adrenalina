@@ -104,7 +104,7 @@ public class Grab {
 
         int[] ammoCost;
         int[] ownAmmo;
-        int[] afterPay;
+
 
         //2. Pay the cost.
         ammoCost=gotWeaponCard.getAmmoCost().clone();
@@ -151,17 +151,17 @@ public class Grab {
             }
         }
 
-        afterPay=ownAmmo.clone();
+
         for (int j=0;j<3;j++){
 
-            afterPay[j]=ownAmmo[j]-ammoCost[j];
-            if (ownAmmo[j]<0) {
-                grabber.addAmmoBox(ownAmmo);
+
+            ownAmmo[j]=ownAmmo[j]-ammoCost[j];
+            if (ownAmmo[j]<0)
+
                 return false;
-            }
 
         }
-        grabber.addAmmoBox(afterPay);
+        grabber.addAmmoBox(ownAmmo);
         return true;
     }
 

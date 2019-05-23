@@ -2,22 +2,13 @@
 package server.model;
 
 
-/*
- *
- *
- *
- *  Responsible:Zhang Yuedong
- *
- *
- */
-
 public class PowerupCard {
 
     private String name;
     private Color color;
     private String manual;
     private boolean isUseInTurn;  //ture: you can use is in your turn; false:you can't use it in your turn
-    private int powerUpId;
+    private int powerupId;
 
 
     public PowerupCard(String name, Color color, String manual, boolean isUseInTurn, int powerUpId) {
@@ -25,10 +16,10 @@ public class PowerupCard {
         this.color = color;
         this.manual = manual;
         this.isUseInTurn = isUseInTurn;
-        this.powerUpId = powerUpId;
+        this.powerupId = powerUpId;
     }
 
-    public int getPowerUpId(){return powerUpId;}
+    public int getPowerupId(){return powerupId;}
 
     //Attention：to playIt,the Caller have to judgment good the condition,and then call it
     //fromPlayer is me, targetPlayer is who I want to attack mark or change position
@@ -62,14 +53,14 @@ public class PowerupCard {
        }
 
        thisPowerupCardOwner.getLobby().getDeckPowerup().addToDiscarded(this);
-       thisPowerupCardOwner.deletePowerup(this);
+       thisPowerupCardOwner.removePowerupCard(this);
 
     }
 
 
     public void discardPowerupCard(Player thisPowerupCardOwner){
 
-        thisPowerupCardOwner.removePowerup(this);
+        thisPowerupCardOwner.removePowerupCard(this);
         thisPowerupCardOwner.getLobby().getDeckPowerup().addToDiscarded(this);
 
     }
@@ -85,7 +76,7 @@ public class PowerupCard {
                 ", color='" + color + '\'' +
                 ", manual='" + manual + '\'' +
                 ", isUseInTurn=" + isUseInTurn +
-                ", powerUpId=" + powerUpId +
+                ", powerupId=" + powerupId +
                 '}';
     }
 }

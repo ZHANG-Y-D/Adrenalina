@@ -27,6 +27,7 @@ public class Player {
     private ArrayList<WeaponCard> weaponCards;
     private int score;
 
+
     private int position;
     private int oldPosition;  //Last position
     private int adrenalineState;  //This's an attribute for index how much steps this player can move
@@ -36,7 +37,7 @@ public class Player {
     private int numOfActions; //This's for index the times of action the player can choose.Max is 2.
                                 // When his turn is finished, This value will be reload at 2.
 
-    private boolean isAlive; //For index is this player still alive. It can help shooter count score
+    private boolean alive; //For index is this player still alive. It can help shooter count score
 
 
 
@@ -141,20 +142,6 @@ public class Player {
         //If  this player have mark, Put all of them to damage track
         return putMarkToDamageTrackAndClearThem();
 
-    }
-
-
-    /**
-     *
-     *
-     * For remove Power Card for this player.
-     *
-     * @param powerup The reference of the powerupCards to be removed
-     *
-     */
-
-    void removePowerup(PowerupCard powerup) {
-        this.powerupCards.remove(powerup);
     }
 
 
@@ -297,9 +284,9 @@ public class Player {
         };
 
 
-        playerToBeSort = (ArrayList<Player>) getLobby().getPlayersList().clone();
+        //playerToBeSort = (ArrayList<Player>) getLobby().getPlayersList().clone();
 
-        playerToBeSort.sort(comparator);
+        //playerToBeSort.sort(comparator);
 
 
         /*
@@ -386,9 +373,6 @@ public class Player {
 
     public int getOldPosition() { return this.oldPosition; }
 
-    public void deletePowerup(PowerupCard powerup) { powerupCards.remove(powerup); }
-
-
     public int getAdrenalineState() { return adrenalineState;}
 
     public int[] getAmmoBox() {
@@ -422,7 +406,7 @@ public class Player {
 
     public PowerupCard consumePower(int powerUpID){
         for(PowerupCard pwc : powerupCards){
-            if(pwc.getPowerUpId() == powerUpID){
+            if(pwc.getPowerupId() == powerUpID){
                 switch (pwc.getColor()){
                     case RED: tempAmmoBox[0]++; break;
                     case BLUE: tempAmmoBox[1]++; break;
@@ -436,9 +420,19 @@ public class Player {
     }
 
 
-    public void addPowerup(PowerupCard newPowerUpCard) {this.powerupCards.add(newPowerUpCard); }
+    public PowerupCard getPowerupCard(int powerupID){
+        for(PowerupCard puc : powerupCards){
+            if(puc.getPowerupId() == powerupID) return puc;
+        }
+        return null;
+    }
+
+    public void addPowerupCard(PowerupCard powerupCard) { powerupCards.add(powerupCard); }
+
+    public boolean removePowerupCard(PowerupCard powerupCard) { return powerupCards.remove(powerupCard);}
 
     public int getPowerupHandSize(){return powerupCards.size();}
+
     public int getWeaponHandSize(){return weaponCards.size();}
 
     public ArrayList<Player> getDamageTrack() {
@@ -465,5 +459,9 @@ public class Player {
                 ", adrenalineState=" + adrenalineState +
                 ", numOfActions=" + numOfActions +
                 '}';
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }
