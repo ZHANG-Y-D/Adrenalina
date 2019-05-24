@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="pane" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.InitialViewController">
+<Pane fx:id="pane" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.controller.InitialViewController">
    <children>
       <TextField fx:id="host" layoutX="291.0" layoutY="302.0" prefWidth="168.0" promptText="Host" />
       <TextField fx:id="port" layoutX="291.0" layoutY="339.0" prefWidth="168.0" promptText="Port" />
