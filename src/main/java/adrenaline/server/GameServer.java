@@ -35,15 +35,16 @@ public class GameServer {
             System.out.println("Setting up Socket Server...");
             SocketServerCommands SocketAdrenalineServer = new SocketServerCommands(this);
             new Thread(() -> {
+                ServerSocket serverSocket = null;
                 try {
-                    ServerSocket serverSocket = new ServerSocket(socketPort);
-                    while(true){
+                    serverSocket = new ServerSocket(socketPort);
+                }catch (IOException e) { e.printStackTrace(); }
+                while(true) {
+                    try {
                         Socket client = serverSocket.accept();
                         registerClient(new ClientSocketWrapper(client, SocketAdrenalineServer));
                         System.out.println("Client connected through Socket!");
-                    }
-                }catch (IOException e) {
-                    e.printStackTrace();
+                    } catch (IOException e) { e.printStackTrace(); }
                 }
             }).start();
 

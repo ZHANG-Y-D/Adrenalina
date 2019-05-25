@@ -8,7 +8,7 @@ import adrenaline.server.model.WeaponCard;
 import java.util.ArrayList;
 
 public class PlayerUpdateMessage implements UpdateMessage {
-    Player clientsidePlayer;
+    private Player clientsidePlayer;
 
     public PlayerUpdateMessage(adrenaline.server.model.Player serversidePlayer){
         ArrayList<Integer> weaponIDs = new ArrayList<>();

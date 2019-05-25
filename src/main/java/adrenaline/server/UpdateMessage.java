@@ -2,6 +2,8 @@ package adrenaline.server;
 
 import adrenaline.client.controller.Controller;
 
-public interface UpdateMessage {
+import java.io.Serializable;
+
+public interface UpdateMessage extends Serializable {
     void applyUpdate(Controller clientController);
 }
