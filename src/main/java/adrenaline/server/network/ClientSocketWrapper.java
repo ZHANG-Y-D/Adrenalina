@@ -30,7 +30,7 @@ public class ClientSocketWrapper implements Client {
         this.thisClient = newClient;
         this.active = true;
         this.serverCommands = serverCommands;
-        for(Method m : serverCommands.getClass().getMethods())methodsMap.put(m.getName(), serverCommands);
+        for(Method m : serverCommands.getClass().getDeclaredMethods())methodsMap.put(m.getName(), serverCommands);
         Scanner inputFromClient = new Scanner(thisClient.getInputStream());
         outputToClient = new PrintWriter(thisClient.getOutputStream());
         createListener(inputFromClient);
@@ -84,9 +84,11 @@ public class ClientSocketWrapper implements Client {
         return nickname;
     }
 
+    public void setActive(boolean active) { this.active = active; }
+
     public void setLobby(Lobby lobby) {
         this.inLobby=lobby;
-        for(Method m : inLobby.getClass().getMethods()) methodsMap.put(m.getName(), inLobby);
+        for(Method m : inLobby.getClass().getDeclaredMethods()) methodsMap.put(m.getName(), inLobby);
         setLobby(inLobby.getID());
     }
 

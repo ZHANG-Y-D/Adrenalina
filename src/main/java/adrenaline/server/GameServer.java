@@ -17,10 +17,10 @@ public class GameServer {
     private final int socketPort = 1100;
     private final int TIMEOUT_IN_SECONDS = 60;
 
-    private ArrayList<Client> clients;
-    private ArrayList<Client> clientsWaitingList;
-    private HashMap<String, Lobby> activeLobbies;
-    private HashMap<String, String> clientsLobbiesMap;
+    private final HashMap<String, Client> clients;
+    private final ArrayList<Client> clientsWaitingList;
+    private final HashMap<String, Lobby> activeLobbies;
+    private final HashMap<String, String> clientsLobbiesMap;
 
     public static void main(String args[]){
         new GameServer().lifeCycle();
@@ -54,11 +54,10 @@ public class GameServer {
             System.out.println("Error setting up adrenaline.server!");
             e.printStackTrace();
         }
-        clients = new ArrayList<>();
+        clients = new HashMap<>();
         clientsWaitingList = new ArrayList<>();
         clientsLobbiesMap = new HashMap<>();
         activeLobbies = new HashMap<>();
-        clientsLobbiesMap = new HashMap<>();
     }
 
     private void lifeCycle(){
@@ -72,6 +71,7 @@ public class GameServer {
                 System.out.println("3 OR MORE PLAYERS WAITING FOR GAME: SETTING TIMER FOR NEW LOBBY.");
                 long timestart = System.currentTimeMillis();
                 while(clientsWaitingList.size() < 5){
+                    if(clientsWaitingList.size() < 3) break;
                     long timeremaining = timestart + TIMEOUT_IN_SECONDS * 1000 - System.currentTimeMillis();
                     if(timeremaining <= 0) break;
                     else{
@@ -80,37 +80,43 @@ public class GameServer {
                         } catch (InterruptedException e) { }
                     }
                 }
-
-                Lobby newLobby = new Lobby(clientsWaitingList);
-                activeLobbies.put(newLobby.getID(), newLobby);
-                RMIexportLobby(newLobby);
-                for (Client c : clientsWaitingList) {
-                    clientsLobbiesMap.put(c.getClientID(), newLobby.getID());
-                    c.setLobby(newLobby);
+                if(clientsWaitingList.size() >= 3) {
+                    Lobby newLobby = new Lobby(clientsWaitingList);
+                    activeLobbies.put(newLobby.getID(), newLobby);
+                    RMIexportLobby(newLobby);
+                    for (Client c : clientsWaitingList) {
+                        clientsLobbiesMap.put(c.getClientID(), newLobby.getID());
+                        c.setLobby(newLobby);
+                    }
+                    new Thread(newLobby).start();
+                    clientsWaitingList.clear();
                 }
-                new Thread(newLobby).start();
-                clientsWaitingList.clear();
             }
         }
     }
 
 
     public void registerClient(Client c){
-        this.clients.add(c);
+        clients.put(c.getClientID(), c);
         synchronized (clientsWaitingList) {
             this.clientsWaitingList.add(c);
             clientsWaitingList.notifyAll();
         }
     }
 
-    public void unregisterClient(String c) { }
+    public void unregisterClient(String cID) {
+        Client c = clients.get(cID);
+        c.setActive(false);
+        synchronized (clientsWaitingList){
+            this.clientsWaitingList.remove(c);
+            clientsWaitingList.notifyAll();
+        }
+    }
 
     private void RMIexportLobby(Lobby lobby){
         try {
             LocateRegistry.getRegistry(rmiPort).bind("Game;"+lobby.getID(), new LobbyExportable(lobby));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (AlreadyBoundException e) {
+        } catch (RemoteException | AlreadyBoundException e) {
             e.printStackTrace();
         }
     }
