@@ -8,14 +8,13 @@ import java.util.UUID;
 
 public class ClientRMIWrapper implements Client {
     private final String clientID;
-    private String nickname;
+    private String nickname = null;
     private ClientAPI thisClient;
     private boolean active;
 
-    public ClientRMIWrapper(ClientAPI newClient, String nickname) {
+    public ClientRMIWrapper(ClientAPI newClient) {
         clientID = UUID.randomUUID().toString();
         thisClient = newClient;
-        this.nickname = nickname;
         active = true;
     }
 

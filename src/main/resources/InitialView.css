@@ -12,6 +12,7 @@
     -fx-border-color: white;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
 }
 .button:hover{
     -fx-background-color: #322828;
@@ -23,15 +24,26 @@
     -fx-border-color: white;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
 }
 #close{
     -fx-background-color: transparent;
     -fx-border-width: 0;
-    -fx-font-size: 20;
-    -fx-font-weight: bold;
 }
 #close:hover{
     -fx-highlight-text-fill: black;
+}
+#label{
+    -fx-background-color: #261212;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
+}
+#errorText{
+    -fx-stroke: black;
+    -fx-stroke-width: 1px;
 }
 .stack{
     -fx-padding: 4;

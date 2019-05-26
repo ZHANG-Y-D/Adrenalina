@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Text?>
 <Pane fx:id="pane" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.controller.InitialViewController">
    <children>
-      <TextField fx:id="host" layoutX="291.0" layoutY="302.0" prefWidth="168.0" promptText="Host" />
-      <TextField fx:id="port" layoutX="291.0" layoutY="339.0" prefWidth="168.0" promptText="Port" />
-      <Button fx:id="rmi" layoutX="247.0" layoutY="405.0" onAction="#RMISelected" prefHeight="45.0" prefWidth="94.0" text="RMI" />
-      <Button fx:id="socket" layoutX="414.0" layoutY="406.0" onAction="#SocketSelected" prefHeight="45.0" prefWidth="94.0" text="SOCKET" />
-      <TextField fx:id="name" layoutX="291.0" layoutY="325.0" prefWidth="168.0" promptText="Nickname" visible="false" />
-      <Button fx:id="search" layoutX="317.0" layoutY="405.0" onAction="#createClient" prefHeight="45.0" prefWidth="117.0" text="SEARCH GAME" visible="false" />
-      <Button fx:id="close" layoutX="718.0" layoutY="-6.0" onAction="#close" text="X" />
+      <TextField fx:id="host" alignment="CENTER" layoutX="291.0" layoutY="302.0" prefWidth="168.0" promptText="Host" />
+      <TextField fx:id="port" alignment="CENTER" layoutX="291.0" layoutY="339.0" prefWidth="168.0" promptText="Port" />
+      <Button fx:id="rmi" layoutX="244.0" layoutY="405.0" onAction="#RMISelected" prefHeight="45.0" prefWidth="95.0" text="RMI" />
+      <Button fx:id="socket" layoutX="412.0" layoutY="405.0" onAction="#SocketSelected" prefHeight="45.0" prefWidth="95.0" text="SOCKET" />
+      <TextField fx:id="name" alignment="CENTER" layoutX="291.0" layoutY="325.0" prefWidth="168.0" promptText="Nickname" visible="false" />
+      <Button fx:id="search" layoutX="328.0" layoutY="405.0" onAction="#sendNickname" prefHeight="45.0" prefWidth="95.0" text="PLAY" visible="false" />
+      <Button fx:id="close" layoutX="716.0" layoutY="-2.0" onAction="#close" text="X" />
+      <Label fx:id="label" alignment="CENTER" layoutX="243.0" layoutY="250.0" prefHeight="35" prefWidth="264.0" text="Searching for a game..." visible="false" />
+      <Text fx:id="errorText" fill="#b30000" layoutX="295.0" layoutY="390.0" visible="true" />
    </children>
    <stylesheets>
       <URL value="@InitialView.css" />

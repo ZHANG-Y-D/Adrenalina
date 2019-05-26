@@ -17,8 +17,8 @@ public class RMIServerCommands extends UnicastRemoteObject implements ServerAPI 
         this.mainServer = mainServer;
     }
 
-    public String registerRMIClient(ClientAPI clientAPI, String nickname) {
-        ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI, nickname);
+    public String registerRMIClient(ClientAPI clientAPI) {
+        ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI);
         this.mainServer.registerClient(wrapper);
         System.out.println("Client connected through RMI!");
         return wrapper.getClientID();

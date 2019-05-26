@@ -16,7 +16,7 @@ public class SocketServerCommands implements ServerAPI {
         this.mainServer = mainServer;
     }
 
-    public String registerRMIClient(ClientAPI clientAPI, String nickname){
+    public String registerRMIClient(ClientAPI clientAPI){
         //operation not available for socket
         return null;
     }

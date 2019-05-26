@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -46,7 +47,8 @@ public class ConfirmBox {
 
         Pane layout = new Pane();
         layout.getChildren().addAll(label, yesButton, noButton);
-
+        layout.setStyle("-fx-background-color: #261212");
+        label.setStyle("-fx-text-fill: white");
         Scene scene = new Scene(layout);
         scene.getStylesheets().add("InitialView.css");
         stage.setScene(scene);
