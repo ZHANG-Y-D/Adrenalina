@@ -63,6 +63,7 @@ public class Lobby implements Runnable, LobbyAPI {
             currentState = new AvatarSelectionState(this, avatars);
         }catch (JsonIOException e){
         }catch (FileNotFoundException e) {}
+        System.out.println("NEW LOBBY STARTED WITH "+ clients.size()+" USERS.");
     }
 
 
