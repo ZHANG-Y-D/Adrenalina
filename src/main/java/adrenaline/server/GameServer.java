@@ -55,6 +55,7 @@ public class GameServer {
         }
         clients = new ArrayList<>();
         clientsWaitingList = new ArrayList<>();
+        clientsLobbiesMap = new HashMap<>();
         activeLobbies = new HashMap<>();
     }
 
@@ -82,6 +83,7 @@ public class GameServer {
 
     public void registerClient(Client c){
         this.clients.add(c);
+        this.clientsWaitingList.add(c);
     }
 
     public void unregisterClient(String c) { }

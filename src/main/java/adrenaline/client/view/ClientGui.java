@@ -13,7 +13,7 @@ public class ClientGui extends Application {
     private Stage window;
 
     public void start(Stage primaryStage)throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/SelectionView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/InitialView.fxml"));
         window = primaryStage;
         window.setTitle("Adrenalina");
         window.setResizable(false);

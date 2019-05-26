@@ -46,15 +46,15 @@ public class ClientSocketWrapper implements Client {
         return clientID;
     }
 
+    public String getNickname(){
+        return nickname;
+    }
+
     public void setLobby(Lobby lobby) {
         this.inLobby=lobby;
         setLobby(inLobby.getID());
     }
 
     public void setLobby(String lobbyID) {
-    }
-
-    public String getNickname(){
-        return nickname;
     }
 }

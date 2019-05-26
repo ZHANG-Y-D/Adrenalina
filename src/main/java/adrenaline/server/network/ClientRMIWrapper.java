@@ -23,14 +23,15 @@ public class ClientRMIWrapper implements Client {
         return clientID;
     }
 
+    public String getNickname(){ return nickname; }
 
-    public void setLobby(Lobby lobby) {
-        setLobby(lobby.getID());
-    }
+    public void setLobby(Lobby lobby) { setLobby(lobby.getID()); }
 
     public void setLobby(String lobbyID){
         try {
             thisClient.setLobby(lobbyID);
-        } catch (RemoteException e) { }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }
