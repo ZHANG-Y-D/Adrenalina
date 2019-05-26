@@ -57,32 +57,49 @@ public class GameServer {
         clients = new ArrayList<>();
         clientsWaitingList = new ArrayList<>();
         activeLobbies = new HashMap<>();
+        clientsLobbiesMap = new HashMap<>();
     }
 
     private void lifeCycle(){
         while(true){
-            if(clientsWaitingList.size()<3);
-            else{
-                long timestart = System.currentTimeMillis();
-                while(clientsWaitingList.size()<5 && (System.currentTimeMillis() - timestart < TIMEOUT_IN_SECONDS*1000));
-
-                synchronized(clientsWaitingList) {
-                    Lobby newLobby = new Lobby(clientsWaitingList);
-                    activeLobbies.put(newLobby.getID(), newLobby);
-                    RMIexportLobby(newLobby);
-                    for (Client c : clientsWaitingList) {
-                        clientsLobbiesMap.put(c.getClientID(), newLobby.getID());
-                        c.setLobby(newLobby);
-                    }
-                    new Thread(newLobby).start();
-                    clientsWaitingList.clear();
+            synchronized(clientsWaitingList) {
+                while (clientsWaitingList.size() < 3) {
+                    try {
+                        clientsWaitingList.wait();
+                    } catch (InterruptedException e) { }
                 }
+                System.out.println("3 OR MORE PLAYERS WAITING FOR GAME: SETTING TIMER FOR NEW LOBBY.");
+                long timestart = System.currentTimeMillis();
+                while(clientsWaitingList.size() < 5){
+                    long timeremaining = timestart + TIMEOUT_IN_SECONDS * 1000 - System.currentTimeMillis();
+                    if(timeremaining <= 0) break;
+                    else{
+                        try {
+                            clientsWaitingList.wait(timeremaining);
+                        } catch (InterruptedException e) { }
+                    }
+                }
+
+                Lobby newLobby = new Lobby(clientsWaitingList);
+                activeLobbies.put(newLobby.getID(), newLobby);
+                RMIexportLobby(newLobby);
+                for (Client c : clientsWaitingList) {
+                    clientsLobbiesMap.put(c.getClientID(), newLobby.getID());
+                    c.setLobby(newLobby);
+                }
+                new Thread(newLobby).start();
+                clientsWaitingList.clear();
             }
         }
     }
 
+
     public void registerClient(Client c){
         this.clients.add(c);
+        synchronized (clientsWaitingList) {
+            this.clientsWaitingList.add(c);
+            clientsWaitingList.notifyAll();
+        }
     }
 
     public void unregisterClient(String c) { }
