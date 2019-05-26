@@ -16,13 +16,13 @@ public class SocketServerCommands implements ServerAPI {
         this.mainServer = mainServer;
     }
 
-    public String registerRMIClient(ClientAPI clientAPI, String nickname) throws RemoteException {
+    public String registerRMIClient(ClientAPI clientAPI, String nickname){
         //operation not available for socket
         return null;
     }
 
 
-    public void unregisterClient(String clientID) throws RemoteException {
+    public void unregisterClient(String clientID){
 
     }
 
