@@ -7,6 +7,9 @@ import adrenaline.client.controller.Controller;
 import adrenaline.client.view.ClientGui;
 import adrenaline.client.view.ConfirmBox;
 import adrenaline.client.view.ViewInterface;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -99,6 +102,6 @@ public class InitialViewController implements ViewInterface {
 
     @Override
     public void showError(String error) {
-        this.error.setText(error);
+        Platform.runLater(() -> this.error.setText(error));
     }
 }
