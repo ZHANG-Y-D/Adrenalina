@@ -2,6 +2,7 @@ package adrenaline.client.controller;
 
 import adrenaline.Color;
 import adrenaline.client.model.*;
+import adrenaline.client.view.View;
 import adrenaline.server.UpdateMessage;
 
 import java.util.HashMap;
@@ -12,6 +13,11 @@ public class Controller {
     private ScoreBoard scoreBoard;
     private Map map;
     private HashMap<Color, Player> playersMap;
+    View view;
+
+    public Controller(View view) {
+        this.view = view;
+    }
 
     public void update(UpdateMessage updatemsg){
         updatemsg.applyUpdate(this);
