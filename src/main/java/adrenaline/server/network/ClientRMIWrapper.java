@@ -24,6 +24,8 @@ public class ClientRMIWrapper implements Client {
 
     public String getNickname(){ return nickname; }
 
+    public void setNickname(String nickname) { this.nickname = nickname; }
+
     public void setActive(boolean active) { this.active = active; }
 
     public void setLobby(Lobby lobby) { setLobby(lobby.getID()); }

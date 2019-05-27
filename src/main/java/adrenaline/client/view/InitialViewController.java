@@ -1,9 +1,12 @@
-package adrenaline.client.controller;
+package adrenaline.client.view;
 
-import adrenaline.client.RMIClient;
-import adrenaline.client.SocketClient;
+import adrenaline.client.ConnectionHandler;
+import adrenaline.client.RMIHandler;
+import adrenaline.client.SocketHandler;
+import adrenaline.client.controller.Controller;
 import adrenaline.client.view.ClientGui;
 import adrenaline.client.view.ConfirmBox;
+import adrenaline.client.view.ViewInterface;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,16 +17,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
-public class InitialViewController {
+public class InitialViewController implements ViewInterface {
 
     public Pane pane;
-    public Button rmi, socket, search, close;
+    public Button rmi, socket, play, close;
     public TextField host, port, name;
-    public Label label;
-    public Text errorText;
-    private int choice;
+    public Label label,error;
+    private Controller controller = null;
 
     public void initialize(){
         pane.getStyleClass().add("pane");
@@ -35,71 +36,69 @@ public class InitialViewController {
         host.setFont(font);
         port.setFont(font);
         name.setFont(font);
-        search.setFont(font);
+        play.setFont(font);
         label.setFont(font);
-        errorText.setFont(font);
+        error.setFont(font);
+    }
+
+    public void setController(Controller controller){
+        this.controller = controller;
     }
 
     public void RMISelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))){
-            choice = 0;
-            createClient();
+            try{
+                if(controller.connectRMI(host.getText(), Integer.parseInt(port.getText()))) changeScene();
+            }catch (NumberFormatException e){
+                error.setText("Wrong host/port");
+            }
         }
-        else errorText.setText("Type host and port");
+        else error.setText("Type host and port");
     }
 
     public void SocketSelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))) {
-            choice = 1;
-            createClient();
+            try {
+                if(controller.connectSocket(host.getText(), Integer.parseInt(port.getText()))) changeScene();
+            }catch (NumberFormatException e){
+                error.setText("Wrong host/port");
+            }
         }
-        else errorText.setText("Type host and port");
+        else error.setText("Type host and port");
     }
 
     public void changeScene(){
-        errorText.setText("");
-        errorText.setLayoutY(383);
-        errorText.setLayoutX(300);
+        error.setText("");
         rmi.setVisible(false);
         socket.setVisible(false);
         host.setVisible(false);
         port.setVisible(false);
         name.setVisible(true);
-        search.setVisible(true);
-    }
-
-    public void createClient(){
-        int flag = 0;
-        try{
-            if(choice == 0) new RMIClient(host.getText(), Integer.parseInt(port.getText()));
-            if(choice == 1) new SocketClient(host.getText(), Integer.parseInt(port.getText()));
-            } catch (RemoteException e) {
-                errorText.setText("Wrong host/port");
-                flag = 1;
-            } catch (NotBoundException e) {
-                errorText.setText("An RMI error has occurred");
-                flag = 1;
-            } catch (IOException e) {
-                errorText.setText("Wrong host/port");
-                flag = 1;
-        }
-        if(flag == 0) changeScene();
+        play.setVisible(true);
     }
 
     public void sendNickname(){
         if(!name.getText().equals("")) {
             label.setVisible(true);
-            search.setDisable(true);
+            play.setDisable(true);
             name.setDisable(true);
+            error.setText("");
+            controller.setNickname(name.getText());
         }
-        else errorText.setText("Type a nickname");
+        else error.setText("Type a nickname");
     }
 
     public void close(){
         boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
         if (answer) {
+            controller.cleanExit();
             Stage stage = (Stage)pane.getScene().getWindow();
             stage.close();
         }
+    }
+
+    @Override
+    public void showError(String error) {
+        this.error.setText(error);
     }
 }

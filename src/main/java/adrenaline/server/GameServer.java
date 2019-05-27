@@ -21,6 +21,7 @@ public class GameServer {
     private final ArrayList<Client> clientsWaitingList;
     private final HashMap<String, Lobby> activeLobbies;
     private final HashMap<String, String> clientsLobbiesMap;
+    private ArrayList<String> usedNicknames;
 
     public static void main(String args[]){
         new GameServer().lifeCycle();
@@ -51,13 +52,14 @@ public class GameServer {
             System.out.println("Server listening on ports\n\t"+ rmiPort + " (RMI service)\n\t" + socketPort +" (Socket service)");
 
         }catch(Exception e){
-            System.out.println("Error setting up adrenaline.server!");
+            System.out.println("Error setting up server!");
             e.printStackTrace();
         }
         clients = new HashMap<>();
         clientsWaitingList = new ArrayList<>();
         clientsLobbiesMap = new HashMap<>();
         activeLobbies = new HashMap<>();
+        usedNicknames = new ArrayList<>();
     }
 
     private void lifeCycle(){
@@ -111,6 +113,15 @@ public class GameServer {
             this.clientsWaitingList.remove(c);
             clientsWaitingList.notifyAll();
         }
+    }
+
+    public boolean setNickname(String cID, String nickname){
+        if(usedNicknames.contains(nickname)) return false;
+        Client c = clients.get(cID);
+        if(c.getNickname() != null) usedNicknames.remove(c.getNickname());
+        c.setNickname(nickname);
+        usedNicknames.add(nickname);
+        return true;
     }
 
     private void RMIexportLobby(Lobby lobby){

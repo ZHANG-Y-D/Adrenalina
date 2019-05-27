@@ -1,9 +1,19 @@
 package adrenaline.client.controller;
 
 import adrenaline.Color;
+import adrenaline.client.ConnectionHandler;
+import adrenaline.client.RMIHandler;
+import adrenaline.client.SocketHandler;
 import adrenaline.client.model.*;
+import adrenaline.client.view.ClientCli;
+import adrenaline.client.view.ClientGui;
+import adrenaline.client.view.ViewInterface;
 import adrenaline.server.UpdateMessage;
+import javafx.application.Application;
 
+import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 
 public class Controller {
@@ -12,6 +22,42 @@ public class Controller {
     private ScoreBoard scoreBoard;
     private Map map;
     private HashMap<Color, Player> playersMap;
+    private ViewInterface view;
+    private ConnectionHandler connectionHandler;
+
+    public void setViewController(ViewInterface viewController){
+        this.view = viewController;
+    }
+
+    public boolean connectRMI(String host, int port){
+        try {
+            connectionHandler = new RMIHandler(host,port,this);
+            return true;
+        } catch (Exception e) {
+            view.showError("Wrong host/port");
+            return false;
+        }
+    }
+
+    public boolean connectSocket(String host, int port){
+        try {
+            connectionHandler = new SocketHandler(host,port,this);
+            return true;
+        } catch (Exception e) {
+            view.showError("Wrong host/port");
+            return false;
+        }
+    }
+
+    public void setNickname(String nickname){ connectionHandler.setNickname(nickname);}
+
+    public void cleanExit(){
+        if(connectionHandler != null) connectionHandler.unregister();
+    }
+
+    public void handleReturn(String returnMsg){
+        if(!returnMsg.equals("OK")) view.showError(returnMsg);
+    }
 
     public void update(UpdateMessage updatemsg){
         updatemsg.applyUpdate(this);

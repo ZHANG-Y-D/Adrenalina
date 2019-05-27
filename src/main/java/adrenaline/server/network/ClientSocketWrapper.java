@@ -34,21 +34,18 @@ public class ClientSocketWrapper implements Client {
         Scanner inputFromClient = new Scanner(thisClient.getInputStream());
         outputToClient = new PrintWriter(thisClient.getOutputStream());
         createListener(inputFromClient);
+        sendMessage(clientID);
     }
 
-    public void createListener(Scanner inputFromClient) {
+    private void createListener(Scanner inputFromClient) {
         new Thread(() -> {
             Gson gson = new Gson();
             String readFromClient, sendToClient;
             String[] readSplit;
             Method requestedMethod;
 
-            while(nickname==null){
-                inputFromClient.nextLine();
-                //TODO cant proceed until client sends his nickname. note:nickname becomes effectively final
-            }
             while(true){
-                sendToClient="";
+                sendToClient="RETURN;";
                 try {
                     readFromClient = inputFromClient.nextLine();
                     readSplit = readFromClient.split(";");
@@ -61,17 +58,17 @@ public class ClientSocketWrapper implements Client {
                         argObjects[i] = gson.fromJson(readSplit[3 + 2 * i], argClasses[i]);
                     }
                     requestedMethod = methodsMap.get(methodName).getClass().getMethod(methodName, argClasses);
-                    sendToClient = requestedMethod.invoke(methodsMap.get(methodName), argObjects).toString();
+                    sendToClient += requestedMethod.invoke(methodsMap.get(methodName), argObjects).toString();
                 } catch (InvocationTargetException | ClassNotFoundException e) {
-                    sendToClient="SERVER ERROR!";
+                    sendToClient += "SERVER ERROR!";
                 } catch (NullPointerException | NoSuchMethodException | IllegalAccessException e) {
-                    sendToClient="ERROR! Invalid command request";
+                    sendToClient += "ERROR! Invalid command request";
                 } finally{ sendMessage(sendToClient);}
             }
         }).start();
     }
 
-    public synchronized void sendMessage(String sendToClient){
+    private synchronized void sendMessage(String sendToClient){
         outputToClient.println(sendToClient);
         outputToClient.flush();
     }
@@ -83,6 +80,8 @@ public class ClientSocketWrapper implements Client {
     public String getNickname(){
         return nickname;
     }
+
+    public void setNickname(String nickname) { this.nickname = nickname; }
 
     public void setActive(boolean active) { this.active = active; }
 

@@ -3,11 +3,11 @@ package adrenaline.client;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIClientCommands extends UnicastRemoteObject implements ClientAPI {
+public class RMIClientCommands extends UnicastRemoteObject implements ClientAPI{
 
-    private RMIClient client;
+    private RMIHandler client;
 
-    public RMIClientCommands(RMIClient client) throws RemoteException {
+    public RMIClientCommands(RMIHandler client) throws RemoteException {
         this.client = client;
     }
     @Override

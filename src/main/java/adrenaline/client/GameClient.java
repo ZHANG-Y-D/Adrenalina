@@ -1,5 +1,7 @@
 package adrenaline.client;
 
+import adrenaline.client.controller.Controller;
+import adrenaline.client.view.ClientCli;
 import adrenaline.client.view.ClientGui;
 import javafx.application.Application;
 
@@ -43,7 +45,7 @@ public class GameClient {
     private static boolean chooseTheViewMode(String input) {
 
         if (input.equalsIgnoreCase("cli")) {
-            //TODO OPEN CLI
+            //TODO start cli
 
         } else if (input.equalsIgnoreCase("gui")) {
             Application.launch(ClientGui.class);

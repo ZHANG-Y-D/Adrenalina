@@ -10,20 +10,25 @@ import java.util.HashMap;
 public class SocketServerCommands implements ServerAPI {
 
     private final GameServer mainServer;
-    private HashMap<String,String> clientLobbyMap;
 
     public SocketServerCommands(GameServer mainServer){
         this.mainServer = mainServer;
     }
 
     public String registerRMIClient(ClientAPI clientAPI){
-        //operation not available for socket
-        return null;
+        return "KO (Invalid operation for socket clients)";
     }
 
+    public String setNickname(String clientID, String nickname) {
+        if(nickname.length()<1) return "Nickname must contain at least 1 character!";
+        if(mainServer.setNickname(clientID, nickname)) return "OK";
+        else return "This nickname is already taken!";
+    }
 
-    public void unregisterClient(String clientID){
-
+    public String unregisterClient(String clientID){
+        this.mainServer.unregisterClient(clientID);
+        System.out.println("Client closed his SocketHandler session");
+        return "OK";
     }
 
 }
