@@ -56,6 +56,11 @@ public class RespawnState implements GameState {
     }
 
     @Override
+    public String selectFiremode(int firemode) {
+        return null;
+    }
+
+    @Override
     public String endOfTurnAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }

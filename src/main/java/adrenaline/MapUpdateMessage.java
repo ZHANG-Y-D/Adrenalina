@@ -1,6 +1,7 @@
 package adrenaline;
 
-import adrenaline.client.controller.Controller;
+
+import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class MapUpdateMessage implements UpdateMessage {
     }
 
     @Override
-    public void applyUpdate(Controller clientController) {
-        clientController.updateMap(clientsideMap);
+    public void applyUpdate(GameController clientGameController) {
+        clientGameController.updateMap(clientsideMap);
     }
 }

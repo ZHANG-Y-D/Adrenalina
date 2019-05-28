@@ -62,6 +62,11 @@ public class SelectActionState implements GameState {
     }
 
     @Override
+    public String selectFiremode(int firemode) {
+        return null;
+    }
+
+    @Override
     public String endOfTurnAction() {
         lobby.setState(new ReloadState(lobby));
         return "OK";

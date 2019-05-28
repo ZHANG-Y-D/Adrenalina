@@ -1,23 +1,10 @@
 package adrenaline.server.controller.states;
 
-import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
-import adrenaline.server.model.Firemode;
 
 import java.util.ArrayList;
 
-public class ShootState implements GameState {
-
-    private Lobby lobby;
-    private int actionNumber;
-    private Integer selectedWeapon = null;
-
-    public ShootState(Lobby lobby, int actionNumber){
-
-        this.lobby = lobby;
-        this.actionNumber = actionNumber;
-    }
-
+public class ShootMoveState implements GameState {
     @Override
     public String runAction() {
         return null;
@@ -50,20 +37,12 @@ public class ShootState implements GameState {
 
     @Override
     public String selectWeapon(int weaponID) {
-        if(lobby.canUseWeapon(weaponID)){
-            selectedWeapon = weaponID;
-            return "OK";
-        }
-        else return "You can't shoot with that weapon! Please select a valid weapon";
+        return null;
     }
 
     @Override
     public String selectFiremode(int firemode) {
-        if(selectedWeapon == null) return "No weapon is selected! Please select a weapon first";
-        Firemode selectedFiremode = lobby.getFiremode(selectedWeapon, firemode);
-        if(selectedFiremode==null) return "This weapon does not have such firemode!";
-        else lobby.setState(new FiremodeState(lobby, selectedFiremode));
-        return "OK";
+        return null;
     }
 
     @Override
@@ -73,8 +52,7 @@ public class ShootState implements GameState {
 
     @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby, actionNumber-1));
-        return "OK";
+        return null;
     }
 
     @Override

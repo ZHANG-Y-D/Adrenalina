@@ -1,25 +1,23 @@
 package adrenaline.client.view;
 
-import adrenaline.client.controller.Controller;
-import adrenaline.server.controller.states.GameState;
 
-import javax.imageio.IIOException;
+import adrenaline.client.controller.GameController;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class ClientCli implements ViewInterface {
 
 
-    private Controller controller;
+    private GameController controller;
 
 
     public ClientCli() {
-        controller = new Controller();
+        controller = new GameController();
         controller.setViewController(this);
     }
 
@@ -41,32 +39,23 @@ public class ClientCli implements ViewInterface {
     }
 
 
-
-
-
-
-
-
-
-
     @Override
     public void showError(String error) {
         System.out.println(error);
     }
 
-    @Override
-    public void setController(Controller controller) {
 
-    }
 
     @Override
-    public void changeState(List<GameState> gameStateList) {
+    public void changeStage() {
 
     }
 
-    public void showState(GameState gameState){
+    @Override
+    public void setGameController(GameController gameController) {
 
     }
+
 
     private void printIniTxtFile(){
 

@@ -8,11 +8,12 @@ import adrenaline.client.model.Map;
 import adrenaline.client.model.Player;
 import adrenaline.client.model.ScoreBoard;
 import adrenaline.client.view.ViewInterface;
-import adrenaline.UpdateMessage;
 import java.util.HashMap;
 
 
-public class  Controller {
+
+public class GameController {
+
     private int mapID;
 
     private ScoreBoard scoreBoard;
@@ -63,9 +64,7 @@ public class  Controller {
         if(!returnMsg.equals("OK")) view.showError(returnMsg);
     }
 
-    public void update(UpdateMessage updatemsg){
-        updatemsg.applyUpdate(this);
-    }
+    public void changeStage(){ view.changeStage(); }
 
     public void updatePlayer(Player newPlayer){
         playersMap.put(newPlayer.getColor(), newPlayer);

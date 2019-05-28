@@ -1,7 +1,8 @@
 package adrenaline.client.view;
 
-import adrenaline.client.controller.Controller;
+
 import adrenaline.server.controller.states.GameState;
+import adrenaline.client.controller.GameController;
 import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,20 +10,23 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class SelectionViewController implements ViewInterface {
+    public Pane selectionPane;
     public ImageView avatar1, avatar2, avatar3, avatar4, avatar5;
     public ImageView map1,map2,map3,map4;
-    public StackPane stack1,stack2,stack3, stack4;
-    public Button next,ok;
+    public StackPane stack1,stack2,stack3,stack4;
+    public Button next,select,close;
     public Label title;
     private HashMap<Integer, ImageView> imageMap;
-    private Controller controller;
+    private GameController gameController;
 
     public void initialize(){
         imageMap = new HashMap<>();
@@ -33,7 +37,11 @@ public class SelectionViewController implements ViewInterface {
         imageMap.put(5, avatar5);
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),60);
         title.setFont(font);
+        font= Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),40);
         next.setFont(font);
+        font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),20);
+        select.setFont(font);
+        close.setFont(font);
         map1.getStyleClass().add("map");
         map2.getStyleClass().add("map");
         map3.getStyleClass().add("map");
@@ -43,13 +51,13 @@ public class SelectionViewController implements ViewInterface {
         stack3.getStyleClass().add("stack");
         stack4.getStyleClass().add("stack");
         Tooltip.install(map1, new Tooltip("This map is good for 3 or 4 players"));
-        Tooltip.install(map2, new Tooltip("This map is good for any numbers of players."));
+        Tooltip.install(map2, new Tooltip("This map is good for any number of players."));
         Tooltip.install(map3, new Tooltip("This map is good for 4 or 5 players."));
         Tooltip.install(map4, new Tooltip("This map is good for any number of players."));
     }
 
-    public SelectionViewController(Controller controller){
-        this.controller = controller;
+    public void setGameController(GameController gameController){
+        this.gameController = gameController;
     }
 
     public void nextImage(){
@@ -67,7 +75,7 @@ public class SelectionViewController implements ViewInterface {
         avatar4.setVisible(false);
         avatar5.setVisible(false);
         next.setVisible(false);
-        ok.setVisible(false);
+        select.setVisible(false);
         stack1.setVisible(true);
         stack2.setVisible(true);
         stack3.setVisible(true);
@@ -87,19 +95,21 @@ public class SelectionViewController implements ViewInterface {
         map.setEffect(glow);
     }
 
-    @Override
-    public void showError(String error) {
+    public void showError(String error){
 
     }
 
-    @Override
-    public void setController(Controller controller) {
+    public void changeStage(){
 
     }
 
-    @Override
-    public void changeState(List<GameState> gameStateList) {
 
+    public void close(){
+        boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
+        if (answer) {
+            gameController.cleanExit();
+            Stage stage = (Stage)selectionPane.getScene().getWindow();
+            stage.close();
+        }
     }
-
 }
