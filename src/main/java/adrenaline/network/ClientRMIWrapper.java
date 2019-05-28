@@ -1,4 +1,4 @@
-package adrenaline.server.network;
+package adrenaline.network;
 
 import adrenaline.client.ClientAPI;
 import adrenaline.server.controller.Lobby;
@@ -23,6 +23,8 @@ public class ClientRMIWrapper implements Client {
     }
 
     public String getNickname(){ return nickname; }
+
+    public void setNickname(String nickname) { this.nickname = nickname; }
 
     public void setActive(boolean active) { this.active = active; }
 

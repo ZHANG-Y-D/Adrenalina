@@ -1,7 +1,5 @@
 package adrenaline.client;
 
-import adrenaline.server.UpdateMessage;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

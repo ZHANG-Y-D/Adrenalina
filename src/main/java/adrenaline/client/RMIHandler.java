@@ -1,32 +1,31 @@
 package adrenaline.client;
 
-import adrenaline.server.LobbyAPI;
-import adrenaline.server.ServerAPI;
+import adrenaline.client.controller.Controller;
+import adrenaline.LobbyAPI;
+import adrenaline.ServerAPI;
 
-import java.net.MalformedURLException;
-import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class RMIClient {
+public class RMIHandler implements ConnectionHandler {
 
     private String clientID;
     private ServerAPI myServer;
     private LobbyAPI myLobby;
     private RMIClientCommands thisClient;
     private Registry registry;
+    private Controller controller;
 
-    public RMIClient(String serverIP, int port) throws RemoteException, NotBoundException, ConnectException {
+    public RMIHandler(String serverIP, int port, Controller controller) throws RemoteException, NotBoundException {
         registry = LocateRegistry.getRegistry(serverIP, port);
         String remoteObjectName = "AdrenalineServer";
         this.myServer = (ServerAPI) registry.lookup(remoteObjectName);
-        System.out.println("Connection through RMI was succesful!");
-
+        System.out.println("Connection through RMIHandler was succesful!");
+        this.controller = controller;
         thisClient = new RMIClientCommands(this);
         clientID = myServer.registerRMIClient(thisClient);
-        System.out.println(clientID);
     }
 
     public void setMyLobby(String myLobby) throws RemoteException{
@@ -35,6 +34,22 @@ public class RMIClient {
             this.myLobby = (LobbyAPI) registry.lookup(remoteObjectName);
             System.out.println(this.myLobby);
         } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unregister() {
+        try {
+            controller.handleReturn(myServer.unregisterClient(clientID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setNickname(String nickname) {
+        try {
+            controller.handleReturn(myServer.setNickname(clientID, nickname));
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }

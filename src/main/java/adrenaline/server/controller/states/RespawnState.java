@@ -1,7 +1,7 @@
 package adrenaline.server.controller.states;
 
+import adrenaline.exceptions.InvalidCardException;
 import adrenaline.server.controller.Lobby;
-import adrenaline.server.exceptions.InvalidCardException;
 import adrenaline.Color;
 
 import java.util.ArrayList;

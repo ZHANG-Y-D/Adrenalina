@@ -1,7 +1,7 @@
 package adrenaline.server.model;
 
-import adrenaline.server.MapUpdateMessage;
 import adrenaline.server.controller.Lobby;
+import adrenaline.MapUpdateMessage;
 
 public class SquareAmmo extends Square{
 

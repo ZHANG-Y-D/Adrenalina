@@ -2,6 +2,7 @@ package adrenaline.server.model;
 
 import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,9 +1,7 @@
-package adrenaline.server;
+package adrenaline;
 
-import adrenaline.Color;
 import adrenaline.client.controller.Controller;
 import adrenaline.client.model.Map;
-import adrenaline.server.model.Square;
 
 import java.util.ArrayList;
 import java.util.HashMap;

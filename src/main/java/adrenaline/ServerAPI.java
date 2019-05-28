@@ -1,4 +1,4 @@
-package adrenaline.server;
+package adrenaline;
 
 import adrenaline.client.ClientAPI;
 
@@ -7,5 +7,6 @@ import java.rmi.RemoteException;
 
 public interface ServerAPI extends Remote {
     String registerRMIClient(ClientAPI clientAPI)throws  RemoteException;
-    void unregisterClient(String clientID)throws RemoteException;
+    String setNickname(String clientID, String nickname) throws RemoteException;
+    String unregisterClient(String clientID)throws RemoteException;
 }

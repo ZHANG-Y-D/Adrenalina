@@ -41,7 +41,9 @@
     -fx-background-radius: 5;
     -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
 }
-#errorText{
+#error{
+    -fx-background-color: transparent;
+    -fx-text-fill: #b30000;
     -fx-stroke: black;
     -fx-stroke-width: 1px;
 }

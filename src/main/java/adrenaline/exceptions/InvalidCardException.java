@@ -1,4 +1,4 @@
-package adrenaline.server.exceptions;
+package adrenaline.exceptions;
 
 public class InvalidCardException extends Exception {
 }

@@ -1,5 +1,6 @@
 package adrenaline.server.model;
 
+import adrenaline.server.model.constraints.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeAll;
@@ -7,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;
 import java.util.ArrayList;
-
-import adrenaline.server.model.constraints.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

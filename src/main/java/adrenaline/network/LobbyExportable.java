@@ -1,7 +1,7 @@
-package adrenaline.server.network;
+package adrenaline.network;
 
-import adrenaline.server.LobbyAPI;
 import adrenaline.server.controller.Lobby;
+import adrenaline.LobbyAPI;
 import adrenaline.Color;
 
 import java.rmi.RemoteException;

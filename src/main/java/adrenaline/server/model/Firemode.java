@@ -1,7 +1,8 @@
 package adrenaline.server.model;
 
-import adrenaline.server.exceptions.InvalidTargetsException;
-import adrenaline.server.model.constraints.*;
+import adrenaline.exceptions.InvalidTargetsException;
+import adrenaline.server.model.constraints.RangeConstraint;
+import adrenaline.server.model.constraints.TargetsConstraint;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,7 +1,9 @@
 package adrenaline.server.controller;
 
 import adrenaline.Color;
-import adrenaline.server.model.*;
+import adrenaline.server.model.Player;
+import adrenaline.server.model.PowerupCard;
+import adrenaline.server.model.WeaponCard;
 
 import java.util.ArrayList;
 

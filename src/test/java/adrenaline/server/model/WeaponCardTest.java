@@ -1,10 +1,10 @@
 package adrenaline.server.model;
 
 import adrenaline.Color;
+import adrenaline.server.model.constraints.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
-import adrenaline.server.model.constraints.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

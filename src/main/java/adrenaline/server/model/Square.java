@@ -1,8 +1,8 @@
 package adrenaline.server.model;
 
 import adrenaline.Color;
-import adrenaline.server.MapUpdateMessage;
 import adrenaline.server.controller.Lobby;
+import adrenaline.MapUpdateMessage;
 
 public abstract class Square {
 

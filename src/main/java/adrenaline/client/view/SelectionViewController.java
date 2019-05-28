@@ -1,6 +1,7 @@
-package adrenaline.client.controller;
+package adrenaline.client.view;
 
-import adrenaline.client.view.ClientGui;
+import adrenaline.client.controller.Controller;
+import adrenaline.server.controller.states.GameState;
 import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,14 +13,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
 import java.util.HashMap;
+import java.util.List;
 
-public class SelectionViewController {
+public class SelectionViewController implements ViewInterface {
     public ImageView avatar1, avatar2, avatar3, avatar4, avatar5;
     public ImageView map1,map2,map3,map4;
     public StackPane stack1,stack2,stack3, stack4;
     public Button next,ok;
     public Label title;
     private HashMap<Integer, ImageView> imageMap;
+    private Controller controller;
 
     public void initialize(){
         imageMap = new HashMap<>();
@@ -43,6 +46,10 @@ public class SelectionViewController {
         Tooltip.install(map2, new Tooltip("This map is good for any numbers of players."));
         Tooltip.install(map3, new Tooltip("This map is good for 4 or 5 players."));
         Tooltip.install(map4, new Tooltip("This map is good for any number of players."));
+    }
+
+    public SelectionViewController(Controller controller){
+        this.controller = controller;
     }
 
     public void nextImage(){
@@ -79,4 +86,20 @@ public class SelectionViewController {
         Glow glow = new Glow(0);
         map.setEffect(glow);
     }
+
+    @Override
+    public void showError(String error) {
+
+    }
+
+    @Override
+    public void setController(Controller controller) {
+
+    }
+
+    @Override
+    public void changeState(List<GameState> gameStateList) {
+
+    }
+
 }

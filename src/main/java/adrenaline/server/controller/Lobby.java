@@ -1,17 +1,17 @@
 package adrenaline.server.controller;
 
 import adrenaline.Color;
+import adrenaline.server.controller.states.*;
+import adrenaline.exceptions.InvalidCardException;
+import adrenaline.exceptions.NotEnoughAmmoException;
+import adrenaline.exceptions.WeaponHandFullException;
+import adrenaline.server.model.*;
+import adrenaline.server.model.Map;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
-import adrenaline.server.LobbyAPI;
+import adrenaline.LobbyAPI;
 import adrenaline.server.controller.states.GameState;
-import adrenaline.server.controller.states.*;
-import adrenaline.server.exceptions.InvalidCardException;
-import adrenaline.server.exceptions.NotEnoughAmmoException;
-import adrenaline.server.exceptions.WeaponHandFullException;
-import adrenaline.server.model.Map;
-import adrenaline.server.network.Client;
-import adrenaline.server.model.*;
+import adrenaline.network.Client;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

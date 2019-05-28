@@ -1,4 +1,4 @@
-package adrenaline.server;
+package adrenaline;
 
 import adrenaline.client.controller.Controller;
 
