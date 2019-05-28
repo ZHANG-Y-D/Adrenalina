@@ -47,7 +47,7 @@ public class ConfirmBox {
 
         Pane layout = new Pane();
         layout.getChildren().addAll(label, yesButton, noButton);
-        layout.setStyle("-fx-background-color: #261212");
+        layout.setStyle("-fx-background-color: #261212; -fx-border-color: white");
         label.setStyle("-fx-text-fill: white");
         Scene scene = new Scene(layout);
         scene.getStylesheets().add("InitialView.css");

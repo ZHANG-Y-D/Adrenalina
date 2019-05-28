@@ -80,6 +80,11 @@ public class WeaponGrabState implements GameState {
     }
 
     @Override
+    public String selectFiremode(int firemode) {
+        return null;
+    }
+
+    @Override
     public String endOfTurnAction() {
         return "Select a weapon to grab it or GO BACK to terminate your action";
     }

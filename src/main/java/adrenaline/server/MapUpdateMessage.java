@@ -1,9 +1,8 @@
 package adrenaline.server;
 
 import adrenaline.Color;
-import adrenaline.client.controller.Controller;
+import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
-import adrenaline.server.model.Square;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class MapUpdateMessage implements UpdateMessage {
     }
 
     @Override
-    public void applyUpdate(Controller clientController) {
-        clientController.updateMap(clientsideMap);
+    public void applyUpdate(GameController clientGameController) {
+        clientGameController.updateMap(clientsideMap);
     }
 }

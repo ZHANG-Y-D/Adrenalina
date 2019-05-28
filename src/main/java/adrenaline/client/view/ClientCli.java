@@ -1,6 +1,6 @@
 package adrenaline.client.view;
 
-import adrenaline.client.controller.Controller;
+import adrenaline.client.controller.GameController;
 
 public class ClientCli implements ViewInterface{
 
@@ -9,7 +9,12 @@ public class ClientCli implements ViewInterface{
     }
 
     @Override
-    public void setController(Controller controller) {
+    public void changeStage() {
+
+    }
+
+    @Override
+    public void setGameController(GameController gameController) {
 
     }
 }

@@ -7,10 +7,10 @@
             }
         }
         if (powerupCard != null){
-            System.out.print(powerupCard.getName()+"\nThis is ok\n");
+            System.out.print(powerupCard.getName()+"\nThis is select\n");
         }
         else
-            System.out.print("\nThis not ok\n");
+            System.out.print("\nThis not select\n");
 
 */
 package adrenaline.server.controller;

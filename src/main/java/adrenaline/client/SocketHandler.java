@@ -1,6 +1,6 @@
 package adrenaline.client;
 
-import adrenaline.client.controller.Controller;
+import adrenaline.client.controller.GameController;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -12,23 +12,27 @@ import java.util.Scanner;
 public class SocketHandler implements ConnectionHandler {
 
     private String clientID;
+    private volatile boolean active;
     private java.net.Socket myServer;
+    private String myLobbyID;
     private SocketClientCommands thisClient;
     private PrintWriter outputToServer;
-    private HashMap<String, Object> methodsMap;
+    private HashMap<String, Object> methodsMap = new HashMap<>();
     private Gson gson;
-    private Controller controller;
+    private GameController gameController;
 
-    public SocketHandler(String serverIp, int port, Controller controller) throws IOException {
+    public SocketHandler(String serverIp, int port, GameController gameController) throws IOException {
         myServer = new java.net.Socket(serverIp, port);
         System.out.println("Connection through socket was successful!");
-        thisClient = new SocketClientCommands();
+        this.gameController = gameController;
+        thisClient = new SocketClientCommands(this, gameController);
+        for(Method m : thisClient.getClass().getDeclaredMethods()) methodsMap.put(m.getName(), thisClient);
         Scanner inputFromServer = new Scanner(myServer.getInputStream());
         outputToServer = new PrintWriter(myServer.getOutputStream());
         clientID = inputFromServer.nextLine();
         gson = new Gson();
+        active = true;
         createServerListener(inputFromServer);
-        this.controller = controller;
     }
 
     private void createServerListener(Scanner inputFromServer) {
@@ -37,12 +41,12 @@ public class SocketHandler implements ConnectionHandler {
             String[] readSplit;
             Method requestedMethod;
 
-            while (true) {
+            while (active) {
                 try {
                     readFromServer = inputFromServer.nextLine();
                     readSplit = readFromServer.split(";");
                     if (readSplit[0].equals("RETURN")) {
-                        controller.handleReturn(readSplit[1]);
+                        gameController.handleReturn(readSplit[1]);
                     }else {
                         String methodName = readSplit[0];
                         int argSize = Integer.parseInt(readSplit[1].substring(readSplit[1].indexOf("=") + 1).trim());
@@ -71,6 +75,7 @@ public class SocketHandler implements ConnectionHandler {
         String unregisterMsg = "unregisterClient;ARGSIZE=1;java.lang.String;";
         unregisterMsg += gson.toJson(clientID);
         sendMessage(unregisterMsg);
+        active = false;
     }
 
     public void setNickname(String nickname) {
@@ -82,5 +87,7 @@ public class SocketHandler implements ConnectionHandler {
     }
 
 
-
+    public void setMyLobby(String lobbyID) {
+        myLobbyID = lobbyID;
+    }
 }

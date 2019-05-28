@@ -1,7 +1,5 @@
 package adrenaline.client;
 
-import adrenaline.client.controller.Controller;
-import adrenaline.client.view.ClientCli;
 import adrenaline.client.view.ClientGui;
 import javafx.application.Application;
 

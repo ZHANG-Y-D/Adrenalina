@@ -328,5 +328,19 @@ public class Lobby implements Runnable, LobbyAPI {
             return "OK";
         }
     }
+
+    public boolean canUseWeapon(int weaponID){
+        WeaponCard wc = playersMap.get(currentTurnPlayer).getWeaponCard(weaponID);
+        if(wc == null || !wc.isLoaded()) return false;
+        else return true;
+    }
+
+    public Firemode getFiremode(int weaponID, int firemode){
+        try {
+            return playersMap.get(currentTurnPlayer).getWeaponCard(weaponID).getFiremode(firemode);
+        }catch(NullPointerException e){
+            return null;
+        }
+    }
 }
 

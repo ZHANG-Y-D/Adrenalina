@@ -59,10 +59,8 @@ public class WeaponCard {
         this.loaded = loaded;
     }
 
-    public void FiremodeShoot() {
-        //invoked by the controller
-        // handles the selection of the desired firemode and returns it to the controller for use
-        //TODO
+    public Firemode getFiremode(int index) throws NullPointerException{
+        return firemodes.get(index);
     }
 
 

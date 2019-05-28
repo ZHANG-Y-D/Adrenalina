@@ -19,19 +19,19 @@ public class RMIServerCommands extends UnicastRemoteObject implements ServerAPI 
     public String registerRMIClient(ClientAPI clientAPI) {
         ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI);
         this.mainServer.registerClient(wrapper);
-        System.out.println("Client connected through RMI!");
+        System.out.println("Client connected through RMI");
         return wrapper.getClientID();
     }
 
     public String setNickname(String clientID, String nickname) throws RemoteException {
         if(nickname.length()<1) return "Nickname must contain at least 1 character!";
-        if(mainServer.setNickname(clientID, nickname)) return "OK";
+        if(mainServer.setNickname(clientID, nickname)) return "/OK";
         else return "This nickname is already taken!";
     }
 
     public String unregisterClient(String clientID) {
         this.mainServer.unregisterClient(clientID);
-        System.out.println("Client closed his RMIH session");
+        System.out.println("Client closed his RMI session");
         return "OK";
     }
 

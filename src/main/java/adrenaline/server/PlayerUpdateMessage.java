@@ -1,6 +1,6 @@
 package adrenaline.server;
 
-import adrenaline.client.controller.Controller;
+import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Player;
 import adrenaline.server.model.PowerupCard;
 import adrenaline.server.model.WeaponCard;
@@ -27,7 +27,7 @@ public class PlayerUpdateMessage implements UpdateMessage {
     }
 
     @Override
-    public void applyUpdate(Controller clientController) {
-        clientController.updatePlayer(clientsidePlayer);
+    public void applyUpdate(GameController clientGameController) {
+        clientGameController.updatePlayer(clientsidePlayer);
     }
 }

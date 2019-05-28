@@ -12,6 +12,7 @@ public interface GameState {
     String selectSquare(int index);
     String selectPowerUp(int powerUpID);
     String selectWeapon(int weaponID);
+    String selectFiremode(int firemode);
     String endOfTurnAction();
     String goBack();
     String selectAvatar(Color color);

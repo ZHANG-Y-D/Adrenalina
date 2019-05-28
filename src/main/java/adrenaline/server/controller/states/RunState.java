@@ -52,6 +52,11 @@ public class RunState implements GameState {
     }
 
     @Override
+    public String selectFiremode(int firemode) {
+        return null;
+    }
+
+    @Override
     public String endOfTurnAction() {
         return "Select a square or GO BACK to action selection!";
     }

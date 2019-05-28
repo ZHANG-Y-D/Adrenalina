@@ -1,6 +1,6 @@
 package adrenaline.client.view;
 
-import adrenaline.client.controller.Controller;
+import adrenaline.client.controller.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,15 +12,14 @@ import javafx.stage.StageStyle;
 public class ClientGui extends Application{
 
     private Stage window;
-    private ViewInterface currentController;
 
     public void start(Stage primaryStage)throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/InitialView.fxml"));
         Parent root = loader.load();
-        Controller controller = new Controller();
-        currentController = loader.getController();
-        currentController.setController(controller);
-        controller.setViewController(currentController);
+        GameController gameController = new GameController();
+        ViewInterface viewController = loader.getController();
+        viewController.setGameController(gameController);
+        gameController.setViewController(viewController);
         window = primaryStage;
         window.setTitle("Adrenalina");
         window.setResizable(false);

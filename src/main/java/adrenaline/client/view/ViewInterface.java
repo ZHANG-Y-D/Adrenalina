@@ -1,9 +1,9 @@
 package adrenaline.client.view;
 
-import adrenaline.client.controller.Controller;
+import adrenaline.client.controller.GameController;
 
 public interface ViewInterface {
     void showError(String error);
-
-    void setController(Controller controller);
+    void changeStage();
+    void setGameController(GameController gameController);
 }

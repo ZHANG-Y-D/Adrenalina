@@ -1,15 +1,15 @@
 package adrenaline.server.network;
 
+import adrenaline.server.UpdateMessage;
 import adrenaline.server.controller.Lobby;
 import com.google.gson.Gson;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.UUID;
@@ -18,12 +18,13 @@ public class ClientSocketWrapper implements Client {
     private final String clientID;
     private String nickname = null;
     private Socket thisClient;
-    private boolean active;
+    private volatile boolean active;
 
     private final SocketServerCommands serverCommands;
     private Lobby inLobby;
     private HashMap<String,Object> methodsMap = new HashMap<>();
     private PrintWriter outputToClient;
+    private Gson gson;
 
     public ClientSocketWrapper(Socket newClient, SocketServerCommands serverCommands) throws IOException {
         this.clientID = UUID.randomUUID().toString();
@@ -33,18 +34,18 @@ public class ClientSocketWrapper implements Client {
         for(Method m : serverCommands.getClass().getDeclaredMethods())methodsMap.put(m.getName(), serverCommands);
         Scanner inputFromClient = new Scanner(thisClient.getInputStream());
         outputToClient = new PrintWriter(thisClient.getOutputStream());
+        gson = new Gson();
         createListener(inputFromClient);
         sendMessage(clientID);
     }
 
     private void createListener(Scanner inputFromClient) {
         new Thread(() -> {
-            Gson gson = new Gson();
             String readFromClient, sendToClient;
             String[] readSplit;
             Method requestedMethod;
 
-            while(true){
+            while(active){
                 sendToClient="RETURN;";
                 try {
                     readFromClient = inputFromClient.nextLine();
@@ -81,7 +82,11 @@ public class ClientSocketWrapper implements Client {
         return nickname;
     }
 
-    public void setNickname(String nickname) { this.nickname = nickname; }
+    public boolean setNickname(String nickname) {
+        if(this.nickname != null) return false;
+        this.nickname = nickname;
+        return true;
+    }
 
     public void setActive(boolean active) { this.active = active; }
 
@@ -92,5 +97,10 @@ public class ClientSocketWrapper implements Client {
     }
 
     public void setLobby(String lobbyID) {
+        sendMessage("setLobby;ARGSIZE=1;java.lang.String;"+gson.toJson(lobbyID));
+    }
+
+    public void update(UpdateMessage updatemsg) {
+        //TODO send updateMessage to client
     }
 }

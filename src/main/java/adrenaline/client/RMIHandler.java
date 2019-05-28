@@ -1,6 +1,6 @@
 package adrenaline.client;
 
-import adrenaline.client.controller.Controller;
+import adrenaline.client.controller.GameController;
 import adrenaline.server.LobbyAPI;
 import adrenaline.server.ServerAPI;
 
@@ -13,34 +13,35 @@ public class RMIHandler implements ConnectionHandler {
 
     private String clientID;
     private ServerAPI myServer;
+    private String myLobbyID;
     private LobbyAPI myLobby;
     private RMIClientCommands thisClient;
     private Registry registry;
-    private Controller controller;
+    private GameController gameController;
 
-    public RMIHandler(String serverIP, int port, Controller controller) throws RemoteException, NotBoundException {
+    public RMIHandler(String serverIP, int port, GameController gameController) throws RemoteException, NotBoundException {
         registry = LocateRegistry.getRegistry(serverIP, port);
         String remoteObjectName = "AdrenalineServer";
         this.myServer = (ServerAPI) registry.lookup(remoteObjectName);
-        System.out.println("Connection through RMIHandler was succesful!");
-        this.controller = controller;
-        thisClient = new RMIClientCommands(this);
+        System.out.println("Connection through RMI was succesful!");
+        this.gameController = gameController;
+        thisClient = new RMIClientCommands(this, gameController);
         clientID = myServer.registerRMIClient(thisClient);
     }
 
-    public void setMyLobby(String myLobby) throws RemoteException{
-        String remoteObjectName = "Game;"+myLobby;
+    public void setMyLobby(String myLobbyID){
+        this.myLobbyID = myLobbyID;
+        String remoteObjectName = "Game;"+myLobbyID;
         try {
             this.myLobby = (LobbyAPI) registry.lookup(remoteObjectName);
-            System.out.println(this.myLobby);
-        } catch (NotBoundException e) {
+        } catch (NotBoundException | RemoteException e) {
             e.printStackTrace();
         }
     }
 
     public void unregister() {
         try {
-            controller.handleReturn(myServer.unregisterClient(clientID));
+            gameController.handleReturn(myServer.unregisterClient(clientID));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -48,7 +49,7 @@ public class RMIHandler implements ConnectionHandler {
 
     public void setNickname(String nickname) {
         try {
-            controller.handleReturn(myServer.setNickname(clientID, nickname));
+            gameController.handleReturn(myServer.setNickname(clientID, nickname));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

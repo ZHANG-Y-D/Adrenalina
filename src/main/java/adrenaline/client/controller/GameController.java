@@ -5,18 +5,11 @@ import adrenaline.client.ConnectionHandler;
 import adrenaline.client.RMIHandler;
 import adrenaline.client.SocketHandler;
 import adrenaline.client.model.*;
-import adrenaline.client.view.ClientCli;
-import adrenaline.client.view.ClientGui;
 import adrenaline.client.view.ViewInterface;
 import adrenaline.server.UpdateMessage;
-import javafx.application.Application;
-
-import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 
-public class Controller {
+public class GameController {
     private int mapID;
 
     private ScoreBoard scoreBoard;
@@ -59,9 +52,7 @@ public class Controller {
         if(!returnMsg.equals("OK")) view.showError(returnMsg);
     }
 
-    public void update(UpdateMessage updatemsg){
-        updatemsg.applyUpdate(this);
-    }
+    public void changeStage(){ view.changeStage(); }
 
     public void updatePlayer(Player newPlayer){
         playersMap.put(newPlayer.getColor(), newPlayer);

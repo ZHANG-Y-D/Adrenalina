@@ -1,37 +1,32 @@
 package adrenaline.client.view;
 
-import adrenaline.client.ConnectionHandler;
-import adrenaline.client.RMIHandler;
-import adrenaline.client.SocketHandler;
-import adrenaline.client.controller.Controller;
-import adrenaline.client.view.ClientGui;
-import adrenaline.client.view.ConfirmBox;
-import adrenaline.client.view.ViewInterface;
+import adrenaline.client.controller.GameController;
+import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
+
 
 public class InitialViewController implements ViewInterface {
 
-    public Pane pane;
+    public Pane initPane;
     public Button rmi, socket, play, close;
     public TextField host, port, name;
     public Label label,error;
-    private Controller controller = null;
+    private GameController gameController = null;
 
     public void initialize(){
-        pane.getStyleClass().add("pane");
+        initPane.getStyleClass().add("pane");
         close.getStyleClass().add("close");
+        error.getStyleClass().add("outline");
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),16);
         close.setFont(font);
         rmi.setFont(font);
@@ -44,14 +39,14 @@ public class InitialViewController implements ViewInterface {
         error.setFont(font);
     }
 
-    public void setController(Controller controller){
-        this.controller = controller;
+    public void setGameController(GameController gameController){
+        this.gameController = gameController;
     }
 
     public void RMISelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))){
             try{
-                if(controller.connectRMI(host.getText(), Integer.parseInt(port.getText()))) changeScene();
+                if(gameController.connectRMI(host.getText(), Integer.parseInt(port.getText()))) changeScene();
             }catch (NumberFormatException e){
                 error.setText("Wrong host/port");
             }
@@ -62,7 +57,7 @@ public class InitialViewController implements ViewInterface {
     public void SocketSelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))) {
             try {
-                if(controller.connectSocket(host.getText(), Integer.parseInt(port.getText()))) changeScene();
+                if(gameController.connectSocket(host.getText(), Integer.parseInt(port.getText()))) changeScene();
             }catch (NumberFormatException e){
                 error.setText("Wrong host/port");
             }
@@ -78,30 +73,68 @@ public class InitialViewController implements ViewInterface {
         port.setVisible(false);
         name.setVisible(true);
         play.setVisible(true);
+        error.setLayoutY(362);
     }
 
     public void sendNickname(){
         if(!name.getText().equals("")) {
-            label.setVisible(true);
-            play.setDisable(true);
-            name.setDisable(true);
-            error.setText("");
-            controller.setNickname(name.getText());
+            gameController.setNickname(name.getText());
         }
         else error.setText("Type a nickname");
+    }
+
+    @Override
+    public void showError(String errorMsg) {
+        Platform.runLater(() -> {
+            if(errorMsg.equals("/OK")){
+                Timeline timeline = new Timeline(
+                        new KeyFrame(Duration.ZERO, event -> {
+                            String statusText = label.getText();
+                            label.setText(
+                                    ("Searching for a game . . .".equals(statusText))
+                                            ? "Searching for a game ."
+                                            : statusText + " ."
+                            );
+                        }),
+                        new KeyFrame(Duration.millis(1000))
+                );
+                timeline.setCycleCount(Timeline.INDEFINITE);
+                label.setVisible(true);
+                play.setDisable(true);
+                name.setDisable(true);
+                error.setText("");
+                timeline.play();
+            }
+            else error.setText(errorMsg);
+        });
+    }
+
+    public void changeStage(){
+        Platform.runLater(() ->{
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/SelectionView.fxml"));
+                Parent nextView = loader.load();
+                Scene scene = new Scene(nextView);
+                ViewInterface viewController = loader.getController();
+                viewController.setGameController(gameController);
+                gameController.setViewController(viewController);
+                Stage stage = (Stage) initPane.getScene().getWindow();
+                stage.setWidth(1280);
+                stage.setHeight(768);
+                stage.centerOnScreen();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void close(){
         boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
         if (answer) {
-            controller.cleanExit();
-            Stage stage = (Stage)pane.getScene().getWindow();
+            gameController.cleanExit();
+            Stage stage = (Stage) initPane.getScene().getWindow();
             stage.close();
         }
-    }
-
-    @Override
-    public void showError(String error) {
-        Platform.runLater(() -> this.error.setText(error));
     }
 }

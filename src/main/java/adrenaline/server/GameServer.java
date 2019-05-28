@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class GameServer {
     private final int rmiPort = 1099;
     private final int socketPort = 1100;
-    private final int TIMEOUT_IN_SECONDS = 60;
+    private final int TIMEOUT_IN_SECONDS = 10;
 
     private final HashMap<String, Client> clients;
     private final ArrayList<Client> clientsWaitingList;
@@ -44,7 +44,7 @@ public class GameServer {
                     try {
                         Socket client = serverSocket.accept();
                         registerClient(new ClientSocketWrapper(client, SocketAdrenalineServer));
-                        System.out.println("Client connected through Socket!");
+                        System.out.println("Client connected through Socket");
                     } catch (IOException e) { e.printStackTrace(); }
                 }
             }).start();
@@ -52,7 +52,7 @@ public class GameServer {
             System.out.println("Server listening on ports\n\t"+ rmiPort + " (RMI service)\n\t" + socketPort +" (Socket service)");
 
         }catch(Exception e){
-            System.out.println("Error setting up server!");
+            System.out.println("Error setting up server.");
             e.printStackTrace();
         }
         clients = new HashMap<>();
@@ -100,10 +100,6 @@ public class GameServer {
 
     public void registerClient(Client c){
         clients.put(c.getClientID(), c);
-        synchronized (clientsWaitingList) {
-            this.clientsWaitingList.add(c);
-            clientsWaitingList.notifyAll();
-        }
     }
 
     public void unregisterClient(String cID) {
@@ -118,9 +114,13 @@ public class GameServer {
     public boolean setNickname(String cID, String nickname){
         if(usedNicknames.contains(nickname)) return false;
         Client c = clients.get(cID);
-        if(c.getNickname() != null) usedNicknames.remove(c.getNickname());
-        c.setNickname(nickname);
-        usedNicknames.add(nickname);
+        if(c.setNickname(nickname)) {
+            usedNicknames.add(nickname);
+            synchronized (clientsWaitingList) {
+                this.clientsWaitingList.add(c);
+                clientsWaitingList.notifyAll();
+            }
+        }
         return true;
     }
 

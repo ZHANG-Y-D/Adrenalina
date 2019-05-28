@@ -1,6 +1,7 @@
 package adrenaline.server.network;
 
 import adrenaline.client.ClientAPI;
+import adrenaline.server.UpdateMessage;
 import adrenaline.server.controller.Lobby;
 
 import java.rmi.RemoteException;
@@ -24,7 +25,11 @@ public class ClientRMIWrapper implements Client {
 
     public String getNickname(){ return nickname; }
 
-    public void setNickname(String nickname) { this.nickname = nickname; }
+    public boolean setNickname(String nickname) {
+        if(this.nickname != null) return false;
+        this.nickname = nickname;
+        return true;
+    }
 
     public void setActive(boolean active) { this.active = active; }
 
@@ -36,5 +41,9 @@ public class ClientRMIWrapper implements Client {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public void update(UpdateMessage updatemsg) throws RemoteException {
+
     }
 }
