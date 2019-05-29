@@ -49,7 +49,12 @@ public class WeaponGrabState implements GameState {
 
     @Override
     public String selectPowerUp(int powerUpID) {
-        return lobby.consumePowerup(powerUpID);
+        try {
+            lobby.consumePowerup(powerUpID);
+            return "OK";
+        } catch (InvalidCardException e) {
+            return "Invalid card selection!";
+        }
     }
 
     @Override
@@ -62,7 +67,7 @@ public class WeaponGrabState implements GameState {
                 weaponSquare.removeCard(weaponCard);
                 return "OK";
             } catch (NotEnoughAmmoException e) {
-                return "You can't pay the ammo price for that weapon! Remember: powerups can be expended too...";
+                return "You can't pay the ammo price for that weapon! HINT: powerups can be expended too";
             } catch (WeaponHandFullException e) {
                 selectedCard = weaponCard;
                 swapping = true;
@@ -81,6 +86,16 @@ public class WeaponGrabState implements GameState {
 
     @Override
     public String selectFiremode(int firemode) {
+        return null;
+    }
+
+    @Override
+    public String moveSubAction() {
+        return null;
+    }
+
+    @Override
+    public String fireSubAction() {
         return null;
     }
 

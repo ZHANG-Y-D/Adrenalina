@@ -1,5 +1,7 @@
 package adrenaline.server.controller.states;
 
+import adrenaline.exceptions.InvalidCardException;
+import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
 import adrenaline.server.model.Firemode;
@@ -20,32 +22,37 @@ public class ShootState implements GameState {
 
     @Override
     public String runAction() {
-        return null;
+        return "Select a weapon or GO BACK to action selection!";
     }
 
     @Override
     public String grabAction() {
-        return null;
+        return "Select a weapon or GO BACK to action selection!";
     }
 
     @Override
     public String shootAction() {
-        return null;
+        return "Select a weapon or GO BACK to action selection!";
     }
 
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
-        return null;
+        return "Select which weapon you want to use first";
     }
 
     @Override
     public String selectSquare(int index) {
-        return null;
+        return "Select which weapon you want to use first";
     }
 
     @Override
     public String selectPowerUp(int powerUpID) {
-        return null;
+        try {
+            lobby.consumePowerup(powerUpID);
+            return "OK";
+        } catch (InvalidCardException e) {
+            return "Invalid card selection!";
+        }
     }
 
     @Override
@@ -60,15 +67,30 @@ public class ShootState implements GameState {
     @Override
     public String selectFiremode(int firemode) {
         if(selectedWeapon == null) return "No weapon is selected! Please select a weapon first";
-        Firemode selectedFiremode = lobby.getFiremode(selectedWeapon, firemode);
-        if(selectedFiremode==null) return "This weapon does not have such firemode!";
-        else lobby.setState(new FiremodeState(lobby, selectedFiremode));
-        return "OK";
+        try {
+            Firemode selectedFiremode = null;
+            selectedFiremode = lobby.getFiremode(selectedWeapon, firemode);
+            if(selectedFiremode==null) return "This weapon does not have such firemode!";
+            else lobby.setState(new FiremodeState(lobby, actionNumber, selectedFiremode));
+            return "OK";
+        } catch (NotEnoughAmmoException e) {
+            return "You can't pay the ammo price for that firemode! HINT: powerups can be expended too";
+        }
+    }
+
+    @Override
+    public String moveSubAction() {
+        return null;
+    }
+
+    @Override
+    public String fireSubAction() {
+        return null;
     }
 
     @Override
     public String endOfTurnAction() {
-        return null;
+        return "Select a weapon or GO BACK to action selection!";
     }
 
     @Override
@@ -79,11 +101,11 @@ public class ShootState implements GameState {
 
     @Override
     public String selectAvatar(Color color) {
-        return null;
+        return "KO";
     }
 
     @Override
     public String selectMap(int mapID, String voterID) {
-        return null;
+        return "KO";
     }
 }

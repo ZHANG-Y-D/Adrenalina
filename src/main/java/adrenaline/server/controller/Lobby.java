@@ -176,6 +176,21 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    public String selectFiremode(String clientID, int firemode) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.selectFiremode(firemode);
+        else return "You can only do that during your turn!";
+    }
+
+    public String moveSubAction(String clientID) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.moveSubAction();
+        else return "You can only do that during your turn!";
+    }
+
+    public String fireSubAction(String clientID) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.fireSubAction();
+        else return "You can only do that during your turn!";
+    }
+
     public String endOfTurnAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) return currentState.endOfTurnAction();
         else return "You can only do that during your turn!";
@@ -239,9 +254,7 @@ public class Lobby implements Runnable, LobbyAPI {
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+ mapID +".json");
             this.map=gson.fromJson(fileReader,Map.class);
-        }catch (JsonIOException e){
-        }
-        catch (FileNotFoundException e) {
+        }catch (JsonIOException | FileNotFoundException e){
         }
     }
 
@@ -320,13 +333,10 @@ public class Lobby implements Runnable, LobbyAPI {
         return droppedWeapon;
     }
 
-    public String consumePowerup(int powerUpID){
+    public void consumePowerup(int powerUpID) throws InvalidCardException{
         PowerupCard card = playersMap.get(currentTurnPlayer).consumePower(powerUpID);
-        if(card == null) return "Invalid card selection!";
-        else{
-            deckPowerup.addToDiscarded(card);
-            return "OK";
-        }
+        if(card == null) throw new InvalidCardException();
+        else deckPowerup.addToDiscarded(card);
     }
 
     public boolean canUseWeapon(int weaponID){
@@ -335,9 +345,12 @@ public class Lobby implements Runnable, LobbyAPI {
         else return true;
     }
 
-    public Firemode getFiremode(int weaponID, int firemode){
+    public Firemode getFiremode(int weaponID, int firemode) throws NotEnoughAmmoException{
         try {
-            return playersMap.get(currentTurnPlayer).getWeaponCard(weaponID).getFiremode(firemode);
+            Player currPlayer = playersMap.get(currentTurnPlayer);
+            Firemode selectedFiremode = currPlayer.getWeaponCard(weaponID).getFiremode(firemode);
+            if(currPlayer.canPayCost(selectedFiremode.getExtraCost())) return selectedFiremode;
+            else throw new NotEnoughAmmoException();
         }catch(NullPointerException e){
             return null;
         }

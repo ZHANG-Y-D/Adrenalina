@@ -9,10 +9,12 @@ import java.util.ArrayList;
 public class FiremodeState implements GameState {
 
     private Lobby lobby;
+    int actionNumber;
     private Firemode thisFiremode;
 
-    public FiremodeState(Lobby lobby, Firemode thisFiremode){
+    public FiremodeState(Lobby lobby, int actionNumber, Firemode thisFiremode){
         this.lobby = lobby;
+        this.actionNumber = actionNumber;
         this.thisFiremode = thisFiremode;
     }
 
@@ -57,13 +59,26 @@ public class FiremodeState implements GameState {
     }
 
     @Override
+    public String moveSubAction() {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public String fireSubAction() {
+        //TODO
+        return null;
+    }
+
+    @Override
     public String endOfTurnAction() {
         return null;
     }
 
     @Override
     public String goBack() {
-        return null;
+        lobby.setState(new ShootState(lobby, actionNumber));
+        return "OK";
     }
 
     @Override

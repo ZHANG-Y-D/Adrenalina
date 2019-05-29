@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Firemode {
     private String name;
     private int[] extraCost;
-    private int targetLimit; // value 0 used as flag for area target firemodes
+    private int targetLimit;
     private ArrayList<MovementEffect> mvEffects;
     private ArrayList<RangeConstraint> rngConstraints;
     private ArrayList<TargetsConstraint> trgConstraints;
