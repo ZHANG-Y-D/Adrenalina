@@ -55,7 +55,6 @@ public class Player {
         numOfActions = 2;
         score = 0;
         this.lobby = lobby;
-
     }
 
 
@@ -68,6 +67,7 @@ public class Player {
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
         numOfActions = 2;
+        System.out.println(avatar.getName());
     }
 
 

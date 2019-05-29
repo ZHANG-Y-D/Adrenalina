@@ -1,6 +1,7 @@
 package adrenaline.client;
 
 
+import adrenaline.Color;
 import adrenaline.LobbyAPI;
 import adrenaline.ServerAPI;
 import adrenaline.client.controller.GameController;
@@ -53,6 +54,14 @@ public class RMIHandler implements ConnectionHandler {
     public void setNickname(String nickname) {
         try {
             gameController.handleReturn(myServer.setNickname(clientID, nickname));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectAvatar(Color color){
+        try {
+            gameController.handleReturn(myLobby.selectAvatar(clientID, color));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

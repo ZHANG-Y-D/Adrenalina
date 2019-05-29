@@ -54,6 +54,8 @@ public class GameController {
 
     public void setNickname(String nickname){ connectionHandler.setNickname(nickname);}
 
+    public void selectAvatar(Color color){ connectionHandler.selectAvatar(color); }
+
 
     public void cleanExit(){
         if(connectionHandler != null) connectionHandler.unregister();

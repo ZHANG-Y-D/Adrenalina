@@ -1,6 +1,7 @@
 package adrenaline.client;
 
 
+import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import com.google.gson.Gson;
 
@@ -91,5 +92,14 @@ public class SocketHandler implements ConnectionHandler {
 
     public void setMyLobby(String lobbyID) {
         myLobbyID = lobbyID;
+    }
+
+    @Override
+    public void selectAvatar(Color color) {
+        String avatarMsg = "selectAvatar;ARGSIZE=2;java.lang.String;";
+        avatarMsg += gson.toJson(clientID)+";";
+        avatarMsg += "adrenaline.Color;";
+        avatarMsg += gson.toJson(color);
+        sendMessage(avatarMsg);
     }
 }
