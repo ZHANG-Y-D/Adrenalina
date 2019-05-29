@@ -1,8 +1,10 @@
 package adrenaline.client.view;
 
 
+import adrenaline.Color;
 import adrenaline.server.controller.states.GameState;
 import adrenaline.client.controller.GameController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,8 +26,9 @@ public class SelectionViewController implements ViewInterface {
     public ImageView map1,map2,map3,map4;
     public StackPane stack1,stack2,stack3,stack4;
     public Button next,select,close;
-    public Label title;
+    public Label title,error;
     private HashMap<Integer, ImageView> imageMap;
+    private HashMap<String, Color> colorMap;
     private GameController gameController;
 
     public void initialize(){
@@ -35,6 +38,12 @@ public class SelectionViewController implements ViewInterface {
         imageMap.put(3, avatar3);
         imageMap.put(4, avatar4);
         imageMap.put(5, avatar5);
+        colorMap = new HashMap<>();
+        colorMap.put(avatar1.getImage().getUrl(), Color.YELLOW);
+        colorMap.put(avatar2.getImage().getUrl(), Color.WHITE);
+        colorMap.put(avatar3.getImage().getUrl(), Color.PURPLE);
+        colorMap.put(avatar4.getImage().getUrl(), Color.GREEN);
+        colorMap.put(avatar5.getImage().getUrl(), Color.BLUE);
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),60);
         title.setFont(font);
         font= Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),40);
@@ -68,6 +77,11 @@ public class SelectionViewController implements ViewInterface {
         imageMap.get(5).setImage(firstImg);
     }
 
+    public void selectAvatar(){
+        System.out.println(colorMap.get(avatar1.getImage().getUrl()));
+        gameController.selectAvatar(colorMap.get(avatar1.getImage().getUrl()));
+    }
+
     public void changeScene(){
         avatar1.setVisible(false);
         avatar2.setVisible(false);
@@ -95,8 +109,11 @@ public class SelectionViewController implements ViewInterface {
         map.setEffect(glow);
     }
 
-    public void showError(String error){
-
+    public void showError(String errorMsg){
+        Platform.runLater(() -> {
+            if(errorMsg.equals("/OK")) this.error.setText("Avatar selected");
+            else this.error.setText(errorMsg);
+        });
     }
 
     public void changeStage(){

@@ -55,6 +55,8 @@ public class Lobby implements Runnable, LobbyAPI {
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
         deadPlayers = new ArrayList<>();
+        currentTurnPlayer = clients.get(0).getClientID();
+        nextTurnPlayer = clients.get(1).getClientID();
         try{
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Avatar.json");
@@ -214,7 +216,7 @@ public class Lobby implements Runnable, LobbyAPI {
         }
     }
 
-    private synchronized void nextPlayer(){
+    public synchronized void nextPlayer(){
         currentTurnPlayer = nextTurnPlayer;
 
         Iterator<String> itr = clientMap.keySet().iterator();
