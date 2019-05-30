@@ -1,10 +1,19 @@
 package adrenaline.server.controller.states;
 
 import adrenaline.Color;
+import adrenaline.server.controller.Lobby;
+import adrenaline.server.model.Firemode;
 
 import java.util.ArrayList;
 
-public class ShootMoveState implements GameState {
+public class MoveSelfState implements FiremodeSubState {
+    private Lobby lobby;
+
+    @Override
+    public void setContext(Lobby lobby, Firemode firemode) {
+        this.lobby = lobby;
+    }
+
     @Override
     public String runAction() {
         return null;
@@ -42,6 +51,11 @@ public class ShootMoveState implements GameState {
 
     @Override
     public String selectFiremode(int firemode) {
+        return null;
+    }
+
+    @Override
+    public String moveSubAction() {
         return null;
     }
 

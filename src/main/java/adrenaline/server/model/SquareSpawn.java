@@ -11,8 +11,8 @@ public class SquareSpawn extends Square {
     private ArrayList<WeaponCard> weaponCards;
 
     @Override
-    public void acceptGrab(Lobby lobby, int actionNumber) {
-        lobby.grabFromSquare(this, actionNumber);
+    public void acceptGrab(Lobby lobby) {
+        lobby.grabFromSquare(this);
     }
 
     @Override

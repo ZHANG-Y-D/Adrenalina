@@ -54,6 +54,11 @@ public class ReloadState implements GameState{
     }
 
     @Override
+    public String moveSubAction() {
+        return "You can't do that now!";
+    }
+
+    @Override
     public String endOfTurnAction() {
         lobby.endTurn();
         return "OK";

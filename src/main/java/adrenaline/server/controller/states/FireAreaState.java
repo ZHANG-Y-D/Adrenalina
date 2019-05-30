@@ -6,14 +6,10 @@ import adrenaline.server.model.Firemode;
 
 import java.util.ArrayList;
 
-public class FiremodeState implements GameState {
+public class FireAreaState implements FiremodeSubState {
+    @Override
+    public void setContext(Lobby lobby, Firemode firemode) {
 
-    private Lobby lobby;
-    private Firemode thisFiremode;
-
-    public FiremodeState(Lobby lobby, Firemode thisFiremode){
-        this.lobby = lobby;
-        this.thisFiremode = thisFiremode;
     }
 
     @Override
@@ -53,6 +49,11 @@ public class FiremodeState implements GameState {
 
     @Override
     public String selectFiremode(int firemode) {
+        return null;
+    }
+
+    @Override
+    public String moveSubAction() {
         return null;
     }
 

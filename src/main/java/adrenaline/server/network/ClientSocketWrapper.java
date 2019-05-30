@@ -1,4 +1,4 @@
-package adrenaline.network;
+package adrenaline.server.network;
 
 import adrenaline.UpdateMessage;
 import adrenaline.server.controller.Lobby;

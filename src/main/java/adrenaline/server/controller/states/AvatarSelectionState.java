@@ -55,6 +55,9 @@ public class AvatarSelectionState implements GameState {
     }
 
     @Override
+    public String moveSubAction() { return "KO"; }
+
+    @Override
     public String endOfTurnAction() {
         return "KO";
     }
