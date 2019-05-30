@@ -3,7 +3,7 @@ package adrenaline.server.model;
 import adrenaline.Color;
 import org.junit.jupiter.api.Test;
 import adrenaline.server.controller.Lobby;
-import adrenaline.network.Client;
+import adrenaline.server.network.Client;
 
 import java.util.ArrayList;
 

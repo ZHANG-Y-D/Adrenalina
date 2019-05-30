@@ -1,7 +1,7 @@
-package adrenaline.network;
+package adrenaline.server.network;
 
 import adrenaline.server.controller.Lobby;
-import adrenaline.LobbyAPI;
+import adrenaline.server.LobbyAPI;
 import adrenaline.Color;
 
 import java.rmi.RemoteException;
@@ -48,6 +48,16 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
     @Override
     public String selectWeapon(String clientID, int weaponID) {
         return lobbyRelay.selectWeapon(clientID,weaponID);
+    }
+
+    @Override
+    public String selectFiremode(String clientID, int firemode) {
+        return null;
+    }
+
+    @Override
+    public String moveSubAction(String clientID) {
+        return null;
     }
 
     @Override

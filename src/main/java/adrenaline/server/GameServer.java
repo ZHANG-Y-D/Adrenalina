@@ -1,6 +1,6 @@
-package adrenaline;
+package adrenaline.server;
 
-import adrenaline.network.*;
+import adrenaline.server.network.*;
 import adrenaline.server.controller.Lobby;
 
 import java.io.IOException;

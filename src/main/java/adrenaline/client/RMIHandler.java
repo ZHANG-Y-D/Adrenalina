@@ -2,8 +2,8 @@ package adrenaline.client;
 
 
 import adrenaline.Color;
-import adrenaline.LobbyAPI;
-import adrenaline.ServerAPI;
+import adrenaline.server.LobbyAPI;
+import adrenaline.server.ServerAPI;
 import adrenaline.client.controller.GameController;
 
 import java.rmi.NotBoundException;

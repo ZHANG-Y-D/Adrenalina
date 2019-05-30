@@ -8,36 +8,34 @@ import java.util.ArrayList;
 public class SelectActionState implements GameState {
 
     private Lobby lobby;
-    private int executedActions;
 
-    public SelectActionState(Lobby lobby, int executedActions){
+    public SelectActionState(Lobby lobby){
         this.lobby = lobby;
-        this.executedActions = executedActions;
     }
 
     @Override
     public String runAction() {
-        if (executedActions >= 2) return "You have run out of moves!";
+        if (lobby.getExecutedActions() >= 2) return "You have run out of moves!";
         else {
-            lobby.setState(new RunState(lobby, executedActions+1));
+            lobby.setState(new RunState(lobby));
             return "OK";
         }
     }
 
     @Override
     public String grabAction() {
-        if (executedActions >= 2) return "You have run out of moves!";
+        if (lobby.getExecutedActions() >= 2) return "You have run out of moves!";
         else {
-            lobby.setState(new GrabState(lobby, executedActions+1));
+            lobby.setState(new GrabState(lobby));
             return "OK";
         }
     }
 
     @Override
     public String shootAction() {
-        if (executedActions >= 2) return "You have run out of moves!";
+        if (lobby.getExecutedActions() >= 2) return "You have run out of moves!";
         else {
-            lobby.setState(new ShootState(lobby,executedActions+1 ));
+            lobby.setState(new ShootState(lobby));
             return "OK";
         }
     }
@@ -64,6 +62,11 @@ public class SelectActionState implements GameState {
     @Override
     public String selectFiremode(int firemode) {
         return null;
+    }
+
+    @Override
+    public String moveSubAction() {
+        return "Select an action!";
     }
 
     @Override

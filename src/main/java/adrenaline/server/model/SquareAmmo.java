@@ -8,8 +8,8 @@ public class SquareAmmo extends Square{
     private AmmoCard ammoTile;
 
     @Override
-    public void acceptGrab(Lobby lobby, int actionNumber) {
-        lobby.grabFromSquare(this, actionNumber);
+    public void acceptGrab(Lobby lobby) {
+        lobby.grabFromSquare(this);
     }
 
     @Override

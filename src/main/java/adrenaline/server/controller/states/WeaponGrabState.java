@@ -1,8 +1,8 @@
 package adrenaline.server.controller.states;
 
-import adrenaline.exceptions.InvalidCardException;
-import adrenaline.exceptions.NotEnoughAmmoException;
-import adrenaline.exceptions.WeaponHandFullException;
+import adrenaline.server.exceptions.InvalidCardException;
+import adrenaline.server.exceptions.NotEnoughAmmoException;
+import adrenaline.server.exceptions.WeaponHandFullException;
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
 import adrenaline.server.model.SquareSpawn;
@@ -13,14 +13,12 @@ import java.util.ArrayList;
 public class WeaponGrabState implements GameState {
 
     private Lobby lobby;
-    private int actionNumber;
     private SquareSpawn weaponSquare;
     private boolean swapping = false;
     private WeaponCard selectedCard;
 
-    public WeaponGrabState(Lobby lobby, int actionNumber, SquareSpawn weaponSquare){
+    public WeaponGrabState(Lobby lobby, SquareSpawn weaponSquare){
         this.lobby = lobby;
-        this.actionNumber = actionNumber;
         this.weaponSquare = weaponSquare;
     }
 
@@ -49,7 +47,12 @@ public class WeaponGrabState implements GameState {
 
     @Override
     public String selectPowerUp(int powerUpID) {
-        return lobby.consumePowerup(powerUpID);
+        try {
+            lobby.consumePowerup(powerUpID);
+            return "OK";
+        } catch (InvalidCardException e) {
+            return "Invalid card selection!";
+        }
     }
 
     @Override
@@ -62,7 +65,7 @@ public class WeaponGrabState implements GameState {
                 weaponSquare.removeCard(weaponCard);
                 return "OK";
             } catch (NotEnoughAmmoException e) {
-                return "You can't pay the ammo price for that weapon! Remember: powerups can be expended too...";
+                return "You can't pay the ammo price for that weapon! HINT: powerups can be expended too";
             } catch (WeaponHandFullException e) {
                 selectedCard = weaponCard;
                 swapping = true;
@@ -84,6 +87,16 @@ public class WeaponGrabState implements GameState {
         return null;
     }
 
+
+    public String moveSubAction() {
+        return null;
+    }
+
+
+    public String fireSubAction() {
+        return null;
+    }
+
     @Override
     public String endOfTurnAction() {
         return "Select a weapon to grab it or GO BACK to terminate your action";
@@ -91,7 +104,7 @@ public class WeaponGrabState implements GameState {
 
     @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby, actionNumber));
+        lobby.setState(new SelectActionState(lobby));
         return "OK";
     }
 

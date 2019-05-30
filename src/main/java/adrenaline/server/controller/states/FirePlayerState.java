@@ -1,10 +1,25 @@
 package adrenaline.server.controller.states;
 
 import adrenaline.Color;
+import adrenaline.server.controller.Lobby;
+import adrenaline.server.model.Firemode;
+import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
 
-public class ShootFireState implements GameState {
+public class FirePlayerState implements FiremodeSubState {
+
+    private Lobby lobby;
+    private Firemode thisFiremode;
+    private TargetsGenerator targetsGenerator;
+
+    @Override
+    public void setContext(Lobby lobby, Firemode firemode) {
+        this.lobby = lobby;
+        this.thisFiremode = firemode;
+        lobby.sendCurrentPlayerValidSquares(firemode);
+    }
+
     @Override
     public String runAction() {
         return null;
@@ -22,7 +37,8 @@ public class ShootFireState implements GameState {
 
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
-        return null;
+
+        return "OK";
     }
 
     @Override
@@ -46,13 +62,21 @@ public class ShootFireState implements GameState {
     }
 
     @Override
+    public String moveSubAction() {
+        //TODO
+        return null;
+    }
+
+
+    @Override
     public String endOfTurnAction() {
         return null;
     }
 
     @Override
     public String goBack() {
-        return null;
+        lobby.setState(new ShootState(lobby));
+        return "OK";
     }
 
     @Override
