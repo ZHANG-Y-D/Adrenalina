@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -32,7 +33,13 @@ public class GameServer {
         try {
             System.out.println("Setting up RMI Server...");
             RMIServerCommands RMIAdrenalineServer = new RMIServerCommands(this);
-            LocateRegistry.createRegistry(rmiPort).bind("AdrenalineServer", RMIAdrenalineServer);
+            try {
+                LocateRegistry.createRegistry(rmiPort).bind("AdrenalineServer", RMIAdrenalineServer);
+            }catch (ExportException e){
+                System.err.println(" Rmi Port already in use: 1099. "+ e.detail);
+
+            }
+
 
             System.out.println("Setting up Socket Server...");
             SocketServerCommands SocketAdrenalineServer = new SocketServerCommands(this);
@@ -125,6 +132,8 @@ public class GameServer {
         }
         return true;
     }
+
+
 
     private void RMIexportLobby(Lobby lobby){
         try {
