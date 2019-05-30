@@ -10,18 +10,19 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ClientCli implements ViewInterface {
+import static java.lang.Thread.sleep;
+
+public class ClientCli implements ViewInterface{
 
 
     private GameController controller;
-
-
+    private String returnValueFromServer ="null";
 
     public ClientCli() {
         controller = new GameController();
         controller.setViewController(this);
-    }
 
+    }
 
 
     public void InitialClientCli(){
@@ -36,9 +37,27 @@ public class ClientCli implements ViewInterface {
         while (!connectingToServer(connectingType))
             System.out.println("Please reinsert");
 
-
         setNickname();
+        while (!ListenerReturnValueIsOK())
+            setNickname();
+    }
 
+    private boolean ListenerReturnValueIsOK() {
+
+
+        while (true) {
+            if (!returnValueFromServer.equals("null"))
+                break;
+        }
+
+        if (returnValueFromServer.equals("OK")){
+            returnValueFromServer = "null";
+            return true;
+        }
+        else {
+            returnValueFromServer = "null";
+            return false;
+        }
 
     }
 
@@ -57,6 +76,13 @@ public class ClientCli implements ViewInterface {
 
     @Override
     public void setGameController(GameController gameController) {
+
+    }
+
+    @Override
+    public void setReturnValueFromServer(String returnValue) {
+        this.returnValueFromServer =returnValue;
+
 
     }
 
@@ -123,12 +149,14 @@ public class ClientCli implements ViewInterface {
 
         Scanner scanner = new Scanner(System.in);
 
+
         System.out.println("Please insert your Nickname");
         String input = scanner.nextLine();
 
         controller.setNickname(input);
 
-
     }
+
+
 
 }

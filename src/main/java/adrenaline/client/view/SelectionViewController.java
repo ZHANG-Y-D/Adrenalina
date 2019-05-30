@@ -129,4 +129,9 @@ public class SelectionViewController implements ViewInterface {
             stage.close();
         }
     }
+
+    @Override
+    public void setReturnValueFromServer(String returnValue) {
+        //Do nothing it is only for Cli
+    }
 }

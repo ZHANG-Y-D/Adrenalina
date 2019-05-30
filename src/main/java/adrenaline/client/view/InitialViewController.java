@@ -46,6 +46,8 @@ public class InitialViewController implements ViewInterface {
         this.gameController = gameController;
     }
 
+
+
     public void RMISelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))){
             try{
@@ -141,4 +143,8 @@ public class InitialViewController implements ViewInterface {
         }
     }
 
+    @Override
+    public void setReturnValueFromServer(String returnValue) {
+        //Do nothing it is only for Cli
+    }
 }
