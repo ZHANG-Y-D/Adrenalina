@@ -1,5 +1,6 @@
 package adrenaline.server.network;
 
+import adrenaline.Color;
 import adrenaline.UpdateMessage;
 import adrenaline.server.controller.Lobby;
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.UUID;
@@ -90,14 +92,18 @@ public class ClientSocketWrapper implements Client {
 
     public void setActive(boolean active) { this.active = active; }
 
-    public void setLobby(Lobby lobby) {
+    public void setLobby(Lobby lobby, ArrayList<String> nicknames)  {
         this.inLobby=lobby;
         for(Method m : inLobby.getClass().getDeclaredMethods()) methodsMap.put(m.getName(), inLobby);
-        setLobby(inLobby.getID());
+        setLobby(inLobby.getID(), nicknames);
     }
 
-    public void setLobby(String lobbyID) {
-        sendMessage("setLobby;ARGSIZE=1;java.lang.String;"+gson.toJson(lobbyID));
+    public void setLobby(String lobbyID, ArrayList<String> nicknames) {
+        sendMessage("setLobby;ARGSIZE=2;java.lang.String;"+gson.toJson(lobbyID)+";java.util.ArrayList;"+gson.toJson(nicknames));
+    }
+
+    public void setPlayerColor(String nickname, Color color) throws RemoteException {
+        sendMessage("setPlayerColor;ARGSIZE=2;java.lang.String;"+gson.toJson(nickname)+";adrenaline.Color;"+gson.toJson(color));
     }
 
     public void update(UpdateMessage updatemsg) { sendMessage("update:ARGSZIE=1;adrenaline.UpdateMessage:"+gson.toJson(updatemsg));}

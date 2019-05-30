@@ -1,8 +1,11 @@
 package adrenaline.server.model;
 
 import adrenaline.Color;
+import adrenaline.server.Observable;
 import adrenaline.server.controller.Lobby;
+import adrenaline.server.network.Client;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +20,7 @@ import java.util.Comparator;
  *
  */
 
-public class Player {
+public class Player extends Observable{
 
     private Avatar avatar;
     private Lobby lobby;
@@ -58,7 +61,7 @@ public class Player {
     }
 
 
-    public Player(Avatar avatar){
+    public Player(Avatar avatar, String clientNickname, ArrayList<Client> clients){
         this.avatar = avatar;
         damage = new ArrayList<>();
         powerupCards = new ArrayList<>();
@@ -67,7 +70,12 @@ public class Player {
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
         numOfActions = 2;
-        System.out.println(avatar.getName());
+        clients.forEach(this::attach);
+        observers.forEach(x -> {
+            try {
+                x.setPlayerColor(clientNickname, avatar.getColor());
+            } catch (RemoteException e) { }
+        });
     }
 
 

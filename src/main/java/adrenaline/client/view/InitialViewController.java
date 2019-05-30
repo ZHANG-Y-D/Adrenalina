@@ -16,6 +16,7 @@ import javafx.util.Duration;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class InitialViewController implements ViewInterface {
@@ -44,6 +45,10 @@ public class InitialViewController implements ViewInterface {
 
     public void setGameController(GameController gameController){
         this.gameController = gameController;
+    }
+
+    public void notifyView() {
+        System.out.println("lo fa qua");
     }
 
     public void RMISelected(){

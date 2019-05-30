@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class GameServer {
     private final int rmiPort = 1099;
@@ -86,9 +87,10 @@ public class GameServer {
                     Lobby newLobby = new Lobby(clientsWaitingList);
                     activeLobbies.put(newLobby.getID(), newLobby);
                     RMIexportLobby(newLobby);
+                    ArrayList<String> nicknames = (ArrayList<String>) clientsWaitingList.stream().map(Client::getNickname).collect(Collectors.toList());
                     for (Client c : clientsWaitingList) {
                         clientsLobbiesMap.put(c.getClientID(), newLobby.getID());
-                        c.setLobby(newLobby);
+                        c.setLobby(newLobby, nicknames);
                     }
                     new Thread(newLobby).start();
                     clientsWaitingList.clear();
