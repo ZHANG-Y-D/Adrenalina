@@ -2,16 +2,16 @@ package adrenaline.server.controller;
 
 import adrenaline.Color;
 import adrenaline.server.controller.states.*;
-import adrenaline.exceptions.InvalidCardException;
-import adrenaline.exceptions.NotEnoughAmmoException;
-import adrenaline.exceptions.WeaponHandFullException;
+import adrenaline.server.exceptions.InvalidCardException;
+import adrenaline.server.exceptions.NotEnoughAmmoException;
+import adrenaline.server.exceptions.WeaponHandFullException;
 import adrenaline.server.model.*;
 import adrenaline.server.model.Map;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
-import adrenaline.LobbyAPI;
+import adrenaline.server.LobbyAPI;
 import adrenaline.server.controller.states.GameState;
-import adrenaline.network.Client;
+import adrenaline.server.network.Client;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -27,6 +27,7 @@ public class Lobby implements Runnable, LobbyAPI {
     private GameState currentState;
     private String currentTurnPlayer;
     private String nextTurnPlayer;
+    private int executedActions;
 
     private Map map;
     private ScoreBoard scoreBoard;
@@ -122,16 +123,21 @@ public class Lobby implements Runnable, LobbyAPI {
         return deckAmmo;
     }
 
-
     public DeckWeapon getDeckWeapon() {
         return deckWeapon;
+    }
+
+    public ArrayList<Integer> getPlayersPosition(ArrayList<Color> players){
+        ArrayList<Integer> playersPositions = new ArrayList<>();
+        for(Color c : players) playersPositions.add(playersColor.get(c).getPosition());
+        return playersPositions;
     }
 
     @Override
     public void run() {
         while(clientMap.size()>playersMap.size()); //waits for state to change from AvatarSelectionState
         initMap();
-        currentState = new SelectActionState(this, 0);
+        currentState = new SelectActionState(this);
         //TODO handles the game flow
     }
 
@@ -188,11 +194,6 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
-    public String fireSubAction(String clientID) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.fireSubAction();
-        else return "You can only do that during your turn!";
-    }
-
     public String endOfTurnAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) return currentState.endOfTurnAction();
         else return "You can only do that during your turn!";
@@ -215,6 +216,10 @@ public class Lobby implements Runnable, LobbyAPI {
         return playersMap.get(currentTurnPlayer).getAdrenalineState();
     }
 
+    public void incrementExecutedActions(){ executedActions++;}
+
+    public int getExecutedActions(){ return executedActions; }
+
     public synchronized void endTurn(){
         checkDeadPlayers();
         if(deadPlayers.size() > 0){
@@ -226,7 +231,7 @@ public class Lobby implements Runnable, LobbyAPI {
             currentTurnPlayer = dead;
             currentState = new RespawnState(this);
         }else {
-            currentState = new SelectActionState(this, 0);
+            currentState = new SelectActionState(this);
             nextPlayer();
         }
     }
@@ -272,6 +277,12 @@ public class Lobby implements Runnable, LobbyAPI {
         return validSquares;
     }
 
+    public ArrayList<Integer> sendCurrentPlayerValidSquares(Firemode firemode) {
+        ArrayList<Integer> validSquares = firemode.getRange(playersMap.get(currentTurnPlayer).getPosition(), map);
+        //TODO sends list to adrenaline.client
+        return validSquares;
+    }
+
     public void respawnWithPowerup(int powerupID) throws InvalidCardException {
         Player currPlayer = playersMap.get(currentTurnPlayer);
         PowerupCard discardedPowerup = currPlayer.getPowerupCard(powerupID);
@@ -289,11 +300,11 @@ public class Lobby implements Runnable, LobbyAPI {
         if(playersColor.get(playerColor).getPosition()!= squareIndex) playersColor.get(playerColor).setPosition(squareIndex);
     }
 
-    public void grabFromSquare(int squareIndex, int actionNumber){
-        map.getSquare(squareIndex).acceptGrab(this, actionNumber);
+    public void grabFromSquare(int squareIndex){
+        map.getSquare(squareIndex).acceptGrab(this);
     }
 
-    public void grabFromSquare(SquareAmmo square, int actionNumber){
+    public void grabFromSquare(SquareAmmo square){
         Player currentPlayer = playersMap.get(currentTurnPlayer);
         AmmoCard grabbedAmmoTile= square.getAmmoTile();
         if (grabbedAmmoTile!=null) {
@@ -306,11 +317,11 @@ public class Lobby implements Runnable, LobbyAPI {
             //If the tile depicts a powerup card, draw one.
             if (grabbedAmmoContent[3] != 0 && currentPlayer.getPowerupHandSize()<3) currentPlayer.addPowerupCard(deckPowerup.draw());
         }
-        setState(new SelectActionState(this, actionNumber));
+        setState(new SelectActionState(this));
     }
 
-    public void grabFromSquare(SquareSpawn square, int actionNumber){
-        setState(new WeaponGrabState(this, actionNumber, square));
+    public void grabFromSquare(SquareSpawn square){
+        setState(new WeaponGrabState(this, square));
     }
 
     public void grabWeapon(WeaponCard weaponCard) throws NotEnoughAmmoException, WeaponHandFullException {
@@ -357,5 +368,7 @@ public class Lobby implements Runnable, LobbyAPI {
             return null;
         }
     }
+
+
 }
 

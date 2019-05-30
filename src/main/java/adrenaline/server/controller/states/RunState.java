@@ -8,12 +8,10 @@ import java.util.ArrayList;
 public class RunState implements GameState {
 
     private Lobby lobby;
-    private int actionNumber;
     private ArrayList<Integer> validSquares;
 
-    public RunState(Lobby lobby, int actionNumber){
+    public RunState(Lobby lobby){
         this.lobby = lobby;
-        this.actionNumber = actionNumber;
         this.validSquares = lobby.sendCurrentPlayerValidSquares(3);
     }
 
@@ -37,7 +35,8 @@ public class RunState implements GameState {
     public String selectSquare(int index) {
         if(!validSquares.contains(index)) return "You can't move there! Please select a valid square";
         lobby.movePlayer(index);
-        lobby.setState(new SelectActionState(lobby, actionNumber));
+        lobby.setState(new SelectActionState(lobby));
+        lobby.incrementExecutedActions();
         return "OK";
     }
 
@@ -53,8 +52,11 @@ public class RunState implements GameState {
 
     @Override
     public String selectFiremode(int firemode) {
-        return null;
+        return "You can't do that now!";
     }
+
+    @Override
+    public String moveSubAction() { return "You can't do that now!"; }
 
     @Override
     public String endOfTurnAction() {
@@ -63,7 +65,7 @@ public class RunState implements GameState {
 
     @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby, actionNumber-1));
+        lobby.setState(new SelectActionState(lobby));
         return "OK";
     }
 

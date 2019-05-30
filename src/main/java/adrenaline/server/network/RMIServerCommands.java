@@ -1,8 +1,8 @@
-package adrenaline.network;
+package adrenaline.server.network;
 
 import adrenaline.client.ClientAPI;
-import adrenaline.ServerAPI;
-import adrenaline.GameServer;
+import adrenaline.server.ServerAPI;
+import adrenaline.server.GameServer;
 
 import java.rmi.*;
 import java.rmi.server.*;

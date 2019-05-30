@@ -1,8 +1,8 @@
-package adrenaline.network;
+package adrenaline.server.network;
 
 import adrenaline.client.ClientAPI;
-import adrenaline.GameServer;
-import adrenaline.ServerAPI;
+import adrenaline.server.GameServer;
+import adrenaline.server.ServerAPI;
 
 public class SocketServerCommands implements ServerAPI {
 

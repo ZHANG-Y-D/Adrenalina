@@ -1,4 +1,4 @@
-package adrenaline.network;
+package adrenaline.server.network;
 
 import adrenaline.client.ClientAPI;
 import adrenaline.server.controller.Lobby;

@@ -8,12 +8,10 @@ import java.util.ArrayList;
 public class GrabState implements GameState {
 
     private Lobby lobby;
-    private int actionNumber;
     private ArrayList<Integer> validSquares;
 
-    public GrabState(Lobby lobby, int actionNumber) {
+    public GrabState(Lobby lobby) {
         this.lobby = lobby;
-        this.actionNumber = actionNumber;
         this.validSquares = lobby.sendCurrentPlayerValidSquares(lobby.getCurrentPlayerAdrenalineState() > 0 ? 2 : 1);
     }
 
@@ -41,7 +39,8 @@ public class GrabState implements GameState {
     public String selectSquare(int index) {
         if(!validSquares.contains(index)) return "You can't grab from that square! Please select a valid square" ;
         lobby.movePlayer(index);
-        lobby.grabFromSquare(index, actionNumber);
+        lobby.grabFromSquare(index);
+        lobby.incrementExecutedActions();
         return "OK";
     }
 
@@ -61,13 +60,18 @@ public class GrabState implements GameState {
     }
 
     @Override
+    public String moveSubAction() {
+        return "Select something to grab or GO BACK to action selection!";
+    }
+
+    @Override
     public String endOfTurnAction() {
         return "Select something to grab or GO BACK to action selection!";
     }
 
     @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby, actionNumber-1));
+        lobby.setState(new SelectActionState(lobby));
         return "OK";
     }
 

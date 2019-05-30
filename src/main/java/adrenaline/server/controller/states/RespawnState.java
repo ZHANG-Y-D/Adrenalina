@@ -1,6 +1,6 @@
 package adrenaline.server.controller.states;
 
-import adrenaline.exceptions.InvalidCardException;
+import adrenaline.server.exceptions.InvalidCardException;
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
 
@@ -58,6 +58,11 @@ public class RespawnState implements GameState {
     @Override
     public String selectFiremode(int firemode) {
         return null;
+    }
+
+    @Override
+    public String moveSubAction() {
+        return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
     @Override

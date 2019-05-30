@@ -1,8 +1,8 @@
 package adrenaline.server.controller.states;
 
-import adrenaline.exceptions.InvalidCardException;
-import adrenaline.exceptions.NotEnoughAmmoException;
-import adrenaline.exceptions.WeaponHandFullException;
+import adrenaline.server.exceptions.InvalidCardException;
+import adrenaline.server.exceptions.NotEnoughAmmoException;
+import adrenaline.server.exceptions.WeaponHandFullException;
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
 import adrenaline.server.model.SquareSpawn;
@@ -13,14 +13,12 @@ import java.util.ArrayList;
 public class WeaponGrabState implements GameState {
 
     private Lobby lobby;
-    private int actionNumber;
     private SquareSpawn weaponSquare;
     private boolean swapping = false;
     private WeaponCard selectedCard;
 
-    public WeaponGrabState(Lobby lobby, int actionNumber, SquareSpawn weaponSquare){
+    public WeaponGrabState(Lobby lobby, SquareSpawn weaponSquare){
         this.lobby = lobby;
-        this.actionNumber = actionNumber;
         this.weaponSquare = weaponSquare;
     }
 
@@ -89,12 +87,12 @@ public class WeaponGrabState implements GameState {
         return null;
     }
 
-    @Override
+
     public String moveSubAction() {
         return null;
     }
 
-    @Override
+
     public String fireSubAction() {
         return null;
     }
@@ -106,7 +104,7 @@ public class WeaponGrabState implements GameState {
 
     @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby, actionNumber));
+        lobby.setState(new SelectActionState(lobby));
         return "OK";
     }
 

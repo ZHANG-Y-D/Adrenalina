@@ -1,11 +1,14 @@
 package adrenaline.server.model;
 
-import adrenaline.exceptions.InvalidTargetsException;
+import adrenaline.server.controller.Lobby;
+import adrenaline.server.controller.states.FiremodeSubState;
+import adrenaline.server.controller.states.GameState;
+import adrenaline.server.controller.states.MoveSelfState;
+import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.constraints.RangeConstraint;
 import adrenaline.server.model.constraints.TargetsConstraint;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class Firemode {
     private String name;
@@ -44,6 +47,10 @@ public class Firemode {
         return validSquares;
     }
 
+    public boolean hasSpecialRange(){
+        if(trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) return false;
+        else return true;
+    }
 
     public ArrayList<int[]> fire(Player shooter, ArrayList<Player> targets, ArrayList<Integer> validSquares, Map map) throws InvalidTargetsException {
         for(Player trg : targets) {
@@ -79,4 +86,13 @@ public class Firemode {
         string += "\n\t}";
         return string;
     }
+
+    private  Queue<FiremodeSubState> firemodeSteps = new LinkedList<>();
+    private MoveSelfState moveSelf = null;
+
+    public GameState getNextStep(Lobby lobby){
+        FiremodeSubState step = firemodeSteps.poll();
+        step.setContext(lobby, this);
+        return firemodeSteps.poll(); }
+    public GameState getMoveSelfStep() { return moveSelf;}
 }

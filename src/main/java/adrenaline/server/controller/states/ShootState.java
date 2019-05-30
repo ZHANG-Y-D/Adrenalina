@@ -1,7 +1,7 @@
 package adrenaline.server.controller.states;
 
-import adrenaline.exceptions.InvalidCardException;
-import adrenaline.exceptions.NotEnoughAmmoException;
+import adrenaline.server.exceptions.InvalidCardException;
+import adrenaline.server.exceptions.NotEnoughAmmoException;
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
 import adrenaline.server.model.Firemode;
@@ -11,13 +11,10 @@ import java.util.ArrayList;
 public class ShootState implements GameState {
 
     private Lobby lobby;
-    private int actionNumber;
     private Integer selectedWeapon = null;
 
-    public ShootState(Lobby lobby, int actionNumber){
-
+    public ShootState(Lobby lobby){
         this.lobby = lobby;
-        this.actionNumber = actionNumber;
     }
 
     @Override
@@ -68,10 +65,11 @@ public class ShootState implements GameState {
     public String selectFiremode(int firemode) {
         if(selectedWeapon == null) return "No weapon is selected! Please select a weapon first";
         try {
-            Firemode selectedFiremode = null;
-            selectedFiremode = lobby.getFiremode(selectedWeapon, firemode);
+            Firemode selectedFiremode = lobby.getFiremode(selectedWeapon, firemode);
             if(selectedFiremode==null) return "This weapon does not have such firemode!";
-            else lobby.setState(new FiremodeState(lobby, actionNumber, selectedFiremode));
+            else {
+                lobby.setState(selectedFiremode.getNextStep(lobby));
+            }
             return "OK";
         } catch (NotEnoughAmmoException e) {
             return "You can't pay the ammo price for that firemode! HINT: powerups can be expended too";
@@ -80,12 +78,7 @@ public class ShootState implements GameState {
 
     @Override
     public String moveSubAction() {
-        return null;
-    }
-
-    @Override
-    public String fireSubAction() {
-        return null;
+        return "Select a weapon or GO BACK to action selection!";
     }
 
     @Override
@@ -95,7 +88,7 @@ public class ShootState implements GameState {
 
     @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby, actionNumber-1));
+        lobby.setState(new SelectActionState(lobby));
         return "OK";
     }
 

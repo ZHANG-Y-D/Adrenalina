@@ -14,7 +14,6 @@ public interface GameState {
     String selectWeapon(int weaponID);
     String selectFiremode(int firemode);
     String moveSubAction();
-    String fireSubAction();
     String endOfTurnAction();
     String goBack();
     String selectAvatar(Color color);
