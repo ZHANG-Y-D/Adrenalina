@@ -60,3 +60,30 @@
 .map:hover{
     -fx-cursor: hand;
 }
+.YELLOW{
+    -fx-text-fill: yellow;
+}
+.GREEN{
+    -fx-text-fill: green;
+}
+.BLUE{
+    -fx-text-fill: blue;
+}
+.PURPLE{
+    -fx-text-fill: purple;
+}
+.GRAY{
+    -fx-text-fill: gray;
+}
+.WHITE{
+    -fx-text-fill: white;
+}
+#playersList{
+    -fx-text-fill: white;
+}
+#nicknamesBox{
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
+}

@@ -2,6 +2,7 @@ package adrenaline.server.model;
 
 
 import adrenaline.Color;
+import adrenaline.server.Observable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  * </p>
  */
 
-public class Map {
+public class Map extends Observable {
 
     //playerPosition
     private Square[][] mapSquares;

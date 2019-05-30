@@ -25,5 +25,8 @@ public enum Color implements Serializable {
     PURPLE,
 
     @SerializedName("green")
-    GREEN
+    GREEN,
+
+    @SerializedName("gray")
+    GRAY
 }

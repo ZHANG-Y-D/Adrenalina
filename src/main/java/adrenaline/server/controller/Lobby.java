@@ -16,6 +16,7 @@ import adrenaline.server.network.Client;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Lobby implements Runnable, LobbyAPI {
@@ -50,8 +51,8 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         playersMap = new HashMap<>();
         playersColor = new HashMap<>();
-
-        scoreBoard = new ScoreBoard();
+        scoreBoard = new ScoreBoard(clients);
+        clients.forEach(scoreBoard::attach);
         deckWeapon = new DeckWeapon();
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
@@ -64,8 +65,7 @@ public class Lobby implements Runnable, LobbyAPI {
             Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
             ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
             currentState = new AvatarSelectionState(this, avatars);
-        }catch (JsonIOException e){
-        }catch (FileNotFoundException e) {}
+        }catch (JsonIOException | FileNotFoundException e){ }
         System.out.println("NEW LOBBY STARTED WITH "+ clients.size()+" USERS.");
     }
 
@@ -236,7 +236,7 @@ public class Lobby implements Runnable, LobbyAPI {
         }
     }
 
-    public synchronized void nextPlayer(){
+    private synchronized void nextPlayer(){
         currentTurnPlayer = nextTurnPlayer;
 
         Iterator<String> itr = clientMap.keySet().iterator();
@@ -247,7 +247,7 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public synchronized void initCurrentPlayer(Avatar chosen){
-        Player newPlayer = new Player(chosen);
+        Player newPlayer = new Player(chosen, clientMap.get(currentTurnPlayer).getNickname(), new ArrayList<>(clientMap.values()));
         playersMap.put(currentTurnPlayer, newPlayer);
         playersColor.put(chosen.getColor(), newPlayer);
         nextPlayer();
@@ -260,7 +260,8 @@ public class Lobby implements Runnable, LobbyAPI {
         try{
             Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+ mapID +".json");
-            this.map=gson.fromJson(fileReader,Map.class);
+            map=gson.fromJson(fileReader,Map.class);
+            clientMap.values().forEach(map::attach);
         }catch (JsonIOException | FileNotFoundException e){
         }
     }

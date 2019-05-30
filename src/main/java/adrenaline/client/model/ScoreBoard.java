@@ -11,5 +11,4 @@ public class ScoreBoard {
     private HashMap<Color,Integer> scoreMap;
     private HashMap<Color,Integer> skullMap;
     private ArrayList<Color>[] killCount;
-
 }

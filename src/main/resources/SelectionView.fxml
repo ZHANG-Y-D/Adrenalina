@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
@@ -53,12 +55,12 @@
             <Font size="22.0" />
          </font>
       </Button>
-      <Button fx:id="next" layoutX="830.0" layoutY="620.0" onAction="#nextImage" maxHeight="70.0" prefHeight="70.0" prefWidth="110.0" text=">">
+      <Button fx:id="next" layoutX="830.0" layoutY="620.0" maxHeight="70.0" onAction="#nextImage" prefHeight="70.0" prefWidth="110.0" text="&gt;">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-      <Label fx:id="error" alignment="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="35" prefWidth="290.0"/>
+      <Label fx:id="error" alignment="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="35" prefWidth="290.0" />
       <StackPane fx:id="stack1" layoutX="205.0" layoutY="115.0" visible="false">
          <children>
             <ImageView fx:id="map1" fitHeight="300.0" fitWidth="395.0" onMouseEntered="#mapHover" onMouseExited="#mapDefault">
@@ -95,6 +97,11 @@
             </ImageView>
          </children>
       </StackPane>
+      <VBox fx:id="nicknamesBox" layoutX="40.0" layoutY="240.0" prefHeight="180.0" prefWidth="180.0" spacing="10.0">
+         <padding>
+            <Insets left="5.0" top="5.0" />
+         </padding></VBox>
+      <Label fx:id="playersList" layoutX="85.0" layoutY="210.0" text="PLAYERS" />
    </children>
    <stylesheets>
       <URL value="@InitialView.css" />

@@ -1,25 +1,20 @@
 package adrenaline.server.model;
 
+import adrenaline.Color;
+import adrenaline.server.Observable;
+import adrenaline.server.network.Client;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class ScoreBoard {
+public class ScoreBoard extends Observable {
+    private HashMap<String,Color> clientColorMap = new HashMap<>();
+    private HashMap<Color,Integer> scoreMap;
+    private HashMap<Color,Integer> skullMap;
+    private ArrayList<Color>[] killCount;
 
-    private ArrayList<Player> scoreBoard;
-
-
-    public ScoreBoard() {
-        this.scoreBoard = new ArrayList<>();
-    }
-
-    public ArrayList<Player> getScoreBoard() {
-        return scoreBoard;
-    }
-
-    public void setScoreBoard(Player player) {
-
-
-        //Case of overkill
-        this.getScoreBoard().add(player);
+    public ScoreBoard(ArrayList<Client> clients){
+        clients.stream().forEach(x -> clientColorMap.put(x.getClientID(), Color.WHITE));
     }
 
 }

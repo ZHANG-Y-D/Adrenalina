@@ -2,23 +2,22 @@ package adrenaline.client.view;
 
 
 import adrenaline.Color;
-import adrenaline.server.controller.states.GameState;
 import adrenaline.client.controller.GameController;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.*;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class SelectionViewController implements ViewInterface {
     public Pane selectionPane;
@@ -26,10 +25,12 @@ public class SelectionViewController implements ViewInterface {
     public ImageView map1,map2,map3,map4;
     public StackPane stack1,stack2,stack3,stack4;
     public Button next,select,close;
-    public Label title,error;
+    public Label title,error,playersList;
+    public VBox nicknamesBox;
     private HashMap<Integer, ImageView> imageMap;
     private HashMap<String, Color> colorMap;
     private GameController gameController;
+    private HashMap<Color, String> colorCodes;
 
     public void initialize(){
         imageMap = new HashMap<>();
@@ -40,7 +41,7 @@ public class SelectionViewController implements ViewInterface {
         imageMap.put(5, avatar5);
         colorMap = new HashMap<>();
         colorMap.put(avatar1.getImage().getUrl(), Color.YELLOW);
-        colorMap.put(avatar2.getImage().getUrl(), Color.WHITE);
+        colorMap.put(avatar2.getImage().getUrl(), Color.GRAY);
         colorMap.put(avatar3.getImage().getUrl(), Color.PURPLE);
         colorMap.put(avatar4.getImage().getUrl(), Color.GREEN);
         colorMap.put(avatar5.getImage().getUrl(), Color.BLUE);
@@ -51,6 +52,7 @@ public class SelectionViewController implements ViewInterface {
         font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),20);
         select.setFont(font);
         close.setFont(font);
+        playersList.setFont(font);
         map1.getStyleClass().add("map");
         map2.getStyleClass().add("map");
         map3.getStyleClass().add("map");
@@ -67,6 +69,29 @@ public class SelectionViewController implements ViewInterface {
 
     public void setGameController(GameController gameController){
         this.gameController = gameController;
+        notifyView();
+    }
+
+    @Override
+    public void notifyView() {
+        Platform.runLater(() -> {
+            if (nicknamesBox.getChildren().isEmpty()){
+                gameController.getPlayersNicknames().forEach((x,y) -> {
+                    Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),16);
+                    Label newLabel = new Label(x);
+                    newLabel.setFont(font);
+                    newLabel.getStyleClass().add("WHITE");
+                    nicknamesBox.getChildren().add(newLabel);
+                });
+            }
+            else {
+                nicknamesBox.getChildren().forEach(x -> {
+                    Label label = (Label) x;
+                    label.getStyleClass().clear();
+                    label.getStyleClass().add(gameController.getPlayersNicknames().get(label.getText()).toString());
+                });
+            }
+        });
     }
 
     public void nextImage(){
@@ -75,10 +100,10 @@ public class SelectionViewController implements ViewInterface {
             imageMap.get(i).setImage(imageMap.get(i+1).getImage());
         }
         imageMap.get(5).setImage(firstImg);
+        error.setText("");
     }
 
     public void selectAvatar(){
-        System.out.println(colorMap.get(avatar1.getImage().getUrl()));
         gameController.selectAvatar(colorMap.get(avatar1.getImage().getUrl()));
     }
 
@@ -111,7 +136,11 @@ public class SelectionViewController implements ViewInterface {
 
     public void showError(String errorMsg){
         Platform.runLater(() -> {
-            if(errorMsg.equals("/OK")) this.error.setText("Avatar selected");
+            if(errorMsg.equals("/OK")) {
+                this.error.setText("Avatar selected");
+                next.setDisable(true);
+                select.setDisable(true);
+            }
             else this.error.setText(errorMsg);
         });
     }

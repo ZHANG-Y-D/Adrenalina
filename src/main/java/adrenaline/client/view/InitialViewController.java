@@ -2,18 +2,19 @@ package adrenaline.client.view;
 
 
 import adrenaline.client.controller.GameController;
-import javafx.animation.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 
 import java.io.IOException;
 
@@ -46,6 +47,10 @@ public class InitialViewController implements ViewInterface {
         this.gameController = gameController;
     }
 
+
+    public void notifyView() {
+        System.out.println("lo fa qua");
+    }
 
 
     public void RMISelected(){

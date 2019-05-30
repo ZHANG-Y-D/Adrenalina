@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -17,6 +18,7 @@ public class ClientCli implements ViewInterface{
 
     private GameController controller;
     private String returnValueFromServer ="null";
+
 
     public ClientCli() {
         controller = new GameController();
@@ -69,7 +71,6 @@ public class ClientCli implements ViewInterface{
     }
 
 
-
     @Override
     public void changeStage() {
     }
@@ -79,10 +80,13 @@ public class ClientCli implements ViewInterface{
 
     }
 
-    @Override
-    public void setReturnValueFromServer(String returnValue) {
-        this.returnValueFromServer =returnValue;
 
+    public void setReturnValueFromServer(String returnValue) {
+        this.returnValueFromServer = returnValue;
+    }
+
+
+    public void notifyView() {
 
     }
 
