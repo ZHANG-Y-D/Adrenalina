@@ -100,10 +100,7 @@ public class ClientSocketWrapper implements Client {
         sendMessage("setLobby;ARGSIZE=1;java.lang.String;"+gson.toJson(lobbyID));
     }
 
-    @Override
-    public void update(UpdateMessage updatemsg) throws RemoteException {
-        //TODO send updateMessage to client
-    }
+    public void update(UpdateMessage updatemsg) { sendMessage("update:ARGSZIE=1;adrenaline.UpdateMessage:"+gson.toJson(updatemsg));}
 
 
 }

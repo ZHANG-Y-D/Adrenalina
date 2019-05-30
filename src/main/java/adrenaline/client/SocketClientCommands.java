@@ -3,9 +3,6 @@ package adrenaline.client;
 import adrenaline.UpdateMessage;
 import adrenaline.client.controller.GameController;
 
-import java.rmi.RemoteException;
-
-
 public class SocketClientCommands  implements ClientAPI{
 
     private SocketHandler client;
@@ -23,8 +20,8 @@ public class SocketClientCommands  implements ClientAPI{
     }
 
     @Override
-    public void update(UpdateMessage updatemsg) throws RemoteException {
-
+    public void update(UpdateMessage updatemsg){
+        updatemsg.applyUpdate(gameController);
     }
 
 

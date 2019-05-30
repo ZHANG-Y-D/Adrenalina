@@ -43,9 +43,8 @@ public class ClientRMIWrapper implements Client {
         }
     }
 
-    @Override
     public void update(UpdateMessage updatemsg) throws RemoteException {
-
+        thisClient.update(updatemsg);
     }
 
 }

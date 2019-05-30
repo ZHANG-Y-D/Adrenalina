@@ -23,7 +23,7 @@ public class RMIClientCommands extends UnicastRemoteObject implements ClientAPI{
 
     @Override
     public void update(UpdateMessage updatemsg) throws RemoteException {
-
+        updatemsg.applyUpdate(gameController);
     }
 
 
