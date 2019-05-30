@@ -16,6 +16,7 @@ public class ClientCli implements ViewInterface {
     private GameController controller;
 
 
+
     public ClientCli() {
         controller = new GameController();
         controller.setViewController(this);
@@ -35,20 +36,23 @@ public class ClientCli implements ViewInterface {
         while (!connectingToServer(connectingType))
             System.out.println("Please reinsert");
 
+
         setNickname();
+
+
     }
 
 
     @Override
     public void showError(String error) {
         System.out.println(error);
+
     }
 
 
 
     @Override
     public void changeStage() {
-
     }
 
     @Override
@@ -73,6 +77,7 @@ public class ClientCli implements ViewInterface {
         }
 
     }
+
 
     private int chooseConnectingType(){
 
@@ -113,6 +118,7 @@ public class ClientCli implements ViewInterface {
 
     }
 
+
     private void setNickname(){
 
         Scanner scanner = new Scanner(System.in);
@@ -121,6 +127,7 @@ public class ClientCli implements ViewInterface {
         String input = scanner.nextLine();
 
         controller.setNickname(input);
+
 
     }
 
