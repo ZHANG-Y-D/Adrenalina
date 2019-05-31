@@ -52,7 +52,7 @@ public class ClientCli implements ViewInterface{
                 break;
         }
 
-        if (returnValueFromServer.equals("OK")){
+        if (returnValueFromServer.equals("/OK")){
             returnValueFromServer = "null";
             return true;
         }
@@ -66,7 +66,11 @@ public class ClientCli implements ViewInterface{
 
     @Override
     public void showError(String error) {
-        System.out.println(error);
+
+        this.returnValueFromServer = error;
+
+        if (!error.equals("/OK"))
+            System.out.println(error);
 
     }
 
@@ -78,11 +82,6 @@ public class ClientCli implements ViewInterface{
     @Override
     public void setGameController(GameController gameController) {
 
-    }
-
-
-    public void setReturnValueFromServer(String returnValue) {
-        this.returnValueFromServer = returnValue;
     }
 
 
