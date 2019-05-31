@@ -47,9 +47,7 @@ public class InitialViewController implements ViewInterface {
         this.gameController = gameController;
     }
 
-    public void notifyView() {
-        System.out.println("lo fa qua");
-    }
+    public void notifyView() { }
 
     public void RMISelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))){
