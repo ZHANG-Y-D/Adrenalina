@@ -4,6 +4,7 @@ import adrenaline.server.network.*;
 import adrenaline.server.controller.Lobby;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.AlreadyBoundException;
@@ -37,7 +38,6 @@ public class GameServer {
                 LocateRegistry.createRegistry(rmiPort).bind("AdrenalineServer", RMIAdrenalineServer);
             }catch (ExportException e){
                 System.err.println(" Rmi Port already in use: 1099. "+ e.detail);
-
             }
 
 
@@ -47,13 +47,19 @@ public class GameServer {
                 ServerSocket serverSocket = null;
                 try {
                     serverSocket = new ServerSocket(socketPort);
-                }catch (IOException e) { e.printStackTrace(); }
+                }catch (BindException e){
+                    System.err.println("Address already in use (Bind failed) "+ e.getCause());
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
                 while(true) {
                     try {
                         Socket client = serverSocket.accept();
                         registerClient(new ClientSocketWrapper(client, SocketAdrenalineServer));
                         System.out.println("Client connected through Socket");
-                    } catch (IOException e) { e.printStackTrace(); }
+                    }catch (NullPointerException e){
+                        e.getCause();
+                    }catch (IOException e) { e.printStackTrace(); }
                 }
             }).start();
 
