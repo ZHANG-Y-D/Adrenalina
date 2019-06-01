@@ -3,13 +3,8 @@ package adrenaline.client.view;
 
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -21,9 +16,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -61,8 +53,6 @@ public class SelectionViewController implements ViewInterface {
         font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),20);
         select.setFont(font);
         close.setFont(font);
-        timerLabel.setFont(font);
-        timerLabel.getStyleClass().add("WHITE");
         playersList.setFont(font);
         map1.getStyleClass().add("map");
         map2.getStyleClass().add("map");
@@ -88,6 +78,8 @@ public class SelectionViewController implements ViewInterface {
             if (nicknamesBox.getChildren().isEmpty()){
                 gameController.getPlayersNicknames().forEach((x,y) -> {
                     Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),16);
+                    timerLabel.setFont(font);
+                    timerLabel.getStyleClass().add("WHITE");
                     Label newLabel = new Label(x);
                     newLabel.setFont(font);
                     newLabel.getStyleClass().add("WHITE");
@@ -108,8 +100,9 @@ public class SelectionViewController implements ViewInterface {
         if(timer == null) timer = new Timer();
         else {
             timer.cancel();
-            //timer.purge();
+            timer.purge();
             timer = new Timer();
+            timerLabel.setLayoutY(timerLabel.getLayoutY() + 26);
         }
         timer.scheduleAtFixedRate(new TimerTask() {
             int time = duration;

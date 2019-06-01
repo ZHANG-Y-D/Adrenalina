@@ -97,12 +97,12 @@
             </ImageView>
          </children>
       </StackPane>
-      <VBox fx:id="nicknamesBox" layoutX="40.0" layoutY="240.0" prefHeight="180.0" prefWidth="180.0" spacing="10.0">
+      <VBox fx:id="nicknamesBox" layoutX="50.0" layoutY="240.0" prefHeight="180.0" prefWidth="180.0" spacing="10.0">
          <padding>
             <Insets left="5.0" top="5.0" />
          </padding></VBox>
-      <Label fx:id="playersList" layoutX="85.0" layoutY="210.0" text="PLAYERS" />
-      <Label fx:id="timerLabel" layoutY="10" layoutX="10" />
+      <Label fx:id="playersList" layoutX="95.0" layoutY="210.0" text="PLAYERS" />
+      <Label fx:id="timerLabel" layoutY="245" layoutX="10" />
    </children>
    <stylesheets>
       <URL value="@InitialView.css" />
