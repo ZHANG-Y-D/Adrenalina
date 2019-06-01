@@ -11,10 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class ClientSocketWrapper implements Client {
     private final String clientID;
@@ -64,9 +61,10 @@ public class ClientSocketWrapper implements Client {
                     sendToClient += requestedMethod.invoke(methodsMap.get(methodName), argObjects).toString();
                 } catch (InvocationTargetException | ClassNotFoundException e) {
                     sendToClient += "SERVER ERROR!";
-                } catch (NullPointerException | NoSuchMethodException | IllegalAccessException e) {
+                } catch (NullPointerException | NoSuchMethodException |
+                            IllegalAccessException | NoSuchElementException e) {
                     sendToClient += "ERROR! Invalid command request";
-                } finally{ sendMessage(sendToClient);}
+                }finally{ sendMessage(sendToClient);}
             }
         }).start();
     }

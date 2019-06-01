@@ -18,12 +18,13 @@ public class ClientCli implements ViewInterface{
 
     private GameController controller;
     private String returnValueFromServer ="null";
+    private Scanner scanner;
 
 
     public ClientCli() {
         controller = new GameController();
         controller.setViewController(this);
-
+        scanner = new Scanner(System.in);
     }
 
 
@@ -43,6 +44,7 @@ public class ClientCli implements ViewInterface{
         while (!ListenerReturnValueIsOK())
             setNickname();
     }
+
 
     private boolean ListenerReturnValueIsOK() {
 
@@ -75,8 +77,10 @@ public class ClientCli implements ViewInterface{
     }
 
 
+
     @Override
     public void changeStage() {
+
     }
 
     @Override
@@ -110,7 +114,6 @@ public class ClientCli implements ViewInterface{
 
     private int chooseConnectingType(){
 
-        Scanner scanner = new Scanner(System.in);
 
         String input = scanner.nextLine();
         if (input.equalsIgnoreCase("socket") || input.equalsIgnoreCase("s"))
@@ -129,12 +132,13 @@ public class ClientCli implements ViewInterface{
         String host;
         int port;
 
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("Insert host ip");
         host = scanner.nextLine();
         System.out.println("Insert port");
         try {
             port = scanner.nextInt();
+            scanner.nextLine();
         }catch (InputMismatchException e){
             System.out.println("You have to insert a number for port");
             return false;
@@ -144,13 +148,10 @@ public class ClientCli implements ViewInterface{
             return controller.connectSocket(host, port);
         else
             return controller.connectRMI(host, port);
-
     }
 
 
     private void setNickname(){
-
-        Scanner scanner = new Scanner(System.in);
 
 
         System.out.println("Please insert your Nickname");

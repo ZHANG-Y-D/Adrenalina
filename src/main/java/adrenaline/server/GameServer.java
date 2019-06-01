@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class GameServer {
-    private final int rmiPort = 1099; //1099
-    private final int socketPort = 1100; //1100
+    private final int rmiPort = 1024; //1099
+    private final int socketPort = 1125; //1100
     private final int TIMEOUT_IN_SECONDS = 10;
 
     private final HashMap<String, Client> clients;
