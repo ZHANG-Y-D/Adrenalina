@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -102,10 +103,15 @@ public class SelectionViewController implements ViewInterface {
                     if (x != Color.WHITE) {
                         imageMap.values().forEach(y -> {
                             String imgUrl = y.getImage().getUrl();
-                            if(colorMap.get(imgUrl)==x && !imgUrl.substring(0,5).equals("TAKEN")){
-                                String newImgUrl = "TAKEN-"+imgUrl;
-                                colorMap.put(newImgUrl, colorMap.remove(imgUrl));
-                                y.setImage(new Image(new File(newImgUrl).toURI().toString()));
+                            String imgName = new File(imgUrl).getName();
+                            if(colorMap.get(imgUrl)==x && !imgName.contains("TAKEN")){
+                                String newImgUrl = "/Avatars/"+imgName.substring(0,imgName.length()-4)+"-TAKEN.png";
+                                try {
+                                    y.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
+                                } catch (URISyntaxException e) {
+                                    e.printStackTrace();
+                                }
+                                colorMap.put(y.getImage().getUrl(), colorMap.remove(imgUrl));
                             }
                         });
                     }
