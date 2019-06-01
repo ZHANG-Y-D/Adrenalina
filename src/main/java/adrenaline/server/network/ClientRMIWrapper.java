@@ -40,22 +40,33 @@ public class ClientRMIWrapper implements Client {
     public void setLobby(String lobbyID, ArrayList<String> nicknames){
         try {
             thisClient.setLobby(lobbyID, nicknames);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     public void setPlayerColor(String nickname, Color color){
         try {
             thisClient.setPlayerColor(nickname,color);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void update(UpdateMessage updatemsg) throws RemoteException {
-        thisClient.update(updatemsg);
+    public void timerStarted(Integer duration) {
+        try {
+            thisClient.timerStarted(duration);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(UpdateMessage updatemsg) {
+        try {
+            thisClient.update(updatemsg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

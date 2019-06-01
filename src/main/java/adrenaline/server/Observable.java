@@ -5,7 +5,6 @@ import adrenaline.server.network.Client;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Observable {
     protected ArrayList<Client> observers = new ArrayList<>();

@@ -15,13 +15,15 @@ import adrenaline.server.network.Client;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.rmi.RemoteException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class Lobby implements Runnable, LobbyAPI {
 
     private final String lobbyID;
+    private final Integer TURN_TIMEOUT_IN_SECONDS = 60;
+
     private LinkedHashMap<String, Client> clientMap;
     private HashMap <String, Player> playersMap;
     private HashMap <Color, Player> playersColor;
@@ -38,17 +40,10 @@ public class Lobby implements Runnable, LobbyAPI {
     private ArrayList<String> deadPlayers;
 
 
-
     public Lobby(ArrayList<Client> clients) {
         lobbyID = UUID.randomUUID().toString();
         clientMap = new LinkedHashMap<>();
-        try {
-            for(Client c : clients){
-                clientMap.put(c.getClientID(),c);
-            }
-        }catch (NullPointerException e){
-            System.err.println("NullPointerException of clients ArrayList");
-        }
+        clients.forEach(x -> clientMap.put(x.getClientID(), x));
         playersMap = new HashMap<>();
         playersColor = new HashMap<>();
         scoreBoard = new ScoreBoard(clients);
@@ -135,6 +130,11 @@ public class Lobby implements Runnable, LobbyAPI {
 
     @Override
     public void run() {
+        clientMap.values().forEach(x -> {
+            try {
+                x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
+            } catch (RemoteException e) { }
+        });
         while(clientMap.size()>playersMap.size()); //waits for state to change from AvatarSelectionState
         initMap();
         currentState = new SelectActionState(this);
@@ -222,7 +222,7 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public synchronized void endTurn(){
         checkDeadPlayers();
-        if(deadPlayers.size() > 0){
+        if(!deadPlayers.isEmpty()){
             String dead = deadPlayers.get(0);
             for(int i = 1; i<deadPlayers.size();i++) deadPlayers.set(i-1, deadPlayers.get(i));
             deadPlayers.remove(deadPlayers.size()-1);
@@ -250,12 +250,20 @@ public class Lobby implements Runnable, LobbyAPI {
         Player newPlayer = new Player(chosen, clientMap.get(currentTurnPlayer).getNickname(), new ArrayList<>(clientMap.values()));
         playersMap.put(currentTurnPlayer, newPlayer);
         playersColor.put(chosen.getColor(), newPlayer);
+        clientMap.values().forEach(x -> {
+            try { x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
+            } catch (RemoteException e) { }
+        });
         nextPlayer();
     }
 
     private void initMap(){
         MapSelectionState mapSelectionState = new MapSelectionState(this, new ArrayList<>(clientMap.keySet()));
         currentState = mapSelectionState;
+        clientMap.values().forEach(x -> {
+            try { x.timerStarted(mapSelectionState.getTimeoutDuration());
+            } catch (RemoteException e) { }
+        });
         int mapID = mapSelectionState.startTimer();
         try{
             Gson gson = new Gson();
