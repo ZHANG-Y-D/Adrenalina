@@ -9,5 +9,5 @@ public interface ViewInterface {
     void changeStage();
     void setGameController(GameController gameController);
     void notifyView();
-
+    void notifyTimer(Integer duration);
 }

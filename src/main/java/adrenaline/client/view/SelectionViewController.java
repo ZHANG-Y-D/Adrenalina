@@ -17,8 +17,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+
 import java.io.File;
+
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SelectionViewController implements ViewInterface {
     public Pane selectionPane;
@@ -26,11 +30,14 @@ public class SelectionViewController implements ViewInterface {
     public ImageView map1,map2,map3,map4;
     public StackPane stack1,stack2,stack3,stack4;
     public Button next,select,close;
-    public Label title,error,playersList;
+    public Label title,error,playersList,timerLabel;
     public VBox nicknamesBox;
     private HashMap<Integer, ImageView> imageMap;
     private HashMap<String, Color> colorMap;
     private GameController gameController;
+
+    private Timer timer;
+
 
     public void initialize(){
         imageMap = new HashMap<>();
@@ -72,12 +79,13 @@ public class SelectionViewController implements ViewInterface {
         notifyView();
     }
 
-    @Override
     public void notifyView() {
         Platform.runLater(() -> {
             if (nicknamesBox.getChildren().isEmpty()){
                 gameController.getPlayersNicknames().forEach((x,y) -> {
                     Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),16);
+                    timerLabel.setFont(font);
+                    timerLabel.getStyleClass().add("WHITE");
                     Label newLabel = new Label(x);
                     newLabel.setFont(font);
                     newLabel.getStyleClass().add("WHITE");
@@ -104,6 +112,26 @@ public class SelectionViewController implements ViewInterface {
                 });
             }
         });
+    }
+
+    public void notifyTimer(Integer duration) {
+        if(timer == null) timer = new Timer();
+        else {
+            timer.cancel();
+            timer.purge();
+            timer = new Timer();
+            timerLabel.setLayoutY(timerLabel.getLayoutY() + 26);
+        }
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int time = duration;
+            @Override
+            public void run() {
+                if(time > 0){
+                    Platform.runLater(() -> timerLabel.setText(Integer.toString(time)));
+                    time--;
+                }
+            }
+        }, 0, 1000);
     }
 
     public void nextImage(){

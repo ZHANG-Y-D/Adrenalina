@@ -26,6 +26,7 @@ public class InitialViewController implements ViewInterface {
     public TextField host, port, name;
     public Label label,error;
     private GameController gameController = null;
+    private int time;
 
     public void initialize(){
         initPane.getStyleClass().add("pane");
@@ -46,8 +47,12 @@ public class InitialViewController implements ViewInterface {
     public void setGameController(GameController gameController){
         this.gameController = gameController;
     }
-    
+
     public void notifyView() { }
+
+    public void notifyTimer(Integer duration) {
+        time = duration;
+    }
 
     public void RMISelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))){
@@ -124,6 +129,7 @@ public class InitialViewController implements ViewInterface {
                 ViewInterface viewController = loader.getController();
                 viewController.setGameController(gameController);
                 gameController.setViewController(viewController);
+                viewController.notifyTimer(time);
                 Stage stage = (Stage) initPane.getScene().getWindow();
                 stage.setWidth(1280);
                 stage.setHeight(768);

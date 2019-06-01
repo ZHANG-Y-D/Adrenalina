@@ -52,7 +52,6 @@ public class GameClient {
         } else
             return false;
 
-
         return true;
     }
 
