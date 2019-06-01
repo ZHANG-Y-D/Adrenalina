@@ -75,7 +75,6 @@ public class GameController {
 
 
     public void handleReturn(String returnMsg){
-        view.setReturnValueFromServer(returnMsg);
         if(!returnMsg.equals("OK")) view.showError(returnMsg);
     }
 

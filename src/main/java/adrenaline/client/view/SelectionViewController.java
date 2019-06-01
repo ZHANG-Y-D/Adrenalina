@@ -188,8 +188,5 @@ public class SelectionViewController implements ViewInterface {
         }
     }
 
-    @Override
-    public void setReturnValueFromServer(String returnValue) {
-        //Do nothing it is only for Cli
-    }
+
 }
