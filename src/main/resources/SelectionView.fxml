@@ -15,7 +15,7 @@
       <Button fx:id="close" layoutX="1240.0" layoutY="-2.0" onAction="#close" text="X" />
       <ImageView fx:id="avatar4" fitHeight="185.0" fitWidth="150.0" layoutX="460.0" layoutY="153.0">
          <image>
-            <Image url="@Avatars/SPROG_FULL.png" />
+            <Image url="@Avatars/SPROG.png" />
          </image>
          <effect>
             <GaussianBlur radius="3.0" />
@@ -23,7 +23,7 @@
       </ImageView>
       <ImageView fx:id="avatar3" fitHeight="185.0" fitWidth="150.0" layoutX="670.0" layoutY="153.0">
          <image>
-            <Image url="@Avatars/VIOLET_FULL.png" />
+            <Image url="@Avatars/VIOLET.png" />
          </image>
          <effect>
             <GaussianBlur radius="3.0" />
@@ -31,7 +31,7 @@
       </ImageView>
       <ImageView fx:id="avatar2" fitHeight="333.0" fitWidth="271.0" layoutX="729.0" layoutY="218.0">
          <image>
-            <Image url="@Avatars/DOZER_FULL.png" />
+            <Image url="@Avatars/DOZER.png" />
          </image>
          <effect>
             <GaussianBlur radius="2.5" />
@@ -39,7 +39,7 @@
       </ImageView>
       <ImageView fx:id="avatar5" fitHeight="333.0" fitWidth="271.0" layoutX="280.0" layoutY="218.0">
          <image>
-            <Image url="@Avatars/BANSHEE_FULL.png" />
+            <Image url="@Avatars/BANSHEE.png" />
          </image>
          <effect>
             <GaussianBlur radius="2.5" />
@@ -47,7 +47,7 @@
       </ImageView>
       <ImageView fx:id="avatar1" fitHeight="484.0" fitWidth="394.0" layoutX="443.0" layoutY="260.0">
          <image>
-            <Image url="@Avatars/DSTRUCTOR-FULL.png" />
+            <Image url="@Avatars/DSTRUCTOR.png" />
          </image>
       </ImageView>
       <Button fx:id="select" layoutX="340.0" layoutY="620.0" onAction="#selectAvatar" prefHeight="70.0" prefWidth="110.0" text="SELECT">

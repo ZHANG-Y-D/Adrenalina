@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class SelectionViewController implements ViewInterface {
@@ -30,7 +31,6 @@ public class SelectionViewController implements ViewInterface {
     private HashMap<Integer, ImageView> imageMap;
     private HashMap<String, Color> colorMap;
     private GameController gameController;
-    private HashMap<Color, String> colorCodes;
 
     public void initialize(){
         imageMap = new HashMap<>();
@@ -89,6 +89,18 @@ public class SelectionViewController implements ViewInterface {
                     Label label = (Label) x;
                     label.getStyleClass().clear();
                     label.getStyleClass().add(gameController.getPlayersNicknames().get(label.getText()).toString());
+                });
+                gameController.getPlayersNicknames().values().forEach(x -> {
+                    if (x != Color.WHITE) {
+                        imageMap.values().forEach(y -> {
+                            String imgUrl = y.getImage().getUrl();
+                            if(colorMap.get(imgUrl)==x && !imgUrl.substring(0,5).equals("TAKEN")){
+                                String newImgUrl = "TAKEN-"+imgUrl;
+                                colorMap.put(newImgUrl, colorMap.remove(imgUrl));
+                                y.setImage(new Image(new File(newImgUrl).toURI().toString()));
+                            }
+                        });
+                    }
                 });
             }
         });
