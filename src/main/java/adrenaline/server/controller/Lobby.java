@@ -135,7 +135,13 @@ public class Lobby implements Runnable, LobbyAPI {
                 x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
             } catch (RemoteException e) { }
         });
-        while(clientMap.size()>playersMap.size()); //waits for state to change from AvatarSelectionState
+        synchronized (playersMap) {
+            while (clientMap.size() > playersMap.size()) { //waits for state to change from AvatarSelectionState
+                try {
+                    playersMap.wait();
+                } catch (InterruptedException e) { }
+            }
+        }
         initMap();
         currentState = new SelectActionState(this);
         //TODO handles the game flow
@@ -247,14 +253,21 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public synchronized void initCurrentPlayer(Avatar chosen){
-        Player newPlayer = new Player(chosen, clientMap.get(currentTurnPlayer).getNickname(), new ArrayList<>(clientMap.values()));
-        playersMap.put(currentTurnPlayer, newPlayer);
-        playersColor.put(chosen.getColor(), newPlayer);
-        clientMap.values().forEach(x -> {
-            try { x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
-            } catch (RemoteException e) { }
-        });
+        synchronized (playersMap) {
+            Player newPlayer = new Player(chosen, clientMap.get(currentTurnPlayer).getNickname(), new ArrayList<>(clientMap.values()));
+            playersMap.put(currentTurnPlayer, newPlayer);
+            playersColor.put(chosen.getColor(), newPlayer);
+            playersMap.notifyAll();
+        }
         nextPlayer();
+        if(clientMap.size() != playersMap.size()) {
+            clientMap.values().forEach(x -> {
+                try {
+                    x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
+                } catch (RemoteException e) {
+                }
+            });
+        }
     }
 
     private void initMap(){
