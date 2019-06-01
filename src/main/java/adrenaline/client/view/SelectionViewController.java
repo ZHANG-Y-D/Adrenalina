@@ -16,6 +16,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+
+import java.io.File;
+
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,8 +36,10 @@ public class SelectionViewController implements ViewInterface {
     private HashMap<Integer, ImageView> imageMap;
     private HashMap<String, Color> colorMap;
     private GameController gameController;
+
     private Timer timer;
     private int count = 0;
+
 
     public void initialize(){
         imageMap = new HashMap<>();
@@ -93,6 +100,23 @@ public class SelectionViewController implements ViewInterface {
                     Label label = (Label) x;
                     label.getStyleClass().clear();
                     label.getStyleClass().add(gameController.getPlayersNicknames().get(label.getText()).toString());
+                });
+                gameController.getPlayersNicknames().values().forEach(x -> {
+                    if (x != Color.WHITE) {
+                        imageMap.values().forEach(y -> {
+                            String imgUrl = y.getImage().getUrl();
+                            String imgName = new File(imgUrl).getName();
+                            if(colorMap.get(imgUrl)==x && !imgName.contains("TAKEN")){
+                                String newImgUrl = "/Avatars/"+imgName.substring(0,imgName.length()-4)+"-TAKEN.png";
+                                try {
+                                    y.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
+                                } catch (URISyntaxException e) {
+                                    e.printStackTrace();
+                                }
+                                colorMap.put(y.getImage().getUrl(), colorMap.remove(imgUrl));
+                            }
+                        });
+                    }
                 });
             }
         });
