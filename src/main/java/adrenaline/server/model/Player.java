@@ -74,7 +74,9 @@ public class Player extends Observable{
         observers.forEach(x -> {
             try {
                 x.setPlayerColor(clientNickname, avatar.getColor());
-            } catch (RemoteException e) { }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         });
     }
 

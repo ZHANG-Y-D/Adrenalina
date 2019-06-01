@@ -4,7 +4,6 @@ import adrenaline.client.ClientAPI;
 import adrenaline.server.GameServer;
 import adrenaline.server.ServerAPI;
 
-import java.rmi.RemoteException;
 
 public class SocketServerCommands implements ServerAPI {
 

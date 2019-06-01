@@ -26,7 +26,7 @@ public class GameController {
     private ConnectionHandler connectionHandler;
 
 
-    public HashMap<String, Color> getPlayersNicknames(){ return playersNicknames; }
+    public LinkedHashMap<String, Color> getPlayersNicknames(){ return playersNicknames; }
 
     public void setViewController(ViewInterface viewController){
         this.view = viewController;
@@ -91,5 +91,11 @@ public class GameController {
 
     public void updateScoreBoard(ScoreBoard newScoreBoard){
         scoreBoard = newScoreBoard;
+    }
+
+    public void timerStarted(Integer duration) {
+        view.notifyTimer(duration);
+        //this is for showing the timer on the view
+        //the cli can decide how to tell the player that a timer has started
     }
 }

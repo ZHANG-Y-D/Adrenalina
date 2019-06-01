@@ -10,5 +10,5 @@ public interface ViewInterface {
     void setGameController(GameController gameController);
     void setReturnValueFromServer(String returnValue);
     void notifyView();
-
+    void notifyTimer(Integer duration);
 }

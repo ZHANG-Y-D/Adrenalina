@@ -90,6 +90,11 @@ public class ClientCli implements ViewInterface{
 
     }
 
+    @Override
+    public void notifyTimer(Integer duration) {
+
+    }
+
 
     private void printIniTxtFile(){
 

@@ -3,8 +3,13 @@ package adrenaline.client.view;
 
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -16,8 +21,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SelectionViewController implements ViewInterface {
     public Pane selectionPane;
@@ -25,12 +34,12 @@ public class SelectionViewController implements ViewInterface {
     public ImageView map1,map2,map3,map4;
     public StackPane stack1,stack2,stack3,stack4;
     public Button next,select,close;
-    public Label title,error,playersList;
+    public Label title,error,playersList,timerLabel;
     public VBox nicknamesBox;
     private HashMap<Integer, ImageView> imageMap;
     private HashMap<String, Color> colorMap;
     private GameController gameController;
-    private HashMap<Color, String> colorCodes;
+    private Timer timer;
 
     public void initialize(){
         imageMap = new HashMap<>();
@@ -52,6 +61,8 @@ public class SelectionViewController implements ViewInterface {
         font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),20);
         select.setFont(font);
         close.setFont(font);
+        timerLabel.setFont(font);
+        timerLabel.getStyleClass().add("WHITE");
         playersList.setFont(font);
         map1.getStyleClass().add("map");
         map2.getStyleClass().add("map");
@@ -72,7 +83,6 @@ public class SelectionViewController implements ViewInterface {
         notifyView();
     }
 
-    @Override
     public void notifyView() {
         Platform.runLater(() -> {
             if (nicknamesBox.getChildren().isEmpty()){
@@ -92,6 +102,25 @@ public class SelectionViewController implements ViewInterface {
                 });
             }
         });
+    }
+
+    public void notifyTimer(Integer duration) {
+        if(timer == null) timer = new Timer();
+        else {
+            timer.cancel();
+            //timer.purge();
+            timer = new Timer();
+        }
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int time = duration;
+            @Override
+            public void run() {
+                if(time > 0){
+                    Platform.runLater(() -> timerLabel.setText(Integer.toString(time)));
+                    time--;
+                }
+            }
+        }, 0, 1000);
     }
 
     public void nextImage(){

@@ -61,19 +61,19 @@
     -fx-cursor: hand;
 }
 .YELLOW{
-    -fx-text-fill: yellow;
+    -fx-text-fill: #ffe11d;
 }
 .GREEN{
-    -fx-text-fill: green;
+    -fx-text-fill: #00e600;
 }
 .BLUE{
-    -fx-text-fill: blue;
+    -fx-text-fill: #48b7ba;
 }
 .PURPLE{
-    -fx-text-fill: purple;
+    -fx-text-fill: #bb00bb;
 }
 .GRAY{
-    -fx-text-fill: gray;
+    -fx-text-fill: #9c9c9c;
 }
 .WHITE{
     -fx-text-fill: white;

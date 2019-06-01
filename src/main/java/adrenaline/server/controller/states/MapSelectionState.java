@@ -98,7 +98,7 @@ public class MapSelectionState implements GameState {
 
     public int startTimer(){
         long timestart = System.currentTimeMillis();
-        while(leftToVote.size()>0 &&(System.currentTimeMillis() - timestart < MAPSELECTION_TIMEOUT_IN_SECONDS*1000));
+        while(!leftToVote.isEmpty() &&(System.currentTimeMillis() - timestart < MAPSELECTION_TIMEOUT_IN_SECONDS*1000));
         ArrayList<Integer> draw = new ArrayList<>();
         int maxVotes=0;
         for(int i=1; i<=EXISTING_MAPS_NUMBER; i++){
@@ -107,5 +107,9 @@ public class MapSelectionState implements GameState {
         }
         for(int i : draw) if(Collections.frequency(votes,i)< maxVotes) draw.remove(i);
         return draw.get(new Random().nextInt(draw.size()));
+    }
+
+    public int getTimeoutDuration(){
+        return MAPSELECTION_TIMEOUT_IN_SECONDS;
     }
 }
