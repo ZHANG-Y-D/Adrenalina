@@ -1,0 +1,14 @@
+\u001B[41m "name": ":D-STRUCT-OR" \u001B[0m
+"color": "yellow"
+
+"name": "BANSHEE",
+"color": "blue"
+
+"name": "DOZER",
+"color": "gray"
+
+"name": "VIOLET",
+"color": "purple"
+
+"name": "SPROG",
+"color": "green"

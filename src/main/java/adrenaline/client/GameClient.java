@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class GameClient {
 
 
+
     /**
      *
      * The main method, The player have to choose view mode at this time
@@ -44,10 +45,12 @@ public class GameClient {
 
     private static boolean chooseTheViewMode(String input) {
 
-        if (input.equalsIgnoreCase("cli")) {
+        if (input.equalsIgnoreCase("cli") ||
+                input.equalsIgnoreCase("c")) {
             ClientCli clientCli = new ClientCli();
             clientCli.InitialClientCli();
-        } else if (input.equalsIgnoreCase("gui")) {
+        } else if (input.equalsIgnoreCase("gui") ||
+                input.equalsIgnoreCase("g")) {
             Application.launch(ClientGui.class);
         } else
             return false;

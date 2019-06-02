@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -16,14 +15,14 @@ import static java.lang.Thread.sleep;
 public class ClientCli implements ViewInterface{
 
 
-    private GameController controller;
-    private String returnValueFromServer ="null";
+    private GameController gameController;
+    private volatile String returnValueFromServer ="null";
     private Scanner scanner;
 
 
     public ClientCli() {
-        controller = new GameController();
-        controller.setViewController(this);
+        gameController = new GameController();
+        gameController.setViewController(this);
         scanner = new Scanner(System.in);
     }
 
@@ -32,22 +31,38 @@ public class ClientCli implements ViewInterface{
 
         int connectingType = 0; //1 for socket ,2 for rmi,0 for error
 
-        printIniTxtFile();
-        System.out.println("\nDo you want to use Socket or Rmi (Remote Method Invocation)?");
+        printSrcFile("CliBegin.txt");
+        System.out.println("\nYou want to use Socket or Rmi (Remote Method Invocation)?");
+
         while (connectingType == 0)
             connectingType = chooseConnectingType();
 
         while (!connectingToServer(connectingType))
             System.out.println("Please reinsert");
 
-        setNickname();
-        while (!ListenerReturnValueIsOK())
+
+        do {
             setNickname();
+        }while (!listenerReturnValueIsOK());
+
+
+        do {
+            selectAvatar();
+        }while (!listenerReturnValueIsOK());
+
+
+    }
+
+    private void selectAvatar() {
+
+        printSrcFile("Avatar.txt");
+        //TODO
+
+
     }
 
 
-    private boolean ListenerReturnValueIsOK() {
-
+    private boolean listenerReturnValueIsOK() {
 
         while (true) {
             if (!returnValueFromServer.equals("null"))
@@ -64,6 +79,7 @@ public class ClientCli implements ViewInterface{
         }
 
     }
+
 
 
     @Override
@@ -83,6 +99,8 @@ public class ClientCli implements ViewInterface{
 
     }
 
+
+
     @Override
     public void setGameController(GameController gameController) {
 
@@ -93,15 +111,18 @@ public class ClientCli implements ViewInterface{
 
     }
 
+
+
     @Override
     public void notifyTimer(Integer duration) {
 
     }
 
 
-    private void printIniTxtFile(){
 
-        try(FileReader fileReader = new FileReader("src/main/resources/ForCli/CliBegin.txt")) {
+    private void printSrcFile(String srcFileName){
+
+        try(FileReader fileReader = new FileReader("src/main/resources/ForCli/" + srcFileName)) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String string = bufferedReader.readLine();
             while (string != null){
@@ -117,6 +138,7 @@ public class ClientCli implements ViewInterface{
     }
 
 
+
     private int chooseConnectingType(){
 
 
@@ -129,14 +151,15 @@ public class ClientCli implements ViewInterface{
             System.out.println("Please input \"Socket\" or \"Rmi\" ");
             return 0;
         }
+
     }
+
 
 
     private boolean connectingToServer(int connectingType){
 
         String host;
         int port;
-
 
         System.out.println("Insert host ip");
         host = scanner.nextLine();
@@ -150,9 +173,9 @@ public class ClientCli implements ViewInterface{
         }
 
         if (connectingType == 1)
-            return controller.connectSocket(host, port);
+            return gameController.connectSocket(host, port);
         else
-            return controller.connectRMI(host, port);
+            return gameController.connectRMI(host, port);
     }
 
 
@@ -161,11 +184,20 @@ public class ClientCli implements ViewInterface{
 
         System.out.println("Please insert your Nickname");
         String input = scanner.nextLine();
-
-        controller.setNickname(input);
+        iSQuit(input);
+        gameController.setNickname(input);
 
     }
 
 
+    private void iSQuit(String input){
+
+        if (input.equals("Quit")){
+            System.out.println("Ok, Game Exit, Thank you for your participation!");
+            gameController.cleanExit();
+            System.exit(0);
+        }
+
+    }
 
 }

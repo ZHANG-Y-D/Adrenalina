@@ -149,9 +149,11 @@ public class SelectionViewController implements ViewInterface {
         error.setText("");
     }
 
+
     public void selectAvatar(){
         gameController.selectAvatar(colorMap.get(avatar1.getImage().getUrl()));
     }
+
 
     public void changeScene(){
         avatar1.setVisible(false);
