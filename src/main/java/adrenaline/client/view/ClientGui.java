@@ -14,7 +14,7 @@ public class ClientGui extends Application{
     private Stage window;
 
     public void start(Stage primaryStage)throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/InitialView.fxml"));
         Parent root = loader.load();
         GameController gameController = new GameController();
         ViewInterface viewController = loader.getController();
@@ -24,7 +24,7 @@ public class ClientGui extends Application{
         window.setTitle("Adrenalina");
         window.setResizable(false);
         window.initStyle(StageStyle.UNDECORATED);
-        window.setScene(new Scene(root, 1280, 768));
+        window.setScene(new Scene(root, 750, 500));
         window.show();
     }
 

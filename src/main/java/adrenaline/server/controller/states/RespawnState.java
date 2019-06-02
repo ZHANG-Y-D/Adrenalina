@@ -43,7 +43,7 @@ public class RespawnState implements GameState {
     public String selectPowerUp(int powerUpID) {
         try {
             lobby.respawnWithPowerup(powerUpID);
-            lobby.playerEndTurn();
+            lobby.endTurn(false);
             return "OK";
         }catch(InvalidCardException ice){
             return "Invalid selection! Please select a valid card";
