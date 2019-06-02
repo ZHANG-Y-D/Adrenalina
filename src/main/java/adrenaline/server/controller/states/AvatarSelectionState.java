@@ -5,6 +5,7 @@ import adrenaline.server.model.Avatar;
 import adrenaline.Color;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AvatarSelectionState implements GameState {
 
@@ -73,7 +74,7 @@ public class AvatarSelectionState implements GameState {
             if(a.getColor().equals(color)){
                 Avatar chosen = a;
                 avatars.remove(a);
-                lobby.initCurrentPlayer(chosen);
+                lobby.initCurrentPlayer(chosen, false);
                 return "/OK";
             }
         }
@@ -83,5 +84,11 @@ public class AvatarSelectionState implements GameState {
     @Override
     public String selectMap(int mapID, String voterID) {
         return "KO";
+    }
+
+    public void selectRandom(){
+        Avatar randomized = avatars.get(new Random().nextInt(avatars.size()));
+        avatars.remove(randomized);
+        lobby.initCurrentPlayer(randomized, true);
     }
 }

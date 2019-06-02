@@ -17,6 +17,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class Lobby implements Runnable, LobbyAPI {
@@ -39,6 +43,9 @@ public class Lobby implements Runnable, LobbyAPI {
     private DeckPowerup deckPowerup;
     private ArrayList<String> deadPlayers;
 
+    private ScheduledExecutorService turnTimer;
+    private Future scheduledTimeout;
+
 
     public Lobby(ArrayList<Client> clients) {
         lobbyID = UUID.randomUUID().toString();
@@ -54,17 +61,14 @@ public class Lobby implements Runnable, LobbyAPI {
         deadPlayers = new ArrayList<>();
         currentTurnPlayer = clients.get(0).getClientID();
         nextTurnPlayer = clients.get(1).getClientID();
-        try{
-            Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Avatar.json");
-            Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
-            ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
-            currentState = new AvatarSelectionState(this, avatars);
-        }catch (JsonIOException | FileNotFoundException e){ }
+        turnTimer = Executors.newScheduledThreadPool(1);
         System.out.println("NEW LOBBY STARTED WITH "+ clients.size()+" USERS.");
     }
 
 
+    public String getID() {
+        return this.lobbyID;
+    }
 
     //MERGED INTO initMap, TO BE SAFELY REMOVED
     public void chooseAndNewAMap(int num){
@@ -114,10 +118,6 @@ public class Lobby implements Runnable, LobbyAPI {
         return deckPowerup;
     }
 
-    public DeckAmmo getDeckAmmo() {
-        return deckAmmo;
-    }
-
     public DeckWeapon getDeckWeapon() {
         return deckWeapon;
     }
@@ -130,19 +130,31 @@ public class Lobby implements Runnable, LobbyAPI {
 
     @Override
     public void run() {
-        clientMap.values().forEach(x -> {
-            try {
-                x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
-            } catch (RemoteException e) { }
-        });
-        while(clientMap.size()>playersMap.size()); //waits for state to change from AvatarSelectionState
+        avatarSelection();
         initMap();
         currentState = new SelectActionState(this);
         //TODO handles the game flow
     }
 
-    public String getID() {
-        return this.lobbyID;
+    private synchronized void avatarSelection(){
+        try{
+            Gson gson = new Gson();
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Avatar.json");
+            Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
+            ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
+            AvatarSelectionState avatarSelectionState = new AvatarSelectionState(this, avatars);
+            currentState = avatarSelectionState;
+            while(clientMap.size()>playersMap.size()) {
+                scheduledTimeout = turnTimer.schedule(new AvatarTimer(avatarSelectionState), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+                clientMap.values().forEach(x -> {
+                    try {
+                        x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
+                    } catch (RemoteException e) {
+                    }
+                });
+                wait();
+            }
+        }catch (JsonIOException | FileNotFoundException | InterruptedException e){ }
     }
 
     public void setState(GameState newState){ currentState = newState; }
@@ -209,7 +221,7 @@ public class Lobby implements Runnable, LobbyAPI {
             return currentState.selectMap(mapID, clientID);
         }
         //else: user not part of the lobby
-        return "You shouldn't be here!";
+        return "You should not be here!";
     }
 
     public int getCurrentPlayerAdrenalineState(){
@@ -220,7 +232,12 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public int getExecutedActions(){ return executedActions; }
 
-    public synchronized void endTurn(){
+    public synchronized void playerEndTurn(){
+        scheduledTimeout.cancel(false);
+        endTurn();
+    }
+
+    synchronized void endTurn(){
         checkDeadPlayers();
         if(!deadPlayers.isEmpty()){
             String dead = deadPlayers.get(0);
@@ -234,11 +251,16 @@ public class Lobby implements Runnable, LobbyAPI {
             currentState = new SelectActionState(this);
             nextPlayer();
         }
+        scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+        clientMap.values().forEach(x -> {
+            try {
+                x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
+            } catch (RemoteException e) { }
+        });
     }
 
     private synchronized void nextPlayer(){
         currentTurnPlayer = nextTurnPlayer;
-
         Iterator<String> itr = clientMap.keySet().iterator();
         String temp = itr.next();
         while (!temp.equals(currentTurnPlayer)) temp= itr.next();
@@ -246,15 +268,13 @@ public class Lobby implements Runnable, LobbyAPI {
         else nextTurnPlayer = clientMap.keySet().iterator().next();
     }
 
-    public synchronized void initCurrentPlayer(Avatar chosen){
+    public synchronized void initCurrentPlayer(Avatar chosen, boolean timeoutReached){
+        if(!timeoutReached) scheduledTimeout.cancel(false);
         Player newPlayer = new Player(chosen, clientMap.get(currentTurnPlayer).getNickname(), new ArrayList<>(clientMap.values()));
         playersMap.put(currentTurnPlayer, newPlayer);
         playersColor.put(chosen.getColor(), newPlayer);
-        clientMap.values().forEach(x -> {
-            try { x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
-            } catch (RemoteException e) { }
-        });
         nextPlayer();
+        notifyAll();
     }
 
     private void initMap(){
@@ -270,8 +290,7 @@ public class Lobby implements Runnable, LobbyAPI {
             FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+ mapID +".json");
             map=gson.fromJson(fileReader,Map.class);
             clientMap.values().forEach(map::attach);
-        }catch (JsonIOException | FileNotFoundException e){
-        }
+        }catch (JsonIOException | FileNotFoundException e){ }
     }
 
     private void checkDeadPlayers(){
