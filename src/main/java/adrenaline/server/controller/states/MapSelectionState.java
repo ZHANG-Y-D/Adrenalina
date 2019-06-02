@@ -89,6 +89,7 @@ public class MapSelectionState implements GameState {
             else {
                 votes.add(mapID);
                 leftToVote.remove(voterID);
+                notifyAll();
                 return "OK";
             }
         }else{
@@ -96,9 +97,19 @@ public class MapSelectionState implements GameState {
         }
     }
 
-    public int startTimer(){
+
+    public synchronized int startTimer(){
         long timestart = System.currentTimeMillis();
-        while(!leftToVote.isEmpty() &&(System.currentTimeMillis() - timestart < MAPSELECTION_TIMEOUT_IN_SECONDS*1000));
+        while(!leftToVote.isEmpty()) {
+            long timeremaining = timestart + MAPSELECTION_TIMEOUT_IN_SECONDS * 1000 - System.currentTimeMillis();
+            if(timeremaining <= 0) break;
+            else{
+                try{
+                    wait(timeremaining);
+                } catch (InterruptedException e) { }
+            }
+        }
+
         ArrayList<Integer> draw = new ArrayList<>();
         int maxVotes=0;
         for(int i=1; i<=EXISTING_MAPS_NUMBER; i++){

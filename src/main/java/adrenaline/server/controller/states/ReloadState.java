@@ -60,7 +60,7 @@ public class ReloadState implements GameState{
 
     @Override
     public String endOfTurnAction() {
-        lobby.playerEndTurn();
+        lobby.endTurn(false);
         return "OK";
     }
 

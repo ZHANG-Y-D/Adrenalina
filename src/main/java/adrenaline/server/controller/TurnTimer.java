@@ -1,7 +1,5 @@
 package adrenaline.server.controller;
 
-import java.util.TimerTask;
-
 public class TurnTimer  implements Runnable {
     private Lobby callBackLobby;
 
@@ -11,6 +9,6 @@ public class TurnTimer  implements Runnable {
 
     @Override
     public void run() {
-        callBackLobby.endTurn();
+        callBackLobby.endTurn(true);
     }
 }

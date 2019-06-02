@@ -38,6 +38,7 @@ public class SelectionViewController implements ViewInterface {
     private GameController gameController;
 
     private Timer timer;
+    private int count = 0;
 
 
     public void initialize(){
@@ -91,6 +92,7 @@ public class SelectionViewController implements ViewInterface {
                     newLabel.setFont(font);
                     newLabel.getStyleClass().add("WHITE");
                     nicknamesBox.getChildren().add(newLabel);
+                    count++;
                 });
             }
             else {
@@ -126,8 +128,12 @@ public class SelectionViewController implements ViewInterface {
             timer.cancel();
             timer.purge();
             timer = new Timer();
-            timerLabel.setLayoutY(timerLabel.getLayoutY() + 26);
+            if(count == 0) {
+                Platform.runLater(this::changeScene);
+            }
+            else timerLabel.setLayoutY(timerLabel.getLayoutY() + 26);
         }
+        count--;
         timer.scheduleAtFixedRate(new TimerTask() {
             int time = duration;
             @Override
@@ -162,6 +168,10 @@ public class SelectionViewController implements ViewInterface {
         avatar4.setVisible(false);
         avatar5.setVisible(false);
         next.setVisible(false);
+        playersList.setVisible(false);
+        nicknamesBox.setVisible(false);
+        error.setText("");
+        timerLabel.setLayoutY(10);
         select.setVisible(false);
         stack1.setVisible(true);
         stack2.setVisible(true);
