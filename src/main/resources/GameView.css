@@ -1,0 +1,9 @@
+#borderPane{
+    -fx-background-image: url("Background.png");
+}
+#map{
+    -fx-background-image: url("/Maps/MAP1.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center;
+}
