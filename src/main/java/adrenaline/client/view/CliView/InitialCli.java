@@ -1,34 +1,30 @@
-package adrenaline.client.view;
+package adrenaline.client.view.CliView;
 
 
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
+import adrenaline.client.view.ViewInterface;
+import org.fusesource.jansi.Ansi;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class ClientCli implements ViewInterface{
+public class InitialCli extends ControllerCli implements ViewInterface{
 
 
-    private GameController gameController;
-    private volatile String returnValueFromServer ="null";
-    private Scanner scanner;
 
-
-    public ClientCli() {
+    public InitialCli() {
         gameController = new GameController();
         gameController.setViewController(this);
         scanner = new Scanner(System.in);
     }
 
 
-    public void InitialClientCli(){
+    public void initialStageCli(){
+
 
         int connectingType = 0; //1 for socket ,2 for rmi,0 for error
 
@@ -46,7 +42,12 @@ public class ClientCli implements ViewInterface{
             setNickname();
         }while (!listenerReturnValueIsOK());
 
-        //TODO wait for other players in
+
+        System.out.println("\nWait for other player join...");
+        listenerReturnValueIsOK();
+
+        printGameInfo();
+
 
         do {
             selectAvatar();
@@ -55,37 +56,90 @@ public class ClientCli implements ViewInterface{
 
     }
 
+
+    private void printGameInfo() {
+
+        System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
+        System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
+
+        printPlayerInfo();
+
+    }
+
+
+
+    private void printPlayerInfo() {
+
+
+        System.out.println("\nThese players are in the lobby:");
+        for (Map.Entry<String, Color> players : gameController.getPlayersNicknames().entrySet()) {
+
+            Color color = players.getValue();
+
+            switch (color) {
+                case YELLOW:
+                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(players.getKey()));
+                    break;
+                case BLUE:
+                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.BLUE).a(players.getKey()));
+                    break;
+                case PURPLE:
+                    System.out.println(ansi().eraseScreen().fgBright(Ansi.Color.MAGENTA).a(players.getKey()));
+                    break;
+                case GRAY:
+                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.WHITE).a(players.getKey()));
+                    break;
+                case GREEN:
+                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.GREEN).a(players.getKey()));
+                    break;
+                default:
+                    System.out.println(ansi().eraseScreen().fgDefault().a(players.getKey()));
+                    break;
+            }
+        }
+    }
+
+
     private void selectAvatar() {
 
-        int num=0;
+        int num;
         Color color = Color.BLACK;
 
         printSrcFile("Avatar.txt");
+
         try{
             num = scanner.nextInt();
+            scanner.nextLine();
         }catch (InputMismatchException e){
             showError("\nPlease answer with a number from 1 to 5.");
-            scanner.nextLine();
+            iSQuit(scanner.nextLine());
             return;
         }
 
 
+
         switch (num){
-            case 1:color = Color.YELLOW;
-                    break;
-            case 2:color = Color.BLUE;
-                    break;
-            case 3:color = Color.GRAY;
-                    break;
-            case 4:color = Color.PURPLE;
-                    break;
-            case 5:color = Color.GREEN;
-                    break;
+            case 1:
+                color = Color.YELLOW;
+                break;
+            case 2:
+                color = Color.BLUE;
+                break;
+            case 3:
+                color = Color.GRAY;
+                break;
+            case 4:
+                color = Color.PURPLE;
+                break;
+            case 5:
+                color = Color.GREEN;
+                break;
             default:
                 System.err.println("Please answer with a number from 1 to 5.");
                 selectAvatar();
         }
         gameController.selectAvatar(color);
+
     }
 
 
@@ -115,7 +169,7 @@ public class ClientCli implements ViewInterface{
         this.returnValueFromServer = error;
 
         if (!error.equals("/OK"))
-            System.out.println(error);
+            System.err.println(error);
 
     }
 
@@ -123,6 +177,10 @@ public class ClientCli implements ViewInterface{
 
     @Override
     public void changeStage() {
+
+        showError("/OK");
+
+
 
     }
 
@@ -136,6 +194,9 @@ public class ClientCli implements ViewInterface{
 
     public void notifyView() {
 
+
+        printPlayerInfo();
+
     }
 
 
@@ -143,27 +204,9 @@ public class ClientCli implements ViewInterface{
     @Override
     public void notifyTimer(Integer duration) {
 
-    }
-
-
-
-    private void printSrcFile(String srcFileName){
-
-        try(FileReader fileReader = new FileReader("src/main/resources/ForCli/" + srcFileName)) {
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String string = bufferedReader.readLine();
-            while (string != null){
-                System.out.println(ansi().eraseScreen().render(string) );
-                string=bufferedReader.readLine();
-            }
-        }catch (FileNotFoundException e){
-            System.out.println("\nsrc/main/resources/ForCli/CliBegin.txt  File Not Found ");
-        }catch (IOException e){
-            System.out.println("\n IOException ");
-        }
+        System.out.println("You still have "+duration+" Secondi");
 
     }
-
 
 
     private int chooseConnectingType(){
@@ -193,6 +236,7 @@ public class ClientCli implements ViewInterface{
         System.out.println("Insert port");
         try {
             port = scanner.nextInt();
+            scanner.nextLine();
         }catch (InputMismatchException e){
             System.err.println("\nYou have to insert a number for port!");
             scanner.nextLine();
@@ -209,7 +253,7 @@ public class ClientCli implements ViewInterface{
     private void setNickname(){
 
 
-        System.out.println("Please insert your Nickname");
+        System.out.println("\nPlease insert your Nickname");
         String input = scanner.nextLine();
         iSQuit(input);
         gameController.setNickname(input);
@@ -217,14 +261,6 @@ public class ClientCli implements ViewInterface{
     }
 
 
-    private void iSQuit(String input){
 
-        if (input.equals("Quit")){
-            System.out.println("Ok, Game Exit, Thank you for your participation!");
-            gameController.cleanExit();
-            System.exit(0);
-        }
-
-    }
 
 }

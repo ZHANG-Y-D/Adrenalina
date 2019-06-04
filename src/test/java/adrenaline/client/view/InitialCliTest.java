@@ -1,5 +1,6 @@
 package adrenaline.client.view;
 
+import adrenaline.client.view.CliView.InitialCli;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import org.junit.jupiter.api.Test;
@@ -11,13 +12,13 @@ import java.io.IOException;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class ClientCliTest {
+public class InitialCliTest {
 
     @Test
     void InitialTest() {
 
-        ClientCli clientCli = new ClientCli();
-        clientCli.InitialClientCli();
+        InitialCli initialCli = new InitialCli();
+        initialCli.initialStageCli();
     }
 
     @Test
@@ -59,5 +60,10 @@ public class ClientCliTest {
         AnsiConsole.systemInstall();
         System.out.println(ansi().eraseScreen().fg(Ansi.Color.RED).a("Hello").fg(Ansi.Color.GREEN).a(" World").reset());
         AnsiConsole.systemUninstall();
+
+        String string="ASDFGH";
+        System.out.println(ansi().eraseScreen().fg(Ansi.Color.WHITE).a(string));
     }
+
+
 }

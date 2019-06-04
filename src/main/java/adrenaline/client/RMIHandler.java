@@ -66,4 +66,14 @@ public class RMIHandler implements ConnectionHandler {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String getClientID() {
+        return clientID;
+    }
+
+    @Override
+    public String getMyLobbyID() {
+        return myLobbyID;
+    }
 }

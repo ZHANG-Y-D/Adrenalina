@@ -102,4 +102,15 @@ public class SocketHandler implements ConnectionHandler {
         avatarMsg += gson.toJson(color);
         sendMessage(avatarMsg);
     }
+
+
+    @Override
+    public String getClientID() {
+        return clientID;
+    }
+
+    @Override
+    public String getMyLobbyID() {
+        return myLobbyID;
+    }
 }

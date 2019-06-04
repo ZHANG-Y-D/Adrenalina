@@ -97,4 +97,9 @@ public class GameController {
         //this is for showing the timer on the view
         //the cli can decide how to tell the player that a timer has started
     }
+
+
+    public ConnectionHandler getConnectionHandler() {
+        return connectionHandler;
+    }
 }

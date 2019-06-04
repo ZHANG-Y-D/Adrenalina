@@ -7,4 +7,6 @@ public interface ConnectionHandler {
     void setNickname(String nickname);
     void setMyLobby(String LobbyID);
     void selectAvatar(Color color);
+    String getClientID();
+    String getMyLobbyID();
 }
