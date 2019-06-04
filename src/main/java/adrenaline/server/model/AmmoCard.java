@@ -1,14 +1,6 @@
 
 package adrenaline.server.model;
 
-/*
- *
- *
- *
- *  Responsible:Zhang Yuedong
- *
- *
- */
 
 import java.util.Arrays;
 

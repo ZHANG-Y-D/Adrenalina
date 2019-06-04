@@ -1,6 +1,7 @@
 package adrenaline.client.view;
 
 
+import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 
 import java.io.BufferedReader;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static java.lang.Thread.sleep;
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class ClientCli implements ViewInterface{
 
@@ -45,6 +46,7 @@ public class ClientCli implements ViewInterface{
             setNickname();
         }while (!listenerReturnValueIsOK());
 
+        //TODO wait for other players in
 
         do {
             selectAvatar();
@@ -55,10 +57,35 @@ public class ClientCli implements ViewInterface{
 
     private void selectAvatar() {
 
+        int num=0;
+        Color color = Color.BLACK;
+
         printSrcFile("Avatar.txt");
-        //TODO
+        try{
+            num = scanner.nextInt();
+        }catch (InputMismatchException e){
+            showError("\nPlease answer with a number from 1 to 5.");
+            scanner.nextLine();
+            return;
+        }
 
 
+        switch (num){
+            case 1:color = Color.YELLOW;
+                    break;
+            case 2:color = Color.BLUE;
+                    break;
+            case 3:color = Color.GRAY;
+                    break;
+            case 4:color = Color.PURPLE;
+                    break;
+            case 5:color = Color.GREEN;
+                    break;
+            default:
+                System.err.println("Please answer with a number from 1 to 5.");
+                selectAvatar();
+        }
+        gameController.selectAvatar(color);
     }
 
 
@@ -126,7 +153,7 @@ public class ClientCli implements ViewInterface{
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String string = bufferedReader.readLine();
             while (string != null){
-                System.out.println(string);
+                System.out.println(ansi().eraseScreen().render(string) );
                 string=bufferedReader.readLine();
             }
         }catch (FileNotFoundException e){
@@ -166,9 +193,9 @@ public class ClientCli implements ViewInterface{
         System.out.println("Insert port");
         try {
             port = scanner.nextInt();
-            scanner.nextLine();
         }catch (InputMismatchException e){
-            System.out.println("You have to insert a number for port");
+            System.err.println("\nYou have to insert a number for port!");
+            scanner.nextLine();
             return false;
         }
 
