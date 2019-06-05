@@ -80,7 +80,7 @@ public class ClientCli implements ViewInterface{
 
     @Override
     public void changeStage() {
-
+        //lobby started
     }
 
     @Override

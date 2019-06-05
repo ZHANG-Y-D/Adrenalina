@@ -18,5 +18,5 @@ public interface LobbyAPI extends Remote {
     String moveSubAction(String clientID) throws RemoteException;
     String endOfTurnAction(String clientID) throws RemoteException;
     String selectAvatar(String clientID, Color color) throws RemoteException;
-    String selectMap(String clientID, int mapID) throws RemoteException;
+    String selectSettings(String clientID, Integer mapID, Integer skulls) throws RemoteException;
 }

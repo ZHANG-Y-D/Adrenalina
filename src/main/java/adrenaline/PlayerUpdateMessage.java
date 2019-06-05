@@ -5,6 +5,7 @@ import adrenaline.client.model.Player;
 import adrenaline.server.model.PowerupCard;
 import adrenaline.server.model.WeaponCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PlayerUpdateMessage implements UpdateMessage {

@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Scanner;
+import adrenaline.UpdateMessage;
 
 public class SocketHandler implements ConnectionHandler {
 
@@ -60,9 +61,10 @@ public class SocketHandler implements ConnectionHandler {
                             argObjects[i] = gson.fromJson(readSplit[3 + 2 * i], argClasses[i]);
                         }
                         requestedMethod = methodsMap.get(methodName).getClass().getMethod(methodName, argClasses);
-                        requestedMethod.invoke(methodsMap.get(methodName), argObjects).toString();
+                        requestedMethod.invoke(methodsMap.get(methodName), argObjects);
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -94,12 +96,21 @@ public class SocketHandler implements ConnectionHandler {
         myLobbyID = lobbyID;
     }
 
-    @Override
     public void selectAvatar(Color color) {
         String avatarMsg = "selectAvatar;ARGSIZE=2;java.lang.String;";
         avatarMsg += gson.toJson(clientID)+";";
         avatarMsg += "adrenaline.Color;";
         avatarMsg += gson.toJson(color);
         sendMessage(avatarMsg);
+    }
+
+    public void sendSettings(int selectedMap, int selectedSkull) {
+        String settingsMsg = "selectSettings;ARGSIZE=3;java.lang.String;";
+        settingsMsg += gson.toJson(clientID)+";";
+        settingsMsg += "java.lang.Integer;";
+        settingsMsg += gson.toJson(selectedMap)+";";
+        settingsMsg += "java.lang.Integer;";
+        settingsMsg += gson.toJson(selectedSkull)+";";
+        sendMessage(settingsMsg);
     }
 }

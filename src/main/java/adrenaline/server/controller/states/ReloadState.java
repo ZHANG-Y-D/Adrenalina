@@ -75,7 +75,7 @@ public class ReloadState implements GameState{
     }
 
     @Override
-    public String selectMap(int mapID, String voterID) {
+    public String selectSettings(int mapID, int skulls, String voterID) {
         return null;
     }
 }

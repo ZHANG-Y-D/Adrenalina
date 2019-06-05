@@ -48,8 +48,6 @@ public class InitialViewController implements ViewInterface {
         this.gameController = gameController;
     }
 
-    public void notifyView() { }
-
     public void notifyTimer(Integer duration) {
         time = duration;
     }
@@ -135,7 +133,7 @@ public class InitialViewController implements ViewInterface {
                 stage.setHeight(768);
                 stage.centerOnScreen();
                 stage.setScene(scene);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

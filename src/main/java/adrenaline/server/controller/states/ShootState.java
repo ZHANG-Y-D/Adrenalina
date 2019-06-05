@@ -98,7 +98,7 @@ public class ShootState implements GameState {
     }
 
     @Override
-    public String selectMap(int mapID, String voterID) {
+    public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";
     }
 }

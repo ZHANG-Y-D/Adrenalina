@@ -84,6 +84,6 @@ public class SelectActionState implements GameState {
     public String selectAvatar(Color color) { return "KO"; }
 
     @Override
-    public String selectMap(int mapID, String voterID) { return "KO"; }
+    public String selectSettings(int mapID, int skulls, String voterID) { return "KO"; }
 
 }

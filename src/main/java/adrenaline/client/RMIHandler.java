@@ -66,4 +66,12 @@ public class RMIHandler implements ConnectionHandler {
             e.printStackTrace();
         }
     }
+
+    public void sendSettings(int selectedMap, int selectedSkull) {
+        try{
+            gameController.handleReturn(myLobby.selectSettings(clientID, selectedMap, selectedSkull));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 }
