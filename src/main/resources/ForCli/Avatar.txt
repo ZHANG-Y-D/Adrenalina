@@ -1,0 +1,10 @@
+
+@|bold Please Choose a Avatar based on the color you like  |@
+
+@|bold,yellow 1.name: D-STRUCT-OR |@
+@|bold,blue 2.name: BANSHEE |@
+@|bold,white 3.name: DOZER |@
+@|bold,magenta 4.name: VIOLET |@
+@|bold,green 5.name: SPROG |@
+
+Which you like? From 1 to 5:

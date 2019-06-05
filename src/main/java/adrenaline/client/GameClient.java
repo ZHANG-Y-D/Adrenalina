@@ -1,13 +1,14 @@
 package adrenaline.client;
 
 
-import adrenaline.client.view.ClientCli;
+import adrenaline.client.view.CliView.InitialCli;
 import adrenaline.client.view.ClientGui;
 import javafx.application.Application;
 
 import java.util.Scanner;
 
 public class GameClient {
+
 
 
     /**
@@ -44,10 +45,12 @@ public class GameClient {
 
     private static boolean chooseTheViewMode(String input) {
 
-        if (input.equalsIgnoreCase("cli")) {
-            ClientCli clientCli = new ClientCli();
-            clientCli.InitialClientCli();
-        } else if (input.equalsIgnoreCase("gui")) {
+        if (input.equalsIgnoreCase("cli") ||
+                input.equalsIgnoreCase("c")) {
+            InitialCli initialCli = new InitialCli();
+            initialCli.initialStageCli();
+        } else if (input.equalsIgnoreCase("gui") ||
+                input.equalsIgnoreCase("g")) {
             Application.launch(ClientGui.class);
         } else
             return false;

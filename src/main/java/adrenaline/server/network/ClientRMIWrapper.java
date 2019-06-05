@@ -5,6 +5,7 @@ import adrenaline.UpdateMessage;
 import adrenaline.client.ClientAPI;
 import adrenaline.server.controller.Lobby;
 
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -44,6 +45,8 @@ public class ClientRMIWrapper implements Client {
             e.printStackTrace();
         }
     }
+
+
 
     public void setPlayerColor(String nickname, Color color){
         try {

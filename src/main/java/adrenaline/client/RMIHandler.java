@@ -68,10 +68,19 @@ public class RMIHandler implements ConnectionHandler {
     }
 
     public void sendSettings(int selectedMap, int selectedSkull) {
-        try{
+        try {
             gameController.handleReturn(myLobby.selectSettings(clientID, selectedMap, selectedSkull));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public String getClientID() {
+        return clientID;
+    }
+
+    @Override
+    public String getMyLobbyID() {
+        return myLobbyID;
     }
 }

@@ -112,4 +112,8 @@ public class GameController {
     public void sendSettings(int selectedMap, int selectedSkull) {
         connectionHandler.sendSettings(selectedMap, selectedSkull);
     }
+    
+    public ConnectionHandler getConnectionHandler() {
+        return connectionHandler;
+    }
 }

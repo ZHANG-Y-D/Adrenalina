@@ -156,7 +156,7 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         gameController.selectAvatar(colorMap.get(avatar1.getImage().getUrl()));
     }
 
-    public void changeScene() {
+    public void changeScene(){
         avatar1.setVisible(false);
         avatar2.setVisible(false);
         avatar3.setVisible(false);

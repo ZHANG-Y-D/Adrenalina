@@ -22,6 +22,7 @@ public class RMIServerCommands extends UnicastRemoteObject implements ServerAPI 
         return wrapper.getClientID();
     }
 
+
     public String setNickname(String clientID, String nickname) throws RemoteException {
         if(nickname.length()<1) return "Nickname must contain at least 1 character!";
         if(mainServer.setNickname(clientID, nickname)) return "/OK";

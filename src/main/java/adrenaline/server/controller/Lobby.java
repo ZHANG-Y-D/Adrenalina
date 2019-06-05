@@ -233,12 +233,8 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public int getExecutedActions(){ return executedActions; }
 
-    public synchronized void playerEndTurn(){
-        scheduledTimeout.cancel(false);
-        endTurn();
-    }
-
-    synchronized void endTurn(){
+    public synchronized void endTurn(boolean timeoutReached){
+        if(!timeoutReached) scheduledTimeout.cancel(false);
         checkDeadPlayers();
         if(!deadPlayers.isEmpty()){
             String dead = deadPlayers.get(0);

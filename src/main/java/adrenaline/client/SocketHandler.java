@@ -106,11 +106,21 @@ public class SocketHandler implements ConnectionHandler {
 
     public void sendSettings(int selectedMap, int selectedSkull) {
         String settingsMsg = "selectSettings;ARGSIZE=3;java.lang.String;";
-        settingsMsg += gson.toJson(clientID)+";";
+        settingsMsg += gson.toJson(clientID) + ";";
         settingsMsg += "java.lang.Integer;";
-        settingsMsg += gson.toJson(selectedMap)+";";
+        settingsMsg += gson.toJson(selectedMap) + ";";
         settingsMsg += "java.lang.Integer;";
-        settingsMsg += gson.toJson(selectedSkull)+";";
+        settingsMsg += gson.toJson(selectedSkull) + ";";
         sendMessage(settingsMsg);
+    }
+
+    @Override
+    public String getClientID() {
+        return clientID;
+    }
+
+    @Override
+    public String getMyLobbyID() {
+        return myLobbyID;
     }
 }
