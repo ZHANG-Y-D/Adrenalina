@@ -4,7 +4,6 @@ import adrenaline.Color;
 import adrenaline.CustomSerializer;
 import adrenaline.UpdateMessage;
 import adrenaline.server.controller.Lobby;
-import adrenaline.server.model.Square;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -36,7 +35,9 @@ public class ClientSocketWrapper implements Client {
         for(Method m : serverCommands.getClass().getDeclaredMethods())methodsMap.put(m.getName(), serverCommands);
         Scanner inputFromClient = new Scanner(thisClient.getInputStream());
         outputToClient = new PrintWriter(thisClient.getOutputStream());
-        gson = new Gson();
+        GsonBuilder gsonBld = new GsonBuilder();
+        gsonBld.registerTypeAdapter(UpdateMessage.class, new CustomSerializer());
+        gson = gsonBld.create();
         createListener(inputFromClient);
         sendMessage(clientID);
     }
@@ -112,5 +113,8 @@ public class ClientSocketWrapper implements Client {
         sendMessage("timerStarted;ARGSIZE=1;java.lang.Integer;"+gson.toJson(duration));
     }
 
-    public void update(UpdateMessage updatemsg) { sendMessage("update;ARGSIZE=1;adrenaline.UpdateMessage;"+gson.toJson(updatemsg));}
+    public void update(UpdateMessage updatemsg) {
+        sendMessage("update;ARGSIZE=1;adrenaline.UpdateMessage;"+gson.toJson(updatemsg, UpdateMessage.class));
+    }
+
 }

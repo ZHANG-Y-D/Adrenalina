@@ -104,7 +104,7 @@ public class FirePlayerState implements FiremodeSubState {
     public String selectAvatar(Color color) {
         return "KO";
     }
-    
+
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";
