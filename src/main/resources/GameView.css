@@ -1,9 +1,73 @@
-#borderPane{
+#pane{
     -fx-background-image: url("Background.png");
 }
 #map{
-    -fx-background-image: url("/Maps/MAP1.png");
     -fx-background-size: cover;
-    -fx-background-repeat: stretch;
     -fx-background-position: center;
+}
+#redWeapons{
+    -fx-padding: 2;
+    -fx-background-radius: 10;
+    -fx-border-color: black;
+    -fx-border-radius: 10;
+    -fx-background-color: rgba(255,0,0,0.1);
+}
+#yellowWeapons{
+    -fx-padding: 2;
+    -fx-background-radius: 10;
+    -fx-border-color: black;
+    -fx-border-radius: 10;
+    -fx-background-color: rgba(251,248,175,0.2);
+}
+#blueWeapons{
+    -fx-padding: 2;
+    -fx-background-radius: 10;
+    -fx-border-color: black;
+    -fx-border-radius: 10;
+    -fx-background-color: rgba(66, 170, 250, 0.1);
+}
+#move{
+    -fx-background-image: url("button_move.png");
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
+    -fx-background-size: cover;
+}
+#grab{
+    -fx-background-image: url("button_grab.png");
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
+    -fx-background-size: cover;
+}
+#shoot{
+    -fx-background-image: url("button_shoot.png");
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
+    -fx-background-size: cover;
+}
+#reload{
+    -fx-background-image: url("button_reload.png");
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
+    -fx-background-size: cover;
+}
+#bottom_pane{
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+.button:hover{
+    -fx-cursor: hand;
+}
+#scrollPane{
+    -fx-background-color: transparent;
+
+}
+#scrollPane >.viewport{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+#txtMsg{
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-text-fill: white;
 }

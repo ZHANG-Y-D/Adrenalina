@@ -26,7 +26,6 @@ public class SelectCli extends ControllerCli implements ViewInterface {
 
     }
 
-    @Override
     public void notifyView() {
 
     }

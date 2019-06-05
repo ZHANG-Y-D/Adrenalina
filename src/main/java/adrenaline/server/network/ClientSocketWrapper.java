@@ -63,6 +63,7 @@ public class ClientSocketWrapper implements Client {
                     sendToClient += "SERVER ERROR!";
                 } catch (NullPointerException | NoSuchMethodException |
                             IllegalAccessException | NoSuchElementException e) {
+                    e.printStackTrace();
                     sendToClient += "ERROR! Invalid command request";
                 }finally{ sendMessage(sendToClient);}
             }
@@ -108,7 +109,7 @@ public class ClientSocketWrapper implements Client {
         sendMessage("timerStarted;ARGSIZE=1;java.lang.Integer;"+gson.toJson(duration));
     }
 
-    public void update(UpdateMessage updatemsg) { sendMessage("update:ARGSZIE=1;adrenaline.UpdateMessage:"+gson.toJson(updatemsg));}
+    public void update(UpdateMessage updatemsg) { sendMessage("update;ARGSIZE=1;adrenaline.UpdateMessage;"+gson.toJson(updatemsg));}
 
 
 }

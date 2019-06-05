@@ -10,6 +10,7 @@ import adrenaline.server.model.*;
 import adrenaline.server.model.Map;
 import adrenaline.server.model.constraints.RangeConstraint;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import adrenaline.server.LobbyAPI;
 import adrenaline.server.controller.states.GameState;
@@ -221,9 +222,9 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
-    public String selectMap(String clientID, int mapID) {
+    public String selectSettings(String clientID, Integer mapID, Integer skulls) {
         if(clientMap.keySet().contains(clientID)){
-            return currentState.selectMap(mapID, clientID);
+            return currentState.selectSettings(mapID, skulls, clientID);
         }
         //else: user not part of the lobby
         return "You should not be here!";
@@ -285,14 +286,17 @@ public class Lobby implements Runnable, LobbyAPI {
             try { x.timerStarted(mapSelectionState.getTimeoutDuration());
             } catch (RemoteException e) { }
         });
-        int mapID = mapSelectionState.startTimer();
+        int votes[] = mapSelectionState.startTimer();
         try{
-            Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resource/Jsonsrc/Map"+ mapID +".json");
-            map=gson.fromJson(fileReader,Map.class);
-            clientMap.values().forEach(map::attach);
-        }catch (JsonIOException | FileNotFoundException e){ }
-        System.out.println("INITIALIZED MAP "+ mapID);
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map"+ votes[0] +".json");
+            GsonBuilder gsonBld = new GsonBuilder();
+            gsonBld.registerTypeAdapter(Square.class, new CustomDeserializer());
+            Gson gson = gsonBld.create();
+            map = gson.fromJson(fileReader,Map.class);
+            map.setObservers(new ArrayList<>(clientMap.values()));
+        }catch (JsonIOException | FileNotFoundException e){
+            e.printStackTrace();
+        }
     }
 
     private void checkDeadPlayers(){

@@ -17,5 +17,5 @@ public interface GameState {
     String endOfTurnAction();
     String goBack();
     String selectAvatar(Color color);
-    String selectMap(int mapID, String voterID);
+    String selectSettings(int mapID, int skulls, String voterID);
 }

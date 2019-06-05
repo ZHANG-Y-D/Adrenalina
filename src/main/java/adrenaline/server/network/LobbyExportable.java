@@ -71,7 +71,7 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
     }
 
     @Override
-    public String selectMap(String clientID, int mapID) {
-        return lobbyRelay.selectMap(clientID,mapID);
+    public String selectSettings(String clientID, Integer mapID, Integer skulls) {
+        return lobbyRelay.selectSettings(clientID,mapID, skulls );
     }
 }

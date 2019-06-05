@@ -87,3 +87,7 @@
     -fx-background-radius: 5;
     -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
 }
+#skullbar{
+    -fx-background-image: url("SKULLBAR.png");
+    -fx-background-size: cover;
+}

@@ -2,71 +2,87 @@
   "mapSquares": [
     [
       {
-        "color": "red",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "red"
+        }
       },
       {
-        "color": "blue",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "blue"
+        }
       },
       {
-        "color": "blue",
-        "spawn": true,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareSpawn",
+        "properties": {
+          "color": "blue",
+          "weaponCards": []
+        }
       },
       {
-        "color": "black",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "black"
+        }
       }
     ],
     [
       {
-        "color": "red",
-        "spawn": true,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareSpawn",
+        "properties": {
+          "color": "red",
+          "weaponCards": []
+        }
       },
       {
-        "color": "purple",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "purple"
+        }
       },
       {
-        "color": "purple",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "purple"
+        }
       },
       {
-        "color": "yellow",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "yellow"
+        }
       }
     ],
     [
       {
-        "color": "white",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "white"
+        }
       },
       {
-        "color": "white",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "white"
+        }
       },
       {
-        "color": "white",
-        "spawn": false,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareAmmo",
+        "properties": {
+          "color": "white"
+        }
       },
       {
-        "color": "yellow",
-        "spawn": true,
-        "weaponCards": []
+        "type": "adrenaline.server.model.SquareSpawn",
+        "properties": {
+          "color": "yellow",
+          "weaponCards": []
+        }
       }
     ]
   ],
+  "mapID": 4,
   "mapWalls": [[4,5],[6,10]],
   "rows": 3,
   "columns": 4,

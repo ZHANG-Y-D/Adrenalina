@@ -2,8 +2,11 @@ package adrenaline.server.model;
 
 
 import adrenaline.Color;
+import adrenaline.MapUpdateMessage;
 import adrenaline.server.Observable;
+import adrenaline.server.network.Client;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class Map extends Observable {
 
-    //playerPosition
+    private int mapID;
     private Square[][] mapSquares;
     private ArrayList<int[]> mapWalls;
     private int rows;
@@ -30,18 +33,37 @@ public class Map extends Observable {
     private HashMap<Color,Integer> spawnMap;
 
     /**
+     * Sets the observers of the map and notify them
+     * about the initial information of the map.
+     *
+     * @param clients   is the list of clients that want to observe the map
+     */
+    public void setObservers(ArrayList<Client> clients){
+        clients.forEach(this::attach);
+        notifyObservers(new MapUpdateMessage(this));
+    }
+
+    /**
+     * Gets the ID of the map.
+     *
+     * @return  the ID of the map
+     */
+    public int getMapID(){ return mapID; }
+
+    /**
      * Use x,y coordinate to get SquareAmmo
      *
      * @return  the SquareAmmo
      */
-
+    //TODO delete method
     public Square getSquare(int x, int y) { return mapSquares[x][y]; }
 
 
     /**
-     * Use Int Position to get SquareAmmo
+     * Gets the square from the given index.
      *
-     * @return  the SquareAmmo
+     * @param pos   is the index of the square
+     * @return      the square
      */
 
     public Square getSquare(int pos) { return mapSquares[pos/columns][pos%columns]; }

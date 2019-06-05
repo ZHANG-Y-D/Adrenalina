@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Scanner;
+import adrenaline.UpdateMessage;
 
 public class SocketHandler implements ConnectionHandler {
 
@@ -63,6 +64,7 @@ public class SocketHandler implements ConnectionHandler {
                         requestedMethod.invoke(methodsMap.get(methodName), argObjects);
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -94,7 +96,6 @@ public class SocketHandler implements ConnectionHandler {
         myLobbyID = lobbyID;
     }
 
-    @Override
     public void selectAvatar(Color color) {
         String avatarMsg = "selectAvatar;ARGSIZE=2;java.lang.String;";
         avatarMsg += gson.toJson(clientID)+";";
@@ -103,6 +104,15 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(avatarMsg);
     }
 
+    public void sendSettings(int selectedMap, int selectedSkull) {
+        String settingsMsg = "selectSettings;ARGSIZE=3;java.lang.String;";
+        settingsMsg += gson.toJson(clientID) + ";";
+        settingsMsg += "java.lang.Integer;";
+        settingsMsg += gson.toJson(selectedMap) + ";";
+        settingsMsg += "java.lang.Integer;";
+        settingsMsg += gson.toJson(selectedSkull) + ";";
+        sendMessage(settingsMsg);
+    }
 
     @Override
     public String getClientID() {

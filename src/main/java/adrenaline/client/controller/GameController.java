@@ -9,6 +9,8 @@ import adrenaline.client.model.Player;
 import adrenaline.client.model.ScoreBoard;
 import adrenaline.client.view.ViewInterface;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -16,17 +18,18 @@ import java.util.LinkedHashMap;
 
 public class GameController {
 
-    private int mapID;
-
-    private LinkedHashMap<String, Color> playersNicknames;
+    private LinkedHashMap<String, Color> playersNicknames = new LinkedHashMap<>();
     private ScoreBoard scoreBoard;
     private Map map;
-    private HashMap<Color, Player> playersMap;
+    private HashMap<Color, Player> playersMap = new HashMap<>();
     private ViewInterface view;
     private ConnectionHandler connectionHandler;
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
 
     public LinkedHashMap<String, Color> getPlayersNicknames(){ return playersNicknames; }
+
+    public Map getMap(){ return map; }
 
     public void setViewController(ViewInterface viewController){
         this.view = viewController;
@@ -58,13 +61,11 @@ public class GameController {
     public void setNickname(String nickname){ connectionHandler.setNickname(nickname);}
 
     public void initPlayersNicknames(ArrayList<String> nicknames){
-        playersNicknames = new LinkedHashMap<>();
         nicknames.forEach(x -> playersNicknames.put(x, Color.WHITE));
     }
 
     public void setPlayerColor(String nickname, Color color){
-        playersNicknames.put(nickname, color);
-        view.notifyView();
+        changes.firePropertyChange("nicknamesColor", playersNicknames, playersNicknames.put(nickname, color));
     }
 
     public void selectAvatar(Color color){ connectionHandler.selectAvatar(color); }
@@ -85,7 +86,17 @@ public class GameController {
     }
 
     public void updateMap(Map newMap){
+        Map oldMap = map;
         map = newMap;
+        changes.firePropertyChange("map", oldMap, newMap);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener l){
+        changes.addPropertyChangeListener(l);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener l){
+        changes.removePropertyChangeListener(l);
     }
 
     public void updateScoreBoard(ScoreBoard newScoreBoard){
@@ -98,6 +109,9 @@ public class GameController {
         //the cli can decide how to tell the player that a timer has started
     }
 
+    public void sendSettings(int selectedMap, int selectedSkull) {
+        connectionHandler.sendSettings(selectedMap, selectedSkull);
+    }
 
     public ConnectionHandler getConnectionHandler() {
         return connectionHandler;

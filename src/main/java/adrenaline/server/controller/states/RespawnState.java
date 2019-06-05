@@ -81,7 +81,7 @@ public class RespawnState implements GameState {
     }
 
     @Override
-    public String selectMap(int mapID, String voterID) {
+    public String selectSettings(int mapID, int skulls, String voterID) {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 }

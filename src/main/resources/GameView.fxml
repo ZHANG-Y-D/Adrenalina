@@ -1,45 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
-<BorderPane fx:id="borderPane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="adrenaline.client.view.GameViewController" >
-    <center>
-        <GridPane fx:id="map" gridLinesVisible="true" prefHeight="456.0" prefWidth="600.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            </rowConstraints>
+
+<Pane fx:id="pane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.GameViewController">
+    <children>
+        <GridPane fx:id="map" gridLinesVisible="true" layoutX="170" layoutY="125" prefHeight="444" prefWidth="580.0">
             <children>
-                <Pane fx:id="pane1" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <Pane fx:id="pane2" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <Pane fx:id="pane3" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                <Pane fx:id="pane4" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                <Pane fx:id="pane5" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <Pane fx:id="pane6" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Pane fx:id="pane7" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <Pane fx:id="pane8" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <Pane fx:id="pane9" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <Pane fx:id="pane10" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Pane fx:id="pane11" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <Pane fx:id="pane12" onMouseClicked="#setDestination" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                <Pane fx:id="pane1" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Pane fx:id="pane2" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Pane fx:id="pane3" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <Pane fx:id="pane4" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                <Pane fx:id="pane5" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Pane fx:id="pane6" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Pane fx:id="pane7" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Pane fx:id="pane8" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <Pane fx:id="pane9" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Pane fx:id="pane10" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Pane fx:id="pane11" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Pane fx:id="pane12" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             </children>
         </GridPane>
-    </center>
-    <left>
-        <VBox>
-            <Button text="prova"/>
+        <VBox fx:id="redWeapons" layoutX="10" layoutY="170">
+         <children>
+             <ImageView fitHeight="100.0" fitWidth="150.0">
+             </ImageView>
+             <ImageView fitHeight="100.0" fitWidth="150.0">
+             </ImageView>
+             <ImageView fitHeight="100.0" fitWidth="150.0">
+             </ImageView>
+         </children>
         </VBox>
-    </left>
+        <HBox fx:id="blueWeapons" layoutX="290" layoutY="15">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="150.0">
+                <image>
+                    <Image url="@Weapons/weapon_1-TOP.png" />
+                </image>
+            </ImageView>
+             <ImageView fitHeight="100.0" fitWidth="150.0">
+                 <image>
+                     <Image url="@Weapons/AD_weapons_IT_0212-TOP.png" />
+                 </image>
+             </ImageView>
+             <ImageView fitHeight="100.0" fitWidth="150.0">
+                 <image>
+                     <Image url="@Weapons/AD_weapons_IT_0222-TOP.png" />
+                 </image>
+             </ImageView>
+         </children>
+        </HBox>
+        <VBox fx:id="yellowWeapons" layoutX="760" layoutY="260">
+         <children>
+             <ImageView fitHeight="100.0" fitWidth="150.0">
+                 <image>
+                     <Image url="@Weapons/AD_weapons_IT_0221-TOP.png" />
+                 </image>
+             </ImageView>
+             <ImageView fitHeight="100.0" fitWidth="150.0">
+                 <image>
+                     <Image url="@Weapons/weapon_18-TOP.png" />
+                 </image>
+             </ImageView>
+             <ImageView fitHeight="100.0" fitWidth="150.0">
+                 <image>
+                     <Image url="@Weapons/AD_weapons_IT_027-TOP.png" />
+                 </image>
+             </ImageView>
+         </children>
+        </VBox>
+        <Pane fx:id="bottom_pane" layoutX="170" layoutY="590" prefHeight="150" prefWidth="710">
+            <children>
+                <ImageView fx:id="player_label" fitHeight="130.0" fitWidth="494.0" layoutX="180" layoutY="10">
+                    <image>
+                        <Image url="@player_ex.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="move" layoutX="20" layoutY="15" prefHeight="41" prefWidth="62" />
+                <Button fx:id="grab" layoutX="90" layoutY="15" prefHeight="41" prefWidth="62" />
+                <Button fx:id="shoot" layoutX="20" layoutY="75" prefHeight="41" prefWidth="62" />
+                <Button fx:id="reload" layoutX="90" layoutY="75" prefHeight="62" prefWidth="41" />
+            </children>
+        </Pane>
+        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="890.0" layoutY="600.0" prefHeight="100.0" prefWidth="300.0" vvalue="1">
+            <content>
+                <VBox fx:id="chat" />
+            </content>
+        </ScrollPane>
+        <TextField fx:id="txtMsg" onAction="#sendMessage" layoutX="891.0" layoutY="700.0" prefHeight="30.0" prefWidth="298.0" promptText="Type your message" />
+    </children>
     <stylesheets>
         <URL value="@GameView.css" />
     </stylesheets>
-</BorderPane>
+</Pane>

@@ -85,8 +85,8 @@ public class FireAreaState implements FiremodeSubState {
     @Override
     public String selectAvatar(Color color) { return "KO"; }
 
-    @Override
-    public String selectMap(int mapID, String voterID) {
+
+    public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";
     }
 }

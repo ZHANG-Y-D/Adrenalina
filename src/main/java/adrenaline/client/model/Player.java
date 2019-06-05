@@ -2,9 +2,10 @@ package adrenaline.client.model;
 
 import adrenaline.Color;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable {
 
     private Color color;
     private int position;

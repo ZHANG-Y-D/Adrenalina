@@ -25,7 +25,7 @@ class MapTest {
             gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             map = gson.fromJson(fileReader,Map.class);
-        }catch(Exception e){System.out.println("ERROR!");}
+        }catch(Exception e){e.printStackTrace();}
     }
 
 

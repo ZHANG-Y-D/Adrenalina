@@ -8,6 +8,5 @@ public interface ViewInterface {
     void showError(String error);
     void changeStage();
     void setGameController(GameController gameController);
-    void notifyView();
     void notifyTimer(Integer duration);
 }
