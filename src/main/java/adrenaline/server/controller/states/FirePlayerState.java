@@ -2,7 +2,11 @@ package adrenaline.server.controller.states;
 
 import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
+import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
+import adrenaline.server.model.constraints.CardinalDirectionConstraint;
+import adrenaline.server.model.constraints.InRadiusConstraint;
+import adrenaline.server.model.constraints.RangeConstraint;
 import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
@@ -11,81 +15,97 @@ public class FirePlayerState implements FiremodeSubState {
 
     private Lobby lobby;
     private Firemode thisFiremode;
-    private TargetsGenerator targetsGenerator;
 
-    @Override
+    private TargetsGenerator targetsGenerator;
+    private int targetsLimit;
+    private int pushRange;
+    private ArrayList<int[]> dmgmrkEachTarget;
+    private Color selectedTarget=null;
+    private ArrayList<Integer> targetValidSquares;
+
     public void setContext(Lobby lobby, Firemode firemode) {
         this.lobby = lobby;
         this.thisFiremode = firemode;
         lobby.sendCurrentPlayerValidSquares(firemode);
     }
 
-    @Override
-    public String runAction() {
-        return null;
-    }
+    public String runAction() { return "Select your target(s) or GO BACK."; }
 
-    @Override
     public String grabAction() {
-        return null;
+        return "Select your target(s) or GO BACK.";
     }
 
-    @Override
     public String shootAction() {
-        return null;
+        return "Select your target(s) or GO BACK.";
     }
 
-    @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
-
+        playersColor = new ArrayList<>(playersColor.subList(0, targetsLimit));
+        //targetsGenerate
+        try {
+            lobby.applyFire(thisFiremode, playersColor);
+            selectedTarget = playersColor.get(1);
+            lobby.incrementExecutedActions();
+        } catch (InvalidTargetsException e) { return "Invalid targets!"; }
+        if(pushRange<1){
+            FiremodeSubState nextStep = thisFiremode.getNextStep();
+            nextStep.setContext(lobby, thisFiremode);
+            lobby.setState(nextStep);
+        }
+        else{
+            ArrayList<Color> selectedTargets = new ArrayList<>();
+            ArrayList<RangeConstraint> moveConstraints = new ArrayList<>();
+            selectedTargets.add(selectedTarget);
+            moveConstraints.add(new InRadiusConstraint(pushRange));
+            moveConstraints.add(new CardinalDirectionConstraint());
+            targetValidSquares = lobby.sendTargetValidSquares(selectedTargets, moveConstraints);
+        }
         return "OK";
     }
 
-    @Override
     public String selectSquare(int index) {
-        return null;
+        if(pushRange<1) return "Select your target(s) or GO BACK.";
+        if(selectedTarget==null) return "Select your target(s) first.";
+        if(!targetValidSquares.contains(index)) return "You can't move your target there!";
+        lobby.movePlayer(index, selectedTarget);
+        FiremodeSubState nextStep = thisFiremode.getNextStep();
+        nextStep.setContext(lobby, thisFiremode);
+        lobby.setState(nextStep);
+        return "OK";
     }
 
-    @Override
     public String selectPowerUp(int powerUpID) {
         return null;
     }
 
-    @Override
     public String selectWeapon(int weaponID) {
-        return null;
+        return "Select your target(s) or GO BACK.";
     }
 
-    @Override
     public String selectFiremode(int firemode) {
-        return null;
+        return "Select your target(s) or GO BACK.";
     }
 
-    @Override
     public String moveSubAction() {
         //TODO
         return null;
     }
 
 
-    @Override
     public String endOfTurnAction() {
-        return null;
+        return "Select your target(s) or GO BACK.";
     }
 
-    @Override
     public String goBack() {
         lobby.setState(new ShootState(lobby));
         return "OK";
     }
 
-    @Override
     public String selectAvatar(Color color) {
-        return null;
+        return "KO";
     }
 
-    @Override
     public String selectMap(int mapID, String voterID) {
-        return null;
+        return "KO";
     }
 }

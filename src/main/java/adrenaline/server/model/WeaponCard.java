@@ -13,7 +13,11 @@ package adrenaline.server.model;
 
 
 import adrenaline.Color;
+import adrenaline.CustomSerializer;
+import adrenaline.server.model.constraints.RangeConstraint;
+import adrenaline.server.model.constraints.TargetsConstraint;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +65,10 @@ public class WeaponCard {
     }
 
     public Firemode getFiremode(int index) throws NullPointerException{
-        Gson gson = new Gson();
+        GsonBuilder gsonBld = new GsonBuilder();
+        gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomSerializer())
+                .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer());
+        Gson gson = gsonBld.create();
         Firemode deepCopy = gson.fromJson(gson.toJson(firemodes.get(index)), Firemode.class);
         return deepCopy;
     }

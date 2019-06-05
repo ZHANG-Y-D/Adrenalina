@@ -3,10 +3,12 @@ package adrenaline.server.controller;
 import adrenaline.Color;
 import adrenaline.server.controller.states.*;
 import adrenaline.server.exceptions.InvalidCardException;
+import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.exceptions.NotEnoughAmmoException;
 import adrenaline.server.exceptions.WeaponHandFullException;
 import adrenaline.server.model.*;
 import adrenaline.server.model.Map;
+import adrenaline.server.model.constraints.RangeConstraint;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import adrenaline.server.LobbyAPI;
@@ -21,6 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 
 public class Lobby implements Runnable, LobbyAPI {
@@ -42,6 +45,7 @@ public class Lobby implements Runnable, LobbyAPI {
     private DeckAmmo deckAmmo;
     private DeckPowerup deckPowerup;
     private ArrayList<String> deadPlayers;
+    private Set<Color> damagedThisTurn;
 
     private ScheduledExecutorService turnTimer;
     private Future scheduledTimeout;
@@ -59,6 +63,7 @@ public class Lobby implements Runnable, LobbyAPI {
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
         deadPlayers = new ArrayList<>();
+        damagedThisTurn = new HashSet<>();
         currentTurnPlayer = clients.get(0).getClientID();
         nextTurnPlayer = clients.get(1).getClientID();
         turnTimer = Executors.newScheduledThreadPool(1);
@@ -298,13 +303,25 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public ArrayList<Integer> sendCurrentPlayerValidSquares(int range){
         ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
-        //TODO sends list to adrenaline.client
+        //TODO sends list to client
         return validSquares;
     }
 
     public ArrayList<Integer> sendCurrentPlayerValidSquares(Firemode firemode) {
         ArrayList<Integer> validSquares = firemode.getRange(playersMap.get(currentTurnPlayer).getPosition(), map);
-        //TODO sends list to adrenaline.client
+        //TODO sends list to lient
+        return validSquares;
+    }
+
+    public ArrayList<Integer> sendTargetValidSquares(ArrayList<Color> selectedTargets, ArrayList<RangeConstraint> constraints) {
+        ArrayList<Integer> validSquares = new ArrayList<>();
+        for(int i = 0; i<= map.getMaxSquare(); i++){
+            if(!map.isEmptySquare(i)) validSquares.add(i);
+        }
+        for(Player target : selectedTargets.stream().map(x->playersColor.get(x)).collect(Collectors.toList())){
+            constraints.forEach(y -> validSquares.retainAll(y.checkConst(target.getPosition(), map)));
+        }
+        //TODO sends list to client
         return validSquares;
     }
 
@@ -394,6 +411,19 @@ public class Lobby implements Runnable, LobbyAPI {
         }
     }
 
-
+    public void applyFire(Firemode firemode, ArrayList<Color> requestedTargets) throws InvalidTargetsException {
+        ArrayList<Player> targets = new ArrayList<>();
+        requestedTargets.forEach(x -> targets.add(playersColor.get(x)));
+        ArrayList<int[]> assignedDmgMrks = firemode.fire(playersMap.get(currentTurnPlayer), targets, map);
+        int kills = 0;
+        for(int i=0; i<targets.size(); i++){
+            Player target = targets.get(i);
+            int[] dmgMrk = assignedDmgMrks.get(i);
+            kills = target.applyDamage(playersMap.get(currentTurnPlayer).getColor(), dmgMrk[0])
+                    ? kills+1 : kills;
+            target.addMarks(playersMap.get(currentTurnPlayer).getColor(), dmgMrk[1]);
+            if(dmgMrk[0] > 0) damagedThisTurn.add(target.getColor());
+        }
+    }
 }
 

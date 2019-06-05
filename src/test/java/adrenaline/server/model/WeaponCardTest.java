@@ -1,6 +1,7 @@
 package adrenaline.server.model;
 
 import adrenaline.Color;
+import adrenaline.CustomSerializer;
 import adrenaline.server.model.constraints.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class WeaponCardTest {
     @Test
     void WeaponCardModelerFromJson(){
@@ -17,8 +20,8 @@ class WeaponCardTest {
             FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/TestWeaponCard.json");
 
             GsonBuilder gsonBld = new GsonBuilder();
-            gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomDeserializer())
-                    .registerTypeAdapter(TargetsConstraint.class, new CustomDeserializer());
+            gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomSerializer())
+                    .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             WeaponCard jsonWeapon = gson.fromJson(fileReader, WeaponCard.class);
 
@@ -26,6 +29,7 @@ class WeaponCardTest {
         }catch(FileNotFoundException e){System.out.println("ERROR!");}
     }
 
+    /*
     @Test
     void weaponCardModelerTest(){
         WeaponCard weapon;
@@ -36,7 +40,7 @@ class WeaponCardTest {
         ArrayList<TargetsConstraint> trgConstraints = new ArrayList<>();
         ArrayList<int[]> dmgmrk = new ArrayList<>();
 
-        /* LOCK RIFLE */
+        /* LOCK RIFLE *//*
         rngConstraints.add(new InSightConstraint());
         dmgmrk.add(new int[]{2,1});
         fm = new Firemode("Basic", new int[]{0,0,0}, 1, mvEffects, rngConstraints, trgConstraints, dmgmrk);
@@ -51,7 +55,7 @@ class WeaponCardTest {
         trgConstraints.clear();
         dmgmrk.clear();
 
-        /* ELECTROSCYTHE */
+        /* ELECTROSCYTHE *//*
         rngConstraints.add(new InRadiusConstraint(0));
         dmgmrk.add(new int[]{1,0});
         fm = new Firemode("Basic", new int[]{0,0,0}, 0, mvEffects, rngConstraints, trgConstraints, dmgmrk);
@@ -66,7 +70,7 @@ class WeaponCardTest {
         trgConstraints.clear();
         dmgmrk.clear();
 
-        /* MACHINE GUN */
+        /* MACHINE GUN *//*
         rngConstraints.add(new InSightConstraint());
         dmgmrk.add(new int[]{1,0});
         fm = new Firemode("Basic", new int[]{0,0,0}, 2, mvEffects, rngConstraints, trgConstraints, dmgmrk);
@@ -88,7 +92,7 @@ class WeaponCardTest {
         trgConstraints.clear();
         dmgmrk.clear();
 
-        /* TRACTOR BEAM */
+        /* TRACTOR BEAM *//*
         mvEffects.add(new MovementEffect(2, false, false, MovementEffect.Timing.PRE));
         rngConstraints.add(new InSightConstraint());
         dmgmrk.add(new int[]{1,0});
@@ -105,7 +109,7 @@ class WeaponCardTest {
         trgConstraints.clear();
         dmgmrk.clear();
 
-        /* THOR */
+        /* THOR *//*
         rngConstraints.add(new InSightConstraint());
         dmgmrk.add(new int[]{2,0});
         fm = new Firemode("Basic", new int[]{0,0,0}, 1, mvEffects, rngConstraints, trgConstraints, dmgmrk);
@@ -124,7 +128,7 @@ class WeaponCardTest {
         trgConstraints.clear();
         dmgmrk.clear();
 
-        /* POWER GLOVE */
+        /* POWER GLOVE *//*
         mvEffects.add(new MovementEffect(1, true, true , MovementEffect.Timing.PRE));
         rngConstraints.add(new InRadiusConstraint(0));
         dmgmrk.add(new int[]{1,2});
@@ -138,5 +142,6 @@ class WeaponCardTest {
         fmList.add(fm);
         weapon = new WeaponCard("Power glove", new int[]{0,1,0}, Color.BLACK, "", 0,  fmList);
     }
+    */
 
 }

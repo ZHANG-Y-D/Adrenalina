@@ -1,5 +1,6 @@
 package adrenaline.server.model;
 
+import adrenaline.CustomSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +22,7 @@ class MapTest {
             FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map1.json");
 
             GsonBuilder gsonBld = new GsonBuilder();
-            gsonBld.registerTypeAdapter(Square.class, new CustomDeserializer());
+            gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             map = gson.fromJson(fileReader,Map.class);
         }catch(Exception e){System.out.println("ERROR!");}

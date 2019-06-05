@@ -2,30 +2,38 @@ package adrenaline.server.controller.states;
 
 import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
+import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
+import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
 
 public class FireAreaState implements FiremodeSubState {
+
+    private Lobby lobby;
+    private Firemode thisFiremode;
+
+    private TargetsGenerator targetsGenerator;
+    private ArrayList<int[]> dmgmrkEachSquare;
+    private ArrayList<Integer> validSquares;
+
     @Override
     public void setContext(Lobby lobby, Firemode firemode) {
-
+        this.lobby = lobby;
+        this.thisFiremode = firemode;
+        validSquares = lobby.sendCurrentPlayerValidSquares(firemode);
     }
 
     @Override
-    public String runAction() {
-        return null;
-    }
+    public String runAction() { return "Select your target area or GO BACK."; }
 
     @Override
     public String grabAction() {
-        return null;
+        return "Select your target area or GO BACK.";
     }
 
     @Override
-    public String shootAction() {
-        return null;
-    }
+    public String shootAction() { return "Select your target area or GO BACK."; }
 
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
@@ -34,7 +42,15 @@ public class FireAreaState implements FiremodeSubState {
 
     @Override
     public String selectSquare(int index) {
-        return null;
+        if(!validSquares.contains(index)) return "You can't shoot there!";
+        ArrayList<Color> targets = new ArrayList<>();
+        //targets generation
+        try {
+            lobby.applyFire(thisFiremode, targets);
+            lobby.incrementExecutedActions();
+            lobby.setState(thisFiremode.getNextStep());
+            return "OK";
+        } catch (InvalidTargetsException e) { return "You can't shoot there!"; }
     }
 
     @Override
@@ -44,13 +60,11 @@ public class FireAreaState implements FiremodeSubState {
 
     @Override
     public String selectWeapon(int weaponID) {
-        return null;
+        return "Select your target area or GO BACK.";
     }
 
     @Override
-    public String selectFiremode(int firemode) {
-        return null;
-    }
+    public String selectFiremode(int firemode) { return "Select your target area or GO BACK."; }
 
     @Override
     public String moveSubAction() {
@@ -59,21 +73,20 @@ public class FireAreaState implements FiremodeSubState {
 
     @Override
     public String endOfTurnAction() {
-        return null;
+        return "Select your target area or GO BACK.";
     }
 
     @Override
     public String goBack() {
-        return null;
+        lobby.setState(new ShootState(lobby));
+        return "OK";
     }
 
     @Override
-    public String selectAvatar(Color color) {
-        return null;
-    }
+    public String selectAvatar(Color color) { return "KO"; }
 
     @Override
     public String selectMap(int mapID, String voterID) {
-        return null;
+        return "KO";
     }
 }

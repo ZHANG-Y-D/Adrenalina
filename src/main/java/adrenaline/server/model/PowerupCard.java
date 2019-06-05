@@ -31,12 +31,12 @@ public class PowerupCard {
 
 
            case "GRNATA VANOM":
-                targetPlayer.addMark(thisPowerupCardOwner.getColor());
+                targetPlayer.addMarks(thisPowerupCardOwner.getColor(),1);
                break;
 
 
            case "MIRINO":
-               targetPlayer.sufferDamage(thisPowerupCardOwner,1);
+               targetPlayer.applyDamage(thisPowerupCardOwner.getColor(),1);
                break;
 
 

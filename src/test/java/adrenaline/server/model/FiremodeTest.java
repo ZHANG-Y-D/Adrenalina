@@ -1,5 +1,6 @@
 package adrenaline.server.model;
 
+import adrenaline.CustomSerializer;
 import adrenaline.server.model.constraints.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,7 +22,7 @@ class FiremodeTest {
             FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map1.json");
 
             GsonBuilder gsonBld = new GsonBuilder();
-            gsonBld.registerTypeAdapter(Square.class, new CustomDeserializer());
+            gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             map = gson.fromJson(fileReader,Map.class);
         }catch(Exception e){System.out.println("ERROR!");}
@@ -34,7 +35,7 @@ class FiremodeTest {
         ArrayList<RangeConstraint> rngConstList = new ArrayList<>();
         RangeConstraint rngConst = new InSightConstraint();
         rngConstList.add(rngConst);
-        Firemode firemode = new Firemode("",new int[]{0,0,0}, 0, null, rngConstList, null, null);
+        Firemode firemode = new Firemode("",new int[]{0,0,0}, rngConstList, null, null);
 
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(0);
@@ -53,7 +54,7 @@ class FiremodeTest {
         rngConstList.add(rngConst);
         rngConst = new ExcRadiusConstraint(0);
         rngConstList.add(rngConst);
-        firemode = new Firemode("",new int[]{0,0,0}, 0,null, rngConstList, null, null);
+        firemode = new Firemode("",new int[]{0,0,0},  rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(4);
@@ -74,7 +75,7 @@ class FiremodeTest {
         rngConstList.add(rngConst);
         rngConst = new ExcRadiusConstraint(1);
         rngConstList.add(rngConst);
-        firemode = new Firemode("", new int[]{0,0,0}, 0, null, rngConstList, null, null);
+        firemode = new Firemode("", new int[]{0,0,0}, rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(2);
@@ -92,7 +93,7 @@ class FiremodeTest {
         rngConstList = new ArrayList<>();
         rngConst = new InRadiusConstraint(0);
         rngConstList.add(rngConst);
-        firemode = new Firemode("", new int[]{0,0,0}, 0, null, rngConstList, null, null);
+        firemode = new Firemode("", new int[]{0,0,0},  rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(5);
@@ -102,7 +103,7 @@ class FiremodeTest {
         rngConstList = new ArrayList<>();
         rngConst = new ExcSightConstraint();
         rngConstList.add(rngConst);
-        firemode = new Firemode("", new int[]{0,0,0}, 0, null, rngConstList, null, null);
+        firemode = new Firemode("", new int[]{0,0,0},  rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(7);
@@ -135,7 +136,7 @@ class FiremodeTest {
         rngConstList.add(rngConst);
         rngConst = new InSightConstraint();
         rngConstList.add(rngConst);
-        firemode = new Firemode("", new int[]{0,0,0}, 0, null, rngConstList, null, null);
+        firemode = new Firemode("", new int[]{0,0,0},  rngConstList, null, null);
 
         expected = new ArrayList<>();
         expected.add(4);

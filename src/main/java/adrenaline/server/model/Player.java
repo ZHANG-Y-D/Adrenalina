@@ -27,7 +27,7 @@ public class Player extends Observable{
     private int[] ammoBox;
     private int[] tempAmmoBox;
     private ArrayList<Color> damage;    //use a ArrayList for index the source of damage
-    private ArrayList<Color> mark;
+    private ArrayList<Color> marks;
     private ArrayList<PowerupCard> powerupCards;
     private ArrayList<WeaponCard> weaponCards;
     private int score;
@@ -52,7 +52,7 @@ public class Player extends Observable{
         damage = new ArrayList<>();
         powerupCards = new ArrayList<>();
         weaponCards = new ArrayList<>();
-        mark = new ArrayList<>();
+        marks = new ArrayList<>();
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
         numOfActions = 2;
@@ -66,9 +66,10 @@ public class Player extends Observable{
         damage = new ArrayList<>();
         powerupCards = new ArrayList<>();
         weaponCards = new ArrayList<>();
-        mark = new ArrayList<>();
+        marks = new ArrayList<>();
         adrenalineState = 0;
         ammoBox = new int[]{0,0,0};
+        tempAmmoBox = new int[]{0,0,0};
         numOfActions = 2;
         clients.forEach(this::attach);
         observers.forEach(x -> {
@@ -78,36 +79,6 @@ public class Player extends Observable{
                 e.printStackTrace();
             }
         });
-    }
-
-
-
-    /**
-     *
-     * This is for add score of player
-     *
-     * @param point Deposit the points got by the player at this time
-     *
-     */
-
-    public void addScore(int point) {
-
-        this.score= this.score+point;
-
-    }
-
-
-    /**
-     *
-     * Get the score of this player
-     *
-     * @return The score of this player
-     *
-     */
-
-    public int getScore() {
-        return score;
-
     }
 
 
@@ -138,133 +109,45 @@ public class Player extends Observable{
      *
      */
 
-    public boolean sufferDamage(Player damageOrigin, int amount) {
-
-        boolean sufferDamageNotFinished;
-
-        for (;amount>0;amount--) {
-            if (amount>1 || !this.mark.isEmpty())
-                sufferDamageNotFinished = true;
-            else
-                sufferDamageNotFinished = false;
-            if(addDamageToTrack(damageOrigin.getColor(), sufferDamageNotFinished))
-                return true;
+    public boolean applyDamage(Color damageOrigin, int amount) {
+        if(amount>0 && marks.contains(damageOrigin)){
+            amount += Collections.frequency(marks,damageOrigin);
+            marks.removeIf(damageOrigin::equals);
         }
+        for(int i=0; i<amount && (damage.size() < 12); i++) this.damage.add(damageOrigin);
 
-        //If  this player have mark, Put all of them to damage track
-        return putMarkToDamageTrackAndClearThem();
-
+        if (this.damage.size() >= 11) alive = false;
+        else if (this.damage.size() >= 6) this.adrenalineState = 2;
+        else if (this.damage.size() >= 3) this.adrenalineState = 1;
+        return alive;
     }
 
 
     /**
      *
      *
-     * Add a mark from other to this Player
+     * Add a marks from other to this Player
      *
-     * @param markOrigin The Origin player of this mark
+     * @param markOrigin The Origin player of this marks
      *
      */
 
-    public void addMark(Color markOrigin) {
-
-        if (this.mark.size()<3)
-            mark.add(markOrigin);
-        else
-            //Remind the mark board can have up to 3 marks from each other player
-            // so this mark is wasted
-            ;
-
+    public void addMarks(Color markOrigin, int amount) {
+        for(int i=0; i<amount && Collections.frequency(marks,markOrigin)<3; i++) marks.add(markOrigin);
     }
 
 
     /**
      *
      *
-     * Clear all mark for this player
+     * Return the marks arrayList of this player
      *
-     *
-     */
-
-    private void clearMark() {
-
-        this.mark.clear();
-    }
-
-
-
-    /**
-     *
-     *
-     * Return the mark arrayList of this player
-     *
-     * @return Return ArrayList of mark of this Player.
+     * @return Return ArrayList of marks of this Player.
      *
      */
 
     public ArrayList<Color> getMarks() {
-        return mark;
-    }
-
-
-
-
-    /**
-     *
-     *
-     * A private method,for add damage to damage track
-     *
-     * @param damageOrigin The damage origin player
-     * @param addDamageNotFinished The boolean value for index if the damage process is finished
-     *
-     */
-
-    private boolean addDamageToTrack(Color damageOrigin, boolean addDamageNotFinished){
-
-
-        this.damage.add(damageOrigin);
-
-
-        /*Attention: This is only available for mode 1.
-        //First blood
-        if (this.damage.size() == 1)
-            damageOrigin.addScore(1);
-        */
-
-        //judgment for upgrade
-        if (this.damage.size() >= 3)
-            this.adrenalineState = 1;
-
-        if (this.damage.size() >= 6)
-            this.adrenalineState = 2;
-
-
-        //kill
-        if (this.damage.size() == 11 && !addDamageNotFinished) {
-
-            //set score kill
-            killAndOverkillScoreCount();
-
-            //set status dead
-            return true;
-        }
-
-
-
-        /*overkill
-        if (this.damage.size() == 12) {
-
-            //overkill and break
-            killAndOverkillScoreCount();
-
-            //set status dead
-            //If you overkill a player, that player will give you a mark representing his or her desire for revenge
-            damageOrigin.addMark(avatar.getColor());
-
-            return true;
-        }*/
-
-        return false;
+        return marks;
     }
 
 
@@ -328,38 +211,6 @@ public class Player extends Observable{
          */
 
     }
-
-
-
-
-    /**
-     *
-     *
-     * This is a private class, To put mark to damage track,and clean make track
-     *
-     * @return It will return a boolean value,this value is for index,if the this play is already died.
-     */
-
-    private boolean putMarkToDamageTrackAndClearThem(){
-
-        boolean markNotFinished;
-
-        if (!this.mark.isEmpty()){
-            for (int i=0;i<this.mark.size();i++){
-                if (i < this.mark.size()-1)
-                    markNotFinished = true;
-                else
-                    markNotFinished =false;
-
-                if(addDamageToTrack(this.mark.get(i),markNotFinished))
-                    return true;
-            }
-            clearMark();
-        }
-        return false;
-    }
-
-
 
 
     public ArrayList<WeaponCard> getWeaponCards() {
@@ -466,7 +317,7 @@ public class Player extends Observable{
                 ", damage=" + damage +
                 ", powerupCards=" + powerupCards +
                 ", weaponCards=" + weaponCards +
-                ", mark=" + mark +
+                ", marks=" + marks +
                 ", position=" + position +
                 ", oldPosition=" + oldPosition +
                 ", adrenalineState=" + adrenalineState +

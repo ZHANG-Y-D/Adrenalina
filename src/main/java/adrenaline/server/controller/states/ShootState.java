@@ -68,7 +68,9 @@ public class ShootState implements GameState {
             Firemode selectedFiremode = lobby.getFiremode(selectedWeapon, firemode);
             if(selectedFiremode==null) return "This weapon does not have such firemode!";
             else {
-                lobby.setState(selectedFiremode.getNextStep(lobby));
+                FiremodeSubState nextStep = selectedFiremode.getNextStep();
+                nextStep.setContext(lobby, selectedFiremode);
+                lobby.setState(nextStep);
             }
             return "OK";
         } catch (NotEnoughAmmoException e) {

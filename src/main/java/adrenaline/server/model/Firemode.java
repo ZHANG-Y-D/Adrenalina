@@ -1,6 +1,5 @@
 package adrenaline.server.model;
 
-import adrenaline.server.controller.Lobby;
 import adrenaline.server.controller.states.FiremodeSubState;
 import adrenaline.server.controller.states.GameState;
 import adrenaline.server.controller.states.MoveSelfState;
@@ -13,17 +12,13 @@ import java.util.*;
 public class Firemode {
     private String name;
     private int[] extraCost;
-    private int targetLimit;
-    private ArrayList<MovementEffect> mvEffects;
     private ArrayList<RangeConstraint> rngConstraints;
     private ArrayList<TargetsConstraint> trgConstraints;
     private ArrayList<int[]> dmgmrkToEachTarget;
 
-    public Firemode(String name, int[] extraCost, int targetLimit, ArrayList<MovementEffect> mvEff, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst, ArrayList<int[]> dmgmrk){
+    public Firemode(String name, int[] extraCost, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst, ArrayList<int[]> dmgmrk){
         this.name = name;
         this.extraCost = extraCost;
-        this.targetLimit = targetLimit;
-        this.mvEffects = mvEff;
         this.rngConstraints = rngConst;
         this.trgConstraints = trgConst;
         this.dmgmrkToEachTarget = dmgmrk;
@@ -32,9 +27,7 @@ public class Firemode {
     public int[] getExtraCost(){
         return extraCost;
     }
-    public int getTargetLimit() { return targetLimit;}
 
-    public ArrayList<MovementEffect> getMovementEffects() { return mvEffects; }
 
     public ArrayList<Integer> getRange(int shooterPosition, Map map){
         ArrayList<Integer> validSquares = new ArrayList<Integer>();
@@ -47,12 +40,8 @@ public class Firemode {
         return validSquares;
     }
 
-    public boolean hasSpecialRange(){
-        if(trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) return false;
-        else return true;
-    }
-
-    public ArrayList<int[]> fire(Player shooter, ArrayList<Player> targets, ArrayList<Integer> validSquares, Map map) throws InvalidTargetsException {
+    public ArrayList<int[]> fire(Player shooter, ArrayList<Player> targets, Map map) throws InvalidTargetsException {
+        ArrayList<Integer> validSquares = getRange(shooter.getPosition(), map);
         for(Player trg : targets) {
             if (!validSquares.contains(trg.getPosition())){
                 if(targets.indexOf(trg)==0 || trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) throw new InvalidTargetsException();
@@ -73,8 +62,7 @@ public class Firemode {
     public String toString() {
         String string = "Firemode{" +
                 "name='" + name + '\'' +
-                ", extraCost=" + Arrays.toString(extraCost) +
-                ", targetLimit=" + targetLimit;
+                ", extraCost=" + Arrays.toString(extraCost);
         string += "\n\t\tRange Constraints: ";
         for(RangeConstraint rngConst : rngConstraints){
             string += "\t\t"+ rngConst.getClass().getName() + " ";
@@ -90,9 +78,7 @@ public class Firemode {
     private  Queue<FiremodeSubState> firemodeSteps = new LinkedList<>();
     private MoveSelfState moveSelf = null;
 
-    public GameState getNextStep(Lobby lobby){
-        FiremodeSubState step = firemodeSteps.poll();
-        step.setContext(lobby, this);
-        return firemodeSteps.poll(); }
+    public FiremodeSubState getNextStep(){ return firemodeSteps.poll(); }
+
     public GameState getMoveSelfStep() { return moveSelf;}
 }

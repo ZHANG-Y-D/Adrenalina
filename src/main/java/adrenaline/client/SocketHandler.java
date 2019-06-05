@@ -60,7 +60,7 @@ public class SocketHandler implements ConnectionHandler {
                             argObjects[i] = gson.fromJson(readSplit[3 + 2 * i], argClasses[i]);
                         }
                         requestedMethod = methodsMap.get(methodName).getClass().getMethod(methodName, argClasses);
-                        requestedMethod.invoke(methodsMap.get(methodName), argObjects).toString();
+                        requestedMethod.invoke(methodsMap.get(methodName), argObjects);
                     }
                 } catch (Exception e) {
                 }

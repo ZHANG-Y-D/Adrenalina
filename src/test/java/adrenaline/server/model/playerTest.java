@@ -27,23 +27,23 @@ public class playerTest {
 
         //Test 1 damege
         Lobby lobby = new Lobby(new ArrayList<Client>());
-        Player damageOrigin = new Player("Anna", Color.RED,lobby);
+        Color damageOrigin =  Color.RED;
 
 
         Player Target = new Player("Bob", Color.YELLOW,lobby);
 
 
         //Anna attack Bob amount = 1
-        Target.sufferDamage(damageOrigin,1);
+        Target.applyDamage(damageOrigin,1);
 
         assertEquals(damageOrigin,Target.getDamageTrack().get(0));
 
         //Test 3 damage
-        Target.sufferDamage(damageOrigin,2);
+        Target.applyDamage(damageOrigin,2);
         assertEquals(Target.getAdrenalineState(), 1);
 
         //Test 6 damage
-        Target.sufferDamage(damageOrigin,3);
+        Target.applyDamage(damageOrigin,3);
         assertEquals(Target.getAdrenalineState(),2);
         assertEquals(Target.getDamageTrack().size(),6);
 
@@ -54,13 +54,13 @@ public class playerTest {
     void addMarkTest() {
 
         Lobby lobby = new Lobby(null);
-        Player markOrigin = new Player("Ceci", Color.WHITE,lobby);
+        Color markOrigin = Color.WHITE;
         Player markTarget = new Player("Daniele", Color.BLACK,lobby);
 
 
         //Test mark adder
         for (int i=0;i<=4;i++) {
-            markTarget.addMark(markOrigin.getColor());
+            markTarget.addMarks(markOrigin, 0);
             if(i<3) {
                 assertEquals(markOrigin, markTarget.getMarks().get(i));
             }
@@ -68,7 +68,7 @@ public class playerTest {
 
         //Test putMarkToDamageTrackAndClearThem
         assertEquals(3,markTarget.getMarks().size());
-        markTarget.sufferDamage(markOrigin,1);
+        markTarget.applyDamage(markOrigin,1);
         assertEquals(4,markTarget.getDamageTrack().size());
         assertEquals(markOrigin,markTarget.getDamageTrack().get(3));
         assertTrue(markTarget.getMarks().isEmpty());
