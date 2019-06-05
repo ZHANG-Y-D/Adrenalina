@@ -48,7 +48,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void initializeMap(){
         modelMap = gameController.getMap();
-        String path = "url(/MAPS/MAP"+modelMap.getMapID()+".png)";
+        String path = "url(/Maps/MAP"+modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
     }
 
