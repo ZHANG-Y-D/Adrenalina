@@ -1,10 +1,18 @@
-package adrenaline.server.model;
+package adrenaline;
 
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class CustomDeserializer implements JsonDeserializer<Object> {
+public class CustomSerializer implements JsonDeserializer<Object>, JsonSerializer<Object> {
+
+    @Override
+    public JsonElement serialize(Object o, Type typeOfT, JsonSerializationContext context) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", o.getClass().getName());
+        jsonObject.add("properties", context.serialize(o));
+        return jsonObject;
+    }
 
     @Override
     public Object deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
