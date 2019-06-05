@@ -7,15 +7,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CustomSerializerTest {
 
@@ -32,5 +25,15 @@ public class CustomSerializerTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    void messageSerializeTest(){
+        GsonBuilder gsonBld = new GsonBuilder();
+        gsonBld.registerTypeAdapter(UpdateMessage.class, new CustomSerializer());
+        Gson gson = gsonBld.create();
+        MapUpdateMessage msg = new MapUpdateMessage(new Map());
+        String jsonMsg = gson.toJson(msg, UpdateMessage.class);
+        System.out.println(jsonMsg);
     }
 }

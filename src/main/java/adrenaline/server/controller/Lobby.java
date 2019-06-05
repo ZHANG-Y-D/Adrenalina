@@ -1,6 +1,7 @@
 package adrenaline.server.controller;
 
 import adrenaline.Color;
+import adrenaline.CustomSerializer;
 import adrenaline.server.controller.states.*;
 import adrenaline.server.exceptions.InvalidCardException;
 import adrenaline.server.exceptions.InvalidTargetsException;
@@ -290,7 +291,7 @@ public class Lobby implements Runnable, LobbyAPI {
         try{
             FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map"+ votes[0] +".json");
             GsonBuilder gsonBld = new GsonBuilder();
-            gsonBld.registerTypeAdapter(Square.class, new CustomDeserializer());
+            gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             map = gson.fromJson(fileReader,Map.class);
             map.setObservers(new ArrayList<>(clientMap.values()));

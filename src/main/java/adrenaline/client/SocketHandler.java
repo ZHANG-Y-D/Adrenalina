@@ -1,7 +1,7 @@
 package adrenaline.client;
 
 
-import adrenaline.Color;
+import adrenaline.*;
 import adrenaline.client.controller.GameController;
 import com.google.gson.Gson;
 
@@ -10,7 +10,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Scanner;
-import adrenaline.UpdateMessage;
+
+import com.google.gson.GsonBuilder;
 
 public class SocketHandler implements ConnectionHandler {
 
@@ -33,7 +34,9 @@ public class SocketHandler implements ConnectionHandler {
         Scanner inputFromServer = new Scanner(myServer.getInputStream());
         outputToServer = new PrintWriter(myServer.getOutputStream());
         clientID = inputFromServer.nextLine();
-        gson = new Gson();
+        GsonBuilder gsonBld = new GsonBuilder();
+        gsonBld.registerTypeAdapter(UpdateMessage.class, new CustomSerializer());
+        gson = gsonBld.create();
         active = true;
         createServerListener(inputFromServer);
     }
