@@ -117,6 +117,14 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(settingsMsg);
     }
 
+    public void sendChatMessage(String message) {
+        String chatMsg = "sendChatMessage;ARGSIZE=2;java.lang.String;";
+        chatMsg += gson.toJson(clientID) + ";";
+        chatMsg += "java.lang.String;";
+        chatMsg += gson.toJson(message) + ";";
+        sendMessage(chatMsg);
+    }
+
     @Override
     public String getClientID() {
         return clientID;

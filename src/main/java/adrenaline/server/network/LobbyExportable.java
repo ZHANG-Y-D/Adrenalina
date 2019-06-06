@@ -74,4 +74,9 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
     public String selectSettings(String clientID, Integer mapID, Integer skulls) {
         return lobbyRelay.selectSettings(clientID,mapID, skulls );
     }
+
+    @Override
+    public String sendChatMessage(String clientID, String message)  {
+        return lobbyRelay.sendChatMessage(clientID, message);
+    }
 }

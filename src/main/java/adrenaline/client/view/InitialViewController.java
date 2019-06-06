@@ -1,6 +1,7 @@
 package adrenaline.client.view;
 
 
+import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -50,6 +51,10 @@ public class InitialViewController implements ViewInterface {
 
     public void notifyTimer(Integer duration) {
         time = duration;
+    }
+
+    @Override
+    public void newChatMessage(String nickname, Color senderColor, String message) {
     }
 
     public void RMISelected(){

@@ -86,9 +86,19 @@ public class GameController {
     }
 
     public void updateMap(Map newMap){
-        Map oldMap = map;
+        //Map oldMap = map;
+        Map oldMap = new Map();
+        oldMap.setMap();
         map = newMap;
         changes.firePropertyChange("map", oldMap, newMap);
+    }
+
+    public void updateChat(String nickname, Color senderColor, String message){
+        view.newChatMessage(nickname, senderColor, message);
+    }
+
+    public void sendChatMessage(String message) {
+        connectionHandler.sendChatMessage(message);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener l){

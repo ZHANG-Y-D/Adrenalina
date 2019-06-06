@@ -5,6 +5,13 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
+#buttons{
+    -fx-background-image: url("HUD/HUD2.png");
+    -fx-background-size: cover;
+}
+.ammo{
+    -fx-effect: dropshadow(three-pass-box, black, 3, 0.8, 0, 0);
+}
 #redWeapons{
     -fx-padding: 2;
     -fx-background-radius: 10;
@@ -26,34 +33,6 @@
     -fx-border-radius: 10;
     -fx-background-color: rgba(66, 170, 250, 0.1);
 }
-#move{
-    -fx-background-image: url("button_move.png");
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
-    -fx-background-size: cover;
-}
-#grab{
-    -fx-background-image: url("button_grab.png");
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
-    -fx-background-size: cover;
-}
-#shoot{
-    -fx-background-image: url("button_shoot.png");
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
-    -fx-background-size: cover;
-}
-#reload{
-    -fx-background-image: url("button_reload.png");
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
-    -fx-background-size: cover;
-}
 #bottom_pane{
     -fx-background-color: rgba(0, 0, 0, 0.3);
 }
@@ -67,7 +46,53 @@
 #scrollPane >.viewport{
     -fx-background-color: rgba(0, 0, 0, 0.2);
 }
+#scrollPane .scroll-bar:vertical{
+    -fx-background-color:inherit;
+
+}
+#scrollPane .scroll-bar:vertical .track{
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 0em;
+
+}
+
+#scrollPane  .scroll-bar .increment-arrow,
+#scrollPane  .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding:0;
+}
+
 #txtMsg{
     -fx-background-color: rgba(0, 0, 0, 0.3);
     -fx-text-fill: white;
+}
+.YELLOW{
+    -fx-text-fill: #ffe11d;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+}
+.GREEN{
+    -fx-text-fill: #00e600;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+}
+.BLUE{
+    -fx-text-fill: #48b7ba;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+}
+.PURPLE{
+    -fx-text-fill: #bb00bb;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+}
+.GRAY{
+    -fx-text-fill: #9c9c9c;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+}
+.WHITE{
+    -fx-text-fill: white;
+    -fx-font-family: "Helvetica";
 }

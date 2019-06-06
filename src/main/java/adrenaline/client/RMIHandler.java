@@ -74,6 +74,15 @@ public class RMIHandler implements ConnectionHandler {
             e.printStackTrace();
         }
     }
+
+    public void sendChatMessage(String message) {
+        try{
+            gameController.handleReturn(myLobby.sendChatMessage(clientID, message));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public String getClientID() {
         return clientID;

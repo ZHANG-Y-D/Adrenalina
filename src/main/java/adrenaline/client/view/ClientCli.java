@@ -1,6 +1,7 @@
 package adrenaline.client.view;
 
 
+import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 
 import java.io.BufferedReader;
@@ -96,6 +97,11 @@ public class ClientCli implements ViewInterface{
     @Override
     public void notifyTimer(Integer duration) {
 
+    }
+
+    @Override
+    public void newChatMessage(String nickname, Color senderColor, String message) {
+        //called when server notifies client of a new message in chat
     }
 
 

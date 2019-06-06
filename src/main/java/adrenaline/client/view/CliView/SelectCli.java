@@ -1,5 +1,6 @@
 package adrenaline.client.view.CliView;
 
+import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
@@ -33,5 +34,10 @@ public class SelectCli extends ControllerCli implements ViewInterface {
     @Override
     public void notifyTimer(Integer duration) {
 
+    }
+
+    @Override
+    public void newChatMessage(String nickname, Color senderColor, String message) {
+        //called when server notifies client of a new message in chat
     }
 }

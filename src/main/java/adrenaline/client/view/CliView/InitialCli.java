@@ -208,6 +208,11 @@ public class InitialCli extends ControllerCli implements ViewInterface{
 
     }
 
+    @Override
+    public void newChatMessage(String nickname, Color senderColor, String message) {
+        //called when server notifies client of a new message in chat
+    }
+
 
     private int chooseConnectingType(){
 

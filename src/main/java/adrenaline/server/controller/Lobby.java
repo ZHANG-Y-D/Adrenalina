@@ -48,6 +48,7 @@ public class Lobby implements Runnable, LobbyAPI {
     private DeckPowerup deckPowerup;
     private ArrayList<String> deadPlayers;
     private Set<Color> damagedThisTurn;
+    private Chat chat;
 
     private ScheduledExecutorService turnTimer;
     private Future scheduledTimeout;
@@ -66,6 +67,7 @@ public class Lobby implements Runnable, LobbyAPI {
         deckPowerup = new DeckPowerup();
         deadPlayers = new ArrayList<>();
         damagedThisTurn = new HashSet<>();
+        chat = new Chat(clients);
         currentTurnPlayer = clients.get(0).getClientID();
         nextTurnPlayer = clients.get(1).getClientID();
         turnTimer = Executors.newScheduledThreadPool(1);
@@ -229,6 +231,22 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         //else: user not part of the lobby
         return "You should not be here!";
+    }
+
+    public String sendChatMessage(String clientID, String message) {
+        try{
+            String senderName = clientMap.get(clientID).getNickname();
+            Color senderColor = playersMap.get(clientID).getColor();
+            if(message.length()<1){
+                return "";
+            }
+            else {
+                chat.addMessage(senderName, senderColor, message);
+                return "OK";
+            }
+        }catch(NullPointerException e){
+            e.printStackTrace();
+            return "You should not be here!";}
     }
 
     public int getCurrentPlayerAdrenalineState(){

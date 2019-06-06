@@ -143,6 +143,11 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }, 0, 1000);
     }
 
+    @Override
+    public void newChatMessage(String nickname, Color senderColor, String message) {
+        //possiamo aggiungere una chat anche in selection view
+    }
+
     public void nextImage() {
         Image firstImg = imageMap.get(1).getImage();
         for (int i = 1; i < 5; i++) {

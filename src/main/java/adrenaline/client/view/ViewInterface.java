@@ -1,6 +1,7 @@
 package adrenaline.client.view;
 
 
+import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 
 public interface ViewInterface {
@@ -9,4 +10,5 @@ public interface ViewInterface {
     void changeStage();
     void setGameController(GameController gameController);
     void notifyTimer(Integer duration);
+    void newChatMessage(String nickname, Color senderColor, String message);
 }

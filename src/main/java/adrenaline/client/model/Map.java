@@ -24,7 +24,23 @@ public class Map implements Serializable {
         ArrayList<Integer> weapons = new ArrayList<>();
         weapons.add(1);
         weapons.add(10);
+        weapons.add(19);
         weaponMap.put(Color.RED, weapons);
+        weapons.clear();
+        weapons.add(7);
+        weapons.add(14);
+        weapons.add(21);
+        weaponMap.put(Color.BLUE, weapons);
+        weapons.clear();
+        weapons.add(8);
+        weapons.add(18);
+        weapons.add(3);
+        weaponMap.put(Color.YELLOW, weapons);
+    }
+
+    public void setMap(){
+        weaponMap = null;
+        ammoMap = null;
     }
 
     public int getMapID(){ return mapID;}
