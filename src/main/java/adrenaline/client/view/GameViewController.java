@@ -43,10 +43,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private VBox chat, enemyPlayers;
     @FXML
     private TextField txtMsg;
-    public ImageView ownPlayerLabel,red_ammo1,red_ammo2,red_ammo3,blue_ammo1,blue_ammo2,blue_ammo3,yellow_ammo1,yellow_ammo2,yellow_ammo3,
+    @FXML
+    private ImageView ownPlayerLabel,red_ammo1,red_ammo2,red_ammo3,blue_ammo1,blue_ammo2,blue_ammo3,yellow_ammo1,yellow_ammo2,yellow_ammo3,
                      weapon_red1,weapon_red2, weapon_red3, weapon_blue1, weapon_blue2, weapon_blue3, weapon_yellow1, weapon_yellow2, weapon_yellow3,
                      myWeapon;
-    public Polygon powerupTriangle,weaponTriangle;
+    @FXML
+    private Polygon powerupTriangle,weaponTriangle;
     private Map modelMap;
     private HashMap<adrenaline.Color, ArrayList<ImageView>> weaponLists = new HashMap<>();
     private ArrayList<ImageView> redWeaponsList, blueWeaponsList, yellowWeaponsList;

@@ -6,6 +6,7 @@ import adrenaline.client.controller.GameController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,10 +23,14 @@ import java.io.IOException;
 
 public class InitialViewController implements ViewInterface {
 
-    public Pane initPane;
-    public Button rmi, socket, play, close;
-    public TextField host, port, name;
-    public Label label,error;
+    @FXML
+    private Pane initPane;
+    @FXML
+    private Button rmi, socket, play, close;
+    @FXML
+    private TextField host, port, name;
+    @FXML
+    private Label label,error;
     private GameController gameController = null;
     private int time;
 

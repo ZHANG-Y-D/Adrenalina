@@ -17,8 +17,10 @@ import adrenaline.server.LobbyAPI;
 import adrenaline.server.controller.states.GameState;
 import adrenaline.server.network.Client;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -163,7 +165,10 @@ public class Lobby implements Runnable, LobbyAPI {
                 });
                 wait();
             }
-        }catch (JsonIOException | FileNotFoundException | InterruptedException e){ }
+        }catch (JsonIOException | FileNotFoundException e) {
+        }catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void setState(GameState newState){ currentState = newState; }
@@ -322,7 +327,8 @@ public class Lobby implements Runnable, LobbyAPI {
             Gson gson = gsonBld.create();
             map = gson.fromJson(fileReader,Map.class);
             map.setObservers(new ArrayList<>(clientMap.values()));
-        }catch (JsonIOException | FileNotFoundException e){
+            fileReader.close();
+        } catch (JsonIOException | IOException e){
             e.printStackTrace();
         }
     }

@@ -112,6 +112,7 @@ public class MapSelectionState implements GameState {
                 try {
                     leftToVote.wait(timeremaining);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             }
         }

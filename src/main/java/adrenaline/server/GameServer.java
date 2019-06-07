@@ -82,7 +82,9 @@ public class GameServer {
                 while (clientsWaitingList.size() < 3) {
                     try {
                         clientsWaitingList.wait();
-                    } catch (InterruptedException e) { }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
                 System.out.println("3 OR MORE PLAYERS WAITING FOR GAME: SETTING TIMER FOR NEW LOBBY.");
                 long timestart = System.currentTimeMillis();
@@ -93,7 +95,10 @@ public class GameServer {
                     else{
                         try {
                             clientsWaitingList.wait(timeremaining);
-                        } catch (InterruptedException e) { }
+                        } catch (InterruptedException e) {
+                            //add logger
+                            Thread.currentThread().interrupt();
+                        }
                     }
                 }
                 if(clientsWaitingList.size() >= 3) {

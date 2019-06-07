@@ -5,6 +5,7 @@ import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -35,20 +36,31 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class SelectionViewController implements ViewInterface, PropertyChangeListener {
-    public Pane selectionPane;
-    public ImageView avatar1, avatar2, avatar3, avatar4, avatar5, skull1, skull2, skull3;
-    public ImageView map1, map2, map3, map4;
-    public StackPane stack1, stack2, stack3, stack4;
-    public Button next, select, close, send;
-    public Label title, error, playersList, timerLabel;
-    public VBox nicknamesBox;
+
+    @FXML
+    private Pane selectionPane;
+    @FXML
+    private ImageView avatar1, avatar2, avatar3, avatar4, avatar5;
+    @FXML
+    private ImageView skull1, skull2, skull3;
+    @FXML
+    private ImageView map1, map2, map3, map4;
+    @FXML
+    private StackPane stack1, stack2, stack3, stack4;
+    @FXML
+    private Button next, select, close, send;
+    @FXML
+    private Label title, error, playersList, timerLabel;
+    @FXML
+    private VBox nicknamesBox;
+    @FXML
+    private GridPane skullbar;
+
     private HashMap<Integer, ImageView> imageMap;
     private HashMap<String, Color> colorMap;
     private GameController gameController;
-    public GridPane skullbar;
     private ArrayList<ImageView> skullList = new ArrayList<>();
     private ArrayList<ImageView> mapIDs = new ArrayList<>();
-
     private Timer timer;
     private int playerCount = 0;
     private int selectedSkull = -1;
