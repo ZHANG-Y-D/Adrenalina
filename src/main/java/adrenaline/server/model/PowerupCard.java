@@ -7,9 +7,11 @@ import adrenaline.server.controller.Lobby;
 
 public abstract class PowerupCard {
 
+
     protected int powerupID;
     protected Color color;
     protected boolean usableOutsideTurn;
+
 
     public int getPowerupID(){return powerupID;}
 

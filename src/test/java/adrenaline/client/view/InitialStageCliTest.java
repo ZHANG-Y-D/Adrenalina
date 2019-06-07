@@ -1,6 +1,5 @@
 package adrenaline.client.view;
 
-import adrenaline.client.view.CliView.InitialCli;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import org.junit.jupiter.api.Test;
@@ -12,13 +11,13 @@ import java.io.IOException;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class InitialCliTest {
+public class InitialStageCliTest {
 
     //to delete because test must be automatic
     /*@Test
     void InitialTest() {
 
-        InitialCli initialCli = new InitialCli();
+        InitialStageCli initialCli = new InitialStageCli();
         initialCli.initialStageCli();
     }*/
 

@@ -1,17 +1,6 @@
 package adrenaline.server.model;
 
 
-
-/*
- *
- *
- *   Responsible： RICCARDO for functionnality
- *                 ZHANG YUEDONG for Informations
- *
- *
- */
-
-
 import adrenaline.Color;
 import adrenaline.CustomSerializer;
 import adrenaline.server.model.constraints.RangeConstraint;
