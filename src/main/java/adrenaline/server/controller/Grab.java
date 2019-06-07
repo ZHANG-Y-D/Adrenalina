@@ -103,7 +103,7 @@ public class Grab {
       *
       */
 
-    static boolean payForWeapon(Player grabber, WeaponCard gotWeaponCard, Color gratisColor, ArrayList<PowerupCard> discardPowerup){
+    /*static boolean payForWeapon(Player grabber, WeaponCard gotWeaponCard, Color gratisColor, ArrayList<PowerupCard> discardPowerup){
 
         int[] ammoCost;
         int[] ownAmmo;
@@ -166,7 +166,7 @@ public class Grab {
         }
         grabber.addAmmoBox(ownAmmo);
         return true;
-    }
+    }*/
 
 
      /**

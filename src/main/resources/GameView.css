@@ -9,8 +9,15 @@
     -fx-background-image: url("HUD/HUD2.png");
     -fx-background-size: cover;
 }
+.triangle{
+    -fx-effect: dropshadow(three-pass-box, black, 7, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
 .ammo{
     -fx-effect: dropshadow(three-pass-box, black, 3, 0.8, 0, 0);
+}
+.weapon:hover{
+    -fx-cursor: hand;
 }
 #redWeapons{
     -fx-padding: 2;
@@ -33,7 +40,10 @@
     -fx-border-radius: 10;
     -fx-background-color: rgba(66, 170, 250, 0.1);
 }
-#bottom_pane{
+#ownPlayer{
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+#ownCard{
     -fx-background-color: rgba(0, 0, 0, 0.3);
 }
 .button:hover{

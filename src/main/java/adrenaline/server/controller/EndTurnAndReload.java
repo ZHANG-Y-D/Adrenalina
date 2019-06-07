@@ -20,7 +20,7 @@ public class EndTurnAndReload {
      *
      */
 
-    public static boolean reloadWeapon(Player player, int numWeapon, ArrayList<PowerupCard> discardPowerup){
+    /*public static boolean reloadWeapon(Player player, int numWeapon, ArrayList<PowerupCard> discardPowerup){
 
         if (player.getWeaponCards().get(numWeapon).isLoaded()
                || numWeapon>=3 ||
@@ -31,7 +31,7 @@ public class EndTurnAndReload {
             player.getWeaponCards().get(numWeapon).setLoaded(true);
             return true;
         }
-    }
+    }*/
 
 
     /**

@@ -3,6 +3,7 @@ package adrenaline.server.controller.states;
 import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
 import adrenaline.server.model.Firemode;
+import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class MoveSelfState implements FiremodeSubState {
     }
 
     @Override
-    public String selectPowerUp(int powerUpID) {
+    public String selectPowerUp(PowerupCard powerUp) {
         return null;
     }
 

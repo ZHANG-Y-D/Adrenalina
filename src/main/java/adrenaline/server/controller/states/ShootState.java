@@ -5,6 +5,7 @@ import adrenaline.server.exceptions.NotEnoughAmmoException;
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
 import adrenaline.server.model.Firemode;
+import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
@@ -43,13 +44,9 @@ public class ShootState implements GameState {
     }
 
     @Override
-    public String selectPowerUp(int powerUpID) {
-        try {
-            lobby.consumePowerup(powerUpID);
-            return "OK";
-        } catch (InvalidCardException e) {
-            return "Invalid card selection!";
-        }
+    public String selectPowerUp(PowerupCard powerUp) {
+        lobby.consumePowerup(powerUp);
+        return "OK";
     }
 
     @Override

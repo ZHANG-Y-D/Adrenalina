@@ -68,7 +68,7 @@ public class Player extends Observable{
         weaponCards = new ArrayList<>();
         marks = new ArrayList<>();
         adrenalineState = 0;
-        ammoBox = new int[]{0,0,0};
+        ammoBox = new int[]{1,1,1};
         tempAmmoBox = new int[]{0,0,0};
         numOfActions = 2;
         clients.forEach(this::attach);
@@ -268,25 +268,19 @@ public class Player extends Observable{
         }
     }
 
-    public PowerupCard consumePower(int powerUpID){
-        for(PowerupCard pwc : powerupCards){
-            if(pwc.getPowerupId() == powerUpID){
-                switch (pwc.getColor()){
-                    case RED: tempAmmoBox[0]++; break;
-                    case BLUE: tempAmmoBox[1]++; break;
-                    case YELLOW: tempAmmoBox[2]++; break;
-                }
-                powerupCards.remove(pwc);
-                return pwc;
-            }
+    public void consumePowerup(PowerupCard powerup){
+        switch (powerup.getColor()){
+            case RED: tempAmmoBox[0]++; break;
+            case BLUE: tempAmmoBox[1]++; break;
+            case YELLOW: tempAmmoBox[2]++; break;
         }
-        return null;
+        powerupCards.remove(powerup);
     }
 
 
     public PowerupCard getPowerupCard(int powerupID){
         for(PowerupCard puc : powerupCards){
-            if(puc.getPowerupId() == powerupID) return puc;
+            if(puc.getPowerupID() == powerupID) return puc;
         }
         return null;
     }

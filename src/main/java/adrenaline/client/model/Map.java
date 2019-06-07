@@ -21,26 +21,29 @@ public class Map implements Serializable {
     }
 
     public Map(){
+        mapID = 2;
         ArrayList<Integer> weapons = new ArrayList<>();
         weapons.add(1);
         weapons.add(10);
         weapons.add(19);
         weaponMap.put(Color.RED, weapons);
-        weapons.clear();
-        weapons.add(7);
-        weapons.add(14);
-        weapons.add(21);
-        weaponMap.put(Color.BLUE, weapons);
-        weapons.clear();
-        weapons.add(8);
-        weapons.add(18);
-        weapons.add(3);
-        weaponMap.put(Color.YELLOW, weapons);
+        ArrayList<Integer> weapons2 = new ArrayList<>();
+        weapons2.add(7);
+        weapons2.add(14);
+        weapons2.add(21);
+        weaponMap.put(Color.BLUE, weapons2);
+        ArrayList<Integer> weapons3 = new ArrayList<>();
+        weapons3.add(8);
+        weapons3.add(18);
+        weapons3.add(3);
+        weaponMap.put(Color.YELLOW, weapons3);
     }
 
     public void setMap(){
-        weaponMap = null;
-        ammoMap = null;
+        weaponMap.clear();
+        ArrayList<Integer> weapons = new ArrayList<>();
+        weapons.add(5);
+        weaponMap.put(Color.RED, weapons);
     }
 
     public int getMapID(){ return mapID;}

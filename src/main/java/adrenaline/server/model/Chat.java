@@ -14,6 +14,17 @@ public class Chat extends Observable {
     }
 
     public void addMessage(String nickname, Color senderColor, String message){
+        message = replaceEmojis(message);
         notifyObservers(new ChatUpdateMessage(nickname, senderColor, message));
+    }
+
+    private String replaceEmojis(String message){
+        String newMessage;
+        newMessage = message;
+        newMessage = newMessage.replace("<3", "❤");
+        newMessage = newMessage.replace("qq", "qq \uD83D\uDCA6");
+        newMessage = newMessage.replace("/gun", "\uD83D\uDD2B");
+        newMessage = newMessage.replace("BOOM", "BOOM \uD83D\uDCA5");
+        return newMessage;
     }
 }

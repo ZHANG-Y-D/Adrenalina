@@ -5,7 +5,6 @@ import adrenaline.client.model.Player;
 import adrenaline.server.model.PowerupCard;
 import adrenaline.server.model.WeaponCard;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PlayerUpdateMessage implements UpdateMessage {
@@ -19,7 +18,7 @@ public class PlayerUpdateMessage implements UpdateMessage {
             weaponIDs.add(wc.getWeaponID());
         }
         for(PowerupCard puc : serversidePlayer.getPowerupCards()){
-            powerupIDs.add(puc.getPowerupId());
+            powerupIDs.add(puc.getPowerupID());
         }
 
         clientsidePlayer = new Player(serversidePlayer.getColor(), serversidePlayer.getPosition(),

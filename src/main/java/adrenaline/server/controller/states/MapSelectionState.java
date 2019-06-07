@@ -2,13 +2,11 @@ package adrenaline.server.controller.states;
 
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
+import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Random;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class MapSelectionState implements GameState {
 
@@ -53,7 +51,7 @@ public class MapSelectionState implements GameState {
     }
 
     @Override
-    public String selectPowerUp(int powerUpID) {
+    public String selectPowerUp(PowerupCard powerUp) {
         return "KO";
     }
 

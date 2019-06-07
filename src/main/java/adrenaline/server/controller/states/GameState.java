@@ -1,6 +1,7 @@
 package adrenaline.server.controller.states;
 
 import adrenaline.Color;
+import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public interface GameState {
     String shootAction();
     String selectPlayers(ArrayList<Color> playersColor);
     String selectSquare(int index);
-    String selectPowerUp(int powerUpID);
+    String selectPowerUp(PowerupCard powerUp);
     String selectWeapon(int weaponID);
     String selectFiremode(int firemode);
     String moveSubAction();

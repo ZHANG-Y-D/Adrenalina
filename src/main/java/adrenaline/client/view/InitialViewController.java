@@ -101,6 +101,7 @@ public class InitialViewController implements ViewInterface {
     public void showError(String errorMsg) {
         Platform.runLater(() -> {
             if(errorMsg.equals("/OK")){
+                gameController.setOwnNickname(name.getText());
                 Timeline timeline = new Timeline(
                         new KeyFrame(Duration.ZERO, event -> {
                             String statusText = label.getText();

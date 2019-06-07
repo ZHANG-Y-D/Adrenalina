@@ -195,9 +195,18 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String selectPowerUp(String clientID, int powerupID) {
-        //TODO granata venom during opponent's turn
-        if(clientID.equals(currentTurnPlayer)) return currentState.selectPowerUp(powerupID);
-        else return "You can only do that during your turn!";
+        PowerupCard puc = playersMap.get(clientID).getPowerupCard(powerupID);
+        if(puc==null) return "You cannot use that powerup!";
+        if(clientID.equals(currentTurnPlayer)) {
+            return currentState.selectPowerUp(puc);
+        }
+        else{
+            if(puc.isUsableOutsideTurn()){
+                //granata venom
+                return "OK";
+            }
+            else return "You can only do that during your turn!";
+        }
     }
 
     public String selectWeapon(String clientID, int weaponID) {
@@ -348,13 +357,11 @@ public class Lobby implements Runnable, LobbyAPI {
         return validSquares;
     }
 
-    public void respawnWithPowerup(int powerupID) throws InvalidCardException {
+    public void respawnWithPowerup(PowerupCard powerup) throws InvalidCardException {
         Player currPlayer = playersMap.get(currentTurnPlayer);
-        PowerupCard discardedPowerup = currPlayer.getPowerupCard(powerupID);
-        if(discardedPowerup == null) throw new InvalidCardException();
-        currPlayer.setPosition(map.getSpawnIndex(discardedPowerup.getColor()));
-        currPlayer.removePowerupCard(discardedPowerup);
-        deckPowerup.addToDiscarded(discardedPowerup);
+        currPlayer.setPosition(map.getSpawnIndex(powerup.getColor()));
+        currPlayer.removePowerupCard(powerup);
+        deckPowerup.addToDiscarded(powerup);
     }
 
     public void movePlayer(int squareIndex){
@@ -411,10 +418,26 @@ public class Lobby implements Runnable, LobbyAPI {
         return droppedWeapon;
     }
 
-    public void consumePowerup(int powerUpID) throws InvalidCardException{
-        PowerupCard card = playersMap.get(currentTurnPlayer).consumePower(powerUpID);
-        if(card == null) throw new InvalidCardException();
-        else deckPowerup.addToDiscarded(card);
+    public void consumePowerup(PowerupCard powerup){
+        playersMap.get(currentTurnPlayer).consumePowerup(powerup);
+        deckPowerup.addToDiscarded(powerup);
+    }
+
+    public String usePowerup(PowerupCard powerup) {
+        powerup.acceptUse(this);
+        return "CATENA DI RETURN";
+    }
+
+    public String usePowerup(NewtonPowerup newton){
+        return null;
+    }
+
+    public String usePowerup(ScopePowerup scope){
+        return null;
+    }
+
+    public String usePowerup(TeleporterPowerup teleporter){
+        return null;
     }
 
     public boolean canUseWeapon(int weaponID){

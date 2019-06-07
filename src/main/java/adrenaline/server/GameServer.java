@@ -19,7 +19,7 @@ public class GameServer {
 
     private final int rmiPort = 1099;                   //The initial value of Rmi is 1099
     private final int socketPort = 1100;                //The initial value of Socket is 1100
-    private final int TIMEOUT_IN_SECONDS = 10;
+    private final int TIMEOUT_IN_SECONDS = 30;
     private final HashMap<String, Client> clients;
     private final ArrayList<Client> clientsWaitingList;
     private final HashMap<String, Lobby> activeLobbies;

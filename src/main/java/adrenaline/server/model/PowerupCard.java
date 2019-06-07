@@ -3,82 +3,28 @@ package adrenaline.server.model;
 
 
 import adrenaline.Color;
+import adrenaline.server.controller.Lobby;
 
-public class PowerupCard {
+public abstract class PowerupCard {
 
-    private String name;
-    private Color color;
-    private String manual;
-    private boolean isUseInTurn;  //ture: you can use is in your turn; false:you can't use it in your turn
-    private int powerupId;
+    protected int powerupID;
+    protected Color color;
+    protected boolean usableOutsideTurn;
 
+    public int getPowerupID(){return powerupID;}
 
-    public PowerupCard(String name, Color color, String manual, boolean isUseInTurn, int powerUpId) {
-        this.name = name;
-        this.color = color;
-        this.manual = manual;
-        this.isUseInTurn = isUseInTurn;
-        this.powerupId = powerUpId;
-    }
+    public Color getColor() { return color; }
 
-    public int getPowerupId(){return powerupId;}
-
-    //Attention：to playIt,the Caller have to judgment good the condition,and then call it
-    //fromPlayer is me, targetPlayer is who I want to attack mark or change position
-    public void playIt(Player thisPowerupCardOwner, Player targetPlayer, int position){
-
-       switch (this.name){
-
-
-           case "GRNATA VANOM":
-                targetPlayer.addMarks(thisPowerupCardOwner.getColor(),1);
-               break;
-
-
-           case "MIRINO":
-               targetPlayer.applyDamage(thisPowerupCardOwner.getColor(),1);
-               break;
-
-
-           case "RAGGIO CINETICO":
-                targetPlayer.setPosition(position);
-               break;
-
-           case "TELETRASPORTO":
-                thisPowerupCardOwner.setPosition(position);
-               break;
-
-
-           default:
-                System.out.print("Illegal execution！！！"); //Also can put Exception
-
-       }
-
-       thisPowerupCardOwner.getLobby().getDeckPowerup().addToDiscarded(this);
-       thisPowerupCardOwner.removePowerupCard(this);
-
-    }
-
-
-    public void discardPowerupCard(Player thisPowerupCardOwner){
-
-        thisPowerupCardOwner.removePowerupCard(this);
-        thisPowerupCardOwner.getLobby().getDeckPowerup().addToDiscarded(this);
-
-    }
-
-    public Color getColor() {
-        return color;
-    }
+    public boolean isUsableOutsideTurn() { return usableOutsideTurn; }
 
     @Override
     public String toString() {
         return "PowerupCard{" +
-                "name='" + name + '\'' +
                 ", color='" + color + '\'' +
-                ", manual='" + manual + '\'' +
-                ", isUseInTurn=" + isUseInTurn +
-                ", powerupId=" + powerupId +
+                ", usableOutsideTurn=" + usableOutsideTurn +
+                ", powerupID=" + powerupID +
                 '}';
     }
+
+    public abstract String acceptUse(Lobby lobby);
 }

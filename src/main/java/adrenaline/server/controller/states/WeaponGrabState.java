@@ -5,6 +5,7 @@ import adrenaline.server.exceptions.NotEnoughAmmoException;
 import adrenaline.server.exceptions.WeaponHandFullException;
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
+import adrenaline.server.model.PowerupCard;
 import adrenaline.server.model.SquareSpawn;
 import adrenaline.server.model.WeaponCard;
 
@@ -46,13 +47,9 @@ public class WeaponGrabState implements GameState {
     }
 
     @Override
-    public String selectPowerUp(int powerUpID) {
-        try {
-            lobby.consumePowerup(powerUpID);
-            return "OK";
-        } catch (InvalidCardException e) {
-            return "Invalid card selection!";
-        }
+    public String selectPowerUp(PowerupCard powerUp) {
+        lobby.consumePowerup(powerUp);
+        return "OK";
     }
 
     @Override

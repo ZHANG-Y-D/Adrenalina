@@ -4,6 +4,7 @@ import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
 import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
+import adrenaline.server.model.PowerupCard;
 import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class FireAreaState implements FiremodeSubState {
     }
 
     @Override
-    public String selectPowerUp(int powerUpID) {
+    public String selectPowerUp(PowerupCard powerUp) {
         return null;
     }
 

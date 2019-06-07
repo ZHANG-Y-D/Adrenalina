@@ -2,6 +2,7 @@ package adrenaline.server.controller.states;
 
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
+import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class RunState implements GameState {
     }
 
     @Override
-    public String selectPowerUp(int powerUpID) {
+    public String selectPowerUp(PowerupCard powerUp) {
         return "You can't do that now!";
     }
 

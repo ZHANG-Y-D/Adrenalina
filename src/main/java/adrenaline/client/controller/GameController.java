@@ -19,9 +19,11 @@ import java.util.LinkedHashMap;
 public class GameController {
 
     private LinkedHashMap<String, Color> playersNicknames = new LinkedHashMap<>();
+    private String ownNickame;
+
+    private HashMap<Color, Player> playersMap = new HashMap<>();
     private ScoreBoard scoreBoard;
     private Map map;
-    private HashMap<Color, Player> playersMap = new HashMap<>();
     private ViewInterface view;
     private ConnectionHandler connectionHandler;
     private PropertyChangeSupport changes = new PropertyChangeSupport(this);
@@ -126,4 +128,10 @@ public class GameController {
     public ConnectionHandler getConnectionHandler() {
         return connectionHandler;
     }
+
+    public void setOwnNickname(String name) {
+        ownNickame = name;
+    }
+
+    public String getOwnNickname(){ return ownNickame; }
 }
