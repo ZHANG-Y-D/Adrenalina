@@ -8,7 +8,6 @@ import org.fusesource.jansi.Ansi;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
-import java.util.Scanner;
 
 import static java.lang.Thread.sleep;
 import static org.fusesource.jansi.Ansi.ansi;
@@ -26,8 +25,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
         this.gameController = gameController;
         gameController.setViewController(this);
         gameController.addPropertyChangeListener(this);
-        returnValueFromServer = "null";
-        this.scanner = new Scanner(System.in);
+        returnValueIsOk.set(0);
         initialStageCli();
 
     }
@@ -109,6 +107,8 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
                 System.err.println("Please answer with a number from 1 to 5.");
                 selectAvatar();
         }
+
+        returnValueIsOk.set(0);
         gameController.selectAvatar(color);
 
     }
@@ -153,10 +153,13 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     @Override
     public void showError(String error) {
 
-        this.returnValueFromServer = error;
-
-        if (!error.equals("/OK"))
+        if (!error.equals("/OK")) {
             System.err.println(error);
+            returnValueIsOk.set(2);
+        }
+        else{
+            returnValueIsOk.set(1);
+        }
 
     }
 

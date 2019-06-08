@@ -5,8 +5,6 @@ import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
-import java.util.Scanner;
-
 public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
@@ -14,8 +12,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     public InitialStageCli() {
         gameController = new GameController();
         gameController.setViewController(this);
-        scanner = new Scanner(System.in);
-        returnValueFromServer = "null";
+        returnValueIsOk.set(0);
         initialStageCli();
     }
 
@@ -34,6 +31,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
         while (!connectingToServer(connectingType))
             System.out.println("Please reinsert");
+
 
 
         do {
@@ -59,10 +57,14 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     @Override
     public void showError(String error) {
 
-        this.returnValueFromServer = error;
 
-        if (!error.equals("/OK"))
+        if (!error.equals("/OK")) {
             System.err.println(error);
+            returnValueIsOk.set(2);
+        }
+        else{
+            returnValueIsOk.set(1);
+        }
 
     }
 
@@ -120,6 +122,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         System.out.println("Insert port");
         port = readANumber();
 
+        returnValueIsOk.set(0);
         if (connectingType == 1)
             return gameController.connectSocket(host, port);
         else
@@ -130,6 +133,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     private void setNickname(){
 
 
+        returnValueIsOk.set(0);
         System.out.println("\nPlease insert your Nickname");
         String input = readAString();
         gameController.setNickname(input);

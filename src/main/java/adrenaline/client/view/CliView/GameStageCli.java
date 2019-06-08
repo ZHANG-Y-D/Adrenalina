@@ -16,8 +16,7 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
         this.gameController = gameController;
         gameController.setViewController(this);
         gameController.addPropertyChangeListener(this);
-        this.scanner = new Scanner(System.in);
-        returnValueFromServer = "null";
+        returnValueIsOk.set(0);
         initialStageCli();
 
     }
