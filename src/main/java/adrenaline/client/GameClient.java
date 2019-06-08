@@ -1,7 +1,7 @@
 package adrenaline.client;
 
 
-import adrenaline.client.view.CliView.InitialCli;
+import adrenaline.client.view.CliView.InitialStageCli;
 import adrenaline.client.view.ClientGui;
 import javafx.application.Application;
 
@@ -47,8 +47,7 @@ public class GameClient {
 
         if (input.equalsIgnoreCase("cli") ||
                 input.equalsIgnoreCase("c")) {
-            InitialCli initialCli = new InitialCli();
-            initialCli.initialStageCli();
+            new InitialStageCli();
         } else if (input.equalsIgnoreCase("gui") ||
                 input.equalsIgnoreCase("g")) {
             Application.launch(ClientGui.class);

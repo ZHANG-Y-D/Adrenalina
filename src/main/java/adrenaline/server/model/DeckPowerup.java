@@ -11,10 +11,12 @@ import java.util.Arrays;
 
 
 
-/*
-    Autor:Zhang Yuedong
-    Function:This class for construct cardsDeck of Powerup card,the original file
-             name is PowerupCard.json in resource
+/**
+ *
+ *
+ *Function:This class for construct cardsDeck of Powerup card,the original file name is PowerupCard.json in resource
+ *
+ *
  */
 
 

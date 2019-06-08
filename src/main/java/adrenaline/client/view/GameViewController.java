@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -34,7 +35,9 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer, move, shoot, grab, reload, back;
+    private Pane pane, ownPlayer;
+    @FXML
+    private Button  run, shoot, grab, reload, back;
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -96,6 +99,16 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
         String newImgUrl = "/HUD/"+ownColor.toString()+"-HUD.png";
         ownPlayerLabel.setImage(new Image(getClass().getResourceAsStream(newImgUrl)));
+        String runPath = "url(/HUD/"+ownColor.toString()+"-RUN.png)";
+        run.setStyle("-fx-background-image: "+ runPath);
+        String grabPath = "url(/HUD/"+ownColor.toString()+"-GRAB.png)";
+        grab.setStyle("-fx-background-image: "+ grabPath);
+        String shootPath = "url(/HUD/"+ownColor.toString()+"-SHOOT.png)";
+        shoot.setStyle("-fx-background-image: "+ shootPath);
+        String reloadPath = "url(/HUD/"+ownColor.toString()+"-RELOAD.png)";
+        reload.setStyle("-fx-background-image: "+ reloadPath);
+        String backPath = "url(/HUD/"+ownColor.toString()+"-GOBACK.png)";
+        back.setStyle("-fx-background-image: "+ backPath);
         nicknamesMap.forEach((y,x) -> {
                 if(x.equals(ownColor)) playersColorMap.put(x, ownPlayer);
                 else{

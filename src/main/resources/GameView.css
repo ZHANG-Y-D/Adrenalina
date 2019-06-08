@@ -5,9 +5,13 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
-#buttons{
-    -fx-background-image: url("HUD/HUD2.png");
+#grab,
+#shoot,
+#reload,
+#back,
+#run{
     -fx-background-size: cover;
+    -fx-background-position: center;
 }
 .triangle{
     -fx-effect: dropshadow(three-pass-box, black, 7, 0.3, 0, 0);

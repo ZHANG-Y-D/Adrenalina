@@ -65,13 +65,13 @@
             <children>
                 <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="145" layoutY="10">
                 </ImageView>
-                <GridPane fx:id="buttons" gridLinesVisible="true" layoutX="5" layoutY="10" prefHeight="130" prefWidth="140.0">
+                <GridPane layoutX="5" layoutY="10" prefHeight="130" prefWidth="140.0">
                     <children>
-                        <Pane fx:id="move" onMouseClicked="#selectAction" prefHeight="43.0" prefWidth="55.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                        <Pane fx:id="shoot" onMouseClicked="#selectAction" prefHeight="43.0" prefWidth="55.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Pane fx:id="grab" onMouseClicked="#selectAction" prefHeight="43.0" prefWidth="55.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Pane fx:id="reload" onMouseClicked="#selectAction" prefHeight="43.0" prefWidth="46.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Pane fx:id="back" onMouseClicked="#selectAction" prefHeight="43.0" prefWidth="46.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <Button fx:id="run" onMouseClicked="#selectAction" prefHeight="27" prefWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Button fx:id="shoot" onMouseClicked="#selectAction" prefHeight="27" prefWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="27" prefWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Button fx:id="reload" onMouseClicked="#selectAction" prefHeight="40" prefWidth="27" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Button fx:id="back" onMouseClicked="#selectAction" prefHeight="40" prefWidth="27" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                     </children>
                <columnConstraints>
                   <ColumnConstraints />
