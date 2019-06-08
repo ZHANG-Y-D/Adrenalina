@@ -2,20 +2,23 @@ package adrenaline.client.view.CliView;
 
 
 import adrenaline.client.controller.GameController;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
 public abstract class ControllerCli{
 
     protected GameController gameController;
-    protected volatile String returnValueFromServer ="null";
-    protected Scanner scanner;
+    protected AtomicInteger returnValueIsOk = new AtomicInteger(0);
+    protected Scanner scanner = new Scanner(System.in);
+
 
 
 
@@ -67,17 +70,17 @@ public abstract class ControllerCli{
 
 
         while (true) {
-            if (!returnValueFromServer.equals("null"))
+            if (returnValueIsOk.get()==0)
                 break;
-
         }
 
-        if (returnValueFromServer.equals("/OK")){
-            returnValueFromServer = "null";
+
+        if (returnValueIsOk.get()==1){
+            returnValueIsOk.set(0);
             return true;
         }
         else {
-            returnValueFromServer = "null";
+            returnValueIsOk.set(0);
             return false;
         }
 
