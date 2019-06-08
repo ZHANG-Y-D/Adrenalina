@@ -27,17 +27,6 @@
                 <Pane fx:id="pane11" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                 <Pane fx:id="pane12" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             </children>
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
         </GridPane>
         <VBox fx:id="redWeapons" layoutX="10" layoutY="170">
          <children>
@@ -61,89 +50,75 @@
          </children>
         </VBox>
         <VBox fx:id="enemyPlayers" layoutX="910" layoutY="10" />
-        <Pane fx:id="ownPlayer" layoutX="284" layoutY="590" prefHeight="150" prefWidth="712">
+        <Pane fx:id="ownPlayer" layoutX="295" layoutY="590" prefHeight="150" prefWidth="690">
             <children>
-                <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="145" layoutY="10">
+                <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="121" layoutY="10">
                 </ImageView>
-                <GridPane layoutX="5" layoutY="10" prefHeight="130" prefWidth="140.0">
-                    <children>
-                        <Button fx:id="run" onMouseClicked="#selectAction" prefHeight="27" prefWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                        <Button fx:id="shoot" onMouseClicked="#selectAction" prefHeight="27" prefWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="27" prefWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Button fx:id="reload" onMouseClicked="#selectAction" prefHeight="40" prefWidth="27" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Button fx:id="back" onMouseClicked="#selectAction" prefHeight="40" prefWidth="27" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                    </children>
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
-                </GridPane>
-                <ImageView fx:id="red_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="681" layoutY="20">
+                <Button fx:id="run" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="10" />
+                <Button fx:id="shoot" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="55"/>
+                <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57"  layoutX="58" layoutY="100"/>
+                <Button fx:id="reload" onMouseClicked="#selectAction" prefHeight="62" prefWidth="42" layoutX="10" layoutY="78"/>
+                <Button fx:id="back" onMouseClicked="#selectAction" prefHeight="62" prefWidth="42" layoutX="10" layoutY="10" />
+                <ImageView fx:id="red_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="20">
                     <image>
                         <Image url="@HUD/ammo_red.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="red_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="663" layoutY="20">
+                <ImageView fx:id="red_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="20">
                     <image>
                         <Image url="@HUD/ammo_red.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="red_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="645" layoutY="20">
+                <ImageView fx:id="red_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="20">
                     <image>
                         <Image url="@HUD/ammo_red.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="blue_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="681" layoutY="60">
+                <ImageView fx:id="blue_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="60">
                     <image>
                         <Image url="@HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="blue_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="663" layoutY="60">
+                <ImageView fx:id="blue_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="60">
                     <image>
                         <Image url="@HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="blue_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="645" layoutY="60">
+                <ImageView fx:id="blue_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="60">
                     <image>
                         <Image url="@HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="yellow_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="681" layoutY="100">
+                <ImageView fx:id="yellow_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="100">
                     <image>
                         <Image url="@HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="yellow_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="663" layoutY="100">
+                <ImageView fx:id="yellow_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="100">
                     <image>
                         <Image url="@HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="yellow_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="645" layoutY="100">
+                <ImageView fx:id="yellow_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="100">
                     <image>
                         <Image url="@HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
             </children>
         </Pane>
-        <Pane fx:id="ownCard" layoutX="10" layoutY="590" prefHeight="150" prefWidth="270" onMouseEntered="#showTriangles" onMouseExited="#hideTriangles">
+        <Pane fx:id="ownCard" layoutX="10" layoutY="590" prefHeight="150" prefWidth="280" onMouseEntered="#showTriangles" onMouseExited="#hideTriangles">
             <children>
-                <ImageView fx:id="myWeapon" fitHeight="110.0" fitWidth="149.0" layoutX="114.0" layoutY="25.0" onMouseEntered="#drawBottom">
+                <ImageView fx:id="myWeapon" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="25.0" onMouseEntered="#drawBottom">
                     <image>
                         <Image url="Weapons/weapon_6-TOP.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="myPowerup" fitHeight="132.0" fitWidth="90.0" layoutX="12" layoutY="9">
+                <ImageView fx:id="myPowerup" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9">
                     <image>
                         <Image url="Powerup/powerup.png" />
                     </image>
                 </ImageView>
-                <Polygon fx:id="powerupTriangle" fill="WHITE" layoutX="105.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
+                <Polygon fx:id="powerupTriangle" fill="WHITE" layoutX="109.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
                     <points>
                         <Double fx:value="-15.0" />
                         <Double fx:value="15.0" />
@@ -153,7 +128,7 @@
                         <Double fx:value="-4.5" />
                     </points>
                 </Polygon>
-                <Polygon fx:id="weaponTriangle" fill="WHITE" layoutX="259.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
+                <Polygon fx:id="weaponTriangle" fill="WHITE" layoutX="268.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
                     <points>
                         <Double fx:value="-15.0" />
                         <Double fx:value="15.0" />
@@ -165,12 +140,12 @@
                 </Polygon>
             </children>
         </Pane>
-        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="999.0" layoutY="590.0" prefHeight="118.0" prefWidth="271.0" vvalue="1">
+        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="989.0" layoutY="590.0" prefHeight="118.0" prefWidth="281.0" vvalue="1">
             <content>
                 <VBox fx:id="chat" />
             </content>
         </ScrollPane>
-        <TextField fx:id="txtMsg" layoutX="1000.0" layoutY="710.0" onAction="#sendMessage" prefHeight="30.0" prefWidth="269.0" promptText="Type your message" />
+        <TextField fx:id="txtMsg" layoutX="990.0" layoutY="710.0" onAction="#sendMessage" prefHeight="30.0" prefWidth="280.0" promptText="Type your message" />
     </children>
     <stylesheets>
         <URL value="@GameView.css" />

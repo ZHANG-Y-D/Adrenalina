@@ -5,13 +5,13 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
-#grab,
-#shoot,
-#reload,
-#back,
-#run{
+.button{
     -fx-background-size: cover;
     -fx-background-position: center;
+}
+.button:hover{
+    -fx-cursor: hand;
+    -fx-effect: innershadow(three-pass-box, white, 7, 0.3, 0, 0);
 }
 .triangle{
     -fx-effect: dropshadow(three-pass-box, black, 7, 0.3, 0, 0);
@@ -49,9 +49,6 @@
 }
 #ownCard{
     -fx-background-color: rgba(0, 0, 0, 0.3);
-}
-.button:hover{
-    -fx-cursor: hand;
 }
 #scrollPane{
     -fx-background-color: transparent;
