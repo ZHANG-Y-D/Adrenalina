@@ -9,6 +9,7 @@ import adrenaline.server.model.PowerupCard;
 import adrenaline.server.model.constraints.CardinalDirectionConstraint;
 import adrenaline.server.model.constraints.InRadiusConstraint;
 import adrenaline.server.model.constraints.RangeConstraint;
+import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
 
@@ -16,17 +17,19 @@ public class FirePlayerState implements FiremodeSubState {
 
     private Lobby lobby;
     private Firemode thisFiremode;
+    private boolean actionExecuted;
 
-    private RangeConstraint targetsGenerator;
+    private TargetsGenerator targetsGenerator;
     private int targetsLimit;
     private int pushRange;
     private ArrayList<int[]> dmgmrkEachTarget;
     private Color selectedTarget=null;
     private ArrayList<Integer> targetValidSquares;
 
-    public void setContext(Lobby lobby, Firemode firemode) {
+    public void setContext(Lobby lobby, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;
         this.thisFiremode = firemode;
+        this.actionExecuted = actionExecuted;
         lobby.sendCurrentPlayerValidSquares(firemode);
     }
 
@@ -46,11 +49,14 @@ public class FirePlayerState implements FiremodeSubState {
         try {
             lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
             selectedTarget = playersColor.get(1);
-            lobby.incrementExecutedActions();
+            if(!actionExecuted){
+                lobby.incrementExecutedActions();
+                actionExecuted=true;
+            }
         } catch (InvalidTargetsException e) { return "Invalid targets!"; }
         if(pushRange<1){
             FiremodeSubState nextStep = thisFiremode.getNextStep();
-            nextStep.setContext(lobby, thisFiremode);
+            nextStep.setContext(lobby, thisFiremode, actionExecuted);
             lobby.setState(nextStep);
         }
         else{
@@ -70,7 +76,7 @@ public class FirePlayerState implements FiremodeSubState {
         if(!targetValidSquares.contains(index)) return "You can't move your target there!";
         lobby.movePlayer(index, selectedTarget);
         FiremodeSubState nextStep = thisFiremode.getNextStep();
-        nextStep.setContext(lobby, thisFiremode);
+        nextStep.setContext(lobby, thisFiremode, actionExecuted);
         lobby.setState(nextStep);
         return "OK";
     }
@@ -88,8 +94,13 @@ public class FirePlayerState implements FiremodeSubState {
     }
 
     public String moveSubAction() {
-        //TODO
-        return null;
+        MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
+        if(moveStep==null) return "You can't do that!";
+        else{
+            moveStep.setContext(lobby, thisFiremode, actionExecuted, this);
+            lobby.setState(moveStep);
+            return "OK";
+        }
     }
 
 

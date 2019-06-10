@@ -143,6 +143,15 @@ public class Map extends Observable {
         return false;
     }
 
+    public boolean isWall(int pos1, int pos2){
+        int[] arrayPos = {pos1, pos2};
+        Arrays.sort(arrayPos);
+        Arrays.sort(arrayPos);
+        for(int[] i : mapWalls) {
+            if (Arrays.equals(i,arrayPos)) return true;
+        }
+        return false;
+    }
 
     /**
      * Get all the squares that are in the same room

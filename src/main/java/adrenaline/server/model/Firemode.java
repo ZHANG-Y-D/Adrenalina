@@ -15,7 +15,7 @@ public class Firemode {
     private ArrayList<RangeConstraint> rngConstraints;
     private ArrayList<TargetsConstraint> trgConstraints;
     private Queue<FiremodeSubState> firemodeSteps = new LinkedList<>();
-    private MoveSelfState moveSelf = null;
+    private int allowedMovement;
 
     public Firemode(String name, int[] extraCost, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst){
         this.name = name;
@@ -30,7 +30,12 @@ public class Firemode {
 
     public FiremodeSubState getNextStep(){ return firemodeSteps.poll(); }
 
-    public GameState getMoveSelfStep() { return moveSelf;}
+    public MoveSelfState getMoveSelfStep() {
+        if(allowedMovement>0){
+            allowedMovement=0;
+            return new MoveSelfState(allowedMovement);
+        }else return null;
+    }
 
     public ArrayList<Integer> getRange(int shooterPosition, Map map){
         ArrayList<Integer> validSquares = new ArrayList<Integer>();

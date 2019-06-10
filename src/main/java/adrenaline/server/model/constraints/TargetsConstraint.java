@@ -6,10 +6,10 @@ import adrenaline.server.model.Player;
 import java.util.ArrayList;
 
 abstract public class TargetsConstraint {
-    private static boolean specialRange;
+    protected static boolean specialRange;
 
     public boolean isSpecialRange(){
-        return this.specialRange;
+        return specialRange;
     }
 
     public abstract boolean checkConst(Player shooter, ArrayList<Player> targets, Map map);

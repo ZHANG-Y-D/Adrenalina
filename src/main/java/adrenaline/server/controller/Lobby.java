@@ -10,6 +10,7 @@ import adrenaline.server.exceptions.WeaponHandFullException;
 import adrenaline.server.model.*;
 import adrenaline.server.model.Map;
 import adrenaline.server.model.constraints.RangeConstraint;
+import adrenaline.server.model.constraints.TargetsGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -462,18 +463,21 @@ public class Lobby implements Runnable, LobbyAPI {
         }
     }
 
-    public ArrayList<Player> generateTargets(RangeConstraint generator, ArrayList<Color> selected){
-        ArrayList<Player> targets = new ArrayList<>();
-        /*selected.forEach(x -> targets.add(playersColor.get(x)));
-        //TODO actual method
-        generator.generateTargets();*/
-        return targets;
+    public ArrayList<Player> generateTargets(TargetsGenerator generator, ArrayList<Color> selected){
+        Set<Player> targets = new LinkedHashSet<>();
+        selected.forEach(x -> targets.add(playersColor.get(x)));
+        ArrayList<Integer> validSqr = new ArrayList<>();
+        for(int i=0; i<=map.getMaxSquare(); i++) validSqr.add(i);
+        targets.forEach(x -> validSqr.retainAll(generator.generateRange(playersMap.get(currentTurnPlayer).getPosition(), x.getPosition(),map)));
+        validSqr.forEach(x -> playersMap.values().stream().filter(y -> y.getPosition() == x).forEach(targets::add));
+        return new ArrayList<>(targets);
     }
 
-    public ArrayList<Player> generateTargets(RangeConstraint generator, int selectedSquare){
-        return (ArrayList) playersMap.values().stream()
-                                    .filter(x -> generator.checkConst(selectedSquare,map).contains(x.getPosition()))
-                                    .collect(Collectors.toList());
+    public ArrayList<Player> generateTargets(TargetsGenerator generator, int selectedSquare){
+        ArrayList<Player> targets = new ArrayList<>();
+        generator.generateRange(playersMap.get(currentTurnPlayer).getPosition(), selectedSquare,map)
+                .forEach(x -> playersMap.values().stream().filter(y -> y.getPosition() == x).forEach(targets::add));
+        return targets;
     }
 
     public void applyFire(Firemode firemode, List<Player> targets, List<int[]> dmgmrkEachTarget) throws InvalidTargetsException {

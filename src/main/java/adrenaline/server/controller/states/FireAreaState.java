@@ -6,7 +6,7 @@ import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
 import adrenaline.server.model.Player;
 import adrenaline.server.model.PowerupCard;
-import adrenaline.server.model.constraints.RangeConstraint;
+import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
 
@@ -14,15 +14,17 @@ public class FireAreaState implements FiremodeSubState {
 
     private Lobby lobby;
     private Firemode thisFiremode;
+    private boolean actionExecuted;
 
-    private RangeConstraint targetsGenerator;
+    private TargetsGenerator targetsGenerator;
     private ArrayList<int[]> dmgmrkEachSquare;
     private ArrayList<Integer> validSquares;
 
     @Override
-    public void setContext(Lobby lobby, Firemode firemode) {
+    public void setContext(Lobby lobby, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;
         this.thisFiremode = firemode;
+        this.actionExecuted = actionExecuted;
         validSquares = lobby.sendCurrentPlayerValidSquares(firemode);
     }
 
@@ -55,8 +57,13 @@ public class FireAreaState implements FiremodeSubState {
         }
         try {
             lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
-            lobby.incrementExecutedActions();
-            lobby.setState(thisFiremode.getNextStep());
+            if(!actionExecuted) {
+                lobby.incrementExecutedActions();
+                actionExecuted = true;
+            }
+            FiremodeSubState nextStep = thisFiremode.getNextStep();
+            nextStep.setContext(lobby, thisFiremode, actionExecuted);
+            lobby.setState(nextStep);
             return "OK";
         } catch (InvalidTargetsException e) { return "You can't shoot there!"; }
     }
@@ -74,9 +81,14 @@ public class FireAreaState implements FiremodeSubState {
     @Override
     public String selectFiremode(int firemode) { return "Select your target area or GO BACK."; }
 
-    @Override
     public String moveSubAction() {
-        return null;
+        MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
+        if(moveStep==null) return "You can't do that!";
+        else{
+            moveStep.setContext(lobby, thisFiremode, actionExecuted, this);
+            lobby.setState(moveStep);
+            return "OK";
+        }
     }
 
     @Override

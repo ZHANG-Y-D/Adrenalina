@@ -8,11 +8,29 @@ import adrenaline.server.model.PowerupCard;
 import java.util.ArrayList;
 
 public class MoveSelfState implements FiremodeSubState {
-    private Lobby lobby;
+
+    private int allowedMovement;
+    private Lobby lobby = null;
+    private Firemode thisFiremode = null;
+    private boolean actionExecuted;
+    private FiremodeSubState callBackState = null;
+    private ArrayList<Integer> validSquares = null;
+
+    public MoveSelfState(int allowedMovement){
+        this.allowedMovement = allowedMovement;
+    }
+
+    public void setContext(Lobby lobby, Firemode firemode, boolean actionExecuted, FiremodeSubState callBackState) {
+        this.callBackState = callBackState;
+        setContext(lobby, firemode, actionExecuted);
+    }
 
     @Override
-    public void setContext(Lobby lobby, Firemode firemode) {
+    public void setContext(Lobby lobby, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;
+        thisFiremode = firemode;
+        this.actionExecuted = actionExecuted;
+        validSquares = lobby.sendCurrentPlayerValidSquares(allowedMovement);
     }
 
     @Override
@@ -37,7 +55,17 @@ public class MoveSelfState implements FiremodeSubState {
 
     @Override
     public String selectSquare(int index) {
-        return null;
+        if(!validSquares.contains(index)) return "You can't move there! Select a valid square or GO BACK.";
+        else{
+            lobby.movePlayer(index);
+            if(!actionExecuted){
+                lobby.incrementExecutedActions();
+                actionExecuted=true;
+            }
+            callBackState.setContext(lobby, thisFiremode, true);
+            lobby.setState(callBackState);
+            return "OK";
+        }
     }
 
     @Override
@@ -57,7 +85,7 @@ public class MoveSelfState implements FiremodeSubState {
 
     @Override
     public String moveSubAction() {
-        return null;
+        return "Select which square you want to move in";
     }
 
     @Override
@@ -67,7 +95,9 @@ public class MoveSelfState implements FiremodeSubState {
 
     @Override
     public String goBack() {
-        return null;
+        callBackState.setContext(lobby, thisFiremode, actionExecuted);
+        lobby.setState(callBackState);
+        return "OK";
     }
 
     @Override
