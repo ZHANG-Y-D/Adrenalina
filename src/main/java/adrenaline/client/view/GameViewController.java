@@ -186,6 +186,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void selectAction(Event evt){
         Button button = (Button) evt.getSource();
+        System.out.println(button.getId());
         test();
     }
 
