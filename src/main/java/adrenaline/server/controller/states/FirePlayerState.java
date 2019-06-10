@@ -4,11 +4,11 @@ import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
 import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
+import adrenaline.server.model.Player;
 import adrenaline.server.model.PowerupCard;
 import adrenaline.server.model.constraints.CardinalDirectionConstraint;
 import adrenaline.server.model.constraints.InRadiusConstraint;
 import adrenaline.server.model.constraints.RangeConstraint;
-import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class FirePlayerState implements FiremodeSubState {
     private Lobby lobby;
     private Firemode thisFiremode;
 
-    private TargetsGenerator targetsGenerator;
+    private RangeConstraint targetsGenerator;
     private int targetsLimit;
     private int pushRange;
     private ArrayList<int[]> dmgmrkEachTarget;
@@ -42,9 +42,9 @@ public class FirePlayerState implements FiremodeSubState {
 
     public String selectPlayers(ArrayList<Color> playersColor) {
         playersColor = new ArrayList<>(playersColor.subList(0, targetsLimit));
-        //targetsGenerate
+        ArrayList<Player> targets = lobby.generateTargets(targetsGenerator, playersColor);
         try {
-            lobby.applyFire(thisFiremode, playersColor);
+            lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
             selectedTarget = playersColor.get(1);
             lobby.incrementExecutedActions();
         } catch (InvalidTargetsException e) { return "Invalid targets!"; }

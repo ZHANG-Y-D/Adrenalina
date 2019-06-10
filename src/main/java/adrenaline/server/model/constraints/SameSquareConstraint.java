@@ -5,7 +5,7 @@ import adrenaline.server.model.Player;
 
 import java.util.ArrayList;
 
-public class SameSquareConstraint extends TargetsConstraint implements TargetsGenerator {
+public class SameSquareConstraint extends TargetsConstraint {
     private static boolean specialRange = false;
 
     @Override
@@ -17,8 +17,4 @@ public class SameSquareConstraint extends TargetsConstraint implements TargetsGe
         return true;
     }
 
-    @Override
-    public void generateTargets() {
-
-    }
 }

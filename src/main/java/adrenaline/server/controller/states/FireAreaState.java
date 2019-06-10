@@ -4,8 +4,9 @@ import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
 import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
+import adrenaline.server.model.Player;
 import adrenaline.server.model.PowerupCard;
-import adrenaline.server.model.constraints.TargetsGenerator;
+import adrenaline.server.model.constraints.RangeConstraint;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class FireAreaState implements FiremodeSubState {
     private Lobby lobby;
     private Firemode thisFiremode;
 
-    private TargetsGenerator targetsGenerator;
+    private RangeConstraint targetsGenerator;
     private ArrayList<int[]> dmgmrkEachSquare;
     private ArrayList<Integer> validSquares;
 
@@ -44,10 +45,16 @@ public class FireAreaState implements FiremodeSubState {
     @Override
     public String selectSquare(int index) {
         if(!validSquares.contains(index)) return "You can't shoot there!";
-        ArrayList<Color> targets = new ArrayList<>();
-        //targets generation
+        ArrayList<Player> targets = lobby.generateTargets(targetsGenerator, index);
+        ArrayList<int[]> dmgmrkEachTarget = new ArrayList<>();
+        int k=0;
+        dmgmrkEachTarget.add(dmgmrkEachSquare.get(k));
+        for(int i=1; i<targets.size(); i++){
+            if(targets.get(i).getPosition() != targets.get(i-1).getPosition()) k++;
+            dmgmrkEachTarget.add(dmgmrkEachSquare.get(k<dmgmrkEachSquare.size() ? k : dmgmrkEachSquare.size()-1));
+        }
         try {
-            lobby.applyFire(thisFiremode, targets);
+            lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
             lobby.incrementExecutedActions();
             lobby.setState(thisFiremode.getNextStep());
             return "OK";

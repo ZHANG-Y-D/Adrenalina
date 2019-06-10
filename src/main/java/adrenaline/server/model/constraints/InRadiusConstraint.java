@@ -4,7 +4,7 @@ import adrenaline.server.model.Map;
 
 import java.util.ArrayList;
 
-public class InRadiusConstraint implements RangeConstraint, TargetsGenerator {
+public class InRadiusConstraint implements RangeConstraint{
     private int radius;
 
     public InRadiusConstraint(int radius){
@@ -17,8 +17,4 @@ public class InRadiusConstraint implements RangeConstraint, TargetsGenerator {
         return validSquares;
     }
 
-    @Override
-    public void generateTargets() {
-
-    }
 }

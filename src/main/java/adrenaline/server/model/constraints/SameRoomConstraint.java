@@ -5,7 +5,7 @@ import adrenaline.server.model.Player;
 
 import java.util.ArrayList;
 
-public class SameRoomConstraint extends TargetsConstraint implements TargetsGenerator {
+public class SameRoomConstraint extends TargetsConstraint {
     private static boolean specialRange = false;
 
     @Override
@@ -15,10 +15,5 @@ public class SameRoomConstraint extends TargetsConstraint implements TargetsGene
             if(!(room.contains(trg.getPosition()))) return false;
         }
         return true;
-    }
-
-    @Override
-    public void generateTargets() {
-
     }
 }
