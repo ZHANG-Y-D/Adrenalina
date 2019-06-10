@@ -49,7 +49,7 @@
              <ImageView fx:id="weapon_yellow3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </VBox>
-        <VBox fx:id="enemyPlayers" layoutX="910" layoutY="10" />
+        <VBox fx:id="enemyPlayers" layoutX="940" layoutY="10" />
         <Pane fx:id="ownPlayer" layoutX="295" layoutY="590" prefHeight="150" prefWidth="690">
             <children>
                 <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="121" layoutY="10">

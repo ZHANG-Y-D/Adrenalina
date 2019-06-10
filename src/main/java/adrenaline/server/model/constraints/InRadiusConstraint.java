@@ -3,8 +3,9 @@ package adrenaline.server.model.constraints;
 import adrenaline.server.model.Map;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-public class InRadiusConstraint implements RangeConstraint, TargetsGenerator {
+public class InRadiusConstraint implements RangeConstraint, TargetsGenerator{
     private int radius;
 
     public InRadiusConstraint(int radius){
@@ -13,12 +14,11 @@ public class InRadiusConstraint implements RangeConstraint, TargetsGenerator {
 
     @Override
     public ArrayList<Integer> checkConst(int shooterPosition, Map map) {
-        ArrayList<Integer> validSquares = new ArrayList<Integer>(map.getValidSquares(shooterPosition,radius));
-        return validSquares;
+        return new ArrayList<>(map.getValidSquares(shooterPosition,radius));
     }
 
     @Override
-    public void generateTargets() {
-
+    public ArrayList<Integer> generateRange(Integer shooterPos, Integer root, Map map) {
+        return new ArrayList<>(map.getValidSquares(shooterPos,radius));
     }
 }

@@ -14,20 +14,28 @@ public class Firemode {
     private int[] extraCost;
     private ArrayList<RangeConstraint> rngConstraints;
     private ArrayList<TargetsConstraint> trgConstraints;
-    private ArrayList<int[]> dmgmrkToEachTarget;
+    private Queue<FiremodeSubState> firemodeSteps = new LinkedList<>();
+    private int allowedMovement;
 
-    public Firemode(String name, int[] extraCost, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst, ArrayList<int[]> dmgmrk){
+    public Firemode(String name, int[] extraCost, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst){
         this.name = name;
         this.extraCost = extraCost;
         this.rngConstraints = rngConst;
         this.trgConstraints = trgConst;
-        this.dmgmrkToEachTarget = dmgmrk;
     }
 
     public int[] getExtraCost(){
         return extraCost;
     }
 
+    public FiremodeSubState getNextStep(){ return firemodeSteps.poll(); }
+
+    public MoveSelfState getMoveSelfStep() {
+        if(allowedMovement>0){
+            allowedMovement=0;
+            return new MoveSelfState(allowedMovement);
+        }else return null;
+    }
 
     public ArrayList<Integer> getRange(int shooterPosition, Map map){
         ArrayList<Integer> validSquares = new ArrayList<Integer>();
@@ -40,22 +48,17 @@ public class Firemode {
         return validSquares;
     }
 
-    public ArrayList<int[]> fire(Player shooter, ArrayList<Player> targets, Map map) throws InvalidTargetsException {
+    public boolean checkTargets(Player shooter, ArrayList<Player> targets, Map map) {
         ArrayList<Integer> validSquares = getRange(shooter.getPosition(), map);
         for(Player trg : targets) {
             if (!validSquares.contains(trg.getPosition())){
-                if(targets.indexOf(trg)==0 || trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) throw new InvalidTargetsException();
+                if(targets.indexOf(trg)==0 || trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) return false;
             }
         }
         for(TargetsConstraint trgconst : trgConstraints){
-            if(!trgconst.checkConst(shooter, targets, map)) throw new InvalidTargetsException();
+            if(!trgconst.checkConst(shooter, targets, map)) return false;
         }
-        //TARGETS VALID
-        ArrayList<int[]> returnToEachTarget = new ArrayList<>();
-        for(Player trg : targets) {
-            returnToEachTarget.add(dmgmrkToEachTarget.get(targets.indexOf(trg) < dmgmrkToEachTarget.size() ? targets.indexOf(trg) : dmgmrkToEachTarget.size()-1));
-        }
-        return returnToEachTarget;
+        return true;
     }
 
     @Override
@@ -74,11 +77,4 @@ public class Firemode {
         string += "\n\t}";
         return string;
     }
-
-    private  Queue<FiremodeSubState> firemodeSteps = new LinkedList<>();
-    private MoveSelfState moveSelf = null;
-
-    public FiremodeSubState getNextStep(){ return firemodeSteps.poll(); }
-
-    public GameState getMoveSelfStep() { return moveSelf;}
 }

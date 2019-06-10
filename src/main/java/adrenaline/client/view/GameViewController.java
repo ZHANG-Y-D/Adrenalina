@@ -7,6 +7,7 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -95,6 +96,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         modelMap = gameController.getMap();
         String path = "url(/Maps/MAP"+modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
+        Pane skullPane = new Pane();
+        ImageView skulls = new ImageView(new Image(getClass().getResourceAsStream("/SKULLBAR.png")));
+        skulls.setFitHeight(57);
+        skulls.setFitWidth(320);
+        skullPane.getChildren().add(skulls);
+        enemyPlayers.getChildren().add(skullPane);
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
         String newImgUrl = "/HUD/"+ownColor.toString()+"-HUD.png";
@@ -113,12 +120,17 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 if(x.equals(ownColor)) playersColorMap.put(x, ownPlayer);
                 else{
                     Pane newPane = new Pane();
-                    String newUrl = "/HUD/"+x.toString()+"-HUD.png";
+                    String newUrl = "/HUD/"+x.toString()+"-SCOREBOARD.png";
                     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(newUrl)));
-                    imageView.setFitHeight(91);
-                    imageView.setFitWidth(350);
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(320);
                     newPane.getChildren().add(imageView);
-                    newPane.getChildren().add(new Label(y));
+                    Label nickname = new Label(y.toUpperCase());
+                    nickname.setAlignment(Pos.TOP_RIGHT);
+                    nickname.prefWidth(260);
+                    nickname.setLayoutY(5);
+                    nickname.getStyleClass().add(x.toString());
+                    newPane.getChildren().add(nickname);
                     enemyPlayers.getChildren().add(newPane);
                     playersColorMap.put(x, newPane);
                 }

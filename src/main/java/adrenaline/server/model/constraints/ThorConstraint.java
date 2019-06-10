@@ -6,7 +6,7 @@ import adrenaline.server.model.Player;
 import java.util.ArrayList;
 
 public class ThorConstraint extends TargetsConstraint {
-    private static boolean specialRange = true;
+    protected static boolean specialRange = true;
 
     @Override
     public boolean checkConst(Player shooter, ArrayList<Player> targets, Map map) {

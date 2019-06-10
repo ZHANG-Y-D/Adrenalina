@@ -4,6 +4,9 @@ import adrenaline.server.model.Map;
 import adrenaline.server.model.Player;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class SameRoomConstraint extends TargetsConstraint implements TargetsGenerator {
     private static boolean specialRange = false;
@@ -18,7 +21,10 @@ public class SameRoomConstraint extends TargetsConstraint implements TargetsGene
     }
 
     @Override
-    public void generateTargets() {
-
+    public ArrayList<Integer> generateRange(Integer shooterPos, Integer root, Map map) {
+        Set<Integer> validSquares = new LinkedHashSet<Integer>();
+        validSquares.add(root);
+        validSquares.addAll(map.getRoomSquares(root));
+        return new ArrayList<>(validSquares);
     }
 }

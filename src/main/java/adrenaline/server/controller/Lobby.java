@@ -10,6 +10,7 @@ import adrenaline.server.exceptions.WeaponHandFullException;
 import adrenaline.server.model.*;
 import adrenaline.server.model.Map;
 import adrenaline.server.model.constraints.RangeConstraint;
+import adrenaline.server.model.constraints.TargetsGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -17,7 +18,6 @@ import adrenaline.server.LobbyAPI;
 import adrenaline.server.controller.states.GameState;
 import adrenaline.server.network.Client;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -463,19 +463,36 @@ public class Lobby implements Runnable, LobbyAPI {
         }
     }
 
-    public void applyFire(Firemode firemode, ArrayList<Color> requestedTargets) throws InvalidTargetsException {
+    public ArrayList<Player> generateTargets(TargetsGenerator generator, ArrayList<Color> selected){
+        Set<Player> targets = new LinkedHashSet<>();
+        selected.forEach(x -> targets.add(playersColor.get(x)));
+        ArrayList<Integer> validSqr = new ArrayList<>();
+        for(int i=0; i<=map.getMaxSquare(); i++) validSqr.add(i);
+        targets.forEach(x -> validSqr.retainAll(generator.generateRange(playersMap.get(currentTurnPlayer).getPosition(), x.getPosition(),map)));
+        validSqr.forEach(x -> playersMap.values().stream().filter(y -> y.getPosition() == x).forEach(targets::add));
+        return new ArrayList<>(targets);
+    }
+
+    public ArrayList<Player> generateTargets(TargetsGenerator generator, int selectedSquare){
         ArrayList<Player> targets = new ArrayList<>();
-        requestedTargets.forEach(x -> targets.add(playersColor.get(x)));
-        ArrayList<int[]> assignedDmgMrks = firemode.fire(playersMap.get(currentTurnPlayer), targets, map);
+        generator.generateRange(playersMap.get(currentTurnPlayer).getPosition(), selectedSquare,map)
+                .forEach(x -> playersMap.values().stream().filter(y -> y.getPosition() == x).forEach(targets::add));
+        return targets;
+    }
+
+    public void applyFire(Firemode firemode, List<Player> targets, List<int[]> dmgmrkEachTarget) throws InvalidTargetsException {
+        if(!firemode.checkTargets(playersMap.get(currentTurnPlayer), (ArrayList) targets, map)) throw new InvalidTargetsException();
+
         int kills = 0;
         for(int i=0; i<targets.size(); i++){
             Player target = targets.get(i);
-            int[] dmgMrk = assignedDmgMrks.get(i);
+            int[] dmgMrk = dmgmrkEachTarget.get( (i<dmgmrkEachTarget.size() ? i : dmgmrkEachTarget.size()-1) );
             kills = target.applyDamage(playersMap.get(currentTurnPlayer).getColor(), dmgMrk[0])
                     ? kills+1 : kills;
             target.addMarks(playersMap.get(currentTurnPlayer).getColor(), dmgMrk[1]);
             if(dmgMrk[0] > 0) damagedThisTurn.add(target.getColor());
         }
+        //if kills >= 2 add double kill score to scoreboard
     }
 }
 
