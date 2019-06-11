@@ -113,9 +113,7 @@ public class ClientSocketWrapper implements Client {
     }
 
     public void update(UpdateMessage updatemsg) {
-        String temp = gson.toJson(updatemsg, UpdateMessage.class);
-        System.out.println(temp);
-        sendMessage("update;ARGSIZE=1;adrenaline.UpdateMessage;"+ temp);
+        sendMessage("update;ARGSIZE=1;adrenaline.UpdateMessage;"+gson.toJson(updatemsg, UpdateMessage.class));
     }
 
 }

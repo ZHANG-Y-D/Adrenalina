@@ -66,7 +66,6 @@ public class Lobby implements Runnable, LobbyAPI {
         clients.forEach(scoreBoard::attach);
         deckWeapon = new DeckWeapon();
         deckAmmo = new DeckAmmo();
-        System.out.println(deckAmmo.toString());
         deckPowerup = new DeckPowerup();
         deadPlayers = new ArrayList<>();
         damagedThisTurn = new HashSet<>();

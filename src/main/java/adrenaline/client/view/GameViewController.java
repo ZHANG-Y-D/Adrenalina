@@ -107,7 +107,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ammoMap.forEach((x,y) -> {
             ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(0);
             String imgUrl = y.toString() + ".png";
-            System.out.println(imgUrl);
             ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-"+imgUrl)));
         });
         Pane skullPane = new Pane();

@@ -19,7 +19,6 @@ public class MapUpdateMessage implements UpdateMessage {
         }
 
         clientsideMap = new Map(weaponIDs, ammoIDs, serversideMap.getMapID());
-        ammoIDs.values().forEach(x -> System.out.println(x));
     }
 
     public void addAmmoInfo(int index, int ammoID){
