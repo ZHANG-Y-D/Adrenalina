@@ -31,6 +31,7 @@ public class Player extends Observable{
     private ArrayList<PowerupCard> powerupCards;
     private ArrayList<WeaponCard> weaponCards;
     private int score;
+    private boolean firstRound = true;
 
 
     private int position;
@@ -82,6 +83,9 @@ public class Player extends Observable{
     }
 
 
+    public void setFirstRound() { firstRound = false; }
+
+    public boolean isFirstRound() { return  firstRound; }
 
     /**
      *

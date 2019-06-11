@@ -1,98 +1,110 @@
 [
 
   {
-    "name": "GRNATA VANOM",
-    "color": "blue",
-    "manual": "You may play this card when you receive damage from a player you can see. Give that player 1 mark.\n",
-    "isUseInTurn": false,
-    "powerUpID": 2
+    "type" : "adrenaline.server.model.GrenadePowerup",
+    "properties": {
+      "powerupID": 1,
+      "color": "blue",
+      "isUseInTurn": true
+    }
   },
 
   {
-    "name": "GRNATA VANOM",
-    "color": "red",
-    "manual": "You may play this card when you receive damage from a player you can see. Give that player 1 mark.\n",
-    "isUseInTurn": false,
-    "powerUpID": 3
+    "type" : "adrenaline.server.model.GrenadePowerup",
+    "properties": {
+      "powerupID": 2,
+      "color": "red",
+      "isUseInTurn": true
+    }
   },
 
   {
-    "name": "GRNATA VANOM",
-    "color": "yellow",
-    "manual": "You may play this card when you receive damage from a player you can see. Give that player 1 mark.\n",
-    "isUseInTurn": false,
-    "powerUpID": 4
+    "type" : "adrenaline.server.model.GrenadePowerup",
+    "properties": {
+      "powerupID": 3,
+      "color": "yellow",
+      "isUseInTurn": true
+    }
   },
 
   {
-    "name": "MIRINO",
-    "color": "blue",
-    "manual": "You may play this card when you are dealing damage to one or more targets. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannot use this to do 1 damage to a target that is receiving only marks.\n",
-    "isUseInTurn": true,
-    "powerUpID": 5
+    "type" : "adrenaline.server.model.ScopePowerup",
+    "properties": {
+      "powerupID": 4,
+      "color": "blue",
+      "isUseInTurn": false
+    }
   },
 
   {
-    "name": "MIRINO",
-    "color": "red",
-    "manual": "You may play this card when you are dealing damage to one or more targets. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannot use this to do 1 damage to a target that is receiving only marks.\n",
-    "isUseInTurn": true,
-    "powerUpID": 6
+    "type" : "adrenaline.server.model.ScopePowerup",
+    "properties": {
+      "powerupID": 5,
+      "color": "red",
+      "isUseInTurn": false
+    }
   },
 
   {
-    "name": "MIRINO",
-    "color": "yellow",
-    "manual": "You may play this card when you are dealing damage to one or more targets. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannot use this to do 1 damage to a target that is receiving only marks.\n",
-    "isUseInTurn": true,
-    "powerUpID": 7
+    "type" : "adrenaline.server.model.ScopePowerup",
+    "properties": {
+      "powerupID": 6,
+      "color": "yellow",
+      "isUseInTurn": false
+    }
   },
 
   {
-    "name": "RAGGIO CINETICO",
-    "color": "blue",
-    "manual": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n",
-    "isUseInTurn": true,
-    "powerUpID": 8
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 7,
+      "color": "blue",
+      "isUseInTurn": false
+    }
   },
 
   {
-    "name": "RAGGIO CINETICO",
-    "color": "red",
-    "manual": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n",
-    "isUseInTurn": true,
-    "powerUpID": 9
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 8,
+      "color": "red",
+      "isUseInTurn": false
+    }
   },
 
   {
-    "name": "RAGGIO CINETICO",
-    "color": "yellow",
-    "manual": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n",
-    "isUseInTurn": true,
-    "powerUpID": 10
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 9,
+      "color": "yellow",
+      "isUseInTurn": false
+    }
   },
 
   {
-    "name": "TELETRASPORTO",
-    "color": "blue",
-    "manual": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)\n",
-    "isUseInTurn": true,
-    "powerUpID": 11
+    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "properties": {
+      "powerupID": 10,
+      "color": "blue",
+      "isUseInTurn": false
+    }
   },
 
   {
-    "name": "TELETRASPORTO",
-    "color": "red",
-    "manual": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)\n",
-    "isUseInTurn": true,
-    "powerUpID": 12
+    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "properties": {
+      "powerupID": 11,
+      "color": "red",
+      "isUseInTurn": false
+    }
   },
 
   {
-    "name": "TELETRASPORTO",
-    "color": "yellow",
-    "manual": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)\n",
-    "isUseInTurn": true,
-    "powerUpID": 13
+    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "properties": {
+      "powerupID": 12,
+      "color": "yellow",
+      "isUseInTurn": false
+    }
   }
 ]

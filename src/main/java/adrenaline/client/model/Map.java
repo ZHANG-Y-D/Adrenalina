@@ -52,6 +52,8 @@ public class Map implements Serializable {
         return weaponMap;
     }
 
+    public HashMap<Integer,Integer> getAmmoMap() { return  ammoMap; }
+
     public void setWeaponMap(HashMap<Color, ArrayList<Integer>> weaponMap){
         this.weaponMap = weaponMap;
     }

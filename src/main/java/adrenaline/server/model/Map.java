@@ -32,6 +32,14 @@ public class Map extends Observable {
     private int columns;
     private HashMap<Color,Integer> spawnMap;
 
+    public void setSquaresContext(){
+        for(Square[] row : mapSquares){
+            for(Square square : row){
+                square.setMap(this);
+            }
+        }
+    }
+
     /**
      * Sets the observers of the map and notify them
      * about the initial information of the map.
@@ -66,7 +74,10 @@ public class Map extends Observable {
      * @return      the square
      */
 
-    public Square getSquare(int pos) { return mapSquares[pos/columns][pos%columns]; }
+    public Square getSquare(int pos) {
+        if(isEmptySquare(pos)) return null;
+        return mapSquares[pos/columns][pos%columns];
+    }
 
 
     /**

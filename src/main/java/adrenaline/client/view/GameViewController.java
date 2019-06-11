@@ -36,7 +36,7 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer, pane0;
+    private Pane pane, ownPlayer,pane0;
     @FXML
     private Button  run, shoot, grab, reload, back;
     @FXML
@@ -58,6 +58,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private ArrayList<ImageView> redWeaponsList, blueWeaponsList, yellowWeaponsList;
     private GameController gameController;
     private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>();
+    private HashMap<Integer, Pane> mapPanes = new HashMap<>();
     private final int columns = 4;
     private final int rows = 3;
 
@@ -84,6 +85,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             for (ImageView img : y) img.getStyleClass().add("weapon");
         });
         myWeapon.getStyleClass().add("weapon");
+
+        for(int i = 0; i <= 11; i++){
+            mapPanes.put(i,(Pane) map.lookup("#pane"+i));
+        }
         //gameController = new GameController();
         //gameController.addPropertyChangeListener(this);
     }
@@ -98,6 +103,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         modelMap = gameController.getMap();
         String path = "url(/Maps/MAP"+modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
+        HashMap<Integer,Integer> ammoMap = modelMap.getAmmoMap();
+        ammoMap.forEach((x,y) -> {
+            ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(0);
+            String imgUrl = y.toString() + ".png";
+            System.out.println(imgUrl);
+            ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-"+imgUrl)));
+        });
         Pane skullPane = new Pane();
         ImageView skulls = new ImageView(new Image(getClass().getResourceAsStream("/SKULLBAR.png")));
         skulls.setFitHeight(57);

@@ -2,7 +2,9 @@
 
 package adrenaline.server.model;
 
+import adrenaline.CustomSerializer;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 
 import java.io.FileNotFoundException;
@@ -28,15 +30,15 @@ public class DeckPowerup extends Deck<PowerupCard> {
 
 
         try{
-            Gson gson = new Gson();
             FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/PowerupCard.json");
-
-
             //There are 24 powerup cards in total.So read two times
+            GsonBuilder gsonBld = new GsonBuilder();
+            gsonBld.registerTypeAdapter(PowerupCard.class, new CustomSerializer());
+            Gson gson = gsonBld.create();
             PowerupCard[] powerupCards = gson.fromJson(fileReader, PowerupCard[].class);
             cards.addAll(Arrays.asList(powerupCards));
             cards.addAll(Arrays.asList(powerupCards));
-
+            shuffle();
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
         }

@@ -20,13 +20,26 @@ public class SquareSpawn extends Square {
         updatemsg.addWeaponInfo(color, (ArrayList<Integer>) weaponCards.stream().map(WeaponCard::getWeaponID).collect(Collectors.toList()));
     }
 
+    @Override
+    public void setCard(Lobby lobby) {
+        if(weaponCards.size()<3) lobby.setWeaponCard(this, 3-weaponCards.size());
+    }
+
     public WeaponCard getWeaponCard(int weaponID) {
         for(WeaponCard wc : weaponCards){
-            if(wc.getWeaponID() == weaponID) return wc;
+            if(wc.getWeaponID() == weaponID)return wc;
         }
         return null;
     }
 
-    public boolean removeCard(WeaponCard card){ return weaponCards.remove(card);}
-    public void addCard(WeaponCard card){weaponCards.add(card);}
+    public boolean removeCard(WeaponCard card){
+        boolean result = weaponCards.remove(card);
+        if(result) map.notifyObservers(new MapUpdateMessage(map));
+        return result;
+    }
+
+    public void addCard(WeaponCard card){
+        weaponCards.add(card);
+        if(map.anyObserver()) map.notifyObservers(new MapUpdateMessage(map));
+    }
 }

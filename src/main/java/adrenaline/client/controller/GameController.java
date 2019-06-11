@@ -89,9 +89,9 @@ public class GameController {
     }
 
     public void updateMap(Map newMap){
-        //Map oldMap = map;
-        Map oldMap = new Map();
-        oldMap.setMap();
+        Map oldMap = map;
+        //Map oldMap = new Map();
+        //oldMap.setMap();
         map = newMap;
         changes.firePropertyChange("map", oldMap, newMap);
     }

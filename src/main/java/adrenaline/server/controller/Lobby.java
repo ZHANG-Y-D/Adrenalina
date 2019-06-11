@@ -43,7 +43,7 @@ public class Lobby implements Runnable, LobbyAPI {
     private String nextTurnPlayer;
     private int executedActions;
 
-    private Map map;
+    private Map map=null;
     private ScoreBoard scoreBoard;
     private DeckWeapon deckWeapon;
     private DeckAmmo deckAmmo;
@@ -66,7 +66,8 @@ public class Lobby implements Runnable, LobbyAPI {
         clients.forEach(scoreBoard::attach);
         deckWeapon = new DeckWeapon();
         deckAmmo = new DeckAmmo();
-        //deckPowerup = new DeckPowerup();
+        System.out.println(deckAmmo.toString());
+        deckPowerup = new DeckPowerup();
         deadPlayers = new ArrayList<>();
         damagedThisTurn = new HashSet<>();
         chat = new Chat(clients);
@@ -143,7 +144,7 @@ public class Lobby implements Runnable, LobbyAPI {
     public void run() {
         avatarSelection();
         initMap();
-        currentState = new SelectActionState(this);
+        currentState = new RespawnState(this);
         //TODO handles the game flow
     }
 
@@ -208,7 +209,7 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         else{
             if(puc.isUsableOutsideTurn()){
-                //granata venom
+                useGrenadePowerup(clientID, puc);
                 return "OK";
             }
             else return "You can only do that during your turn!";
@@ -274,6 +275,7 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public synchronized void endTurn(boolean timeoutReached){
         if(!timeoutReached) scheduledTimeout.cancel(false);
+        setMapCards();
         checkDeadPlayers();
         if(!deadPlayers.isEmpty()){
             String dead = deadPlayers.get(0);
@@ -284,8 +286,11 @@ public class Lobby implements Runnable, LobbyAPI {
             currentTurnPlayer = dead;
             currentState = new RespawnState(this);
         }else {
-            currentState = new SelectActionState(this);
             nextPlayer();
+            if(playersMap.get(currentTurnPlayer).isFirstRound()){
+                currentState = new RespawnState(this);
+                playersMap.get(currentTurnPlayer).setFirstRound();
+            }else currentState = new SelectActionState(this);
         }
         scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
         clientMap.values().forEach(x -> {
@@ -327,6 +332,8 @@ public class Lobby implements Runnable, LobbyAPI {
             gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             map = gson.fromJson(fileReader,Map.class);
+            map.setSquaresContext();
+            setMapCards();
             map.setObservers(new ArrayList<>(clientMap.values()));
             fileReader.close();
         } catch (JsonIOException | IOException e){
@@ -336,7 +343,8 @@ public class Lobby implements Runnable, LobbyAPI {
 
     private void checkDeadPlayers(){
         for(String s : clientMap.keySet()){
-            if(!playersMap.get(s).isAlive()) deadPlayers.add(s);
+            Player player = playersMap.get(s);
+            if(!player.isAlive() && !player.isFirstRound()) deadPlayers.add(s);
         }
     }
 
@@ -379,6 +387,26 @@ public class Lobby implements Runnable, LobbyAPI {
         if(playersColor.get(playerColor).getPosition()!= squareIndex) playersColor.get(playerColor).setPosition(squareIndex);
     }
 
+    private void setMapCards(){
+        if(map!=null) {
+            for (int i = 0; i <= map.getMaxSquare(); i++) {
+                Square square = map.getSquare(i);
+                if(square != null)  square.setCard(this);
+            }
+        }
+    }
+
+    public void setAmmoCard(SquareAmmo squareAmmo) {
+        squareAmmo.setAmmoTile(deckAmmo.draw());
+    }
+
+    public void setWeaponCard(SquareSpawn squareSpawn, int needed) {
+        while(needed>0){
+            //squareSpawn.addCard(deckWeapon.draw());
+            needed--;
+        }
+    }
+
     public void grabFromSquare(int squareIndex){
         map.getSquare(squareIndex).acceptGrab(this);
     }
@@ -390,7 +418,6 @@ public class Lobby implements Runnable, LobbyAPI {
             int[] grabbedAmmoContent = grabbedAmmoTile.getAmmoContent();
             //Discard the tile. && Remove the ammo tile.
             deckAmmo.addToDiscarded(grabbedAmmoTile);
-            square.setAmmoTile(null);
             //Move the depicted cubes into your ammo box.
             currentPlayer.addAmmoBox(grabbedAmmoContent);
             //If the tile depicts a powerup card, draw one.
@@ -445,6 +472,19 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public String usePowerup(TeleporterPowerup teleporter){
         return null;
+    }
+
+    public String userPowerup(GrenadePowerup grenade){
+        return "You can't use this powerup during your own turn!";
+    }
+
+    private String useGrenadePowerup(String userID, PowerupCard powerup) {
+        Player user = playersMap.get(userID);
+        if(!damagedThisTurn.contains(user.getColor())) return "You have not been damaged during this turn!";
+        playersMap.get(currentTurnPlayer).addMarks(user.getColor(), 1);
+        playersMap.get(currentTurnPlayer).removePowerupCard(powerup);
+        deckPowerup.addToDiscarded(powerup);
+        return "OK";
     }
 
     public boolean canUseWeapon(int weaponID){

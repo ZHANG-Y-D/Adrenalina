@@ -26,8 +26,7 @@ public class DeckAmmo extends Deck<AmmoCard>{
 
             AmmoCard[] ammoCards = gson.fromJson(fileReader,AmmoCard[].class);
             cards.addAll(Arrays.asList(ammoCards));
-
-
+            shuffle();
 
         }catch (FileNotFoundException e){
             System.out.println("Ammo.json file not found");
