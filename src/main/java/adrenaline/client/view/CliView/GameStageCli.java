@@ -7,6 +7,8 @@ import adrenaline.client.view.ViewInterface;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 public class GameStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
 
 
@@ -27,7 +29,9 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     @Override
     protected void initialStageCli() {
 
-        System.err.println("Successful!!!!");
+        printSrcFile("GameStareTitle.txt");
+
+
 
     }
 
@@ -50,13 +54,22 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     @Override
     public void notifyTimer(Integer duration) {
 
-        System.out.println("You still have "+duration+" Secondi");
+
 
     }
 
 
+
     @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
+
+        Runnable runnable = () -> System.out.println("                                                 ||CHAT >>>"
+                            +ansi().eraseScreen().fg(trasnferColorToAnsiColor(senderColor)).a(nickname)
+                            +": "+message);
+
+        Thread changeThread = new Thread(runnable);
+        changeThread.start();
+
 
     }
 
@@ -66,6 +79,8 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
 
     }
+
+
 
 
 }

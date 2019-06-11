@@ -10,7 +10,6 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
     private String name;
-    private int time;
 
 
     public InitialStageCli() {
@@ -97,8 +96,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
         Runnable runnable = () -> {
             printGameInfo();
-            ViewInterface viewInterface =  new SelectionStageCli(gameController);
-            viewInterface.notifyTimer(time);
+            new SelectionStageCli(gameController);
         };
 
         Thread changeThread = new Thread(runnable);
@@ -112,12 +110,12 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     }
 
     @Override
-    public void notifyTimer(Integer duration) {
-        time = duration;
+    public void notifyTimer(Integer duration){
     }
 
     @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
+
 
     }
 

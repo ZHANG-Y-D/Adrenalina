@@ -86,31 +86,35 @@ public abstract class ControllerCli{
         System.out.println("\nThese players are in the lobby:");
         for (Map.Entry<String, Color> players : gameController.getPlayersNicknames().entrySet()) {
 
-            Color color = players.getValue();
+            Ansi.Color ansiColor = trasnferColorToAnsiColor(players.getValue());
 
+            System.out.println(ansi().eraseScreen().bold().fg(ansiColor).a(num+"."+players.getKey()));
 
-            switch (color) {
-                case YELLOW:
-                    System.out.println(ansi().eraseScreen().bold().fg(Ansi.Color.YELLOW).a(num+"."+players.getKey()));
-                    break;
-                case BLUE:
-                    System.out.println(ansi().eraseScreen().bold().fg(Ansi.Color.BLUE).a(num+"."+players.getKey()));
-                    break;
-                case PURPLE:
-                    System.out.println(ansi().eraseScreen().bold().fg(Ansi.Color.MAGENTA).a(num+"."+players.getKey()));
-                    break;
-                case GRAY:
-                    System.out.println(ansi().eraseScreen().bold().fg(Ansi.Color.WHITE).a(num+"."+players.getKey()));
-                    break;
-                case GREEN:
-                    System.out.println(ansi().eraseScreen().bold().fg(Ansi.Color.GREEN).a(num+"."+players.getKey()));
-                    break;
-                default:
-                    System.out.println(ansi().eraseScreen().bold().fgDefault().a(num+"."+players.getKey()));
-                    break;
-            }
             num++;
         }
+    }
+
+    protected Ansi.Color trasnferColorToAnsiColor(Color value) {
+
+        switch (value) {
+            case YELLOW:
+                return Ansi.Color.YELLOW;
+            case BLUE:
+                return Ansi.Color.BLUE;
+            case PURPLE:
+                return Ansi.Color.MAGENTA;
+            case GRAY:
+                return Ansi.Color.WHITE;
+            case GREEN:
+                return Ansi.Color.GREEN;
+            case RED:
+                return Ansi.Color.RED;
+            case WHITE:
+                return Ansi.Color.BLACK;
+            default:
+                return Ansi.Color.DEFAULT;
+        }
+
     }
 
     protected void printMapInfo() {

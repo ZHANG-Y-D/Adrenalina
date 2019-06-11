@@ -16,7 +16,7 @@ public class slectionStageCliTest {
     @Test
     void mapFilePrintTest(){
 
-        printSrcFile("MapSelection.txt");
+        printSrcFile("GameStareTitle.txt");
 
     }
 
