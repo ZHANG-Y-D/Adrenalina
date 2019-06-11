@@ -5,6 +5,8 @@ import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
+import java.sql.Time;
+
 public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
@@ -100,6 +102,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
             new SelectionStageCli(gameController);
 
+
         };
 
         Thread changeThread = new Thread(runnable);
@@ -114,6 +117,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     @Override
     public void notifyTimer(Integer duration, String comment) {
+
 
     }
 

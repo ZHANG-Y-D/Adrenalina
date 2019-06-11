@@ -6,10 +6,14 @@ import adrenaline.client.view.ViewInterface;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class SelectionStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
 
+
+    private AtomicInteger turnNumber = new AtomicInteger(0);
+    Thread mainThread;
 
 
     public SelectionStageCli(GameController gameController) {
@@ -27,21 +31,32 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     @Override
     protected void initialStageCli() {
 
+        turnNumber.set(getPlayerTurnNumber());
         printPlayerInfo();
         printSrcFile("Avatar.txt");
+        if (turnNumber.get()!=1)
+            System.out.println("Wait for your turn...");
 
 
-        do {
-            returnValueIsOk.set(0);
-            selectAvatar();
-        }while (!listenerReturnValueIsOK());
+        Runnable runnable = () -> {
+            while (true) {
+                if (turnNumber.get()==1) {
+                    do {
+                        returnValueIsOk.set(0);
+                        selectAvatar();
+                    } while (!listenerReturnValueIsOK());
+                    break;
+                }
+            }
 
+            printPlayerInfo();
 
-        printPlayerInfo();
+            selectMapAndSkulls();
 
-        selectMapAndSkulls();
-
-        System.out.println("Wait for Game Start...");
+            System.out.println("Wait for Game Start...");
+        };
+        mainThread = new Thread(runnable);
+        mainThread.start();
 
     }
 
@@ -140,6 +155,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
         Runnable runnable = () -> {
 
+            mainThread.interrupt();
             gameController.removePropertyChangeListener(this);
             new GameStageCli(gameController);
 
@@ -158,24 +174,30 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
 
     @Override
-    public void notifyTimer(Integer duration, String comment) {
-
-        System.out.println(comment);
+    public  void notifyTimer(Integer duration, String comment) {
 
     }
 
 
     @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
-        //called when server notifies client of a new message in chat
+
     }
 
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public synchronized void propertyChange(PropertyChangeEvent evt) {
 
-        if(evt.getPropertyName().equals("map"))
-            changeStage();
+        Runnable runnable = () -> {
+
+            if(evt.getPropertyName().equals("map"))
+                changeStage();
+            else if (evt.getPropertyName().equals("nicknamesColor"))
+                turnNumber.getAndDecrement();
+        };
+
+        Thread changeThread = new Thread(runnable);
+        changeThread.start();
 
     }
 }
