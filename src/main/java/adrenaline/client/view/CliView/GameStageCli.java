@@ -52,7 +52,7 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
 
     @Override
-    public void notifyTimer(Integer duration) {
+    public void notifyTimer(Integer duration, String comment) {
 
 
 

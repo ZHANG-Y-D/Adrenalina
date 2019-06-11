@@ -28,8 +28,8 @@ public class RMIClientCommands extends UnicastRemoteObject implements ClientAPI{
         gameController.setPlayerColor(nickname, color);
     }
 
-    public void timerStarted(Integer duration) {
-        gameController.timerStarted(duration);
+    public void timerStarted(Integer duration, String comment) {
+        gameController.timerStarted(duration, comment);
     }
 
     public void update(UpdateMessage updatemsg) {

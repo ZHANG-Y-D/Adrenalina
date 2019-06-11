@@ -160,7 +160,7 @@ public class Lobby implements Runnable, LobbyAPI {
                 scheduledTimeout = turnTimer.schedule(new AvatarTimer(avatarSelectionState), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
                 clientMap.values().forEach(x -> {
                     try {
-                        x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
+                        x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn to select.");
                     } catch (RemoteException e) {
                     }
                 });
@@ -290,7 +290,7 @@ public class Lobby implements Runnable, LobbyAPI {
         scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
         clientMap.values().forEach(x -> {
             try {
-                x.timerStarted(TURN_TIMEOUT_IN_SECONDS);
+                x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn.");
             } catch (RemoteException e) { }
         });
     }
@@ -317,7 +317,7 @@ public class Lobby implements Runnable, LobbyAPI {
         MapSelectionState mapSelectionState = new MapSelectionState(this, new ArrayList<>(clientMap.keySet()));
         currentState = mapSelectionState;
         clientMap.values().forEach(x -> {
-            try { x.timerStarted(mapSelectionState.getTimeoutDuration());
+            try { x.timerStarted(mapSelectionState.getTimeoutDuration(), "Vote match settings.");
             } catch (RemoteException e) { }
         });
         int votes[] = mapSelectionState.startTimer();

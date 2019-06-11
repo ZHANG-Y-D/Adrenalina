@@ -131,7 +131,7 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         });
     }
 
-    public void notifyTimer(Integer duration) {
+    public void notifyTimer(Integer duration, String comment) {
         if (timer == null) timer = new Timer();
         else {
             timer.cancel();

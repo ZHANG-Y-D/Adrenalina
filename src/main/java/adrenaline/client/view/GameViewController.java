@@ -2,13 +2,11 @@ package adrenaline.client.view;
 
 import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
-import adrenaline.client.model.Player;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -157,7 +155,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     }
 
-    public void notifyTimer(Integer duration) {
+    public void notifyTimer(Integer duration, String comment) {
 
     }
 
