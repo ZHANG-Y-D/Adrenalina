@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.*;
 
 public class ClientSocketWrapper implements Client {
@@ -109,8 +108,8 @@ public class ClientSocketWrapper implements Client {
         sendMessage("setPlayerColor;ARGSIZE=2;java.lang.String;"+gson.toJson(nickname)+";adrenaline.Color;"+gson.toJson(color));
     }
 
-    public void timerStarted(Integer duration) {
-        sendMessage("timerStarted;ARGSIZE=1;java.lang.Integer;"+gson.toJson(duration));
+    public void timerStarted(Integer duration, String comment) {
+        sendMessage("timerStarted;ARGSIZE=2;java.lang.Integer;"+gson.toJson(duration)+";java.lang.String;"+gson.toJson(comment));
     }
 
     public void update(UpdateMessage updatemsg) {

@@ -113,8 +113,8 @@ public class GameController {
         scoreBoard = newScoreBoard;
     }
 
-    public void timerStarted(Integer duration) {
-        view.notifyTimer(duration);
+    public void timerStarted(Integer duration, String comment) {
+        view.notifyTimer(duration, comment);
     }
 
     public void sendSettings(int selectedMap, int selectedSkull) {

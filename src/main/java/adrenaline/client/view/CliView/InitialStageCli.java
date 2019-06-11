@@ -98,7 +98,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         Runnable runnable = () -> {
             printGameInfo();
             ViewInterface viewInterface =  new SelectionStageCli(gameController);
-            viewInterface.notifyTimer(time);
+            viewInterface.notifyTimer(time, );
         };
 
         Thread changeThread = new Thread(runnable);
@@ -112,7 +112,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     }
 
     @Override
-    public void notifyTimer(Integer duration) {
+    public void notifyTimer(Integer duration, String comment) {
         time = duration;
     }
 
