@@ -94,6 +94,21 @@ public abstract class ControllerCli{
         }
     }
 
+    protected int getPlayerTurnNumber(){
+
+        int num=1;
+
+        for (Map.Entry<String, Color> players : gameController.getPlayersNicknames().entrySet()) {
+
+            if (players.getKey().equals(gameController.getOwnNickname()))
+                break;
+
+            num++;
+        }
+        return num;
+
+    }
+
     protected Ansi.Color trasnferColorToAnsiColor(Color value) {
 
         switch (value) {

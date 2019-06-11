@@ -13,13 +13,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class InitialStageCliTest {
 
-    //to delete because test must be automatic
-    /*@Test
-    void InitialTest() {
 
-        InitialStageCli initialCli = new InitialStageCli();
-        initialCli.initialStageCli();
-    }*/
 
     @Test
     void ColorPrintTest() {
