@@ -147,6 +147,7 @@ public class Lobby implements Runnable, LobbyAPI {
         //TODO handles the game flow
     }
 
+
     private synchronized void avatarSelection(){
         try{
             Gson gson = new Gson();

@@ -1,0 +1,5 @@
+
+@|blue █ █ █ |@     @|blue █ █ █ |@@|green █|@    @|red █ |@@|blue █ █ |@@|green █|@    @|red █ |@@|blue █ █ |@
+@|red █ █ █ |@@|yellow █|@    @|red █ █ |@@|yellow █ █|@    @|red █ |@@|magenta █ |@@|yellow █ |@@|yellow █|@    @|red █ |@@|magenta █ █ |@@|yellow █|@
+  @|black █ █ |@@|yellow █|@      @|black █ |@@|yellow █ █|@    @|black █ |@@|black █ |@@|yellow █ █ |@   @|black █ |@@|black █ █ |@@|yellow █|@
+ No.1        No.2       No.3       No.4

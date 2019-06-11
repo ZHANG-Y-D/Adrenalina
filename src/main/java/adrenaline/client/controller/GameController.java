@@ -59,7 +59,6 @@ public class GameController {
         }
     }
 
-
     public void setNickname(String nickname){ connectionHandler.setNickname(nickname);}
 
     public void initPlayersNicknames(ArrayList<String> nicknames){
@@ -75,7 +74,6 @@ public class GameController {
     public void cleanExit(){
         if(connectionHandler != null) connectionHandler.unregister();
     }
-
 
     public void handleReturn(String returnMsg){
         if(!returnMsg.equals("OK")) view.showError(returnMsg);

@@ -6,9 +6,11 @@ import adrenaline.client.view.ViewInterface;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Scanner;
 
 public class GameStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
+
+
+
 
 
     public GameStageCli(GameController gameController) {
@@ -25,6 +27,7 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     @Override
     protected void initialStageCli() {
 
+        System.err.println("Successful!!!!");
 
     }
 
