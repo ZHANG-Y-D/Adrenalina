@@ -80,30 +80,19 @@
 }
 .YELLOW{
     -fx-text-fill: #ffe11d;
-    -fx-font-family: "Helvetica";
-    -fx-font-weight: bold;
 }
 .GREEN{
     -fx-text-fill: #00e600;
-    -fx-font-family: "Helvetica";
-    -fx-font-weight: bold;
 }
 .BLUE{
     -fx-text-fill: #48b7ba;
-    -fx-font-family: "Helvetica";
-    -fx-font-weight: bold;
 }
 .PURPLE{
     -fx-text-fill: #bb00bb;
-    -fx-font-family: "Helvetica";
-    -fx-font-weight: bold;
 }
 .GRAY{
     -fx-text-fill: #9c9c9c;
-    -fx-font-family: "Helvetica";
-    -fx-font-weight: bold;
 }
 .WHITE{
     -fx-text-fill: white;
-    -fx-font-family: "Helvetica";
 }

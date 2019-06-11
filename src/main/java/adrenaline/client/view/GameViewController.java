@@ -8,18 +8,15 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -36,7 +33,7 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer;
+    private Pane pane, ownPlayer, pane0;
     @FXML
     private Button  run, shoot, grab, reload, back;
     @FXML
@@ -58,6 +55,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private ArrayList<ImageView> redWeaponsList, blueWeaponsList, yellowWeaponsList;
     private GameController gameController;
     private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>();
+    private final int columns = 4;
+    private final int rows = 3;
 
     public void initialize(){
         powerupTriangle.getStyleClass().add("triangle");
@@ -125,11 +124,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(320);
                     newPane.getChildren().add(imageView);
-                    Label nickname = new Label(y.toUpperCase());
-                    nickname.setAlignment(Pos.TOP_RIGHT);
-                    nickname.prefWidth(260);
+                    Label nickname = new Label(y);
+                    Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 16);
+                    nickname.setFont(font);
+                    nickname.minWidth(260);
+                    nickname.maxWidth(260);
                     nickname.setLayoutY(5);
                     nickname.getStyleClass().add(x.toString());
+                    nickname.setAlignment(Pos.TOP_RIGHT);
                     newPane.getChildren().add(nickname);
                     enemyPlayers.getChildren().add(newPane);
                     playersColorMap.put(x, newPane);
@@ -167,6 +169,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             fullMessage.setLayoutX(2);
             Label senderName = new Label(nickname.toUpperCase()+": ");
             senderName.getStyleClass().add(senderColor.toString());
+            senderName.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
             Label sentMessage = new Label(message);
             sentMessage.setTextFill(Color.WHITE);
             fullMessage.getChildren().add(senderName);
@@ -184,6 +187,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 break;
             case "player":
                 System.out.println("ENTRATO IN PLAYER");
+                updatePlayer((Player)evt.getNewValue());
                 break;
             case "scoreboard":
                 System.out.println("ENTRATO IN SCOREBOARD");
@@ -194,6 +198,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void test(){
         gameController.updateMap(new Map());
+        gameController.updatePlayer(new Player());
     }
 
     public void selectAction(Event evt){
@@ -265,5 +270,30 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     public void hideTriangles(){
         powerupTriangle.setVisible(false);
         weaponTriangle.setVisible(false);
+    }
+
+    public void updatePlayer(Player newPlayer){
+        ImageView player = new ImageView();
+        String newUrl = "/"+newPlayer.getColor().toString() +"-TOKEN.png";
+        player.setImage(new Image(getClass().getResourceAsStream(newUrl)));
+        player.setFitWidth(45);
+        player.setFitHeight(45);
+        player.setLayoutX(10);
+        pane0.getChildren().add(player);
+        //provvisorio
+        ImageView player2 = new ImageView();
+        newUrl = "/"+adrenaline.Color.YELLOW.toString() +"-TOKEN.png";
+        player2.setImage(new Image(getClass().getResourceAsStream(newUrl)));
+        player2.setFitWidth(45);
+        player2.setFitHeight(45);
+        ImageView player3 = new ImageView();
+        newUrl = "/"+adrenaline.Color.PURPLE.toString() +"-TOKEN.png";
+        player3.setImage(new Image(getClass().getResourceAsStream(newUrl)));
+        player3.setFitWidth(45);
+        player3.setFitHeight(45);
+        player2.setLayoutX(55);
+        player3.setLayoutX(100);
+        pane0.getChildren().add(player2);
+        pane0.getChildren().add(player3);
     }
 }

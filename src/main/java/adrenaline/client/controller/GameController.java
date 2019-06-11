@@ -84,7 +84,10 @@ public class GameController {
     public void changeStage(){ view.changeStage(); }
 
     public void updatePlayer(Player newPlayer){
-        playersMap.put(newPlayer.getColor(), newPlayer);
+        //playersMap.put(newPlayer.getColor(), newPlayer);
+        Player oldPlayer = new Player();
+        oldPlayer.setPlayer();
+        changes.firePropertyChange("player", oldPlayer,newPlayer);
     }
 
     public void updateMap(Map newMap){

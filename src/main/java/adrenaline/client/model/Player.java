@@ -25,7 +25,19 @@ public class Player implements Serializable {
         this.powerupCards = powerupCards;
     }
 
+    public Player(){
+        color = Color.BLUE;
+        position = 0;
+    }
+
+    public void setPlayer(){
+        color = Color.BLUE;
+        position = 3;
+    }
+
     public Color getColor() {
         return color;
     }
+
+    public int getPosition() { return position; }
 }

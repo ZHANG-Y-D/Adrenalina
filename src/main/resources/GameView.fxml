@@ -14,18 +14,18 @@
     <children>
         <GridPane fx:id="map" gridLinesVisible="true" layoutX="170" layoutY="125" prefHeight="444" prefWidth="580.0">
             <children>
-                <Pane fx:id="pane1" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <Pane fx:id="pane2" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <Pane fx:id="pane3" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                <Pane fx:id="pane4" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                <Pane fx:id="pane5" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <Pane fx:id="pane6" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Pane fx:id="pane7" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <Pane fx:id="pane8" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <Pane fx:id="pane9" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <Pane fx:id="pane10" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Pane fx:id="pane11" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <Pane fx:id="pane12" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                <Pane fx:id="pane0" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Pane fx:id="pane1" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Pane fx:id="pane2" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <Pane fx:id="pane3" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                <Pane fx:id="pane4" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Pane fx:id="pane5" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Pane fx:id="pane6" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Pane fx:id="pane7" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <Pane fx:id="pane8" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Pane fx:id="pane9" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Pane fx:id="pane10" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Pane fx:id="pane11" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             </children>
         </GridPane>
         <VBox fx:id="redWeapons" layoutX="10" layoutY="170">
