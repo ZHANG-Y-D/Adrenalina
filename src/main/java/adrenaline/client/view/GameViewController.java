@@ -9,6 +9,9 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -159,7 +162,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     }
 
-    public void notifyTimer(Integer duration) {
+    public void notifyTimer(Integer duration, String comment) {
 
     }
 

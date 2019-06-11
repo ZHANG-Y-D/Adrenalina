@@ -18,8 +18,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
-
 
 public class InitialViewController implements ViewInterface {
 
@@ -54,7 +52,7 @@ public class InitialViewController implements ViewInterface {
         this.gameController = gameController;
     }
 
-    public void notifyTimer(Integer duration) {
+    public void notifyTimer(Integer duration, String comment) {
         time = duration;
     }
 
@@ -138,7 +136,7 @@ public class InitialViewController implements ViewInterface {
                 ViewInterface viewController = loader.getController();
                 viewController.setGameController(gameController);
                 gameController.setViewController(viewController);
-                viewController.notifyTimer(time);
+                viewController.notifyTimer(time, "  ");  //TODO
                 Stage stage = (Stage) initPane.getScene().getWindow();
                 stage.setWidth(1280);
                 stage.setHeight(768);

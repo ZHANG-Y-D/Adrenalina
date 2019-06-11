@@ -3,21 +3,13 @@ package adrenaline.client.view.CliView;
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
-import org.fusesource.jansi.Ansi;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Map;
-
-import static java.lang.Thread.sleep;
-import static org.fusesource.jansi.Ansi.ansi;
 
 
 public class SelectionStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
 
-
-
-    private volatile boolean selectAvatarFinished = false;
 
 
     public SelectionStageCli(GameController gameController) {
@@ -30,6 +22,8 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     }
 
+
+
     @Override
     protected void initialStageCli() {
 
@@ -38,10 +32,10 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
 
         do {
-            if (selectAvatarFinished)
-                break;
+            returnValueIsOk.set(0);
             selectAvatar();
-        }while (listenerReturnValueIsOK());
+        }while (!listenerReturnValueIsOK());
+
 
         printPlayerInfo();
 
@@ -56,7 +50,8 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
         int mapNum;
         int skulls;
 
-        printSrcFile("Map.txt");
+
+        printSrcFile("MapSelection.txt");
         System.out.println("Which map do you want to play?");
 
         mapNum = readANumber();
@@ -76,6 +71,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
         gameController.sendSettings(mapNum,skulls);
 
     }
+
 
 
     private void selectAvatar() {
@@ -114,61 +110,43 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     }
 
 
-
-    private void printPlayerInfo() {
-
-        int num=1;
-
-        System.out.println("\nThese players are in the lobby:");
-        for (Map.Entry<String, Color> players : gameController.getPlayersNicknames().entrySet()) {
-
-            Color color = players.getValue();
-
-
-            switch (color) {
-                case YELLOW:
-                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(num+"."+players.getKey()));
-                    break;
-                case BLUE:
-                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.BLUE).a(num+"."+players.getKey()));
-                    break;
-                case PURPLE:
-                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.MAGENTA).a(num+"."+players.getKey()));
-                    break;
-                case GRAY:
-                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.WHITE).a(num+"."+players.getKey()));
-                    break;
-                case GREEN:
-                    System.out.println(ansi().eraseScreen().fg(Ansi.Color.GREEN).a(num+"."+players.getKey()));
-                    break;
-                default:
-                    System.out.println(ansi().eraseScreen().fgDefault().a(num+"."+players.getKey()));
-                    break;
-            }
-            num++;
-        }
-    }
-
-
     @Override
     public void showError(String error) {
 
-        if (!error.equals("/OK")) {
-            System.err.println(error);
-            returnValueIsOk.set(2);
-        }
-        else{
-            returnValueIsOk.set(1);
-        }
+        Runnable runnable = () -> {
+
+            if (error.equals("/OK") || error.equals("KO"))
+                returnValueIsOk.set(1);
+            else {
+                if (!gameController.getPlayersNicknames().get(gameController.getOwnNickname()).equals(Color.WHITE))
+                    returnValueIsOk.set(1);
+                else {
+                    System.err.println(error);
+                    returnValueIsOk.set(2);
+                }
+            }
+        };
+
+        Thread changeThread = new Thread(runnable);
+        changeThread.start();
 
     }
 
 
+
     @Override
-    public void changeStage() {
+    public synchronized void changeStage() {
 
 
-        new GameStageCli(gameController);
+        Runnable runnable = () -> {
+
+            gameController.removePropertyChangeListener(this);
+            new GameStageCli(gameController);
+
+        };
+
+        Thread changeThread = new Thread(runnable);
+        changeThread.start();
 
     }
 
@@ -180,20 +158,11 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
 
     @Override
-    public void notifyTimer(Integer duration) {
+    public void notifyTimer(Integer duration, String comment) {
 
-        System.out.println("You still have "+duration+" Secondi");
-
-        //TODO for Timer
-        try {
-            sleep(duration);
-        }catch (InterruptedException e){
-            selectAvatarFinished = true;
-        }
-        selectAvatarFinished = true;
+        System.out.println(comment);
 
     }
-
 
 
     @Override

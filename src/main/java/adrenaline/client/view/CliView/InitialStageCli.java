@@ -9,6 +9,9 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
 
+    private String name;
+
+
     public InitialStageCli() {
         gameController = new GameController();
         gameController.setViewController(this);
@@ -16,6 +19,16 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         initialStageCli();
     }
 
+
+
+    /**
+     *
+     * This method for initial this stage
+     *
+     *
+     *
+     *
+     */
 
     @Override
     protected void initialStageCli(){
@@ -45,26 +58,35 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     }
 
 
+
     private void printGameInfo() {
 
         System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
         System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
 
-    }
 
+    }
 
 
     @Override
     public void showError(String error) {
 
+        Runnable runnable = () -> {
+            if (!error.equals("/OK")) {
+                System.err.println(error);
+                returnValueIsOk.set(2);
+            }
+            else {
+                System.out.println("Your nikename is "+name);
+                gameController.setOwnNickname(name);
+                returnValueIsOk.set(1);
+            }
+        };
 
-        if (!error.equals("/OK")) {
-            System.err.println(error);
-            returnValueIsOk.set(2);
-        }
-        else{
-            returnValueIsOk.set(1);
-        }
+        Thread changeThread = new Thread(runnable);
+        changeThread.start();
+
+
 
     }
 
@@ -72,11 +94,18 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     @Override
     public void changeStage() {
 
-        printGameInfo();
-        new SelectionStageCli(gameController);
+        Runnable runnable = () -> {
+
+            printGameInfo();
+
+            new SelectionStageCli(gameController);
+
+        };
+
+        Thread changeThread = new Thread(runnable);
+        changeThread.start();
 
     }
-
 
     @Override
     public void setGameController(GameController gameController) {
@@ -84,12 +113,13 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     }
 
     @Override
-    public void notifyTimer(Integer duration) {
+    public void notifyTimer(Integer duration, String comment) {
 
     }
 
     @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
+
 
     }
 
@@ -97,6 +127,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     private int chooseConnectingType(){
 
         String  input;
+
         input = readAString();
 
         if (input.equalsIgnoreCase("socket") || input.equalsIgnoreCase("s"))
@@ -136,6 +167,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         returnValueIsOk.set(0);
         System.out.println("\nPlease insert your Nickname");
         String input = readAString();
+        name = input;
         gameController.setNickname(input);
 
     }

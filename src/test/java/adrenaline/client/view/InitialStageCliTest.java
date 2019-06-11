@@ -55,7 +55,7 @@ public class InitialStageCliTest {
     }
 
     @Test
-    void jansiTest() {
+    void jansiTest(){
 
         AnsiConsole.systemInstall();
         System.out.println(ansi().eraseScreen().fg(Ansi.Color.RED).a("Hello").fg(Ansi.Color.GREEN).a(" World").reset());
@@ -63,6 +63,7 @@ public class InitialStageCliTest {
 
         String string="ASDFGH";
         System.out.println(ansi().eraseScreen().fg(Ansi.Color.WHITE).a(string));
+
     }
 
 
