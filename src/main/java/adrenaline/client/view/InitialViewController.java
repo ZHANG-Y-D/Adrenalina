@@ -136,7 +136,7 @@ public class InitialViewController implements ViewInterface {
                 ViewInterface viewController = loader.getController();
                 viewController.setGameController(gameController);
                 gameController.setViewController(viewController);
-                viewController.notifyTimer(time, );
+                viewController.notifyTimer(time, "  ");  //TODO
                 Stage stage = (Stage) initPane.getScene().getWindow();
                 stage.setWidth(1280);
                 stage.setHeight(768);

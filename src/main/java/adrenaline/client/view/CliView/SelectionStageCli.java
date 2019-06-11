@@ -159,7 +159,9 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     @Override
     public void notifyTimer(Integer duration, String comment) {
-        //For the console screen clean,Do not print time at Cli
+
+        System.out.println(comment);
+
     }
 
 
