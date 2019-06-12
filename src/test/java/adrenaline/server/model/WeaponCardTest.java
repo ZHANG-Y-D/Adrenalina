@@ -2,6 +2,7 @@ package adrenaline.server.model;
 
 import adrenaline.Color;
 import adrenaline.CustomSerializer;
+import adrenaline.server.controller.states.FiremodeSubState;
 import adrenaline.server.model.constraints.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,7 +22,9 @@ class WeaponCardTest {
 
             GsonBuilder gsonBld = new GsonBuilder();
             gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomSerializer())
-                    .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer());
+                    .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer())
+                    .registerTypeAdapter(FiremodeSubState.class, new CustomSerializer())
+                    .registerTypeAdapter(TargetsGenerator.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             WeaponCard jsonWeapon = gson.fromJson(fileReader, WeaponCard.class);
 

@@ -386,6 +386,17 @@ public class Lobby implements Runnable, LobbyAPI {
         if(playersColor.get(playerColor).getPosition()!= squareIndex) playersColor.get(playerColor).setPosition(squareIndex);
     }
 
+    public ArrayList<Player> tryMovePlayers(ArrayList<Color> colors, int squareIndex, int moveRange){
+        Set<Player> players = new HashSet<>();
+        colors.forEach(x -> players.add(playersColor.get(x)));
+        ArrayList<Integer> intersectValidSquares = new ArrayList<>(map.getMaxSquare()+1);
+        for(int i=0; i<=map.getMaxSquare(); i++) intersectValidSquares.add(i);
+        players.stream().map(x -> map.getValidSquares(x.getPosition(), moveRange)).forEach(intersectValidSquares::retainAll);
+        if(!intersectValidSquares.contains(squareIndex)) return null;
+        else players.forEach(x -> x.setPosition(squareIndex));
+        return new ArrayList<>(players);
+    }
+
     private void setMapCards(){
         if(map!=null) {
             for (int i = 0; i <= map.getMaxSquare(); i++) {
@@ -506,6 +517,7 @@ public class Lobby implements Runnable, LobbyAPI {
     public ArrayList<Player> generateTargets(TargetsGenerator generator, ArrayList<Color> selected){
         Set<Player> targets = new LinkedHashSet<>();
         selected.forEach(x -> targets.add(playersColor.get(x)));
+        if(generator==null) return new ArrayList<>(targets);
         ArrayList<Integer> validSqr = new ArrayList<>();
         for(int i=0; i<=map.getMaxSquare(); i++) validSqr.add(i);
         targets.forEach(x -> validSqr.retainAll(generator.generateRange(playersMap.get(currentTurnPlayer).getPosition(), x.getPosition(),map)));

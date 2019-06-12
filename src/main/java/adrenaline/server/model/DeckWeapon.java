@@ -25,7 +25,7 @@ public class DeckWeapon extends Deck<WeaponCard>{
 
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/WeaponCard.json");
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/WeaponCards.json");
 
             WeaponCard[] weaponCards = gson.fromJson(fileReader,WeaponCard[].class);
 

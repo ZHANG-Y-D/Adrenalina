@@ -35,22 +35,22 @@ public class MoveSelfState implements FiremodeSubState {
 
     @Override
     public String runAction() {
-        return null;
+        return "Select the square you want to move in";
     }
 
     @Override
     public String grabAction() {
-        return null;
+        return "Select the square you want to move in";
     }
 
     @Override
     public String shootAction() {
-        return null;
+        return "Select the square you want to move in";
     }
 
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
-        return null;
+        return "Select the square you want to move in";
     }
 
     @Override
@@ -70,17 +70,17 @@ public class MoveSelfState implements FiremodeSubState {
 
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
-        return null;
+        return "Select the square you want to move in";
     }
 
     @Override
     public String selectWeapon(int weaponID) {
-        return null;
+        return "Select the square you want to move in";
     }
 
     @Override
     public String selectFiremode(int firemode) {
-        return null;
+        return "Select the square you want to move in";
     }
 
     @Override
@@ -90,7 +90,7 @@ public class MoveSelfState implements FiremodeSubState {
 
     @Override
     public String endOfTurnAction() {
-        return null;
+        return "Select the square you want to move in";
     }
 
     @Override
@@ -102,11 +102,11 @@ public class MoveSelfState implements FiremodeSubState {
 
     @Override
     public String selectAvatar(Color color) {
-        return null;
+        return "KO";
     }
 
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
-        return null;
+        return "KO";
     }
 }

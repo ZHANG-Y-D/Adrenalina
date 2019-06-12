@@ -15,11 +15,11 @@ import java.util.ArrayList;
 
 public class FirePlayerState implements FiremodeSubState {
 
-    private Lobby lobby;
-    private Firemode thisFiremode;
-    private boolean actionExecuted;
+    private Lobby lobby = null;
+    private Firemode thisFiremode = null;
+    private boolean actionExecuted = false;
 
-    private TargetsGenerator targetsGenerator;
+    private TargetsGenerator targetsGenerator = null;
     private int targetsLimit;
     private int pushRange;
     private ArrayList<int[]> dmgmrkEachTarget;
@@ -48,7 +48,7 @@ public class FirePlayerState implements FiremodeSubState {
         ArrayList<Player> targets = lobby.generateTargets(targetsGenerator, playersColor);
         try {
             lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
-            selectedTarget = playersColor.get(1);
+            selectedTarget = playersColor.get(0);
             if(!actionExecuted){
                 lobby.incrementExecutedActions();
                 actionExecuted=true;
@@ -56,8 +56,11 @@ public class FirePlayerState implements FiremodeSubState {
         } catch (InvalidTargetsException e) { return "Invalid targets!"; }
         if(pushRange<1){
             FiremodeSubState nextStep = thisFiremode.getNextStep();
-            nextStep.setContext(lobby, thisFiremode, actionExecuted);
-            lobby.setState(nextStep);
+            if(nextStep==null) lobby.setState(new SelectActionState(lobby));
+            else{
+                nextStep.setContext(lobby, thisFiremode, actionExecuted);
+                lobby.setState(nextStep);
+            }
         }
         else{
             ArrayList<Color> selectedTargets = new ArrayList<>();
@@ -76,8 +79,11 @@ public class FirePlayerState implements FiremodeSubState {
         if(!targetValidSquares.contains(index)) return "You can't move your target there!";
         lobby.movePlayer(index, selectedTarget);
         FiremodeSubState nextStep = thisFiremode.getNextStep();
-        nextStep.setContext(lobby, thisFiremode, actionExecuted);
-        lobby.setState(nextStep);
+        if(nextStep==null) lobby.setState(new SelectActionState(lobby));
+        else{
+            nextStep.setContext(lobby, thisFiremode, actionExecuted);
+            lobby.setState(nextStep);
+        }
         return "OK";
     }
 
