@@ -6,27 +6,27 @@ import java.io.Serializable;
 
 public enum Color implements Serializable {
 
-    @SerializedName("red")
+    @SerializedName("RED")
     RED,
 
-    @SerializedName("blue")
+    @SerializedName("BLUE")
     BLUE,
 
-    @SerializedName("yellow")
+    @SerializedName("YELLOW")
     YELLOW,
 
-    @SerializedName("white")
+    @SerializedName("WHITE")
     WHITE,
 
-    @SerializedName("black")
+    @SerializedName("BLACK")
     BLACK,
 
-    @SerializedName("purple")
+    @SerializedName("PURPLE")
     PURPLE,
 
-    @SerializedName("green")
+    @SerializedName("GREEN")
     GREEN,
 
-    @SerializedName("gray")
+    @SerializedName("GRAY")
     GRAY
 }

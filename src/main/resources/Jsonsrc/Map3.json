@@ -4,26 +4,26 @@
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "red"
+          "color": "RED"
         }
       },
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "blue"
+          "color": "BLUE"
         }
       },
       {
         "type": "adrenaline.server.model.SquareSpawn",
         "properties": {
-          "color": "blue",
+          "color": "BLUE",
           "weaponCards": []
         }
       },
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "green"
+          "color": "GREEN"
         }
       }
     ],
@@ -31,26 +31,26 @@
       {
         "type": "adrenaline.server.model.SquareSpawn",
         "properties": {
-          "color": "red",
+          "color": "RED",
           "weaponCards": []
         }
       },
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "purple"
+          "color": "PURPLE"
         }
       },
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "yellow"
+          "color": "YELLOW"
         }
       },
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "yellow"
+          "color": "YELLOW"
         }
       }
     ],
@@ -58,25 +58,25 @@
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "white"
+          "color": "WHITE"
         }
       },
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "white"
+          "color": "WHITE"
         }
       },
       {
         "type": "adrenaline.server.model.SquareAmmo",
         "properties": {
-          "color": "yellow"
+          "color": "YELLOW"
         }
       },
       {
         "type": "adrenaline.server.model.SquareSpawn",
         "properties": {
-          "color": "yellow",
+          "color": "YELLOW",
           "weaponCards": []
         }
       }

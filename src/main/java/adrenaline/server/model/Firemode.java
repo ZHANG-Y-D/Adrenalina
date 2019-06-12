@@ -1,16 +1,13 @@
 package adrenaline.server.model;
 
 import adrenaline.server.controller.states.FiremodeSubState;
-import adrenaline.server.controller.states.GameState;
 import adrenaline.server.controller.states.MoveSelfState;
-import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.constraints.RangeConstraint;
 import adrenaline.server.model.constraints.TargetsConstraint;
 
 import java.util.*;
 
 public class Firemode {
-    private String name;
     private int[] extraCost;
     private ArrayList<RangeConstraint> rngConstraints;
     private ArrayList<TargetsConstraint> trgConstraints;
@@ -18,7 +15,6 @@ public class Firemode {
     private int allowedMovement;
 
     public Firemode(String name, int[] extraCost, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst){
-        this.name = name;
         this.extraCost = extraCost;
         this.rngConstraints = rngConst;
         this.trgConstraints = trgConst;
@@ -64,8 +60,7 @@ public class Firemode {
     @Override
     public String toString() {
         String string = "Firemode{" +
-                "name='" + name + '\'' +
-                ", extraCost=" + Arrays.toString(extraCost);
+                "extraCost=" + Arrays.toString(extraCost);
         string += "\n\t\tRange Constraints: ";
         for(RangeConstraint rngConst : rngConstraints){
             string += "\t\t"+ rngConst.getClass().getName() + " ";

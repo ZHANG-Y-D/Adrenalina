@@ -106,6 +106,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         HashMap<Integer,Integer> ammoMap = modelMap.getAmmoMap();
         ammoMap.forEach((x,y) -> {
             ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(0);
+            ammoImage.setOpacity(0.70);
             String imgUrl = y.toString() + ".png";
             ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-"+imgUrl)));
         });

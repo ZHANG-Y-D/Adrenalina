@@ -1,22 +1,22 @@
 [
   {
     "name": ":D-STRUCT-OR",
-    "color": "yellow"
+    "color": "YELLOW"
   },
   {
     "name": "BANSHEE",
-    "color": "blue"
+    "color": "BLUE"
   },
   {
     "name": "DOZER",
-    "color": "gray"
+    "color": "GRAY"
   },
   {
     "name": "VIOLET",
-    "color": "purple"
+    "color": "PURPLE"
   },
   {
     "name": "SPROG",
-    "color": "green"
+    "color": "GREEN"
   }
 ]
