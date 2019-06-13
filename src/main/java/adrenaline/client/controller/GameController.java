@@ -20,6 +20,7 @@ public class GameController {
 
     private LinkedHashMap<String, Color> playersNicknames = new LinkedHashMap<>();
     private String ownNickame;
+    private Color ownColor;
 
     private HashMap<Color, Player> playersMap = new HashMap<>();
     private ScoreBoard scoreBoard;
@@ -29,9 +30,23 @@ public class GameController {
     private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
 
-    public LinkedHashMap<String, Color> getPlayersNicknames(){ return playersNicknames; }
+    public LinkedHashMap<String, Color> getPlayersNicknames() { return playersNicknames; }
+
+    public HashMap<Color, Player> getPlayersMap() { return playersMap; }
 
     public Map getMap(){ return map; }
+
+    public ConnectionHandler getConnectionHandler() {
+        return connectionHandler;
+    }
+
+    public void setOwnNickname(String name) {
+        ownNickame = name;
+    }
+
+    public String getOwnNickname() { return ownNickame; }
+
+    public Color getOwnColor() { return  ownColor; }
 
     public void setViewController(ViewInterface viewController){
         this.view = viewController;
@@ -66,10 +81,14 @@ public class GameController {
     }
 
     public void setPlayerColor(String nickname, Color color){
+        if(nickname.equals(ownNickame)) ownColor = color;
+        playersMap.put(color, new Player());
         changes.firePropertyChange("nicknamesColor", playersNicknames, playersNicknames.put(nickname, color));
     }
 
     public void selectAvatar(Color color){ connectionHandler.selectAvatar(color); }
+
+    public void selectPowerUp(int powerupID){ connectionHandler.selectPowerUp(powerupID); }
 
     public void cleanExit(){
         if(connectionHandler != null) connectionHandler.unregister();
@@ -82,10 +101,11 @@ public class GameController {
     public void changeStage(){ view.changeStage(); }
 
     public void updatePlayer(Player newPlayer){
-        //playersMap.put(newPlayer.getColor(), newPlayer);
-        Player oldPlayer = new Player();
-        oldPlayer.setPlayer();
-        changes.firePropertyChange("player", oldPlayer,newPlayer);
+        HashMap<Color, Player> oldPlayersMap = playersMap;
+        HashMap<Color, Player> newPlayersMap = new HashMap<>(playersMap);
+        newPlayersMap.put(newPlayer.getColor(), newPlayer);
+        playersMap = newPlayersMap;
+        changes.firePropertyChange("player", oldPlayersMap, newPlayersMap);
     }
 
     public void updateMap(Map newMap){
@@ -124,13 +144,8 @@ public class GameController {
         connectionHandler.sendSettings(selectedMap, selectedSkull);
     }
 
-    public ConnectionHandler getConnectionHandler() {
-        return connectionHandler;
+    public void endTurn(){
+        connectionHandler.endTurn();
+        System.out.println("QUA");
     }
-
-    public void setOwnNickname(String name) {
-        ownNickame = name;
-    }
-
-    public String getOwnNickname(){ return ownNickame; }
 }

@@ -50,7 +50,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private ImageView ownPlayerLabel,red_ammo1,red_ammo2,red_ammo3,blue_ammo1,blue_ammo2,blue_ammo3,yellow_ammo1,yellow_ammo2,yellow_ammo3,
                      weapon_red1,weapon_red2, weapon_red3, weapon_blue1, weapon_blue2, weapon_blue3, weapon_yellow1, weapon_yellow2, weapon_yellow3,
-                     myWeapon;
+                     myWeapon,myPowerup;
+    @FXML
+    private Label error;
     @FXML
     private Polygon powerupTriangle,weaponTriangle;
     private Map modelMap;
@@ -58,6 +60,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private ArrayList<ImageView> redWeaponsList, blueWeaponsList, yellowWeaponsList;
     private GameController gameController;
     private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>();
+    private HashMap<adrenaline.Color, ImageView> tokensMap = new HashMap<>();
     private HashMap<Integer, Pane> mapPanes = new HashMap<>();
     private final int columns = 4;
     private final int rows = 3;
@@ -85,6 +88,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             for (ImageView img : y) img.getStyleClass().add("weapon");
         });
         myWeapon.getStyleClass().add("weapon");
+        myPowerup.getStyleClass().add("weapon");
 
         for(int i = 0; i <= 11; i++){
             mapPanes.put(i,(Pane) map.lookup("#pane"+i));
@@ -97,6 +101,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         this.gameController = gameController;
         gameController.addPropertyChangeListener(this);
         initializeHUD();
+        updatePlayer(gameController.getPlayersMap());
     }
 
     public void initializeHUD(){
@@ -106,7 +111,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         HashMap<Integer,Integer> ammoMap = modelMap.getAmmoMap();
         ammoMap.forEach((x,y) -> {
             ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(0);
-            ammoImage.setOpacity(0.70);
             String imgUrl = y.toString() + ".png";
             ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-"+imgUrl)));
         });
@@ -118,6 +122,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         enemyPlayers.getChildren().add(skullPane);
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
+        tokensMap.put(ownColor, new ImageView());
         String newImgUrl = "/HUD/"+ownColor.toString()+"-HUD.png";
         ownPlayerLabel.setImage(new Image(getClass().getResourceAsStream(newImgUrl)));
         String runPath = "url(/HUD/"+ownColor.toString()+"-RUN.png)";
@@ -133,6 +138,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         nicknamesMap.forEach((y,x) -> {
                 if(x.equals(ownColor)) playersColorMap.put(x, ownPlayer);
                 else{
+                    tokensMap.put(x, new ImageView());
                     Pane newPane = new Pane();
                     String newUrl = "/HUD/"+x.toString()+"-SCOREBOARD.png";
                     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(newUrl)));
@@ -167,7 +173,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void showError(String error) {
-
+        Platform.runLater(() -> {
+            this.error.setText(error);
+        });
     }
 
     public void changeStage() {
@@ -194,18 +202,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("ENTRATO");
         switch (evt.getPropertyName()){
             case "map":
-                System.out.println("ENTRATO IN MAP");
                 updateMap((Map)evt.getNewValue());
                 break;
             case "player":
-                System.out.println("ENTRATO IN PLAYER");
-                updatePlayer((Player)evt.getNewValue());
+                updatePlayer((HashMap<adrenaline.Color, Player>)evt.getNewValue());
                 break;
             case "scoreboard":
-                System.out.println("ENTRATO IN SCOREBOARD");
                 break;
 
         }
@@ -218,8 +222,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void selectAction(Event evt){
         Button button = (Button) evt.getSource();
-        System.out.println(button.getId());
-        test();
+        switch (button.getId()){
+            case "reload": gameController.endTurn(); break;
+        }
     }
 
     private void updateMap(Map newMap){
@@ -278,8 +283,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void showTriangles(){
-        weaponTriangle.setVisible(true);
-        powerupTriangle.setVisible(true);
+        if(gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards()!=null) powerupTriangle.setVisible(true);
+        if(gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards()!=null) weaponTriangle.setVisible(true);
     }
 
     public void hideTriangles(){
@@ -287,28 +292,43 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         weaponTriangle.setVisible(false);
     }
 
-    public void updatePlayer(Player newPlayer){
-        ImageView player = new ImageView();
-        String newUrl = "/"+newPlayer.getColor().toString() +"-TOKEN.png";
-        player.setImage(new Image(getClass().getResourceAsStream(newUrl)));
-        player.setFitWidth(45);
-        player.setFitHeight(45);
-        player.setLayoutX(10);
-        pane0.getChildren().add(player);
-        //provvisorio
-        ImageView player2 = new ImageView();
-        newUrl = "/"+adrenaline.Color.YELLOW.toString() +"-TOKEN.png";
-        player2.setImage(new Image(getClass().getResourceAsStream(newUrl)));
-        player2.setFitWidth(45);
-        player2.setFitHeight(45);
-        ImageView player3 = new ImageView();
-        newUrl = "/"+adrenaline.Color.PURPLE.toString() +"-TOKEN.png";
-        player3.setImage(new Image(getClass().getResourceAsStream(newUrl)));
-        player3.setFitWidth(45);
-        player3.setFitHeight(45);
-        player2.setLayoutX(55);
-        player3.setLayoutX(100);
-        pane0.getChildren().add(player2);
-        pane0.getChildren().add(player3);
+    public void updatePlayer(HashMap<adrenaline.Color, Player> newPlayersMap){
+        Platform.runLater(() ->{
+            //set own powerup
+            Player ownPlayer = newPlayersMap.get(gameController.getOwnColor());
+            if(ownPlayer.getPowerupCards() != null) {
+                String newImgUrl = "/Powerup/powerup-"+ownPlayer.getPowerupCards().get(0)+".png";
+                try {
+                    myPowerup.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+            else myPowerup.setImage(null);
+
+            //set player position
+            newPlayersMap.forEach((x,y) -> {
+                if(y.getPosition() != -1){
+                    ImageView token = tokensMap.get(x);
+                    if(token.getParent() == null) { //if is the first turn
+                        String tokenUrl = "/"+x.toString()+"-TOKEN.png";
+                        token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
+                        token.setFitHeight(45);
+                        token.setFitWidth(45);
+                        mapPanes.get(y.getPosition()).getChildren().add(token);
+                    }
+                    else{} //TODO transition
+                }
+            });
+        });
+
+    }
+
+    public void selectPowerUp(){
+        String powerupID = myPowerup.getImage().getUrl();
+        powerupID = new File(powerupID).getName();
+        powerupID = powerupID.substring(powerupID.indexOf('-') + 1, powerupID.indexOf('.'));
+        System.out.println(powerupID);
+        gameController.selectPowerUp(Integer.parseInt(powerupID));
     }
 }

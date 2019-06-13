@@ -16,62 +16,62 @@
             <children>
                 <Pane fx:id="pane0" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane1" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="0" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane2" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="0" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane3" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="0" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane4" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="1" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane5" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane6" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="1" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane7" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="1" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane8" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="2" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane9" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane10" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane11" onMouseClicked="#setDestination" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="2" >
                     <children>
-                        <ImageView fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
+                        <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
             </children>
@@ -161,10 +161,7 @@
                         <Image url="Weapons/weapon_6-TOP.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="myPowerup" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9">
-                    <image>
-                        <Image url="Powerup/powerup.png" />
-                    </image>
+                <ImageView fx:id="myPowerup" onMouseClicked="#selectPowerUp" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9">
                 </ImageView>
                 <Polygon fx:id="powerupTriangle" fill="WHITE" layoutX="109.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
                     <points>
@@ -194,6 +191,7 @@
             </content>
         </ScrollPane>
         <TextField fx:id="txtMsg" layoutX="990.0" layoutY="710.0" onAction="#sendMessage" prefHeight="30.0" prefWidth="280.0" promptText="Type your message" />
+        <Label fx:id="error" alignment="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="35" prefWidth="290.0" />
     </children>
     <stylesheets>
         <URL value="@GameView.css" />

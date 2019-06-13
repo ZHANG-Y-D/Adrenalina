@@ -107,13 +107,21 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(avatarMsg);
     }
 
+    public void selectPowerUp(int powerupID) {
+        String powerupMsg = "selectPowerUp;ARGSIZE=2;java.lang.String;";
+        powerupMsg += gson.toJson(clientID)+";";
+        powerupMsg += "java.lang.Integer;";
+        powerupMsg += gson.toJson(powerupID);
+        sendMessage(powerupMsg);
+    }
+
     public void sendSettings(int selectedMap, int selectedSkull) {
         String settingsMsg = "selectSettings;ARGSIZE=3;java.lang.String;";
         settingsMsg += gson.toJson(clientID) + ";";
         settingsMsg += "java.lang.Integer;";
         settingsMsg += gson.toJson(selectedMap) + ";";
         settingsMsg += "java.lang.Integer;";
-        settingsMsg += gson.toJson(selectedSkull) + ";";
+        settingsMsg += gson.toJson(selectedSkull);
         sendMessage(settingsMsg);
     }
 
@@ -121,8 +129,15 @@ public class SocketHandler implements ConnectionHandler {
         String chatMsg = "sendChatMessage;ARGSIZE=2;java.lang.String;";
         chatMsg += gson.toJson(clientID) + ";";
         chatMsg += "java.lang.String;";
-        chatMsg += gson.toJson(message) + ";";
+        chatMsg += gson.toJson(message);
         sendMessage(chatMsg);
+    }
+
+    @Override
+    public void endTurn() {
+        String endMsg = "endOfTurnAction;ARGSIZE=1;java.lang.String;";
+        endMsg += gson.toJson(clientID);
+        sendMessage(endMsg);
     }
 
     @Override
