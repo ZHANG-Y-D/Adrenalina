@@ -96,3 +96,6 @@
 .WHITE{
     -fx-text-fill: white;
 }
+.RED{
+    -fx-text-fill: #ff1d5c;
+}

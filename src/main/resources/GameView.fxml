@@ -192,7 +192,7 @@
             </content>
         </ScrollPane>
         <TextField fx:id="txtMsg" layoutX="990.0" layoutY="710.0" onAction="#sendMessage" prefHeight="30.0" prefWidth="280.0" promptText="Type your message" />
-        <Label fx:id="error" alignment="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="35" prefWidth="290.0" />
+        <Label fx:id="error" layoutX="992.0" layoutY="575.0" prefHeight="10" prefWidth="280.0" />
     </children>
     <stylesheets>
         <URL value="@GameView.css" />
