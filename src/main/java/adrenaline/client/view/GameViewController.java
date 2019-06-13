@@ -30,6 +30,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 import static javafx.scene.effect.BlurType.GAUSSIAN;
 
@@ -63,6 +64,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>();
     private HashMap<adrenaline.Color, ImageView> tokensMap = new HashMap<>();
     private HashMap<Integer, Pane> mapPanes = new HashMap<>();
+    private HashMap<Pane, ArrayList<Position>> positionMap = new HashMap<>();
     private final int columns = 4;
     private final int rows = 3;
 
@@ -324,13 +326,37 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                         token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
                         token.setFitHeight(45);
                         token.setFitWidth(45);
-                        mapPanes.get(y.getPosition()).getChildren().add(token);
+                        Pane pane =  mapPanes.get(y.getPosition());
+                        ArrayList list = new ArrayList();
+                        if(positionMap.get(pane) == null){
+                            token.setLayoutX(Position.CENTER.getX());
+                            token.setLayoutY(Position.CENTER.getY());
+                            list.add(Position.CENTER);
+                            positionMap.put(pane, list);
+                        }
+                        else{
+                            Position newPosition = getFreePosition(pane);
+                            token.setLayoutX(newPosition.getX());
+                            token.setLayoutY(newPosition.getY());
+                            list = positionMap.get(pane);
+                            list.add(newPosition);
+                            positionMap.put(pane, list);
+                        }
+                        mapPanes.get(pane.getChildren().add(token));
                     }
                     else{} //TODO transition
                 }
             });
         });
 
+    }
+
+    private Position getFreePosition(Pane pane){
+        ArrayList<Position> positionList = positionMap.get(pane);
+        ArrayList<Position> allPosition = new ArrayList<>(Arrays.asList(Position.TOP,Position.CENTER,Position.RIGHT,Position.LEFT,Position.DOWN));
+        allPosition.removeIf(positionList::contains);
+        Random rand = new Random();
+        return allPosition.get(rand.nextInt(allPosition.size()));
     }
 
     public void selectPowerUp(){
