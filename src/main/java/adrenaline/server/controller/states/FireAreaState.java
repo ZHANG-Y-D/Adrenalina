@@ -62,8 +62,11 @@ public class FireAreaState implements FiremodeSubState {
                 actionExecuted = true;
             }
             FiremodeSubState nextStep = thisFiremode.getNextStep();
-            nextStep.setContext(lobby, thisFiremode, actionExecuted);
-            lobby.setState(nextStep);
+            if(nextStep==null) lobby.setState(new SelectActionState(lobby));
+            else{
+                nextStep.setContext(lobby, thisFiremode, actionExecuted);
+                lobby.setState(nextStep);
+            }
             return "OK";
         } catch (InvalidTargetsException e) { return "You can't shoot there!"; }
     }

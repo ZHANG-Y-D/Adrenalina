@@ -3,6 +3,7 @@ package adrenaline.server.model;
 
 import adrenaline.Color;
 import adrenaline.CustomSerializer;
+import adrenaline.server.controller.states.FiremodeSubState;
 import adrenaline.server.model.constraints.RangeConstraint;
 import adrenaline.server.model.constraints.TargetsConstraint;
 import com.google.gson.Gson;
@@ -13,23 +14,18 @@ import java.util.Arrays;
 
 public class WeaponCard {
 
-    private int weaponID;
-    private final String name;
+    private final int weaponID;
     private final int[] ammoCost;     //Seq : red blue yellow
     private final Color freeAmmo;
-    private final String manual;
-    private boolean loaded;     //true:loaded, false: not ready loaded. Initial state is true.
-    private final int numWeaponCard;
+    private boolean loaded;
     private ArrayList<Firemode> firemodes;
 
 
-    public WeaponCard(String name, int[] ammoCost, Color gratisAmmo, String manual, int numWeaponCard, ArrayList<Firemode> firemodes) {
-        this.name = name;
+    public WeaponCard(int weaponID, int[] ammoCost, Color gratisAmmo, ArrayList<Firemode> firemodes) {
+        this.weaponID = weaponID;
         this.ammoCost = ammoCost;
         this.freeAmmo = gratisAmmo;
-        this.manual = manual;
         this.loaded = true;
-        this.numWeaponCard = numWeaponCard;
         this.firemodes = firemodes;
     }
 
@@ -56,10 +52,10 @@ public class WeaponCard {
     public Firemode getFiremode(int index) throws NullPointerException{
         GsonBuilder gsonBld = new GsonBuilder();
         gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomSerializer())
-                .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer());
+                .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer())
+                .registerTypeAdapter(FiremodeSubState.class, new CustomSerializer());
         Gson gson = gsonBld.create();
-        Firemode deepCopy = gson.fromJson(gson.toJson(firemodes.get(index)), Firemode.class);
-        return deepCopy;
+        return gson.fromJson(gson.toJson(firemodes.get(index)), Firemode.class);
     }
 
 
@@ -67,12 +63,9 @@ public class WeaponCard {
     @Override
     public String toString() {
         String string = "WeaponCard{" +
-                "name='" + name + '\'' +
-                ", ammoCost=" + Arrays.toString(ammoCost) +
+                "ammoCost=" + Arrays.toString(ammoCost) +
                 ", freeAmmo=" + freeAmmo +
-                ", manual='" + manual + '\'' +
-                ", loaded=" + loaded +
-                ", numWeaponCard=" + numWeaponCard;
+                ", loaded=" + loaded;
 
         /* Temporarily closed because it is not completed
         for(Firemode fm : firemodes) {
