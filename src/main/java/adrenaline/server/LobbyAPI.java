@@ -11,10 +11,10 @@ public interface LobbyAPI extends Remote {
     String grabAction(String clientID) throws RemoteException;
     String shootAction(String clientID) throws RemoteException;
     String selectPlayers(String clientID, ArrayList<Color> playersColor) throws RemoteException;
-    String selectSquare(String clientID, int index) throws RemoteException;
-    String selectPowerUp(String clientID, int powerupID) throws RemoteException;
-    String selectWeapon(String clientID, int weaponID) throws RemoteException;
-    String selectFiremode(String clientID, int firemode) throws RemoteException;
+    String selectSquare(String clientID, Integer index) throws RemoteException;
+    String selectPowerUp(String clientID, Integer powerupID) throws RemoteException;
+    String selectWeapon(String clientID, Integer weaponID) throws RemoteException;
+    String selectFiremode(String clientID, Integer firemode) throws RemoteException;
     String moveSubAction(String clientID) throws RemoteException;
     String endOfTurnAction(String clientID) throws RemoteException;
     String selectAvatar(String clientID, Color color) throws RemoteException;

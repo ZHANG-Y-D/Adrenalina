@@ -36,22 +36,22 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
     }
 
     @Override
-    public String selectSquare(String clientID, int index) {
+    public String selectSquare(String clientID, Integer index) {
         return lobbyRelay.selectSquare(clientID,index);
     }
 
     @Override
-    public String selectPowerUp(String clientID, int powerupID) {
+    public String selectPowerUp(String clientID, Integer powerupID) {
         return lobbyRelay.selectPowerUp(clientID,powerupID);
     }
 
     @Override
-    public String selectWeapon(String clientID, int weaponID) {
+    public String selectWeapon(String clientID, Integer weaponID) {
         return lobbyRelay.selectWeapon(clientID,weaponID);
     }
 
     @Override
-    public String selectFiremode(String clientID, int firemode) {
+    public String selectFiremode(String clientID, Integer firemode) {
         return null;
     }
 

@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class Player implements Serializable {
 
     private Color color;
-    private int position;
+    private int position = -1;
     private int[] ammoBox;
-    private ArrayList<Color> damage;
-    private ArrayList<Color> marks;
-    private ArrayList<Integer> weaponCards;
-    private ArrayList<Integer> powerupCards;
+    private ArrayList<Color> damage = new ArrayList<>();
+    private ArrayList<Color> marks = new ArrayList<>();
+    private ArrayList<Integer> weaponCards = new ArrayList<>();
+    private ArrayList<Integer> powerupCards = new ArrayList<>();
 
     public Player(Color color, int position, int[] ammoBox, ArrayList<Color> damage, ArrayList<Color> marks, ArrayList<Integer> weaponCards, ArrayList<Integer> powerupCards){
         this.color = color;
@@ -25,10 +25,7 @@ public class Player implements Serializable {
         this.powerupCards = powerupCards;
     }
 
-    public Player(){
-        color = Color.BLUE;
-        position = 0;
-    }
+    public Player(){ }
 
     public void setPlayer(){
         color = Color.BLUE;
@@ -40,4 +37,14 @@ public class Player implements Serializable {
     }
 
     public int getPosition() { return position; }
+
+    public ArrayList<Integer> getPowerupCards() {
+        if(powerupCards.size() == 0) return null;
+        return powerupCards;
+    }
+
+    public ArrayList<Integer> getWeaponCards() {
+        if(weaponCards.size() == 0) return null;
+        return weaponCards;
+    }
 }

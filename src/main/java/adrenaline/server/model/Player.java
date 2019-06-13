@@ -1,6 +1,7 @@
 package adrenaline.server.model;
 
 import adrenaline.Color;
+import adrenaline.PlayerUpdateMessage;
 import adrenaline.server.Observable;
 import adrenaline.server.controller.Lobby;
 import adrenaline.server.network.Client;
@@ -72,6 +73,8 @@ public class Player extends Observable{
         ammoBox = new int[]{1,1,1};
         tempAmmoBox = new int[]{0,0,0};
         numOfActions = 2;
+        alive = true;
+        position = -1;
         clients.forEach(this::attach);
         observers.forEach(x -> {
             try {
@@ -279,6 +282,7 @@ public class Player extends Observable{
             case YELLOW: tempAmmoBox[2]++; break;
         }
         powerupCards.remove(powerup);
+        notifyObservers(new PlayerUpdateMessage(this));
     }
 
 
@@ -289,9 +293,16 @@ public class Player extends Observable{
         return null;
     }
 
-    public void addPowerupCard(PowerupCard powerupCard) { powerupCards.add(powerupCard); }
+    public void addPowerupCard(PowerupCard powerupCard) {
+        powerupCards.add(powerupCard);
+        notifyObservers(new PlayerUpdateMessage(this));
+    }
 
-    public boolean removePowerupCard(PowerupCard powerupCard) { return powerupCards.remove(powerupCard);}
+    public boolean removePowerupCard(PowerupCard powerupCard) {
+        boolean result = powerupCards.remove(powerupCard);
+        if(result) notifyObservers(new PlayerUpdateMessage(this));
+        return result;
+    }
 
     public int getPowerupHandSize(){return powerupCards.size();}
 

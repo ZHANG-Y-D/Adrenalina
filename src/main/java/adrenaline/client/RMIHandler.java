@@ -67,6 +67,14 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    public void selectPowerUp(int powerupID) {
+        try {
+            gameController.handleReturn(myLobby.selectPowerUp(clientID, powerupID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendSettings(int selectedMap, int selectedSkull) {
         try {
             gameController.handleReturn(myLobby.selectSettings(clientID, selectedMap, selectedSkull));
@@ -78,6 +86,14 @@ public class RMIHandler implements ConnectionHandler {
     public void sendChatMessage(String message) {
         try{
             gameController.handleReturn(myLobby.sendChatMessage(clientID, message));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void endTurn() {
+        try {
+            gameController.handleReturn(myLobby.endOfTurnAction(clientID));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

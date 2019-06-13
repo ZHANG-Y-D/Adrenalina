@@ -143,6 +143,9 @@ public class Lobby implements Runnable, LobbyAPI {
     public void run() {
         avatarSelection();
         initMap();
+        playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
+        playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
+        playersMap.get(currentTurnPlayer).setFirstRound();
         currentState = new RespawnState(this);
         //TODO handles the game flow
     }
@@ -195,12 +198,12 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
-    public String selectSquare(String clientID, int index) {
+    public String selectSquare(String clientID, Integer index) {
         if(clientID.equals(currentTurnPlayer)) return currentState.selectSquare(index);
         else return "You can only do that during your turn!";
     }
 
-    public String selectPowerUp(String clientID, int powerupID) {
+    public String selectPowerUp(String clientID, Integer powerupID) {
         PowerupCard puc = playersMap.get(clientID).getPowerupCard(powerupID);
         if(puc==null) return "You cannot use that powerup!";
         if(clientID.equals(currentTurnPlayer)) {
@@ -208,6 +211,7 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         else{
             if(puc.isUsableOutsideTurn()){
+                System.out.println("venom");
                 useGrenadePowerup(clientID, puc);
                 return "OK";
             }
@@ -215,12 +219,12 @@ public class Lobby implements Runnable, LobbyAPI {
         }
     }
 
-    public String selectWeapon(String clientID, int weaponID) {
+    public String selectWeapon(String clientID, Integer weaponID) {
         if(clientID.equals(currentTurnPlayer)) return currentState.selectWeapon(weaponID);
         else return "You can only do that during your turn!";
     }
 
-    public String selectFiremode(String clientID, int firemode) {
+    public String selectFiremode(String clientID, Integer firemode) {
         if(clientID.equals(currentTurnPlayer)) return currentState.selectFiremode(firemode);
         else return "You can only do that during your turn!";
     }
@@ -286,9 +290,12 @@ public class Lobby implements Runnable, LobbyAPI {
             currentState = new RespawnState(this);
         }else {
             nextPlayer();
-            if(playersMap.get(currentTurnPlayer).isFirstRound()){
+            Player currentPlayer = playersMap.get(currentTurnPlayer);
+            if(currentPlayer.isFirstRound()){
+                currentPlayer.addPowerupCard(deckPowerup.draw());
+                currentPlayer.addPowerupCard(deckPowerup.draw());
                 currentState = new RespawnState(this);
-                playersMap.get(currentTurnPlayer).setFirstRound();
+                currentPlayer.setFirstRound();
             }else currentState = new SelectActionState(this);
         }
         scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);

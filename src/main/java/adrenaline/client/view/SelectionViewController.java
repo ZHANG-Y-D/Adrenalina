@@ -261,7 +261,6 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
     public void send() {
         selectedMap = (selectedMap == -1) ? 1 : selectedMap;
         selectedSkull = (selectedSkull == -1) ? 5 : 5 + selectedSkull;
-        System.out.println("map " + selectedMap + " skulls " + selectedSkull);
         send.setDisable(true);
         gameController.sendSettings(selectedMap, selectedSkull);
     }
