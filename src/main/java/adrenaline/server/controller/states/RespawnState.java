@@ -10,9 +10,14 @@ import java.util.ArrayList;
 public class RespawnState implements GameState {
 
     private Lobby lobby;
+    private boolean firstRound=false;
 
     public RespawnState(Lobby lobby){
         this.lobby = lobby;
+    }
+    public RespawnState(Lobby lobby, boolean firstRound){
+        this.lobby = lobby;
+        this.firstRound = firstRound;
     }
 
     @Override
@@ -44,7 +49,11 @@ public class RespawnState implements GameState {
     public String selectPowerUp(PowerupCard powerUp) {
         try {
             lobby.respawnWithPowerup(powerUp);
-            lobby.endTurn(false);
+            if(firstRound){
+                lobby.setState(new SelectActionState(lobby));
+            }else {
+                lobby.endTurn(false);
+            }
             return "OK";
         }catch(InvalidCardException ice){
             return "Invalid selection! Please select a valid card";

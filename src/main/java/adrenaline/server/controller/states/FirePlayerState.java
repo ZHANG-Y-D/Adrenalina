@@ -2,6 +2,7 @@ package adrenaline.server.controller.states;
 
 import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
+import adrenaline.server.controller.Move;
 import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
 import adrenaline.server.model.Player;
@@ -56,7 +57,14 @@ public class FirePlayerState implements FiremodeSubState {
         } catch (InvalidTargetsException e) { return "Invalid targets!"; }
         if(pushRange<1){
             FiremodeSubState nextStep = thisFiremode.getNextStep();
-            if(nextStep==null) lobby.setState(new SelectActionState(lobby));
+            if(nextStep==null){
+                MoveSelfState mvSelStep=thisFiremode.getMoveSelfStep();
+                if(mvSelStep==null)lobby.setState(new SelectActionState(lobby));
+                else{
+                    mvSelStep.setContext(lobby,thisFiremode,actionExecuted);
+                    lobby.setState(mvSelStep);
+                }
+            }
             else{
                 nextStep.setContext(lobby, thisFiremode, actionExecuted);
                 lobby.setState(nextStep);
@@ -79,7 +87,14 @@ public class FirePlayerState implements FiremodeSubState {
         if(!targetValidSquares.contains(index)) return "You can't move your target there!";
         lobby.movePlayer(index, selectedTarget);
         FiremodeSubState nextStep = thisFiremode.getNextStep();
-        if(nextStep==null) lobby.setState(new SelectActionState(lobby));
+        if(nextStep==null){
+            MoveSelfState mvSelStep=thisFiremode.getMoveSelfStep();
+            if(mvSelStep==null)lobby.setState(new SelectActionState(lobby));
+            else{
+                mvSelStep.setContext(lobby,thisFiremode,actionExecuted);
+                lobby.setState(mvSelStep);
+            }
+        }
         else{
             nextStep.setContext(lobby, thisFiremode, actionExecuted);
             lobby.setState(nextStep);

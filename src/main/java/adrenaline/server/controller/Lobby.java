@@ -64,7 +64,7 @@ public class Lobby implements Runnable, LobbyAPI {
         playersColor = new HashMap<>();
         scoreBoard = new ScoreBoard(clients);
         clients.forEach(scoreBoard::attach);
-        //deckWeapon = new DeckWeapon();
+        deckWeapon = new DeckWeapon();
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
         deadPlayers = new ArrayList<>();
@@ -97,46 +97,13 @@ public class Lobby implements Runnable, LobbyAPI {
         //setSquaresCards();
     }
 
-    /*
-    public void setSquaresCards(){
-
-        for (int i=0;i<this.map.getRows();i++){
-            for (int j=0;j<this.map.getColumns();j++){
-
-                if(!this.map.getSquare(i,j).isSpawn() &&
-                        this.map.getSquare(i,j).getColor()!= adrenaline.Color.BLACK &&
-                        this.map.getSquare(i,j).getAmmoTile() == null)
-                    this.map.getSquare(i,j).setAmmoTile(getDeckAmmo().draw());
-
-                if (this.map.getSquare(i,j).isSpawn())
-                    while(this.map.getSquare(i,j).getWeaponCard().size() < 3) {
-                        WeaponCard weaponCard=getDeckWeapon().draw();
-                        if (weaponCard!=null)
-                            this.map.getSquare(i, j).getWeaponCard().add(weaponCard);
-                    }
-            }
-        }
-    }
-    */
-
-
 
     public Map getMap() {
         return map;
     }
 
-    public DeckPowerup getDeckPowerup() {
-        return deckPowerup;
-    }
-
     public DeckWeapon getDeckWeapon() {
         return deckWeapon;
-    }
-
-    public ArrayList<Integer> getPlayersPosition(ArrayList<Color> players){
-        ArrayList<Integer> playersPositions = new ArrayList<>();
-        for(Color c : players) playersPositions.add(playersColor.get(c).getPosition());
-        return playersPositions;
     }
 
     @Override
@@ -146,7 +113,7 @@ public class Lobby implements Runnable, LobbyAPI {
         playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
         playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
         playersMap.get(currentTurnPlayer).setFirstRound();
-        currentState = new RespawnState(this);
+        currentState = new RespawnState(this, true);
         //TODO handles the game flow
     }
 
@@ -294,7 +261,7 @@ public class Lobby implements Runnable, LobbyAPI {
             if(currentPlayer.isFirstRound()){
                 currentPlayer.addPowerupCard(deckPowerup.draw());
                 currentPlayer.addPowerupCard(deckPowerup.draw());
-                currentState = new RespawnState(this);
+                currentState = new RespawnState(this, true);
                 currentPlayer.setFirstRound();
             }else currentState = new SelectActionState(this);
         }
@@ -356,6 +323,13 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public ArrayList<Integer> sendCurrentPlayerValidSquares(int range){
         ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
+        //TODO sends list to client
+        return validSquares;
+    }
+
+    public ArrayList<Integer> sendCurrentPlayerValidSquares(int range, ArrayList<RangeConstraint> constraints){
+        ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
+        constraints.forEach(x -> validSquares.retainAll(x.checkConst(playersMap.get(currentTurnPlayer).getPosition(), map)));
         //TODO sends list to client
         return validSquares;
     }

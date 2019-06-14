@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -68,6 +69,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private final int rows = 3;
 
     public void initialize(){
+        error.getStyleClass().add("RED");
+        error.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
         powerupTriangle.getStyleClass().add("triangle");
         weaponTriangle.getStyleClass().add("triangle");
         red_ammo1.getStyleClass().add("ammo");
@@ -94,6 +97,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
         for(int i = 0; i <= 11; i++){
             mapPanes.put(i,(Pane) map.lookup("#pane"+i));
+            /*
+            ImageView highlight = new ImageView(new Image(getClass().getResourceAsStream("/test.png")));
+            highlight.setEffect(new Glow(0.8));
+            ((Pane) map.lookup("#pane"+i)).getChildren().add(highlight);
+             */
         }
         //gameController = new GameController();
         //gameController.addPropertyChangeListener(this);
@@ -191,7 +199,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     public void newChatMessage(String nickname, adrenaline.Color senderColor, String message) {
         Platform.runLater(()->{
             HBox fullMessage = new HBox();
-            fullMessage.setLayoutX(2);
+            fullMessage.setLayoutX(4);
             Label senderName = new Label(nickname.toUpperCase()+": ");
             senderName.getStyleClass().add(senderColor.toString());
             senderName.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
@@ -223,6 +231,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void selectAction(Event evt){
+        error.setText("");
         Button button = (Button) evt.getSource();
         switch (button.getId()){
             case "reload": gameController.endTurn(); break;

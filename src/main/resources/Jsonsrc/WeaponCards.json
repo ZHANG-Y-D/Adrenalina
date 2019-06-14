@@ -3,7 +3,6 @@
     "weaponID": 1,
     "ammoCost": [2,0,0],
     "freeAmmo": "RED",
-    "loaded": true,
     "firemodes": [
       {
         "extraCost": [0,0,0],
@@ -106,6 +105,1167 @@
           }
         ],
         "allowedMovement": 2
+      }
+    ]
+  },
+
+  {
+    "weaponID": 2,
+    "ammoCost": [1,0,0],
+    "freeAmmo": "RED",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint",
+            "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 1,
+              "dmgmrkEachTarget": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [1,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint",
+            "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.glFiremodeState",
+            "properties": {
+              "dmgmrkEach": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 3,
+    "ammoCost": [1,0,0],
+    "freeAmmo": "RED",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.CardinalDirectionConstraint", "properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": { "radius" :  2}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": { "radius" :  0}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.DifferentSquaresConstraint","properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.SameDirectionConstraint","properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,0,2],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.CardinalDirectionConstraint", "properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": { "radius" :  1}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": { "radius" :  0}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.SameDirectionConstraint","properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FireAreaState",
+            "properties": {
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameDirectionConstraint", "properties": {}},
+              "dmgmrkEachSquare": [[2,0],[1,0],[0,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 4,
+    "ammoCost": [1,1,0],
+    "freeAmmo": "RED",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRoomConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FireAreaState",
+            "properties": {
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameRoomConstraint", "properties": {}},
+              "dmgmrkEachSquare": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": { "radius" :  1}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": { "radius" :  0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FireAreaState",
+            "properties": {
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameSquareConstraint", "properties": {}},
+              "dmgmrkEachSquare": [[1,1]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 5,
+    "ammoCost": [1,0,1],
+    "freeAmmo": "RED",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": { "radius" :  0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameSquareConstraint", "properties": {}},
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[1,1],[0,1]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [1,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": { "radius" :  0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameSquareConstraint", "properties": {}},
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[1,2],[0,2]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 6,
+    "ammoCost": [1,1,0],
+    "freeAmmo": "BLUE",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,1,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type" : "adrenaline.server.model.constraints.ThorConstraint", "properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0], [1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,2,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type" : "adrenaline.server.model.constraints.ThorConstraint", "properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 3,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0], [1,0],[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,2,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type" : "adrenaline.server.model.constraints.ThorConstraint", "properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 3,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0], [1,0],[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 7,
+    "ammoCost": [1,0,0],
+    "freeAmmo": "BLUE",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.MoveEnemyState",
+            "properties": {
+              "targetsLimit": 1,
+              "allowedMovement": 2,
+              "dmgdmgmrkEachTarget": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [1,0,1],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.MoveEnemyState",
+            "properties": {
+              "targetsLimit": 1,
+              "allowedMovement": 2,
+              "dmgdmgmrkEachTarget": [[3,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 8,
+    "ammoCost": [0,2,1],
+    "freeAmmo": "BLUE",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": { "radius" :  1}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[3,1]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 9,
+    "ammoCost": [0,1,1],
+    "freeAmmo": "BLUE",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 2
+      },
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 2
+      },
+      {
+        "extraCost": [0,1,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[3,0]]
+            }
+          }
+        ],
+        "allowedMovement": 2
+      },
+      {
+        "extraCost": [0,1,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[3,0]]
+            }
+          }
+        ],
+        "allowedMovement": 2
+      }
+    ]
+  },
+  {
+    "weaponID": 10,
+    "ammoCost": [1,1,0],
+    "freeAmmo": "RED",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": { "radius" :  0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.MoveEnemyState",
+            "properties": {
+              "targetsLimit": 1,
+              "allowedMovement": 1,
+              "dmgdmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [1,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": { "radius" :  0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.MoveEnemyState",
+            "properties": {
+              "targetsLimit": 3,
+              "allowedMovement": 1,
+              "dmgdmgmrkEachTarget": [[2,0],[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 11,
+    "ammoCost": [0,2,0],
+    "freeAmmo": "BLUE",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,1]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [1,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,1],[0,1]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 12,
+    "ammoCost": [0,1,0],
+    "freeAmmo": "BLUE",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FireAreaState",
+            "properties": {
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameSquareConstraint", "properties": {}},
+              "dmgmrkEachSquare": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [1,1,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FireAreaState",
+            "properties": {
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameSquareConstraint", "properties": {}},
+              "dmgmrkEachSquare": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 13,
+    "ammoCost": [0,0,1],
+    "freeAmmo": "YELLOW",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [1,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 2,
+              "dmgmrkEachTarget": [[3,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 14,
+    "ammoCost": [1,0,1],
+    "freeAmmo": "YELLOW",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 1
+      },
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 1
+      },
+      {
+        "extraCost": [0,0,1],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.ChargeConstraint", "properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.MoveSelfState",
+            "properties": {"allowedMovement": 1}
+          },
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,0,1],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.ChargeConstraint", "properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.MoveSelfState",
+            "properties": {"allowedMovement": 1}
+          },
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 15,
+    "ammoCost": [0,1,1],
+    "freeAmmo": "YELLOW",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.MoveSelfState",
+            "properties": {
+              "allowedMovement": 1,
+              "forced": true
+            }
+          },
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[1,2]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,1,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.ChargeConstraint", "properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.MoveSelfState",
+            "properties": {
+              "allowedMovement": 2,
+              "forced": true,
+              "charge": true
+            }
+          },
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 16,
+    "ammoCost": [0,0,2],
+    "freeAmmo": "YELLOW",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 0}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 1,
+              "dmgmrkEachTarget": [[3,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": {"radius": 0}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 1}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 17,
+    "ammoCost": [0,1,2],
+    "freeAmmo": "YELLOW",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.CardinalDirectionConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[3,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.CardinalDirectionConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 18,
+    "ammoCost": [1,0,1],
+    "freeAmmo": "YELLOW",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[1,2]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 3,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[0,1]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 19,
+    "ammoCost": [0,0,1],
+    "freeAmmo": "YELLOW",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": {"radius": 0}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 1}
+          }
+        ],
+        "trgConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.DifferentSquaresConstraint", "properties": {}
+          }
+        ],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 3,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,0,1],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.ExcRadiusConstraint", "properties": {"radius": 0}
+          },
+          {
+            "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 1}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FireAreaState",
+            "properties": {
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.InRadiusConstraint", "properties": {"radius": 1}},
+              "dmgmrkEachSquare": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 20,
+    "ammoCost": [1,1,0],
+    "freeAmmo": "BLUE",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,0,1],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 2,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0],[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,1,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 3,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0],[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      },
+      {
+        "extraCost": [0,1,1],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.InSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 3,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[2,0],[2,0],[1,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
+      }
+    ]
+  },
+  {
+    "weaponID": 21,
+    "ammoCost": [2,0,1],
+    "freeAmmo": "RED",
+    "firemodes": [
+      {
+        "extraCost": [0,0,0],
+        "rngConstraints": [
+          {
+            "type": "adrenaline.server.model.constraints.ExcSightConstraint", "properties": {}
+          }
+        ],
+        "trgConstraints": [],
+        "firemodeSteps": [
+          {
+            "type": "adrenaline.server.controller.states.FirePlayerState",
+            "properties": {
+              "targetsLimit": 1,
+              "pushRange": 0,
+              "dmgmrkEachTarget": [[3,0]]
+            }
+          }
+        ],
+        "allowedMovement": 0
       }
     ]
   }

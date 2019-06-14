@@ -26,9 +26,8 @@ public class SameDirectionConstraint extends TargetsConstraint implements Target
     public ArrayList<Integer> generateRange(Integer shooterPos, Integer root, Map map) {
         Set<Integer> validSquares = new LinkedHashSet<>();
         validSquares.add(root);
-        for(int i=0; i<=map.getMaxSquare(); i++){
-            if(map.areAligned(shooterPos,i) && map.areAligned(root, i) && ((root > shooterPos && i > shooterPos) || (root < shooterPos && i < shooterPos))
-                && !map.isWall(root,i))
+        for(int i=shooterPos; 0<=i && i<=map.getMaxSquare(); i= (root<shooterPos)? i-1 : i+1){
+            if(map.areAligned(shooterPos,i) && map.areAligned(root, i) && !map.isWall(root,i))
                 validSquares.add(i);
         }
         return new ArrayList<>(validSquares);

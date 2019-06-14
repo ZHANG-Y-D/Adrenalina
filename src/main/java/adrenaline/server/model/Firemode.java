@@ -38,9 +38,7 @@ public class Firemode {
         for(int i = 0; i<= map.getMaxSquare(); i++){
             if(!map.isEmptySquare(i)) validSquares.add(i);
         }
-        for(RangeConstraint rc : rngConstraints){
-            validSquares.retainAll(rc.checkConst(shooterPosition, map));
-        }
+        rngConstraints.forEach(x -> validSquares.retainAll(x.checkConst(shooterPosition, map)));
         return validSquares;
     }
 

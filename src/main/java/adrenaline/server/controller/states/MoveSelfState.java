@@ -4,12 +4,17 @@ import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
 import adrenaline.server.model.Firemode;
 import adrenaline.server.model.PowerupCard;
+import adrenaline.server.model.constraints.CardinalDirectionConstraint;
+import adrenaline.server.model.constraints.ExcRadiusConstraint;
+import adrenaline.server.model.constraints.RangeConstraint;
 
 import java.util.ArrayList;
 
 public class MoveSelfState implements FiremodeSubState {
 
     private int allowedMovement;
+    private boolean forced = false;
+    private boolean charge = false;
     private Lobby lobby = null;
     private Firemode thisFiremode = null;
     private boolean actionExecuted;
@@ -30,7 +35,10 @@ public class MoveSelfState implements FiremodeSubState {
         this.lobby = lobby;
         thisFiremode = firemode;
         this.actionExecuted = actionExecuted;
-        validSquares = lobby.sendCurrentPlayerValidSquares(allowedMovement);
+        ArrayList<RangeConstraint> constraints = new ArrayList<>();
+        if(forced) constraints.add(new ExcRadiusConstraint(0));
+        if(charge) constraints.add(new CardinalDirectionConstraint());
+        validSquares = lobby.sendCurrentPlayerValidSquares(allowedMovement, constraints);
     }
 
     @Override
@@ -62,8 +70,12 @@ public class MoveSelfState implements FiremodeSubState {
                 lobby.incrementExecutedActions();
                 actionExecuted=true;
             }
-            callBackState.setContext(lobby, thisFiremode, true);
-            lobby.setState(callBackState);
+            if(callBackState==null){
+                lobby.setState(new ShootState(lobby));
+            }else {
+                callBackState.setContext(lobby, thisFiremode, true);
+                lobby.setState(callBackState);
+            }
             return "OK";
         }
     }
@@ -95,8 +107,12 @@ public class MoveSelfState implements FiremodeSubState {
 
     @Override
     public String goBack() {
-        callBackState.setContext(lobby, thisFiremode, actionExecuted);
-        lobby.setState(callBackState);
+        if(callBackState==null){
+            lobby.setState(new ShootState(lobby));
+        }else {
+            callBackState.setContext(lobby, thisFiremode, true);
+            lobby.setState(callBackState);
+        }
         return "OK";
     }
 
