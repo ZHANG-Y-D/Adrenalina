@@ -59,7 +59,14 @@ public class MoveEnemyState implements FiremodeSubState {
                 actionExecuted = true;
                 lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
                 FiremodeSubState nextStep = thisFiremode.getNextStep();
-                if(nextStep==null) lobby.setState(new SelectActionState(lobby));
+                if(nextStep==null){
+                    MoveSelfState mvSelStep=thisFiremode.getMoveSelfStep();
+                    if(mvSelStep==null)lobby.setState(new SelectActionState(lobby));
+                    else{
+                        mvSelStep.setContext(lobby,thisFiremode,actionExecuted);
+                        lobby.setState(mvSelStep);
+                    }
+                }
                 else{
                     nextStep.setContext(lobby, thisFiremode, actionExecuted);
                     lobby.setState(nextStep);

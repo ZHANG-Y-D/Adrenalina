@@ -64,7 +64,7 @@ public class Lobby implements Runnable, LobbyAPI {
         playersColor = new HashMap<>();
         scoreBoard = new ScoreBoard(clients);
         clients.forEach(scoreBoard::attach);
-        //deckWeapon = new DeckWeapon();
+        deckWeapon = new DeckWeapon();
         deckAmmo = new DeckAmmo();
         deckPowerup = new DeckPowerup();
         deadPlayers = new ArrayList<>();
@@ -323,6 +323,13 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public ArrayList<Integer> sendCurrentPlayerValidSquares(int range){
         ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
+        //TODO sends list to client
+        return validSquares;
+    }
+
+    public ArrayList<Integer> sendCurrentPlayerValidSquares(int range, ArrayList<RangeConstraint> constraints){
+        ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
+        constraints.forEach(x -> validSquares.retainAll(x.checkConst(playersMap.get(currentTurnPlayer).getPosition(), map)));
         //TODO sends list to client
         return validSquares;
     }

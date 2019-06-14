@@ -19,6 +19,8 @@ public class InRadiusConstraint implements RangeConstraint, TargetsGenerator{
 
     @Override
     public ArrayList<Integer> generateRange(Integer shooterPos, Integer root, Map map) {
-        return new ArrayList<>(map.getValidSquares(shooterPos,radius));
+        ArrayList<Integer> validSquares = map.getValidSquares(shooterPos,radius);
+        validSquares.remove(shooterPos);
+        return validSquares;
     }
 }
