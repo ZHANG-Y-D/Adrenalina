@@ -333,7 +333,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                             list.add(newPosition);
                             positionMap.put(pane, list);
                         }
-                        mapPanes.get(pane.getChildren().add(token));
+                        pane.getChildren().add(token);
                     }
                     else{} //TODO transition
                 }
@@ -348,6 +348,22 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         allPosition.removeIf(positionList::contains);
         Random rand = new Random();
         return allPosition.get(rand.nextInt(allPosition.size()));
+    }
+
+    public void nextPowerUp(){
+        ArrayList<Integer> powerUpList = gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards();
+        String powerup = myPowerup.getImage().getUrl();
+        powerup = new File(powerup).getName();
+        powerup = powerup.substring(powerup.indexOf('-') + 1, powerup.indexOf('.'));
+        int newIndex;
+        if(powerUpList.indexOf(Integer.parseInt(powerup)) == (powerUpList.size() -1)) newIndex = 0;
+        else newIndex = powerUpList.indexOf(Integer.parseInt(powerup)) + 1;
+        powerup = "/Powerup/powerup-"+powerUpList.get(newIndex)+".png";
+        try {
+            myPowerup.setImage(new Image(new File(getClass().getResource(powerup).toURI()).toURI().toString()));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     public void selectPowerUp(){

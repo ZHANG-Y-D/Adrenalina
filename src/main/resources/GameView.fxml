@@ -164,7 +164,7 @@
                 </ImageView>
                 <ImageView fx:id="myPowerup" onMouseClicked="#selectPowerUp" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9">
                 </ImageView>
-                <Polygon fx:id="powerupTriangle" fill="WHITE" layoutX="109.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
+                <Polygon fx:id="powerupTriangle" onMouseClicked="#nextPowerUp" fill="WHITE" layoutX="109.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
                     <points>
                         <Double fx:value="-15.0" />
                         <Double fx:value="15.0" />
