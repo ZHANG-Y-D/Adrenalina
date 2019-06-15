@@ -19,7 +19,7 @@
          <padding>
             <Insets left="20.0" />
          </padding></Label>
-      <Label fx:id="error" alignment="CENTER" layoutX="230.0" layoutY="370.0" prefHeight="35" prefWidth="290.0"/>
+      <Label fx:id="message" alignment="CENTER" layoutX="230.0" layoutY="370.0" prefHeight="35" prefWidth="290.0"/>
    </children>
    <stylesheets>
       <URL value="@InitialView.css" />

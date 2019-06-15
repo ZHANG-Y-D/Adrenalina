@@ -147,6 +147,10 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     }
 
+    @Override
+    public void showMessage(String message) {
+
+    }
 
 
     @Override

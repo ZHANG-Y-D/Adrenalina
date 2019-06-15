@@ -28,14 +28,14 @@ public class InitialViewController implements ViewInterface {
     @FXML
     private TextField host, port, name;
     @FXML
-    private Label label,error;
+    private Label label, message;
     private GameController gameController = null;
     private int time;
 
     public void initialize(){
         initPane.getStyleClass().add("pane");
         close.getStyleClass().add("close");
-        error.getStyleClass().add("outline");
+        message.getStyleClass().add("outline");
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"),16);
         close.setFont(font);
         rmi.setFont(font);
@@ -45,7 +45,7 @@ public class InitialViewController implements ViewInterface {
         name.setFont(font);
         play.setFont(font);
         label.setFont(font);
-        error.setFont(font);
+        message.setFont(font);
     }
 
     public void setGameController(GameController gameController){
@@ -65,10 +65,10 @@ public class InitialViewController implements ViewInterface {
             try{
                 if(gameController.connectRMI(host.getText(), Integer.parseInt(port.getText()))) changeScene();
             }catch (NumberFormatException e){
-                error.setText("Wrong host/port");
+                message.setText("Wrong host/port");
             }
         }
-        else error.setText("Type host and port");
+        else message.setText("Type host and port");
     }
 
     public void SocketSelected(){
@@ -76,54 +76,58 @@ public class InitialViewController implements ViewInterface {
             try {
                 if(gameController.connectSocket(host.getText(), Integer.parseInt(port.getText()))) changeScene();
             }catch (NumberFormatException e){
-                error.setText("Wrong host/port");
+                message.setText("Wrong host/port");
             }
         }
-        else error.setText("Type host and port");
+        else message.setText("Type host and port");
     }
 
     public void changeScene(){
-        error.setText("");
+        message.setText("");
         rmi.setVisible(false);
         socket.setVisible(false);
         host.setVisible(false);
         port.setVisible(false);
         name.setVisible(true);
         play.setVisible(true);
-        error.setLayoutY(362);
+        message.setLayoutY(362);
     }
 
     public void sendNickname(){
         if(!name.getText().equals("")) {
             gameController.setNickname(name.getText());
         }
-        else error.setText("Type a nickname");
+        else message.setText("Type a nickname");
     }
 
     @Override
     public void showError(String errorMsg) {
         Platform.runLater(() -> {
-            if(errorMsg.equals("/OK")){
-                gameController.setOwnNickname(name.getText());
-                Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.ZERO, event -> {
-                            String statusText = label.getText();
-                            label.setText(
-                                    ("Searching for a game . . .".equals(statusText))
-                                            ? "Searching for a game ."
-                                            : statusText + " ."
-                            );
-                        }),
-                        new KeyFrame(Duration.millis(1000))
-                );
-                timeline.setCycleCount(Timeline.INDEFINITE);
-                label.setVisible(true);
-                play.setDisable(true);
-                name.setDisable(true);
-                error.setText("");
-                timeline.play();
-            }
-            else error.setText(errorMsg);
+            message.setText(errorMsg);
+        });
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Platform.runLater(() ->{
+            gameController.setOwnNickname(name.getText());
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, event -> {
+                        String statusText = label.getText();
+                        label.setText(
+                                ("Searching for a game . . .".equals(statusText))
+                                        ? "Searching for a game ."
+                                        : statusText + " ."
+                        );
+                    }),
+                    new KeyFrame(Duration.millis(1000))
+            );
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            label.setVisible(true);
+            play.setDisable(true);
+            name.setDisable(true);
+            this.message.setText("");
+            timeline.play();
         });
     }
 

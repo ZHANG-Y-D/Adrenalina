@@ -17,7 +17,7 @@ public class RunState implements GameState {
     }
 
     @Override
-    public String runAction() { return "Select the square you want to move in"; }
+    public String runAction() { return "Select a square or GO BACK to action selection!"; }
 
     @Override
     public String grabAction() {
@@ -34,6 +34,7 @@ public class RunState implements GameState {
 
     @Override
     public String selectSquare(int index) {
+        System.out.println("STATE");
         if(!validSquares.contains(index)) return "You can't move there! Please select a valid square";
         lobby.movePlayer(index);
         lobby.setState(new SelectActionState(lobby));
@@ -67,7 +68,7 @@ public class RunState implements GameState {
     @Override
     public String goBack() {
         lobby.setState(new SelectActionState(lobby));
-        return "OK";
+        return "OK Select an action";
     }
 
     @Override

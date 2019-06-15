@@ -76,7 +76,7 @@ public class AvatarSelectionState implements GameState {
                 Avatar chosen = a;
                 avatars.remove(a);
                 lobby.initCurrentPlayer(chosen, false);
-                return "/OK";
+                return "OK Avatar selected";
             }
         }
         return "Someone else already picked this avatar!";

@@ -231,15 +231,23 @@ public class Player extends Observable{
         return null;
     }
 
-    public void addWeaponCard(WeaponCard weaponCard) { weaponCards.add(weaponCard); }
+    public void addWeaponCard(WeaponCard weaponCard) {
+        weaponCards.add(weaponCard);
+        notifyObservers(new PlayerUpdateMessage(this));
+    }
 
-    public boolean removeWeaponCard(WeaponCard weaponCard) { return weaponCards.remove(weaponCard);}
+    public boolean removeWeaponCard(WeaponCard weaponCard) {
+        boolean result = weaponCards.remove(weaponCard);
+        if(result) notifyObservers(new PlayerUpdateMessage(this));
+        return result;
+    }
 
     public int getPosition(){ return this.position;}
 
     public void setPosition(int position) {
         this.oldPosition = this.position;
         this.position = position;
+        notifyObservers(new PlayerUpdateMessage(this));
     }
 
     public int getOldPosition() { return this.oldPosition; }

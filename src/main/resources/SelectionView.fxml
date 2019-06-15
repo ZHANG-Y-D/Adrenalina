@@ -60,7 +60,7 @@
             <Font size="22.0" />
          </font>
       </Button>
-      <Label fx:id="error" alignment="CENTER" layoutX="0.0" layoutY="740.0" prefHeight="35" prefWidth="290.0" />
+      <Label fx:id="message" alignment="CENTER" layoutX="0.0" layoutY="740.0" prefHeight="35" prefWidth="290.0" />
       <StackPane fx:id="stack1" layoutX="225.0" layoutY="100.0" visible="false">
          <children>
             <ImageView fx:id="map1" fitHeight="240.0" fitWidth="316.0" onMouseEntered="#mapHover" onMouseExited="#mapDefault" onMouseClicked="#selectMap">

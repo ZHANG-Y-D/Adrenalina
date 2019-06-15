@@ -73,7 +73,7 @@ public class GrabState implements GameState {
     @Override
     public String goBack() {
         lobby.setState(new SelectActionState(lobby));
-        return "OK";
+        return "OK Select an action";
     }
 
     @Override

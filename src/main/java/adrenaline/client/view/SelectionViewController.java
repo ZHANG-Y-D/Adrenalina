@@ -50,7 +50,7 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
     @FXML
     private Button next, select, close, send;
     @FXML
-    private Label title, error, playersList, timerLabel;
+    private Label title, message, playersList, timerLabel;
     @FXML
     private VBox nicknamesBox;
     @FXML
@@ -166,7 +166,7 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
             imageMap.get(i).setImage(imageMap.get(i + 1).getImage());
         }
         imageMap.get(5).setImage(firstImg);
-        error.setText("");
+        message.setText("");
     }
 
     public void selectAvatar() {
@@ -182,7 +182,7 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         next.setVisible(false);
         playersList.setVisible(false);
         nicknamesBox.setVisible(false);
-        error.setText("");
+        message.setText("");
         timerLabel.setLayoutY(10);
         select.setVisible(false);
         stack1.setVisible(true);
@@ -250,11 +250,16 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
 
     public void showError(String errorMsg) {
         Platform.runLater(() -> {
-            if (errorMsg.equals("/OK")) {
-                this.error.setText("Avatar selected");
-                next.setDisable(true);
-                select.setDisable(true);
-            } else this.error.setText(errorMsg);
+            this.message.setText(errorMsg);
+            });
+        }
+
+    @Override
+    public void showMessage(String message) {
+        Platform.runLater(() ->{
+            this.message.setText(message);
+            next.setDisable(true);
+            select.setDisable(true);
         });
     }
 

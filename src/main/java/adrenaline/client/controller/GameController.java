@@ -95,7 +95,8 @@ public class GameController {
     }
 
     public void handleReturn(String returnMsg){
-        if(!returnMsg.equals("OK")) view.showError(returnMsg);
+        if(!returnMsg.contains("OK")) view.showError(returnMsg);
+        else if(returnMsg.length() > 2) view.showMessage(returnMsg.substring(3));
     }
 
     public void changeStage(){ view.changeStage(); }
@@ -110,8 +111,6 @@ public class GameController {
 
     public void updateMap(Map newMap){
         Map oldMap = map;
-        //Map oldMap = new Map();
-        //oldMap.setMap();
         map = newMap;
         changes.firePropertyChange("map", oldMap, newMap);
     }
@@ -144,8 +143,20 @@ public class GameController {
         connectionHandler.sendSettings(selectedMap, selectedSkull);
     }
 
+    public void run() { connectionHandler.run(); }
+
+    public void grab() { connectionHandler.grab(); }
+
+    public void shoot() { connectionHandler.shoot(); }
+
+    public void back() { connectionHandler.back(); }
+
     public void endTurn(){
         connectionHandler.endTurn();
-        System.out.println("QUA");
+    }
+
+    public void selectSquare(int index) {
+        System.out.println(index);
+        connectionHandler.selectSquare(index);
     }
 }

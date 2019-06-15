@@ -10,8 +10,12 @@ public interface ConnectionHandler {
     void selectPowerUp(int powerupID);
     void sendSettings(int selectedMap, int selectedSkull);
     void sendChatMessage(String message);
+    void run();
+    void grab();
+    void shoot();
+    void back();
     void endTurn();
+    void selectSquare(int index);
     String getClientID();
     String getMyLobbyID();
-
 }

@@ -92,6 +92,11 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     }
 
+    @Override
+    public void showMessage(String message) {
+
+    }
+
 
     @Override
     public void changeStage() {
