@@ -42,6 +42,8 @@ public class Player implements Serializable {
 
     public int getOldPosition() { return oldPosition; }
 
+    public int[] getAmmoBox() { return ammoBox; }
+
     public ArrayList<Integer> getPowerupCards() {
         if(powerupCards.size() == 0) return null;
         return powerupCards;

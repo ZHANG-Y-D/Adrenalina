@@ -50,15 +50,15 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private TextField txtMsg;
     @FXML
-    private ImageView ownPlayerLabel,red_ammo1,red_ammo2,red_ammo3,blue_ammo1,blue_ammo2,blue_ammo3,yellow_ammo1,yellow_ammo2,yellow_ammo3,
-                     weapon_red1,weapon_red2, weapon_red3, weapon_blue1, weapon_blue2, weapon_blue3, weapon_yellow1, weapon_yellow2, weapon_yellow3,
+    private ImageView ownPlayerLabel, redAmmo1, redAmmo2, redAmmo3, blueAmmo1, blueAmmo2, blueAmmo3, yellowAmmo1, yellowAmmo2, yellowAmmo3,
+            weaponRed1, weaponRed2, weaponRed3, weaponBlue1, weaponBlue2, weaponBlue3, weaponYellow1, weaponYellow2, weaponYellow3,
                      myWeapon,myPowerup;
     @FXML
     private Label message;
     @FXML
     private Polygon powerupTriangle,weaponTriangle;
+    private HashMap<Integer, ArrayList<ImageView>> ammoBoxs = new HashMap<>();
     private HashMap<adrenaline.Color, ArrayList<ImageView>> weaponLists = new HashMap<>();
-    private ArrayList<ImageView> redWeaponsList, blueWeaponsList, yellowWeaponsList;
     private GameController gameController;
     private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>(); //forse non serve
     private HashMap<adrenaline.Color, ImageView> tokensMap = new HashMap<>();
@@ -72,22 +72,28 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         message.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
         powerupTriangle.getStyleClass().add("triangle");
         weaponTriangle.getStyleClass().add("triangle");
-        red_ammo1.getStyleClass().add("ammo");
-        red_ammo2.getStyleClass().add("ammo");
-        red_ammo3.getStyleClass().add("ammo");
-        blue_ammo1.getStyleClass().add("ammo");
-        blue_ammo2.getStyleClass().add("ammo");
-        blue_ammo3.getStyleClass().add("ammo");
-        yellow_ammo1.getStyleClass().add("ammo");
-        yellow_ammo2.getStyleClass().add("ammo");
-        yellow_ammo3.getStyleClass().add("ammo");
+        redAmmo1.getStyleClass().add("ammo");
+        redAmmo2.getStyleClass().add("ammo");
+        redAmmo3.getStyleClass().add("ammo");
+        blueAmmo1.getStyleClass().add("ammo");
+        blueAmmo2.getStyleClass().add("ammo");
+        blueAmmo3.getStyleClass().add("ammo");
+        yellowAmmo1.getStyleClass().add("ammo");
+        yellowAmmo2.getStyleClass().add("ammo");
+        yellowAmmo3.getStyleClass().add("ammo");
         scrollPane.vvalueProperty().bind(chat.heightProperty());
-        redWeaponsList = new ArrayList<>(Arrays.asList(weapon_red1, weapon_red2, weapon_red3));
-        blueWeaponsList = new ArrayList<>(Arrays.asList(weapon_blue1, weapon_blue2, weapon_blue3));
-        yellowWeaponsList = new ArrayList<>(Arrays.asList(weapon_yellow1, weapon_yellow2, weapon_yellow3));
-        weaponLists.put(adrenaline.Color.RED,redWeaponsList);
-        weaponLists.put(adrenaline.Color.BLUE,blueWeaponsList);
-        weaponLists.put(adrenaline.Color.YELLOW,yellowWeaponsList);
+        ArrayList<ImageView> redAmmo = new ArrayList<>(Arrays.asList(redAmmo1,redAmmo2,redAmmo3));
+        ArrayList<ImageView> blueAmmo = new ArrayList<>(Arrays.asList(blueAmmo1,blueAmmo2, blueAmmo3));
+        ArrayList<ImageView> yellowAmmo = new ArrayList<>(Arrays.asList(yellowAmmo1,yellowAmmo2,yellowAmmo3));
+        ammoBoxs.put(0,redAmmo);
+        ammoBoxs.put(1,blueAmmo);
+        ammoBoxs.put(2,yellowAmmo);
+        ArrayList<ImageView> redWeaponsList = new ArrayList<>(Arrays.asList(weaponRed1, weaponRed2, weaponRed3));
+        ArrayList<ImageView> blueWeaponsList = new ArrayList<>(Arrays.asList(weaponBlue1, weaponBlue2, weaponBlue3));
+        ArrayList<ImageView> yellowWeaponsList = new ArrayList<>(Arrays.asList(weaponYellow1, weaponYellow2, weaponYellow3));
+        weaponLists.put(adrenaline.Color.RED, redWeaponsList);
+        weaponLists.put(adrenaline.Color.BLUE, blueWeaponsList);
+        weaponLists.put(adrenaline.Color.YELLOW, yellowWeaponsList);
         weaponLists.forEach((x,y) -> {
             for (ImageView img : y) img.getStyleClass().add("weapon");
         });
@@ -338,6 +344,18 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
             //set player position
             updatePosition(newPlayersMap);
+
+            //set ammo
+            int[] ammoBox = ownPlayer.getAmmoBox();
+            for(int i = 0; i < 3; i++){
+                int ammoNum = ammoBox[i];
+                System.out.println(ammoNum);
+                ArrayList<ImageView> ammoList = ammoBoxs.get(i);
+                ammoList.forEach(x -> {
+                    if(ammoList.indexOf(x) < ammoNum) x.setVisible(true);
+                    else x.setVisible(false);
+                });
+            }
         });
 
     }
