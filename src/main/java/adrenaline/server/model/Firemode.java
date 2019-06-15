@@ -8,6 +8,7 @@ import adrenaline.server.model.constraints.TargetsConstraint;
 import java.util.*;
 
 public class Firemode {
+
     private int[] extraCost;
     private ArrayList<RangeConstraint> rngConstraints;
     private ArrayList<TargetsConstraint> trgConstraints;

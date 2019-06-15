@@ -155,9 +155,12 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }, 0, 1000);
     }
 
-    @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
-        //possiamo aggiungere una chat anche in selection view
+        //operation not supported at this stage
+    }
+
+    public void showValidSquares(ArrayList<Integer> validSquares) {
+        //operation not supported at this stage
     }
 
     public void nextImage() {

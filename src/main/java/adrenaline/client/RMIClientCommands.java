@@ -32,6 +32,8 @@ public class RMIClientCommands extends UnicastRemoteObject implements ClientAPI{
         gameController.timerStarted(duration, comment);
     }
 
+    public void validSquaresInfo(ArrayList<Integer> validSquares) { gameController.validSquaresInfo(validSquares); }
+
     public void update(UpdateMessage updatemsg) {
         updatemsg.applyUpdate(gameController);
     }

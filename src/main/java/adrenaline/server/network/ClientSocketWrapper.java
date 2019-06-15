@@ -112,6 +112,10 @@ public class ClientSocketWrapper implements Client {
         sendMessage("timerStarted;ARGSIZE=2;java.lang.Integer;"+gson.toJson(duration)+";java.lang.String;"+gson.toJson(comment));
     }
 
+    public void validSquaresInfo(ArrayList<Integer> validSquares) {
+        sendMessage("validSquaresInfo;ARGSIZE=1;java.util.ArrayList;"+gson.toJson(validSquares));
+    }
+
     public void update(UpdateMessage updatemsg) {
         sendMessage("update;ARGSIZE=1;adrenaline.UpdateMessage;"+gson.toJson(updatemsg, UpdateMessage.class));
     }

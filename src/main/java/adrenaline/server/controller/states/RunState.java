@@ -11,9 +11,9 @@ public class RunState implements GameState {
     private Lobby lobby;
     private ArrayList<Integer> validSquares;
 
-    public RunState(Lobby lobby){
+    public RunState(Lobby lobby, int range){
         this.lobby = lobby;
-        this.validSquares = lobby.sendCurrentPlayerValidSquares(3);
+        this.validSquares = lobby.sendCurrentPlayerValidSquares(range);
     }
 
     @Override

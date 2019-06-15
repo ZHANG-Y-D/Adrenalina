@@ -18,6 +18,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+
 
 public class InitialViewController implements ViewInterface {
 
@@ -56,8 +58,12 @@ public class InitialViewController implements ViewInterface {
         time = duration;
     }
 
-    @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
+        //operation not supported at this stage
+    }
+
+    public void showValidSquares(ArrayList<Integer> validSquares) {
+        //operation not supported at this stage
     }
 
     public void RMISelected(){

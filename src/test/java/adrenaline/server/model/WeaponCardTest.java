@@ -32,6 +32,20 @@ class WeaponCardTest {
         }catch(FileNotFoundException e){System.out.println("ERROR!");}
     }
 
+    @Test
+    void firemodeDeepCopyTest(){
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader("src/main/resources/Jsonsrc/TestWeaponCard.json");
+        } catch (FileNotFoundException e) { }
+        GsonBuilder gsonBld = new GsonBuilder();
+        gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomSerializer())
+                .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer())
+                .registerTypeAdapter(TargetsGenerator.class, new CustomSerializer())
+                .registerTypeAdapter(FiremodeSubState.class, new CustomSerializer());
+        WeaponCard jsonWeapon = gsonBld.create().fromJson(fileReader, WeaponCard.class);
+        Firemode copied = jsonWeapon.getFiremode(0);
+    }
     /*
     @Test
     void weaponCardModelerTest(){

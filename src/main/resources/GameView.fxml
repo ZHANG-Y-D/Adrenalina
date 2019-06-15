@@ -13,7 +13,7 @@
 <?import javafx.scene.effect.Glow?>
 <Pane fx:id="pane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.GameViewController">
     <children>
-        <GridPane fx:id="map" gridLinesVisible="true" layoutX="170" layoutY="125" prefHeight="444" prefWidth="580.0">
+        <GridPane fx:id="map" layoutX="170" layoutY="125" prefHeight="444" prefWidth="580.0">
             <children>
                 <Pane fx:id="pane0" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <children>

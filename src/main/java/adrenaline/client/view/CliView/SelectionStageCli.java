@@ -6,6 +6,7 @@ import adrenaline.client.view.ViewInterface;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -177,16 +178,18 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     }
 
 
-    @Override
-    public  void notifyTimer(Integer duration, String comment) {
-
+    public void notifyTimer(Integer duration, String comment) {
+        //operation not supported at this stage
     }
 
-
-    @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
-
+        //operation not supported at this stage
     }
+
+    public void showValidSquares(ArrayList<Integer> validSquares) {
+        //operation not supported at this stage
+    }
+
 
 
     @Override

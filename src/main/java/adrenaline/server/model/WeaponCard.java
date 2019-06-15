@@ -6,6 +6,7 @@ import adrenaline.CustomSerializer;
 import adrenaline.server.controller.states.FiremodeSubState;
 import adrenaline.server.model.constraints.RangeConstraint;
 import adrenaline.server.model.constraints.TargetsConstraint;
+import adrenaline.server.model.constraints.TargetsGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -29,8 +30,8 @@ public class WeaponCard {
         this.firemodes = firemodes;
     }
 
-    public void reload() /*throws AlreadyLoadedException*/ {
-        //TODO
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
     }
 
     public int[] getAmmoCost() {
@@ -45,17 +46,16 @@ public class WeaponCard {
         return loaded;
     }
 
-    public void setLoaded(boolean loaded) {
-        this.loaded = loaded;
-    }
 
     public Firemode getFiremode(int index) throws NullPointerException{
         GsonBuilder gsonBld = new GsonBuilder();
         gsonBld.registerTypeAdapter(RangeConstraint.class, new CustomSerializer())
                 .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer())
+                .registerTypeAdapter(TargetsGenerator.class, new CustomSerializer())
                 .registerTypeAdapter(FiremodeSubState.class, new CustomSerializer());
         Gson gson = gsonBld.create();
-        return gson.fromJson(gson.toJson(firemodes.get(index)), Firemode.class);
+        Firemode deepCopy = gson.fromJson(gson.toJson(firemodes.get(index)), Firemode.class);
+        return deepCopy;
     }
 
 
