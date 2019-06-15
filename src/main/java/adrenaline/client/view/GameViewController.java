@@ -14,11 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
-<<<<<<< HEAD
 import javafx.scene.effect.Glow;
-import javafx.scene.effect.InnerShadow;
-=======
->>>>>>> 71a5929f1395d3ade728b3591c517b58d6d488d4
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -193,6 +189,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> {
+            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(false);
             this.message.getStyleClass().clear();
             this.message.getStyleClass().add("GREEN");
             this.message.setText(message);

@@ -4,7 +4,6 @@ import adrenaline.Color;
 import adrenaline.UpdateMessage;
 import adrenaline.client.controller.GameController;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class SocketClientCommands  implements ClientAPI{

@@ -245,6 +245,7 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public synchronized void endTurn(boolean timeoutReached){
         if(!timeoutReached) scheduledTimeout.cancel(false);
+        executedActions=0;
         setMapCards();
         checkDeadPlayers();
         if(!deadPlayers.isEmpty()){

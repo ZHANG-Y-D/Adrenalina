@@ -5,7 +5,6 @@ import adrenaline.UpdateMessage;
 import adrenaline.client.ClientAPI;
 import adrenaline.server.controller.Lobby;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.UUID;
 

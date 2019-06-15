@@ -139,7 +139,13 @@ public class GameController {
         view.notifyTimer(duration, comment);
     }
 
-    public void validSquaresInfo(ArrayList<Integer> validSquares){ view.showValidSquares(validSquares); }
+    public void validSquaresInfo(ArrayList<Integer> validSquares){
+        ArrayList<Integer> validSquaresInt = new ArrayList<>(validSquares.size());
+        for(int i =0; i<validSquares.size(); i++){
+            validSquaresInt.add(Math.round(validSquares.get(i)));
+        }
+        view.showValidSquares(validSquaresInt);
+    }
 
     public void sendSettings(int selectedMap, int selectedSkull) {
         connectionHandler.sendSettings(selectedMap, selectedSkull);
