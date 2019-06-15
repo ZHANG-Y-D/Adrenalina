@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public interface ViewInterface {
     void showError(String error);
+    void showMessage(String message);
     void changeStage();
     void setGameController(GameController gameController);
     void notifyTimer(Integer duration, String comment);

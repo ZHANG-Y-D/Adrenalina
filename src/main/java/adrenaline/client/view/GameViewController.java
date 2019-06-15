@@ -4,6 +4,7 @@ import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
 import adrenaline.client.model.Player;
 import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -13,8 +14,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+<<<<<<< HEAD
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.InnerShadow;
+=======
+>>>>>>> 71a5929f1395d3ade728b3591c517b58d6d488d4
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -39,7 +43,7 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer,pane0;
+    private Pane pane, ownPlayer;
     @FXML
     private Button  run, shoot, grab, reload, back;
     @FXML
@@ -55,23 +59,22 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                      weapon_red1,weapon_red2, weapon_red3, weapon_blue1, weapon_blue2, weapon_blue3, weapon_yellow1, weapon_yellow2, weapon_yellow3,
                      myWeapon,myPowerup;
     @FXML
-    private Label error;
+    private Label message;
     @FXML
     private Polygon powerupTriangle,weaponTriangle;
-    private Map modelMap;
     private HashMap<adrenaline.Color, ArrayList<ImageView>> weaponLists = new HashMap<>();
     private ArrayList<ImageView> redWeaponsList, blueWeaponsList, yellowWeaponsList;
     private GameController gameController;
-    private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>();
+    private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>(); //forse non serve
     private HashMap<adrenaline.Color, ImageView> tokensMap = new HashMap<>();
     private HashMap<Integer, Pane> mapPanes = new HashMap<>();
     private HashMap<Pane, ArrayList<Position>> positionMap = new HashMap<>();
+    private HashMap<ImageView, Position> tokenPosition = new HashMap<>();
     private final int columns = 4;
     private final int rows = 3;
 
     public void initialize(){
-        error.getStyleClass().add("RED");
-        error.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
+        message.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
         powerupTriangle.getStyleClass().add("triangle");
         weaponTriangle.getStyleClass().add("triangle");
         red_ammo1.getStyleClass().add("ammo");
@@ -116,15 +119,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void initializeHUD(){
-        modelMap = gameController.getMap();
-        String path = "url(/Maps/MAP"+modelMap.getMapID()+".png)";
+        Map modelMap = gameController.getMap();
+        String path = "url(/Maps/MAP"+ modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
-        HashMap<Integer,Integer> ammoMap = modelMap.getAmmoMap();
-        ammoMap.forEach((x,y) -> {
-            ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(0);
-            String imgUrl = y.toString() + ".png";
-            ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-"+imgUrl)));
-        });
+        updateMap(modelMap);
         Pane skullPane = new Pane();
         ImageView skulls = new ImageView(new Image(getClass().getResourceAsStream("/SKULLBAR.png")));
         skulls.setFitHeight(57);
@@ -179,13 +177,25 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         txtMsg.setText("");
     }
 
-    public void setDestination(){
-
+    public void selectSquare(Event event){
+        Pane pane = (Pane) event.getSource();
+        gameController.selectSquare(Integer.parseInt(pane.getId().substring(4)));
     }
 
     public void showError(String error) {
         Platform.runLater(() -> {
-            this.error.setText(error);
+            message.getStyleClass().clear();
+            message.getStyleClass().add("RED");
+            this.message.setText(error);
+        });
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Platform.runLater(() -> {
+            this.message.getStyleClass().clear();
+            this.message.getStyleClass().add("GREEN");
+            this.message.setText(message);
         });
     }
 
@@ -227,7 +237,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 break;
             case "scoreboard":
                 break;
-
+            default: break;
         }
     }
 
@@ -237,26 +247,16 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void selectAction(Event evt){
-        error.setText("");
+        message.setText("");
         Button button = (Button) evt.getSource();
         switch (button.getId()){
             case "reload": gameController.endTurn(); break;
+            case "run": gameController.run(); break;
+            case "grab": gameController.grab(); break;
+            case "shoot": gameController.shoot(); break;
+            case "back": gameController.back(); break;
+            default: break;
         }
-    }
-
-    private void updateMap(Map newMap){
-        //initializeHUD();
-        newMap.getWeaponMap().forEach((x,y) -> {
-            ArrayList<ImageView> weaponList = weaponLists.get(x);
-            for(int i = 0; i < 3; i++) {
-                String newImgUrl = "/Weapons/weapon_" + y.get(i) + "-TOP.png";
-                try {
-                    weaponList.get(i).setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     public synchronized void drawBottom(MouseEvent mouseEvent){
@@ -309,6 +309,29 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         weaponTriangle.setVisible(false);
     }
 
+    private void updateMap(Map newMap){
+        Platform.runLater(() -> {
+            HashMap<Integer,Integer> ammoMap = newMap.getAmmoMap();
+            ammoMap.forEach((x,y) -> {
+                ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(0);
+                String imgUrl = y.toString() + ".png";
+                ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-"+imgUrl)));
+            });
+            newMap.getWeaponMap().forEach((x,y) -> {
+                ArrayList<ImageView> list = weaponLists.get(x);
+                for(int i = 0; i < y.size(); i++) {
+                    String newImgUrl = "/Weapons/weapon_" + y.get(i) + "-TOP.png";
+                    try {
+                        list.get(i).setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        });
+    }
+
+
     public void updatePlayer(HashMap<adrenaline.Color, Player> newPlayersMap){
         Platform.runLater(() ->{
             //set own powerup
@@ -324,52 +347,94 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             else myPowerup.setImage(null);
 
             //set player position
-            newPlayersMap.forEach((x,y) -> {
-                if(y.getPosition() != -1){
-                    ImageView token = tokensMap.get(x);
-                    if(token.getParent() == null) { //if is the first turn
-                        String tokenUrl = "/"+x.toString()+"-TOKEN.png";
-                        token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
-                        token.setFitHeight(45);
-                        token.setFitWidth(45);
-                        Pane pane =  mapPanes.get(y.getPosition());
-                        ArrayList list = new ArrayList();
-                        if(positionMap.get(pane) == null){
-                            token.setLayoutX(Position.CENTER.getX());
-                            token.setLayoutY(Position.CENTER.getY());
-                            list.add(Position.CENTER);
-                            positionMap.put(pane, list);
-                        }
-                        else{
-                            Position newPosition = getFreePosition(pane);
-                            token.setLayoutX(newPosition.getX());
-                            token.setLayoutY(newPosition.getY());
-                            list = positionMap.get(pane);
-                            list.add(newPosition);
-                            positionMap.put(pane, list);
-                        }
-                        mapPanes.get(pane.getChildren().add(token));
-                    }
-                    else{} //TODO transition
-                }
-            });
+            updatePosition(newPlayersMap);
         });
 
     }
 
+    private void updatePosition(HashMap<adrenaline.Color,Player> newPlayersMap){
+        newPlayersMap.forEach((x,y) -> {
+            if((y.getPosition() != -1)){
+                ImageView token = tokensMap.get(x);
+                Position newPosition;
+                ArrayList<Position> list = new ArrayList<>();
+                Pane currentPane =  mapPanes.get(y.getPosition());
+                Pane oldPane = (Pane) token.getParent();
+                if(oldPane == null) { //if is the first turn
+                    String tokenUrl = "/"+x.toString()+"-TOKEN.png";
+                    token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
+                    token.setFitHeight(45);
+                    token.setFitWidth(45);
+                    newPosition = getFreePosition(currentPane);
+                    token.setLayoutX(newPosition.getX());
+                    token.setLayoutY(newPosition.getY());
+                    list.add(newPosition);
+                    positionMap.put(currentPane, list);
+                    tokenPosition.put(token, newPosition);
+                    currentPane.getChildren().add(token);
+                }
+                else if(currentPane != oldPane){
+                    newPosition = getFreePosition(currentPane);
+                    if(positionMap.get(currentPane) == null) list.add(newPosition);
+                    else {
+                        list = positionMap.get(currentPane);
+                        list.add(newPosition);
+                    }
+                    TranslateTransition transition = new TranslateTransition();
+                    transition.setNode(token);
+                    transition.setDuration(Duration.millis(1500));
+                    transition.setToX(((y.getPosition()%columns) - (y.getOldPosition()%columns))*145 + newPosition.getX() - tokenPosition.get(token).getX());
+                    transition.setToY(((y.getPosition()/columns) - (y.getOldPosition()/columns))*148 + newPosition.getY() - tokenPosition.get(token).getY());
+                    transition.play();
+                    transition.setOnFinished(e -> {
+                        token.setTranslateX(0);
+                        token.setTranslateY(0);
+                        oldPane.getChildren().remove(token);
+                        token.setLayoutX(newPosition.getX());
+                        token.setLayoutY(newPosition.getY());
+                        currentPane.getChildren().add(token);
+                    });
+                    positionMap.get(oldPane).remove(tokenPosition.get(token));
+                    tokenPosition.put(token, newPosition);
+                    if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
+                    positionMap.put(currentPane, list);
+                }
+            }
+        });
+    }
+
     private Position getFreePosition(Pane pane){
         ArrayList<Position> positionList = positionMap.get(pane);
-        ArrayList<Position> allPosition = new ArrayList<>(Arrays.asList(Position.TOP,Position.CENTER,Position.RIGHT,Position.LEFT,Position.DOWN));
-        allPosition.removeIf(positionList::contains);
-        Random rand = new Random();
-        return allPosition.get(rand.nextInt(allPosition.size()));
+        if(positionList == null) return Position.CENTER;
+        else {
+            ArrayList<Position> allPosition = new ArrayList<>(Arrays.asList(Position.TOP, Position.CENTER, Position.RIGHT, Position.LEFT, Position.DOWN));
+            allPosition.removeIf(positionList::contains);
+            Random rand = new Random();
+            return allPosition.get(rand.nextInt(allPosition.size()));
+        }
+    }
+
+    public void nextPowerUp(){
+        ArrayList<Integer> powerUpList = gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards();
+        String powerup = myPowerup.getImage().getUrl();
+        powerup = new File(powerup).getName();
+        powerup = powerup.substring(powerup.indexOf('-') + 1, powerup.indexOf('.'));
+        int newIndex;
+        if(powerUpList.indexOf(Integer.parseInt(powerup)) == (powerUpList.size() -1)) newIndex = 0;
+        else newIndex = powerUpList.indexOf(Integer.parseInt(powerup)) + 1;
+        powerup = "/Powerup/powerup-"+powerUpList.get(newIndex)+".png";
+        try {
+            myPowerup.setImage(new Image(new File(getClass().getResource(powerup).toURI()).toURI().toString()));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     public void selectPowerUp(){
+        message.setText("");
         String powerupID = myPowerup.getImage().getUrl();
         powerupID = new File(powerupID).getName();
         powerupID = powerupID.substring(powerupID.indexOf('-') + 1, powerupID.indexOf('.'));
-        System.out.println(powerupID);
         gameController.selectPowerUp(Integer.parseInt(powerupID));
     }
 }

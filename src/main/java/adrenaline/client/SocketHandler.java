@@ -134,10 +134,47 @@ public class SocketHandler implements ConnectionHandler {
     }
 
     @Override
+    public void run() {
+        String runMsg = "runAction;ARGSIZE=1;java.lang.String;";
+        runMsg += gson.toJson(clientID);
+        sendMessage(runMsg);
+    }
+
+    @Override
     public void endTurn() {
         String endMsg = "endOfTurnAction;ARGSIZE=1;java.lang.String;";
         endMsg += gson.toJson(clientID);
         sendMessage(endMsg);
+    }
+
+    @Override
+    public void selectSquare(int index) {
+        String squareMsg = "selectSquare;ARGSIZE=2;java.lang.String;";
+        squareMsg += gson.toJson(clientID)+";";
+        squareMsg += "java.lang.Integer;";
+        squareMsg += gson.toJson(index);
+        sendMessage(squareMsg);
+    }
+
+    @Override
+    public void grab() {
+        String grabMsg = "grabAction;ARGSIZE=1;java.lang.String;";
+        grabMsg += gson.toJson(clientID);
+        sendMessage(grabMsg);
+    }
+
+    @Override
+    public void shoot() {
+        String shootMsg = "shootAction;ARGSIZE=1;java.lang.String;";
+        shootMsg += gson.toJson(clientID);
+        sendMessage(shootMsg);
+    }
+
+    @Override
+    public void back() {
+        String backMsg = "goBack;ARGSIZE=1;java.lang.String;";
+        backMsg += gson.toJson(clientID);
+        sendMessage(backMsg);
     }
 
     @Override

@@ -16,6 +16,7 @@ public interface LobbyAPI extends Remote {
     String selectWeapon(String clientID, Integer weaponID) throws RemoteException;
     String selectFiremode(String clientID, Integer firemode) throws RemoteException;
     String moveSubAction(String clientID) throws RemoteException;
+    String goBack(String clientID) throws RemoteException;
     String endOfTurnAction(String clientID) throws RemoteException;
     String selectAvatar(String clientID, Color color) throws RemoteException;
     String selectSettings(String clientID, Integer mapID, Integer skulls) throws RemoteException;

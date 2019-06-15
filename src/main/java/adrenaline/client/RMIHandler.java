@@ -91,9 +91,49 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    public void run() {
+        try {
+            gameController.handleReturn(myLobby.runAction(clientID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void grab() {
+        try {
+            gameController.handleReturn(myLobby.grabAction(clientID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void shoot() {
+        try {
+            gameController.handleReturn(myLobby.shootAction(clientID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void back() {
+        try {
+            gameController.handleReturn(myLobby.goBack(clientID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void endTurn() {
         try {
             gameController.handleReturn(myLobby.endOfTurnAction(clientID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectSquare(int index) {
+        try {
+            gameController.handleReturn(myLobby.selectSquare(clientID,index));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

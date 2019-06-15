@@ -76,7 +76,7 @@ public class GrabState implements GameState {
     public String goBack() {
         lobby.setState(new SelectActionState(lobby));
         lobby.clearTempAmmo();
-        return "OK";
+        return "OK Select an action";
     }
 
     @Override

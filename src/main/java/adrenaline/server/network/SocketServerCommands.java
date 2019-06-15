@@ -19,7 +19,7 @@ public class SocketServerCommands implements ServerAPI {
 
     public String setNickname(String clientID, String nickname) {
         if(nickname.length()<1) return "Nickname must contain at least 1 character!";
-        if(mainServer.setNickname(clientID, nickname)) return "/OK";
+        if(mainServer.setNickname(clientID, nickname)) return "OK Nickname selected";
         else return "This nickname is already taken!";
     }
 

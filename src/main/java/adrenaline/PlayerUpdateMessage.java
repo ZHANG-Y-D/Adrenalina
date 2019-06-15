@@ -21,7 +21,7 @@ public class PlayerUpdateMessage implements UpdateMessage {
             powerupIDs.add(puc.getPowerupID());
         }
 
-        clientsidePlayer = new Player(serversidePlayer.getColor(), serversidePlayer.getPosition(),
+        clientsidePlayer = new Player(serversidePlayer.getColor(), serversidePlayer.getPosition(), serversidePlayer.getOldPosition(),
                                         serversidePlayer.getAmmoBox(), serversidePlayer.getDamageTrack(),
                                         serversidePlayer.getMarks(), weaponIDs, powerupIDs);
     }

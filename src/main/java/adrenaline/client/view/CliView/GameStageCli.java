@@ -61,6 +61,11 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     }
 
     @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
     public void changeStage() {
 
     }

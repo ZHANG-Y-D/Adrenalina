@@ -197,7 +197,10 @@ public class Lobby implements Runnable, LobbyAPI {
         if(clientID.equals(currentTurnPlayer)) return currentState.moveSubAction();
         else return "You can only do that during your turn!";
     }
-
+    public String goBack(String clientID) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.goBack();
+        else return "You can only do that during your turn!";
+    }
     public String endOfTurnAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) return currentState.endOfTurnAction();
         else return "You can only do that during your turn!";

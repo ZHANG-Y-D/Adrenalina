@@ -61,6 +61,9 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
     }
 
     @Override
+    public String goBack(String clientID) { return lobbyRelay.goBack(clientID); }
+
+    @Override
     public String endOfTurnAction(String clientID) {
         return lobbyRelay.endOfTurnAction(clientID);
     }
