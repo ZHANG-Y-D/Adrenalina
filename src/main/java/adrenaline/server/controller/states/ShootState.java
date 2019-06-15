@@ -1,18 +1,18 @@
 package adrenaline.server.controller.states;
 
-import adrenaline.server.exceptions.InvalidCardException;
 import adrenaline.server.exceptions.NotEnoughAmmoException;
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
 import adrenaline.server.model.Firemode;
 import adrenaline.server.model.PowerupCard;
+import adrenaline.server.model.WeaponCard;
 
 import java.util.ArrayList;
 
 public class ShootState implements GameState {
 
     private Lobby lobby;
-    private Integer selectedWeapon = null;
+    private WeaponCard selectedWeapon = null;
 
     public ShootState(Lobby lobby){
         this.lobby = lobby;
@@ -51,22 +51,20 @@ public class ShootState implements GameState {
 
     @Override
     public String selectWeapon(int weaponID) {
-        if(lobby.canUseWeapon(weaponID)){
-            selectedWeapon = weaponID;
-            return "OK";
-        }
-        else return "You can't shoot with that weapon! Please select a valid weapon";
+        selectedWeapon = lobby.useWeapon(weaponID);
+        if(selectedWeapon==null) return "You can't shoot with that weapon! Please select a valid weapon";
+        else return "OK";
     }
 
     @Override
     public String selectFiremode(int firemode) {
         if(selectedWeapon == null) return "No weapon is selected! Please select a weapon first";
         try {
-            Firemode selectedFiremode = lobby.getFiremode(selectedWeapon, firemode);
+            Firemode selectedFiremode = lobby.getFiremode(selectedWeapon.getWeaponID(), firemode);
             if(selectedFiremode==null) return "This weapon does not have such firemode!";
             else {
                 FiremodeSubState nextStep = selectedFiremode.getNextStep();
-                nextStep.setContext(lobby, selectedFiremode, false);
+                nextStep.setContext(lobby, selectedWeapon, selectedFiremode, false);
                 lobby.setState(nextStep);
             }
             return "OK";
@@ -88,6 +86,7 @@ public class ShootState implements GameState {
     @Override
     public String goBack() {
         lobby.setState(new SelectActionState(lobby));
+        lobby.clearTempAmmo();
         return "OK";
     }
 

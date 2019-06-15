@@ -18,7 +18,7 @@ public class SelectActionState implements GameState {
     public String runAction() {
         if (lobby.getExecutedActions() >= 2) return "You have run out of moves!";
         else {
-            lobby.setState(new RunState(lobby));
+            lobby.setState(new RunState(lobby,3));
             return "OK";
         }
     }

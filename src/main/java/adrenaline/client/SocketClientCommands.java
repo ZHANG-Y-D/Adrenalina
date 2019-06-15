@@ -4,6 +4,7 @@ import adrenaline.Color;
 import adrenaline.UpdateMessage;
 import adrenaline.client.controller.GameController;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class SocketClientCommands  implements ClientAPI{
@@ -29,6 +30,8 @@ public class SocketClientCommands  implements ClientAPI{
     public void timerStarted(Integer duration, String comment) {
         gameController.timerStarted(duration, comment);
     }
+
+    public void validSquaresInfo(ArrayList<Integer> validSquares) { gameController.validSquaresInfo(validSquares); }
 
     public void update(UpdateMessage updatemsg){
         updatemsg.applyUpdate(gameController);

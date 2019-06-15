@@ -14,6 +14,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -97,12 +98,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
         for(int i = 0; i <= 11; i++){
             mapPanes.put(i,(Pane) map.lookup("#pane"+i));
-            /*
-            ImageView highlight = new ImageView(new Image(getClass().getResourceAsStream("/test.png")));
-            highlight.setEffect(new Glow(0.8));
+            ImageView highlight = new ImageView(new Image(getClass().getResourceAsStream("/highlight.png")));
+            highlight.setEffect(new Glow(0.6));
+            highlight.setVisible(false);
             ((Pane) map.lookup("#pane"+i)).getChildren().add(highlight);
-             */
         }
+
         //gameController = new GameController();
         //gameController.addPropertyChangeListener(this);
     }
@@ -211,7 +212,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
+    public void showValidSquares(ArrayList<Integer> validSquares) {
+        validSquares.forEach(i -> ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(true));
+    }
+
     public void propertyChange(PropertyChangeEvent evt) {
+        for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(false);
         switch (evt.getPropertyName()){
             case "map":
                 updateMap((Map)evt.getNewValue());

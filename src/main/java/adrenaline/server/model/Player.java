@@ -116,8 +116,8 @@ public class Player extends Observable{
      *
      */
 
-    public boolean applyDamage(Color damageOrigin, int amount) {
-        if(amount>0 && marks.contains(damageOrigin)){
+    public boolean applyDamage(Color damageOrigin, int amount, boolean extra) {
+        if(!extra && amount>0 && marks.contains(damageOrigin)){
             amount += Collections.frequency(marks,damageOrigin);
             marks.removeIf(damageOrigin::equals);
         }
@@ -340,5 +340,12 @@ public class Player extends Observable{
 
     public Color getColor() {
         return avatar.getColor();
+    }
+
+    public void clearTempAmmo() {
+        tempAmmoBox[0] = 0;
+        tempAmmoBox[1] = 0;
+        tempAmmoBox[2] = 0;
+
     }
 }

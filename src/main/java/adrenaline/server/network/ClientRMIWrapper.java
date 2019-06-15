@@ -5,6 +5,7 @@ import adrenaline.UpdateMessage;
 import adrenaline.client.ClientAPI;
 import adrenaline.server.controller.Lobby;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -57,6 +58,14 @@ public class ClientRMIWrapper implements Client {
     public void timerStarted(Integer duration, String comment) {
         try {
             thisClient.timerStarted(duration, comment);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void validSquaresInfo(ArrayList<Integer> validSquares) {
+        try {
+            thisClient.validSquaresInfo(validSquares);
         } catch (Exception e) {
             e.printStackTrace();
         }

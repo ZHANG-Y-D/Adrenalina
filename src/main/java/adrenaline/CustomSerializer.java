@@ -1,13 +1,14 @@
 package adrenaline;
 
+import adrenaline.server.model.Firemode;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class CustomSerializer implements JsonDeserializer<Object>, JsonSerializer<UpdateMessage> {
+public class CustomSerializer implements JsonDeserializer<Object>, JsonSerializer<Object> {
 
     @Override
-    public JsonElement serialize(UpdateMessage o, Type typeOfT, JsonSerializationContext context) {
+    public JsonElement serialize(Object o, Type typeOfT, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", o.getClass().getName());
         jsonObject.add("properties", context.serialize(o));

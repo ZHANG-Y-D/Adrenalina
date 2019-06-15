@@ -42,6 +42,8 @@ public class GrabState implements GameState {
         lobby.movePlayer(index);
         lobby.grabFromSquare(index);
         lobby.incrementExecutedActions();
+        lobby.setState(new SelectActionState(lobby));
+        lobby.clearTempAmmo();
         return "OK";
     }
 
@@ -73,6 +75,7 @@ public class GrabState implements GameState {
     @Override
     public String goBack() {
         lobby.setState(new SelectActionState(lobby));
+        lobby.clearTempAmmo();
         return "OK";
     }
 

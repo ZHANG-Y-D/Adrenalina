@@ -140,6 +140,8 @@ public class GameController {
         view.notifyTimer(duration, comment);
     }
 
+    public void validSquaresInfo(ArrayList<Integer> validSquares){ view.showValidSquares(validSquares); }
+
     public void sendSettings(int selectedMap, int selectedSkull) {
         connectionHandler.sendSettings(selectedMap, selectedSkull);
     }
