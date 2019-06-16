@@ -17,61 +17,121 @@
             <children>
                 <Pane fx:id="pane0" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane1" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="0" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane2" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="0" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane3" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="0" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane4" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane5" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane6" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="1" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane7" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="1" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane8" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="2" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane9" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane10" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
                 <Pane fx:id="pane11" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="2" >
                     <children>
+                        <ImageView fitWidth="145.0" fitHeight="148.0" visible="false">
+                            <image>
+                                <Image url="@highlight.png" />
+                            </image>
+                        </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>

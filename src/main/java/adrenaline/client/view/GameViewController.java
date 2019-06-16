@@ -96,11 +96,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         myPowerup.getStyleClass().add("weapon");
 
         for(int i = 0; i <= 11; i++){
-            mapPanes.put(i,(Pane) map.lookup("#pane"+i));
-            ImageView highlight = new ImageView(new Image(getClass().getResourceAsStream("/highlight.png")));
-            highlight.setEffect(new Glow(0.6));
-            highlight.setVisible(false);
-            ((Pane) map.lookup("#pane"+i)).getChildren().add(highlight);
+            Pane pane = (Pane) map.lookup("#pane"+i);
+            pane.getChildren().get(0).setEffect(new Glow(0.5));
+            mapPanes.put(i,pane);
         }
 
         //gameController = new GameController();
@@ -189,7 +187,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> {
-            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(false);
+            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
             this.message.getStyleClass().clear();
             this.message.getStyleClass().add("GREEN");
             this.message.setText(message);
@@ -220,11 +218,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void showValidSquares(ArrayList<Integer> validSquares) {
-        validSquares.forEach(i -> ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(true));
+        validSquares.forEach(i -> {
+            ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(true);
+        });
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(false);
+        for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
         switch (evt.getPropertyName()){
             case "map":
                 updateMap((Map)evt.getNewValue());
@@ -310,7 +310,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Platform.runLater(() -> {
             HashMap<Integer,Integer> ammoMap = newMap.getAmmoMap();
             ammoMap.forEach((x,y) -> {
-                ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(0);
+                ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(1);
                 String imgUrl = y.toString() + ".png";
                 ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-"+imgUrl)));
             });

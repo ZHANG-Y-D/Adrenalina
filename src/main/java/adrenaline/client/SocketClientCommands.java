@@ -5,6 +5,7 @@ import adrenaline.UpdateMessage;
 import adrenaline.client.controller.GameController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SocketClientCommands  implements ClientAPI{
 
@@ -30,7 +31,11 @@ public class SocketClientCommands  implements ClientAPI{
         gameController.timerStarted(duration, comment);
     }
 
-    public void validSquaresInfo(ArrayList<Integer> validSquares) { gameController.validSquaresInfo(validSquares); }
+    public void validSquaresInfo(ArrayList<Integer> validSquares) {
+        ArrayList<Integer> typesafeValidSquare = new ArrayList<>();
+        for(int i=0; i< validSquares.size(); i++) typesafeValidSquare.add(((Number)validSquares.get(i)).intValue());
+        gameController.validSquaresInfo(typesafeValidSquare);
+    }
 
     public void update(UpdateMessage updatemsg){
         updatemsg.applyUpdate(gameController);
