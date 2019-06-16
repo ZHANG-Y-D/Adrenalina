@@ -139,23 +139,23 @@
         </GridPane>
         <VBox fx:id="redWeapons" layoutX="10" layoutY="170">
          <children>
-             <ImageView fx:id="weapon_red1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weapon_red2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weapon_red3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </VBox>
         <HBox fx:id="blueWeapons" layoutX="290" layoutY="5">
          <children>
-            <ImageView fx:id="weapon_blue1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weapon_blue2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weapon_blue3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+            <ImageView fx:id="weaponBlue1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponBlue2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponBlue3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </HBox>
         <VBox fx:id="yellowWeapons" layoutX="760" layoutY="233">
          <children>
-             <ImageView fx:id="weapon_yellow1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weapon_yellow2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weapon_yellow3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </VBox>
         <VBox fx:id="enemyPlayers" layoutX="940" layoutY="10" />
@@ -168,47 +168,47 @@
                 <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57"  layoutX="58" layoutY="100"/>
                 <Button fx:id="reload" onMouseClicked="#selectAction" prefHeight="62" prefWidth="42" layoutX="10" layoutY="78"/>
                 <Button fx:id="back" onMouseClicked="#selectAction" prefHeight="62" prefWidth="42" layoutX="10" layoutY="10" />
-                <ImageView fx:id="red_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="20">
+                <ImageView fx:id="redAmmo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="20" visible="false">
                     <image>
                         <Image url="@HUD/ammo_red.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="red_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="20">
+                <ImageView fx:id="redAmmo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="20" visible="false">
                     <image>
                         <Image url="@HUD/ammo_red.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="red_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="20">
+                <ImageView fx:id="redAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="20">
                     <image>
                         <Image url="@HUD/ammo_red.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="blue_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="60">
+                <ImageView fx:id="blueAmmo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="60" visible="false">
                     <image>
                         <Image url="@HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="blue_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="60">
+                <ImageView fx:id="blueAmmo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="60" visible="false">
                     <image>
                         <Image url="@HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="blue_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="60">
+                <ImageView fx:id="blueAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="60">
                     <image>
                         <Image url="@HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="yellow_ammo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="100">
+                <ImageView fx:id="yellowAmmo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="100" visible="false">
                     <image>
                         <Image url="@HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="yellow_ammo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="100">
+                <ImageView fx:id="yellowAmmo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="100" visible="false">
                     <image>
                         <Image url="@HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="yellow_ammo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="100">
+                <ImageView fx:id="yellowAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="100">
                     <image>
                         <Image url="@HUD/ammo_yellow.png" />
                     </image>

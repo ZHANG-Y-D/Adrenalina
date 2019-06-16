@@ -423,7 +423,6 @@ public class Lobby implements Runnable, LobbyAPI {
             //If the tile depicts a powerup card, draw one.
             if (grabbedAmmoContent[3] != 0 && currentPlayer.getPowerupHandSize()<3) currentPlayer.addPowerupCard(deckPowerup.draw());
         }
-        setState(new SelectActionState(this));
     }
 
     public void grabFromSquare(SquareSpawn square){

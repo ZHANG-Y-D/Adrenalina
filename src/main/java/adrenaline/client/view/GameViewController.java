@@ -51,21 +51,21 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private TextField txtMsg;
     @FXML
-    private ImageView ownPlayerLabel,red_ammo1,red_ammo2,red_ammo3,blue_ammo1,blue_ammo2,blue_ammo3,yellow_ammo1,yellow_ammo2,yellow_ammo3,
-                     weapon_red1,weapon_red2, weapon_red3, weapon_blue1, weapon_blue2, weapon_blue3, weapon_yellow1, weapon_yellow2, weapon_yellow3,
+    private ImageView ownPlayerLabel, redAmmo1, redAmmo2, redAmmo3, blueAmmo1, blueAmmo2, blueAmmo3, yellowAmmo1, yellowAmmo2, yellowAmmo3,
+            weaponRed1, weaponRed2, weaponRed3, weaponBlue1, weaponBlue2, weaponBlue3, weaponYellow1, weaponYellow2, weaponYellow3,
                      myWeapon,myPowerup;
     @FXML
     private Label message;
     @FXML
     private Polygon powerupTriangle,weaponTriangle;
+    private HashMap<Integer, ArrayList<ImageView>> ammoBoxs = new HashMap<>();
     private HashMap<adrenaline.Color, ArrayList<ImageView>> weaponLists = new HashMap<>();
-    private ArrayList<ImageView> redWeaponsList, blueWeaponsList, yellowWeaponsList;
     private GameController gameController;
     private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>(); //forse non serve
     private HashMap<adrenaline.Color, ImageView> tokensMap = new HashMap<>();
-    private HashMap<Integer, Pane> mapPanes = new HashMap<>();
-    private HashMap<Pane, ArrayList<Position>> positionMap = new HashMap<>();
-    private HashMap<ImageView, Position> tokenPosition = new HashMap<>();
+    private HashMap<Integer, Pane> mapPanes = new HashMap<>(); //get pane from position
+    private HashMap<Pane, ArrayList<Position>> positionMap = new HashMap<>(); //get pane used positions
+    private HashMap<ImageView, Position> tokenPosition = new HashMap<>(); //get token current position
     private final int columns = 4;
     private final int rows = 3;
 
@@ -73,22 +73,28 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         message.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
         powerupTriangle.getStyleClass().add("triangle");
         weaponTriangle.getStyleClass().add("triangle");
-        red_ammo1.getStyleClass().add("ammo");
-        red_ammo2.getStyleClass().add("ammo");
-        red_ammo3.getStyleClass().add("ammo");
-        blue_ammo1.getStyleClass().add("ammo");
-        blue_ammo2.getStyleClass().add("ammo");
-        blue_ammo3.getStyleClass().add("ammo");
-        yellow_ammo1.getStyleClass().add("ammo");
-        yellow_ammo2.getStyleClass().add("ammo");
-        yellow_ammo3.getStyleClass().add("ammo");
+        redAmmo1.getStyleClass().add("ammo");
+        redAmmo2.getStyleClass().add("ammo");
+        redAmmo3.getStyleClass().add("ammo");
+        blueAmmo1.getStyleClass().add("ammo");
+        blueAmmo2.getStyleClass().add("ammo");
+        blueAmmo3.getStyleClass().add("ammo");
+        yellowAmmo1.getStyleClass().add("ammo");
+        yellowAmmo2.getStyleClass().add("ammo");
+        yellowAmmo3.getStyleClass().add("ammo");
         scrollPane.vvalueProperty().bind(chat.heightProperty());
-        redWeaponsList = new ArrayList<>(Arrays.asList(weapon_red1, weapon_red2, weapon_red3));
-        blueWeaponsList = new ArrayList<>(Arrays.asList(weapon_blue1, weapon_blue2, weapon_blue3));
-        yellowWeaponsList = new ArrayList<>(Arrays.asList(weapon_yellow1, weapon_yellow2, weapon_yellow3));
-        weaponLists.put(adrenaline.Color.RED,redWeaponsList);
-        weaponLists.put(adrenaline.Color.BLUE,blueWeaponsList);
-        weaponLists.put(adrenaline.Color.YELLOW,yellowWeaponsList);
+        ArrayList<ImageView> redAmmo = new ArrayList<>(Arrays.asList(redAmmo1,redAmmo2,redAmmo3));
+        ArrayList<ImageView> blueAmmo = new ArrayList<>(Arrays.asList(blueAmmo1,blueAmmo2, blueAmmo3));
+        ArrayList<ImageView> yellowAmmo = new ArrayList<>(Arrays.asList(yellowAmmo1,yellowAmmo2,yellowAmmo3));
+        ammoBoxs.put(0,redAmmo);
+        ammoBoxs.put(1,blueAmmo);
+        ammoBoxs.put(2,yellowAmmo);
+        ArrayList<ImageView> redWeaponsList = new ArrayList<>(Arrays.asList(weaponRed1, weaponRed2, weaponRed3));
+        ArrayList<ImageView> blueWeaponsList = new ArrayList<>(Arrays.asList(weaponBlue1, weaponBlue2, weaponBlue3));
+        ArrayList<ImageView> yellowWeaponsList = new ArrayList<>(Arrays.asList(weaponYellow1, weaponYellow2, weaponYellow3));
+        weaponLists.put(adrenaline.Color.RED, redWeaponsList);
+        weaponLists.put(adrenaline.Color.BLUE, blueWeaponsList);
+        weaponLists.put(adrenaline.Color.YELLOW, yellowWeaponsList);
         weaponLists.forEach((x,y) -> {
             for (ImageView img : y) img.getStyleClass().add("weapon");
         });
@@ -311,8 +317,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             HashMap<Integer,Integer> ammoMap = newMap.getAmmoMap();
             ammoMap.forEach((x,y) -> {
                 ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(1);
-                String imgUrl = y.toString() + ".png";
-                ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-"+imgUrl)));
+                if(y == 0) ammoImage.setImage(null);
+                else {
+                    String imgUrl = y.toString() + ".png";
+                    ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-" + imgUrl)));
+                }
             });
             newMap.getWeaponMap().forEach((x,y) -> {
                 ArrayList<ImageView> list = weaponLists.get(x);
@@ -343,6 +352,19 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             }
             else myPowerup.setImage(null);
 
+            //set ammo
+            int[] ammoBox = ownPlayer.getAmmoBox();
+            if(ammoBox != null) {
+                for (int i = 0; i < 3; i++) {
+                    int ammoNum = ammoBox[i];
+                    ArrayList<ImageView> ammoList = ammoBoxs.get(i);
+                    ammoList.forEach(x -> {
+                        if (ammoList.indexOf(x) < ammoNum) x.setVisible(true);
+                        else x.setVisible(false);
+                    });
+                }
+            }
+
             //set player position
             updatePosition(newPlayersMap);
         });
@@ -355,46 +377,47 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 ImageView token = tokensMap.get(x);
                 Position newPosition;
                 ArrayList<Position> list = new ArrayList<>();
-                Pane currentPane =  mapPanes.get(y.getPosition());
+                Pane newPane =  mapPanes.get(y.getPosition());
                 Pane oldPane = (Pane) token.getParent();
                 if(oldPane == null) { //if is the first turn
                     String tokenUrl = "/"+x.toString()+"-TOKEN.png";
                     token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
                     token.setFitHeight(45);
                     token.setFitWidth(45);
-                    newPosition = getFreePosition(currentPane);
+                    newPosition = getFreePosition(newPane);
                     token.setLayoutX(newPosition.getX());
                     token.setLayoutY(newPosition.getY());
                     list.add(newPosition);
-                    positionMap.put(currentPane, list);
+                    positionMap.put(newPane, list);
                     tokenPosition.put(token, newPosition);
-                    currentPane.getChildren().add(token);
+                    newPane.getChildren().add(token);
                 }
-                else if(currentPane != oldPane){
-                    newPosition = getFreePosition(currentPane);
-                    if(positionMap.get(currentPane) == null) list.add(newPosition);
+                else if(newPane != oldPane){
+                    System.out.println(oldPane.getId()+" "+newPane.getId());
+                    newPosition = getFreePosition(newPane);
+                    if(positionMap.get(newPane) == null) list.add(newPosition);
                     else {
-                        list = positionMap.get(currentPane);
+                        list = positionMap.get(newPane);
                         list.add(newPosition);
                     }
                     TranslateTransition transition = new TranslateTransition();
                     transition.setNode(token);
-                    transition.setDuration(Duration.millis(1500));
+                    transition.setDuration(Duration.millis(300));
                     transition.setToX(((y.getPosition()%columns) - (y.getOldPosition()%columns))*145 + newPosition.getX() - tokenPosition.get(token).getX());
                     transition.setToY(((y.getPosition()/columns) - (y.getOldPosition()/columns))*148 + newPosition.getY() - tokenPosition.get(token).getY());
-                    transition.play();
                     transition.setOnFinished(e -> {
+                        oldPane.getChildren().remove(token);
                         token.setTranslateX(0);
                         token.setTranslateY(0);
-                        oldPane.getChildren().remove(token);
                         token.setLayoutX(newPosition.getX());
                         token.setLayoutY(newPosition.getY());
-                        currentPane.getChildren().add(token);
+                        newPane.getChildren().add(token);
                     });
+                    transition.play();
                     positionMap.get(oldPane).remove(tokenPosition.get(token));
                     tokenPosition.put(token, newPosition);
                     if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
-                    positionMap.put(currentPane, list);
+                    positionMap.put(newPane, list);
                 }
             }
         });
