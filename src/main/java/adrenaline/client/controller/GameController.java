@@ -109,13 +109,13 @@ public class GameController {
         changes.firePropertyChange("player", oldPlayersMap, newPlayersMap);
     }
 
-    public void updateMap(Map newMap){
+    public synchronized void updateMap(Map newMap){
         Map oldMap = map;
         map = newMap;
         changes.firePropertyChange("map", oldMap, newMap);
     }
 
-    public void updateChat(String nickname, Color senderColor, String message){
+    public synchronized void updateChat(String nickname, Color senderColor, String message){
         view.newChatMessage(nickname, senderColor, message);
     }
 
@@ -131,7 +131,7 @@ public class GameController {
         changes.removePropertyChangeListener(l);
     }
 
-    public void updateScoreBoard(ScoreBoard newScoreBoard){
+    public synchronized void updateScoreBoard(ScoreBoard newScoreBoard){
         scoreBoard = newScoreBoard;
     }
 

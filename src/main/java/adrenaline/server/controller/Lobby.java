@@ -465,8 +465,7 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String usePowerup(NewtonPowerup newton){
-        setState(new TeleportState(this, newton));
-        return "Select the square you want to teleport in.";
+       return "NOT IMPLEMENTED YET";
     }
 
     public String usePowerup(ScopePowerup scope){
@@ -475,7 +474,8 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String usePowerup(TeleporterPowerup teleporter){
-        return null;
+        setState(new TeleportState(this, teleporter));
+        return "Select the square you want to teleport in.";
     }
 
     public String usePowerup(GrenadePowerup grenade){

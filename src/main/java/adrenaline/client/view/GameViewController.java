@@ -102,11 +102,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         myPowerup.getStyleClass().add("weapon");
 
         for(int i = 0; i <= 11; i++){
-            mapPanes.put(i,(Pane) map.lookup("#pane"+i));
-            ImageView highlight = new ImageView(new Image(getClass().getResourceAsStream("/highlight.png")));
-            highlight.setEffect(new Glow(0.6));
-            highlight.setVisible(false);
-            ((Pane) map.lookup("#pane"+i)).getChildren().add(highlight);
+            Pane pane = (Pane) map.lookup("#pane"+i);
+            pane.getChildren().get(0).setEffect(new Glow(0.5));
+            mapPanes.put(i,pane);
         }
 
         //gameController = new GameController();
@@ -195,7 +193,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> {
-            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(false);
             this.message.getStyleClass().clear();
             this.message.getStyleClass().add("GREEN");
             this.message.setText(message);
@@ -226,11 +223,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void showValidSquares(ArrayList<Integer> validSquares) {
-        validSquares.forEach(i -> ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(true));
+        Platform.runLater(()-> validSquares.forEach(i -> ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(true)));
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(1).setVisible(false);
+        Platform.runLater(()-> {
+            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
+        });
         switch (evt.getPropertyName()){
             case "map":
                 updateMap((Map)evt.getNewValue());
@@ -257,7 +256,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             case "run": gameController.run(); break;
             case "grab": gameController.grab(); break;
             case "shoot": gameController.shoot(); break;
-            case "back": gameController.back(); break;
+            case "back":
+                gameController.back();
+                for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
+                break;
             default: break;
         }
     }
@@ -316,7 +318,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Platform.runLater(() -> {
             HashMap<Integer,Integer> ammoMap = newMap.getAmmoMap();
             ammoMap.forEach((x,y) -> {
-                ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(0);
+                ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(1);
                 if(y == 0) ammoImage.setImage(null);
                 else {
                     String imgUrl = y.toString() + ".png";
@@ -339,22 +341,22 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
 
     public void updatePlayer(HashMap<adrenaline.Color, Player> newPlayersMap){
-        Platform.runLater(() ->{
-            //set own powerup
-            Player ownPlayer = newPlayersMap.get(gameController.getOwnColor());
-            if(ownPlayer.getPowerupCards() != null) {
-                String newImgUrl = "/Powerup/powerup-"+ownPlayer.getPowerupCards().get(0)+".png";
+        //set own powerup
+        Player ownPlayer = newPlayersMap.get(gameController.getOwnColor());
+        Platform.runLater(() -> {
+            if (ownPlayer.getPowerupCards() != null) {
+                String newImgUrl = "/Powerup/powerup-" + ownPlayer.getPowerupCards().get(0) + ".png";
                 try {
                     myPowerup.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
-            }
-            else myPowerup.setImage(null);
-
+            } else myPowerup.setImage(null);
             //set ammo
-            int[] ammoBox = ownPlayer.getAmmoBox();
-            if(ammoBox != null) {
+        });
+        int[] ammoBox = ownPlayer.getAmmoBox();
+        if(ammoBox != null) {
+            Platform.runLater(() -> {
                 for (int i = 0; i < 3; i++) {
                     int ammoNum = ammoBox[i];
                     ArrayList<ImageView> ammoList = ammoBoxs.get(i);
@@ -363,67 +365,68 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                         else x.setVisible(false);
                     });
                 }
-            }
+            });
+        }
 
-            //set player position
-            updatePosition(newPlayersMap);
-        });
-
+        //set player position
+        updatePosition(newPlayersMap);
     }
 
     private void updatePosition(HashMap<adrenaline.Color,Player> newPlayersMap){
         newPlayersMap.forEach((x,y) -> {
-            if((y.getPosition() != -1)){
-                ImageView token = tokensMap.get(x);
-                Position newPosition;
-                ArrayList<Position> list = new ArrayList<>();
-                Pane newPane =  mapPanes.get(y.getPosition());
-                Pane oldPane = (Pane) token.getParent();
-                if(oldPane == null) { //if is the first turn
-                    String tokenUrl = "/"+x.toString()+"-TOKEN.png";
-                    token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
-                    token.setFitHeight(45);
-                    token.setFitWidth(45);
-                    newPosition = getFreePosition(newPane);
-                    token.setLayoutX(newPosition.getX());
-                    token.setLayoutY(newPosition.getY());
-                    list.add(newPosition);
-                    positionMap.put(newPane, list);
-                    tokenPosition.put(token, newPosition);
-                    newPane.getChildren().add(token);
-                }
-                else if(newPane != oldPane){
-                    newPosition = getFreePosition(newPane);
-                    if(positionMap.get(newPane) == null) list.add(newPosition);
-                    else {
-                        list = positionMap.get(newPane);
+            Platform.runLater(() -> {
+                if((y.getPosition() != -1)){
+                    ImageView token = tokensMap.get(x);
+                    Position newPosition;
+                    ArrayList<Position> list = new ArrayList<>();
+                    Pane newPane =  mapPanes.get(y.getPosition());
+                    Pane oldPane = (Pane) token.getParent();
+                    if(oldPane == null) { //if is the first turn
+                        String tokenUrl = "/"+x.toString()+"-TOKEN.png";
+                        token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
+                        token.setFitHeight(45);
+                        token.setFitWidth(45);
+                        newPosition = getFreePosition(newPane);
+                        token.setLayoutX(newPosition.getX());
+                        token.setLayoutY(newPosition.getY());
                         list.add(newPosition);
+                        positionMap.put(newPane, list);
+                        tokenPosition.put(token, newPosition);
+                        newPane.getChildren().add(token);
                     }
-                    TranslateTransition transition = new TranslateTransition();
-                    transition.setNode(token);
-                    transition.setDuration(Duration.millis(1500));
-                    Position oldPosition = tokenPosition.get(token);
-                    int oldX = (y.getOldPosition()%columns -y.getPosition()%columns)*145 + oldPosition.getX() -newPosition.getX();
-                    int oldY = (y.getOldPosition()/columns -y.getPosition()/columns)*148 + oldPosition.getY() -newPosition.getY();
-                    oldPane.getChildren().remove(token);
-                    token.setLayoutX(newPosition.getX());
-                    token.setLayoutY(newPosition.getY());
-                    newPane.getChildren().add(token);
-                    transition.setFromX(oldX);
-                    transition.setFromY(oldY);
-                    transition.setToX(0);
-                    transition.setToY(0);
-                    positionMap.put(newPane, list);
-                    positionMap.get(oldPane).remove(tokenPosition.get(token));
-                    if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
-                    tokenPosition.put(token, newPosition);
-                    transition.setOnFinished(e -> {
-                        token.setTranslateX(0);
-                        token.setTranslateY(0);
-                    });
-                    transition.play();
+                    else if(newPane != oldPane){
+                        newPosition = getFreePosition(newPane);
+                        if(positionMap.get(newPane) == null) list.add(newPosition);
+                        else {
+                            list = positionMap.get(newPane);
+                            list.add(newPosition);
+                        }
+                        TranslateTransition transition = new TranslateTransition();
+                        transition.setNode(token);
+                        transition.setDuration(Duration.millis(1500));
+                        Position oldPosition = tokenPosition.get(token);
+                        int oldX = (y.getOldPosition()%columns -y.getPosition()%columns)*145 + oldPosition.getX() -newPosition.getX();
+                        int oldY = (y.getOldPosition()/columns -y.getPosition()/columns)*148 + oldPosition.getY() -newPosition.getY();
+                        oldPane.getChildren().remove(token);
+                        token.setLayoutX(newPosition.getX());
+                        token.setLayoutY(newPosition.getY());
+                        newPane.getChildren().add(token);
+                        transition.setFromX(oldX);
+                        transition.setFromY(oldY);
+                        transition.setToX(0);
+                        transition.setToY(0);
+                        positionMap.put(newPane, list);
+                        positionMap.get(oldPane).remove(tokenPosition.get(token));
+                        if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
+                        tokenPosition.put(token, newPosition);
+                        transition.setOnFinished(e -> {
+                            token.setTranslateX(0);
+                            token.setTranslateY(0);
+                        });
+                        transition.play();
+                    }
                 }
-            }
+            });
         });
     }
 
