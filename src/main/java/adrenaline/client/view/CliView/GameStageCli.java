@@ -33,8 +33,8 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
         printSrcFile("GameStareTitle.txt");
         openChat();
 
-
     }
+
 
     private void openChat() {
         Runnable runnableChat = () -> {
@@ -43,8 +43,8 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
             do {
                 chat=chatScanner.nextLine();
                 isQuit(chat);
-                if (chat.contains("chat:") || chat.contains("CHAT:")) {
-                    gameController.sendChatMessage(chat.replace("CHAT:",""));
+                if (chat.contains("chat:")) {
+                    gameController.sendChatMessage(chat.replace("chat:",""));
                 }
             } while (true);
 
@@ -73,17 +73,37 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     @Override
     public void notifyTimer(Integer duration, String comment) {
 
+        Runnable runnableChat = () -> {
+
+            if (comment.contains(gameController.getOwnNickname())){
+
+                printGameInfo();
+                System.out.println("It's your turn,you have "+ duration + " seconds.");
+                selectAction();
+
+            }
+
+        };
+        Thread chatThread = new Thread(runnableChat);
+        chatThread.start();
+
+
+
+    }
+
+    private void selectAction() {
+
+
 
 
     }
 
 
-
     @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
 
-        Runnable runnable = () -> System.out.println(ansi().eraseScreen().fgDefault().a("                                                     ||CHAT >>>").
-                            eraseScreen().bold().fg(trasnferColorToAnsiColor(senderColor)).
+        Runnable runnable = () -> System.out.println(ansi().eraseScreen().fgDefault().a("                                                     ||CHAT >>> ").
+                            eraseScreen().bold().fg(transferColorToAnsiColor(senderColor)).
                                 a(nickname+": "+message).eraseScreen().fgDefault());
 
         Thread changeThread = new Thread(runnable);

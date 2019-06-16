@@ -5,8 +5,6 @@ import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
-import java.sql.Time;
-
 public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
@@ -61,7 +59,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
 
-    private void printGameInfo() {
+    private void printGameID() {
 
         System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
         System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
@@ -98,7 +96,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
         Runnable runnable = () -> {
 
-            printGameInfo();
+            printGameID();
 
             new SelectionStageCli(gameController);
 
