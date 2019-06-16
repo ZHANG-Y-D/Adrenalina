@@ -5,6 +5,10 @@ import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
+import java.util.ArrayList;
+
+
+
 public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
@@ -90,6 +94,11 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     }
 
+    @Override
+    public void showMessage(String message) {
+
+    }
+
 
     @Override
     public void changeStage() {
@@ -113,16 +122,16 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     }
 
-    @Override
     public void notifyTimer(Integer duration, String comment) {
-
-
+        //operation not supported at this stage
     }
 
-    @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
+        //operation not supported at this stage
+    }
 
-
+    public void showValidSquares(ArrayList<Integer> validSquares) {
+        //operation not supported at this stage
     }
 
 

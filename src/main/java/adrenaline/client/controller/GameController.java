@@ -95,12 +95,13 @@ public class GameController {
     }
 
     public void handleReturn(String returnMsg){
-        if(!returnMsg.equals("OK")) view.showError(returnMsg);
+        if(!returnMsg.contains("OK")) view.showError(returnMsg);
+        else if(returnMsg.length() > 2) view.showMessage(returnMsg.substring(3));
     }
 
     public void changeStage(){ view.changeStage(); }
 
-    public void updatePlayer(Player newPlayer){
+    public synchronized void updatePlayer(Player newPlayer){
         HashMap<Color, Player> oldPlayersMap = playersMap;
         HashMap<Color, Player> newPlayersMap = new HashMap<>(playersMap);
         newPlayersMap.put(newPlayer.getColor(), newPlayer);
@@ -108,15 +109,13 @@ public class GameController {
         changes.firePropertyChange("player", oldPlayersMap, newPlayersMap);
     }
 
-    public void updateMap(Map newMap){
+    public synchronized void updateMap(Map newMap){
         Map oldMap = map;
-        //Map oldMap = new Map();
-        //oldMap.setMap();
         map = newMap;
         changes.firePropertyChange("map", oldMap, newMap);
     }
 
-    public void updateChat(String nickname, Color senderColor, String message){
+    public synchronized void updateChat(String nickname, Color senderColor, String message){
         view.newChatMessage(nickname, senderColor, message);
     }
 
@@ -132,7 +131,7 @@ public class GameController {
         changes.removePropertyChangeListener(l);
     }
 
-    public void updateScoreBoard(ScoreBoard newScoreBoard){
+    public synchronized void updateScoreBoard(ScoreBoard newScoreBoard){
         scoreBoard = newScoreBoard;
     }
 
@@ -140,12 +139,32 @@ public class GameController {
         view.notifyTimer(duration, comment);
     }
 
+    public void validSquaresInfo(ArrayList<Integer> validSquares){
+        ArrayList<Integer> validSquaresInt = new ArrayList<>(validSquares.size());
+        for(int i =0; i<validSquares.size(); i++){
+            validSquaresInt.add(Math.round(validSquares.get(i)));
+        }
+        view.showValidSquares(validSquaresInt);
+    }
+
     public void sendSettings(int selectedMap, int selectedSkull) {
         connectionHandler.sendSettings(selectedMap, selectedSkull);
     }
 
+    public void run() { connectionHandler.run(); }
+
+    public void grab() { connectionHandler.grab(); }
+
+    public void shoot() { connectionHandler.shoot(); }
+
+    public void back() { connectionHandler.back(); }
+
     public void endTurn(){
         connectionHandler.endTurn();
-        System.out.println("QUA");
+    }
+
+    public void selectSquare(int index) {
+        System.out.println(index);
+        connectionHandler.selectSquare(index);
     }
 }

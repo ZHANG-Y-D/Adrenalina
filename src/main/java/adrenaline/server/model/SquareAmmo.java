@@ -13,7 +13,12 @@ public class SquareAmmo extends Square{
     }
 
     @Override
-    public void acceptConvertInfo(MapUpdateMessage updatemsg, int index) { updatemsg.addAmmoInfo(index, ammoTile.getAmmoID()); }
+    public void acceptConvertInfo(MapUpdateMessage updatemsg, int index) {
+        int ammoID;
+        if(ammoTile == null) ammoID = 0;
+        else ammoID = ammoTile.getAmmoID();
+        updatemsg.addAmmoInfo(index, ammoID);
+    }
 
     @Override
     public void setCard(Lobby lobby) {

@@ -6,23 +6,27 @@ import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
 import adrenaline.server.model.Player;
 import adrenaline.server.model.PowerupCard;
+import adrenaline.server.model.WeaponCard;
 import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
 
 public class FireAreaState implements FiremodeSubState {
 
-    private Lobby lobby;
-    private Firemode thisFiremode;
-    private boolean actionExecuted;
+    private Lobby lobby = null;
+    private WeaponCard weapon = null;
+    private Firemode thisFiremode = null;
+    private boolean actionExecuted = false;
 
-    private TargetsGenerator targetsGenerator;
+
+    private TargetsGenerator targetsGenerator = null;
     private ArrayList<int[]> dmgmrkEachSquare;
     private ArrayList<Integer> validSquares;
 
     @Override
-    public void setContext(Lobby lobby, Firemode firemode, boolean actionExecuted) {
+    public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;
+        this.weapon = weapon;
         this.thisFiremode = firemode;
         this.actionExecuted = actionExecuted;
         validSquares = lobby.sendCurrentPlayerValidSquares(firemode);
@@ -59,19 +63,23 @@ public class FireAreaState implements FiremodeSubState {
             lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
             if(!actionExecuted) {
                 lobby.incrementExecutedActions();
+                weapon.setLoaded(false);
                 actionExecuted = true;
             }
             FiremodeSubState nextStep = thisFiremode.getNextStep();
             if(nextStep==null){
                 MoveSelfState mvSelStep=thisFiremode.getMoveSelfStep();
-                if(mvSelStep==null)lobby.setState(new SelectActionState(lobby));
+                if(mvSelStep==null){
+                    lobby.clearTempAmmo();
+                    lobby.setState(new SelectActionState(lobby));
+                }
                 else{
-                    mvSelStep.setContext(lobby,thisFiremode,actionExecuted);
+                    mvSelStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
                     lobby.setState(mvSelStep);
                 }
             }
             else{
-                nextStep.setContext(lobby, thisFiremode, actionExecuted);
+                nextStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
                 lobby.setState(nextStep);
             }
             return "OK";
@@ -95,7 +103,7 @@ public class FireAreaState implements FiremodeSubState {
         MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
         if(moveStep==null) return "You can't do that!";
         else{
-            moveStep.setContext(lobby, thisFiremode, actionExecuted, this);
+            moveStep.setContext(lobby, weapon, thisFiremode, actionExecuted, this);
             lobby.setState(moveStep);
             return "OK";
         }

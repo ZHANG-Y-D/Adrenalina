@@ -43,7 +43,7 @@ public class ClientSocketWrapper implements Client {
 
     private void createListener(Scanner inputFromClient) {
         new Thread(() -> {
-            String readFromClient, sendToClient;
+            String readFromClient = null, sendToClient;
             String[] readSplit;
             Method requestedMethod;
 
@@ -66,6 +66,7 @@ public class ClientSocketWrapper implements Client {
                     sendToClient += "SERVER ERROR!";
                 } catch (NullPointerException | NoSuchMethodException |
                             IllegalAccessException | NoSuchElementException e) {
+                    System.out.println("MESSAGE RECEIVED: "+readFromClient);
                     e.printStackTrace();
                     sendToClient += "ERROR! Invalid command request";
                 }finally{ sendMessage(sendToClient);}
@@ -110,6 +111,10 @@ public class ClientSocketWrapper implements Client {
 
     public void timerStarted(Integer duration, String comment) {
         sendMessage("timerStarted;ARGSIZE=2;java.lang.Integer;"+gson.toJson(duration)+";java.lang.String;"+gson.toJson(comment));
+    }
+
+    public void validSquaresInfo(ArrayList<Integer> validSquares) {
+        sendMessage("validSquaresInfo;ARGSIZE=1;java.util.ArrayList;"+gson.toJson(validSquares));
     }
 
     public void update(UpdateMessage updatemsg) {

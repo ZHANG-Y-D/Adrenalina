@@ -4,6 +4,7 @@ import adrenaline.Color;
 import adrenaline.server.controller.Lobby;
 import adrenaline.server.model.Firemode;
 import adrenaline.server.model.PowerupCard;
+import adrenaline.server.model.WeaponCard;
 import adrenaline.server.model.constraints.CardinalDirectionConstraint;
 import adrenaline.server.model.constraints.ExcRadiusConstraint;
 import adrenaline.server.model.constraints.RangeConstraint;
@@ -16,6 +17,7 @@ public class MoveSelfState implements FiremodeSubState {
     private boolean forced = false;
     private boolean charge = false;
     private Lobby lobby = null;
+    private WeaponCard weapon = null;
     private Firemode thisFiremode = null;
     private boolean actionExecuted;
     private FiremodeSubState callBackState = null;
@@ -25,14 +27,15 @@ public class MoveSelfState implements FiremodeSubState {
         this.allowedMovement = allowedMovement;
     }
 
-    public void setContext(Lobby lobby, Firemode firemode, boolean actionExecuted, FiremodeSubState callBackState) {
+    public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted, FiremodeSubState callBackState) {
         this.callBackState = callBackState;
-        setContext(lobby, firemode, actionExecuted);
+        setContext(lobby, weapon, firemode, actionExecuted);
     }
 
     @Override
-    public void setContext(Lobby lobby, Firemode firemode, boolean actionExecuted) {
+    public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;
+        this.weapon = weapon;
         thisFiremode = firemode;
         this.actionExecuted = actionExecuted;
         ArrayList<RangeConstraint> constraints = new ArrayList<>();
@@ -68,12 +71,13 @@ public class MoveSelfState implements FiremodeSubState {
             lobby.movePlayer(index);
             if(!actionExecuted){
                 lobby.incrementExecutedActions();
+                weapon.setLoaded(false);
                 actionExecuted=true;
             }
             if(callBackState==null){
                 lobby.setState(new ShootState(lobby));
             }else {
-                callBackState.setContext(lobby, thisFiremode, true);
+                callBackState.setContext(lobby, weapon, thisFiremode, true);
                 lobby.setState(callBackState);
             }
             return "OK";
@@ -110,7 +114,7 @@ public class MoveSelfState implements FiremodeSubState {
         if(callBackState==null){
             lobby.setState(new ShootState(lobby));
         }else {
-            callBackState.setContext(lobby, thisFiremode, true);
+            callBackState.setContext(lobby, weapon, thisFiremode, true);
             lobby.setState(callBackState);
         }
         return "OK";

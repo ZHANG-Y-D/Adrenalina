@@ -5,6 +5,6 @@ import adrenaline.server.controller.Lobby;
 public class GrenadePowerup extends PowerupCard {
 
     public String acceptUse(Lobby lobby) {
-        return null;
+        return lobby.usePowerup(this);
     }
 }

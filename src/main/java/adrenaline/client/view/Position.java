@@ -1,7 +1,7 @@
 package adrenaline.client.view;
 
 public enum Position {
-    TOP(50,0), LEFT(0,50), CENTER(50,50), RIGHT(100,50), DOWN(100,50);
+    TOP(50,5), LEFT(0,50), CENTER(50,50), RIGHT(95,50), DOWN(50,95);
 
     private int x;
     private int y;

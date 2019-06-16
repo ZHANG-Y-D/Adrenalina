@@ -18,8 +18,8 @@ public class SelectActionState implements GameState {
     public String runAction() {
         if (lobby.getExecutedActions() >= 2) return "You have run out of moves!";
         else {
-            lobby.setState(new RunState(lobby));
-            return "OK";
+            lobby.setState(new RunState(lobby,3));
+            return "OK Select the square you want to move in";
         }
     }
 
@@ -28,7 +28,7 @@ public class SelectActionState implements GameState {
         if (lobby.getExecutedActions() >= 2) return "You have run out of moves!";
         else {
             lobby.setState(new GrabState(lobby));
-            return "OK";
+            return "OK Select something to grab";
         }
     }
 
@@ -37,7 +37,7 @@ public class SelectActionState implements GameState {
         if (lobby.getExecutedActions() >= 2) return "You have run out of moves!";
         else {
             lobby.setState(new ShootState(lobby));
-            return "OK";
+            return "OK Select a weapon or a powerup to gain ammo";
         }
     }
 
@@ -75,7 +75,7 @@ public class SelectActionState implements GameState {
     @Override
     public String endOfTurnAction() {
         lobby.setState(new ReloadState(lobby));
-        return "OK";
+        return "OK Select a weapon to reload";
     }
 
     @Override

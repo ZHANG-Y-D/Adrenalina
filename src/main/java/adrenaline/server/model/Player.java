@@ -116,8 +116,8 @@ public class Player extends Observable{
      *
      */
 
-    public boolean applyDamage(Color damageOrigin, int amount) {
-        if(amount>0 && marks.contains(damageOrigin)){
+    public boolean applyDamage(Color damageOrigin, int amount, boolean extra) {
+        if(!extra && amount>0 && marks.contains(damageOrigin)){
             amount += Collections.frequency(marks,damageOrigin);
             marks.removeIf(damageOrigin::equals);
         }
@@ -231,15 +231,23 @@ public class Player extends Observable{
         return null;
     }
 
-    public void addWeaponCard(WeaponCard weaponCard) { weaponCards.add(weaponCard); }
+    public void addWeaponCard(WeaponCard weaponCard) {
+        weaponCards.add(weaponCard);
+        notifyObservers(new PlayerUpdateMessage(this));
+    }
 
-    public boolean removeWeaponCard(WeaponCard weaponCard) { return weaponCards.remove(weaponCard);}
+    public boolean removeWeaponCard(WeaponCard weaponCard) {
+        boolean result = weaponCards.remove(weaponCard);
+        if(result) notifyObservers(new PlayerUpdateMessage(this));
+        return result;
+    }
 
     public int getPosition(){ return this.position;}
 
     public void setPosition(int position) {
         this.oldPosition = this.position;
         this.position = position;
+        notifyObservers(new PlayerUpdateMessage(this));
     }
 
     public int getOldPosition() { return this.oldPosition; }
@@ -252,9 +260,9 @@ public class Player extends Observable{
 
     public void addAmmoBox(int[] grabbedAmmoBox) {
         for (int i = 0; i < 3; i++) {
-            //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
             ammoBox[i] = (ammoBox[i] + grabbedAmmoBox[i] <= 3)? ammoBox[i] + grabbedAmmoBox[i] : 3;
         }
+        notifyObservers(new PlayerUpdateMessage(this));
     }
 
     public boolean canPayCost(int[] ammoCost){
@@ -340,5 +348,12 @@ public class Player extends Observable{
 
     public Color getColor() {
         return avatar.getColor();
+    }
+
+    public void clearTempAmmo() {
+        tempAmmoBox[0] = 0;
+        tempAmmoBox[1] = 0;
+        tempAmmoBox[2] = 0;
+
     }
 }

@@ -3,10 +3,7 @@ package adrenaline.server.controller;
 import adrenaline.Color;
 import adrenaline.CustomSerializer;
 import adrenaline.server.controller.states.*;
-import adrenaline.server.exceptions.InvalidCardException;
-import adrenaline.server.exceptions.InvalidTargetsException;
-import adrenaline.server.exceptions.NotEnoughAmmoException;
-import adrenaline.server.exceptions.WeaponHandFullException;
+import adrenaline.server.exceptions.*;
 import adrenaline.server.model.*;
 import adrenaline.server.model.Map;
 import adrenaline.server.model.constraints.RangeConstraint;
@@ -200,7 +197,10 @@ public class Lobby implements Runnable, LobbyAPI {
         if(clientID.equals(currentTurnPlayer)) return currentState.moveSubAction();
         else return "You can only do that during your turn!";
     }
-
+    public String goBack(String clientID) {
+        if(clientID.equals(currentTurnPlayer)) return currentState.goBack();
+        else return "You can only do that during your turn!";
+    }
     public String endOfTurnAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) return currentState.endOfTurnAction();
         else return "You can only do that during your turn!";
@@ -245,6 +245,7 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public synchronized void endTurn(boolean timeoutReached){
         if(!timeoutReached) scheduledTimeout.cancel(false);
+        executedActions=0;
         setMapCards();
         checkDeadPlayers();
         if(!deadPlayers.isEmpty()){
@@ -323,20 +324,26 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public ArrayList<Integer> sendCurrentPlayerValidSquares(int range){
         ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
-        //TODO sends list to client
+        try {
+            clientMap.get(currentTurnPlayer).validSquaresInfo(validSquares);
+        } catch (RemoteException e) { }
         return validSquares;
     }
 
     public ArrayList<Integer> sendCurrentPlayerValidSquares(int range, ArrayList<RangeConstraint> constraints){
         ArrayList<Integer> validSquares = map.getValidSquares(playersMap.get(currentTurnPlayer).getPosition(), range);
         constraints.forEach(x -> validSquares.retainAll(x.checkConst(playersMap.get(currentTurnPlayer).getPosition(), map)));
-        //TODO sends list to client
+        try {
+            clientMap.get(currentTurnPlayer).validSquaresInfo(validSquares);
+        } catch (RemoteException e) { }
         return validSquares;
     }
 
     public ArrayList<Integer> sendCurrentPlayerValidSquares(Firemode firemode) {
         ArrayList<Integer> validSquares = firemode.getRange(playersMap.get(currentTurnPlayer).getPosition(), map);
-        //TODO sends list to lient
+        try {
+            clientMap.get(currentTurnPlayer).validSquaresInfo(validSquares);
+        } catch (RemoteException e) { }
         return validSquares;
     }
 
@@ -348,7 +355,9 @@ public class Lobby implements Runnable, LobbyAPI {
         for(Player target : selectedTargets.stream().map(x->playersColor.get(x)).collect(Collectors.toList())){
             constraints.forEach(y -> validSquares.retainAll(y.checkConst(target.getPosition(), map)));
         }
-        //TODO sends list to client
+        try {
+            clientMap.get(currentTurnPlayer).validSquaresInfo(validSquares);
+        } catch (RemoteException e) { }
         return validSquares;
     }
 
@@ -393,7 +402,7 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public void setWeaponCard(SquareSpawn squareSpawn, int needed) {
         while(needed>0){
-            //squareSpawn.addCard(deckWeapon.draw());
+            squareSpawn.addCard(deckWeapon.draw());
             needed--;
         }
     }
@@ -414,7 +423,6 @@ public class Lobby implements Runnable, LobbyAPI {
             //If the tile depicts a powerup card, draw one.
             if (grabbedAmmoContent[3] != 0 && currentPlayer.getPowerupHandSize()<3) currentPlayer.addPowerupCard(deckPowerup.draw());
         }
-        setState(new SelectActionState(this));
     }
 
     public void grabFromSquare(SquareSpawn square){
@@ -448,24 +456,29 @@ public class Lobby implements Runnable, LobbyAPI {
         deckPowerup.addToDiscarded(powerup);
     }
 
+    public void clearTempAmmo(){
+        playersMap.get(currentTurnPlayer).clearTempAmmo();
+    }
+
     public String usePowerup(PowerupCard powerup) {
-        powerup.acceptUse(this);
-        return "CATENA DI RETURN";
+        return powerup.acceptUse(this);
     }
 
     public String usePowerup(NewtonPowerup newton){
-        return null;
+       return "NOT IMPLEMENTED YET";
     }
 
     public String usePowerup(ScopePowerup scope){
-        return null;
+        setState(new ScopeState(this, scope, damagedThisTurn));
+        return "Select the target you want to give extra damage to.";
     }
 
     public String usePowerup(TeleporterPowerup teleporter){
-        return null;
+        setState(new TeleportState(this, teleporter));
+        return "Select the square you want to teleport in.";
     }
 
-    public String userPowerup(GrenadePowerup grenade){
+    public String usePowerup(GrenadePowerup grenade){
         return "You can't use this powerup during your own turn!";
     }
 
@@ -473,15 +486,31 @@ public class Lobby implements Runnable, LobbyAPI {
         Player user = playersMap.get(userID);
         if(!damagedThisTurn.contains(user.getColor())) return "You have not been damaged during this turn!";
         playersMap.get(currentTurnPlayer).addMarks(user.getColor(), 1);
-        playersMap.get(currentTurnPlayer).removePowerupCard(powerup);
-        deckPowerup.addToDiscarded(powerup);
+        removePowerup(powerup);
         return "OK";
     }
 
-    public boolean canUseWeapon(int weaponID){
+    public void removePowerup(PowerupCard puc){
+        playersMap.get(currentTurnPlayer).removePowerupCard(puc);
+        deckPowerup.addToDiscarded(puc);
+    }
+
+    public void reloadWeapon(int weaponID) throws InvalidCardException,AlreadyLoadedException, NotEnoughAmmoException{
+        Player currPlayer = playersMap.get(currentTurnPlayer);
+        WeaponCard wc = currPlayer.getWeaponCard(weaponID);
+        if(wc==null) throw new InvalidCardException();
+        if(wc.isLoaded()) throw new AlreadyLoadedException();
+        int[] ammoCost = wc.getAmmoCost();
+        if(currPlayer.canPayCost(ammoCost)){
+            currPlayer.payCost(ammoCost);
+            wc.setLoaded(true);
+        }else throw new NotEnoughAmmoException();
+    }
+
+    public WeaponCard useWeapon(int weaponID){
         WeaponCard wc = playersMap.get(currentTurnPlayer).getWeaponCard(weaponID);
-        if(wc == null || !wc.isLoaded()) return false;
-        else return true;
+        if(wc == null || !wc.isLoaded()) return null;
+        else return wc;
     }
 
     public Firemode getFiremode(int weaponID, int firemode) throws NotEnoughAmmoException{
@@ -520,12 +549,17 @@ public class Lobby implements Runnable, LobbyAPI {
         for(int i=0; i<targets.size(); i++){
             Player target = targets.get(i);
             int[] dmgMrk = dmgmrkEachTarget.get( (i<dmgmrkEachTarget.size() ? i : dmgmrkEachTarget.size()-1) );
-            kills = target.applyDamage(playersMap.get(currentTurnPlayer).getColor(), dmgMrk[0])
+            kills = target.applyDamage(playersMap.get(currentTurnPlayer).getColor(), dmgMrk[0], false)
                     ? kills+1 : kills;
             target.addMarks(playersMap.get(currentTurnPlayer).getColor(), dmgMrk[1]);
             if(dmgMrk[0] > 0) damagedThisTurn.add(target.getColor());
         }
         //if kills >= 2 add double kill score to scoreboard
+    }
+
+    public void applyExtraDamage(Color color) {
+       playersColor.get(color).applyDamage(playersMap.get(currentTurnPlayer).getColor(), 1, true);
+       //count kills
     }
 }
 

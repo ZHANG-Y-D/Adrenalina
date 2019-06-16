@@ -6,6 +6,7 @@ import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.Firemode;
 import adrenaline.server.model.Player;
 import adrenaline.server.model.PowerupCard;
+import adrenaline.server.model.WeaponCard;
 import adrenaline.server.model.constraints.InRadiusConstraint;
 import adrenaline.server.model.constraints.RangeConstraint;
 import adrenaline.server.model.constraints.SameSquareConstraint;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class glFiremodeState implements FiremodeSubState {
 
     private Lobby lobby;
+    private WeaponCard weapon;
     private Firemode thisFiremode;
 
     private ArrayList<int[]> dmgmrkEach;
@@ -26,8 +28,9 @@ public class glFiremodeState implements FiremodeSubState {
     private boolean playerCompleted = false;
 
     @Override
-    public void setContext(Lobby lobby, Firemode firemode, boolean actionExecuted) {
+    public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;
+        this.weapon = weapon;
         this.thisFiremode = firemode;
         validSquares = lobby.sendCurrentPlayerValidSquares(firemode);
     }
@@ -53,8 +56,11 @@ public class glFiremodeState implements FiremodeSubState {
             moveConstraints.add(new InRadiusConstraint(1));
             targetValidSquares = lobby.sendTargetValidSquares(selectedTarget, moveConstraints);
             pushing=true;
-            playerCompleted=true;
-            lobby.incrementExecutedActions();
+            if(!areaCompleted) {
+                playerCompleted = true;
+                lobby.incrementExecutedActions();
+                weapon.setLoaded(false);
+            }
             return "OK";
         } catch (InvalidTargetsException e) { return "Invalid targets!"; }
     }
@@ -64,7 +70,10 @@ public class glFiremodeState implements FiremodeSubState {
         if(pushing) {
             if(!targetValidSquares.contains(index)) return "You can't move your target there!";
             lobby.movePlayer(index, selectedTarget.get(0));
-            if(areaCompleted)lobby.setState(new SelectActionState(lobby));
+            if(areaCompleted){
+                lobby.clearTempAmmo();
+                lobby.setState(new SelectActionState(lobby));
+            }
             else{
                 pushing=false;
                 lobby.sendCurrentPlayerValidSquares(thisFiremode);
@@ -76,9 +85,15 @@ public class glFiremodeState implements FiremodeSubState {
             ArrayList<Player> targets = lobby.generateTargets(new SameSquareConstraint(), index);
             try {
                 lobby.applyFire(thisFiremode, targets, dmgmrkEach);
-                lobby.incrementExecutedActions();
-                areaCompleted=true;
-                if(playerCompleted)lobby.setState(new SelectActionState(lobby));
+                if(playerCompleted){
+                    lobby.clearTempAmmo();
+                    lobby.setState(new SelectActionState(lobby));
+                }
+                else{
+                    lobby.incrementExecutedActions();
+                    weapon.setLoaded(false);
+                    areaCompleted=true;
+                }
                 return "OK";
             } catch (InvalidTargetsException e) { return "Invalid targets!"; }
         }

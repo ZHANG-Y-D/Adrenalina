@@ -2,6 +2,9 @@ package adrenaline.server.controller.states;
 
 import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
+import adrenaline.server.exceptions.AlreadyLoadedException;
+import adrenaline.server.exceptions.InvalidCardException;
+import adrenaline.server.exceptions.NotEnoughAmmoException;
 import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
@@ -40,12 +43,21 @@ public class ReloadState implements GameState{
 
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
-        return "You can't select power ups now";
+        lobby.consumePowerup(powerUp);
+        return "OK";
     }
 
     @Override
     public String selectWeapon(int weaponID) {
-        //TODO add method to select weapon to reload
+        try {
+            lobby.reloadWeapon(weaponID);
+        } catch (InvalidCardException e) {
+            return "Invalid selection! Select a valid card.";
+        } catch (AlreadyLoadedException e) {
+            return "That weapon is already loaded!";
+        } catch (NotEnoughAmmoException e) {
+            return "You can't pay the ammo cost for that weapon! HINT: powerups can be expended too";
+        }
         return "OK";
     }
 

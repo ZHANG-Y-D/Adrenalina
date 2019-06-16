@@ -62,6 +62,14 @@ public class ClientRMIWrapper implements Client {
         }
     }
 
+    public void validSquaresInfo(ArrayList<Integer> validSquares) {
+        try {
+            thisClient.validSquaresInfo(validSquares);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void update(UpdateMessage updatemsg) {
         try {
             thisClient.update(updatemsg);

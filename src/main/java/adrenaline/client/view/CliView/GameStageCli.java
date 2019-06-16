@@ -6,6 +6,7 @@ import adrenaline.client.view.ViewInterface;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -60,6 +61,11 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     }
 
     @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
     public void changeStage() {
 
     }
@@ -110,6 +116,11 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
         changeThread.start();
 
 
+    }
+
+    @Override
+    public void showValidSquares(ArrayList<Integer> validSquares) {
+        /* info from server about valid squares (ex. when moving or shooting) */
     }
 
     @Override
