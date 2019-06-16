@@ -101,21 +101,23 @@ public class GameController {
 
     public void changeStage(){ view.changeStage(); }
 
-    public void updatePlayer(Player newPlayer){
+    public synchronized void updatePlayer(Player newPlayer){
+        System.out.println("entrato");
         HashMap<Color, Player> oldPlayersMap = playersMap;
         HashMap<Color, Player> newPlayersMap = new HashMap<>(playersMap);
         newPlayersMap.put(newPlayer.getColor(), newPlayer);
         playersMap = newPlayersMap;
         changes.firePropertyChange("player", oldPlayersMap, newPlayersMap);
+        System.out.println("uscito");
     }
 
-    public void updateMap(Map newMap){
+    public synchronized void updateMap(Map newMap){
         Map oldMap = map;
         map = newMap;
         changes.firePropertyChange("map", oldMap, newMap);
     }
 
-    public void updateChat(String nickname, Color senderColor, String message){
+    public synchronized void updateChat(String nickname, Color senderColor, String message){
         view.newChatMessage(nickname, senderColor, message);
     }
 
@@ -131,7 +133,7 @@ public class GameController {
         changes.removePropertyChangeListener(l);
     }
 
-    public void updateScoreBoard(ScoreBoard newScoreBoard){
+    public synchronized void updateScoreBoard(ScoreBoard newScoreBoard){
         scoreBoard = newScoreBoard;
     }
 
