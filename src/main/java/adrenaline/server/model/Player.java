@@ -263,6 +263,7 @@ public class Player extends Observable{
             //Your ammo box never holds more than 3 cubes of each color. Excess ammo depicted on the tile is wasted.
             ammoBox[i] = (ammoBox[i] + grabbedAmmoBox[i] <= 3)? ammoBox[i] + grabbedAmmoBox[i] : 3;
         }
+        notifyObservers(new PlayerUpdateMessage(this));
     }
 
     public boolean canPayCost(int[] ammoCost){

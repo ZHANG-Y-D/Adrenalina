@@ -101,7 +101,7 @@ public class GameController {
 
     public void changeStage(){ view.changeStage(); }
 
-    public void updatePlayer(Player newPlayer){
+    public synchronized void updatePlayer(Player newPlayer){
         HashMap<Color, Player> oldPlayersMap = playersMap;
         HashMap<Color, Player> newPlayersMap = new HashMap<>(playersMap);
         newPlayersMap.put(newPlayer.getColor(), newPlayer);

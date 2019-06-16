@@ -393,7 +393,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     newPane.getChildren().add(token);
                 }
                 else if(newPane != oldPane){
-                    System.out.println(oldPane.getId()+" "+newPane.getId());
                     newPosition = getFreePosition(newPane);
                     if(positionMap.get(newPane) == null) list.add(newPosition);
                     else {
@@ -402,22 +401,27 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     }
                     TranslateTransition transition = new TranslateTransition();
                     transition.setNode(token);
-                    transition.setDuration(Duration.millis(300));
-                    transition.setToX(((y.getPosition()%columns) - (y.getOldPosition()%columns))*145 + newPosition.getX() - tokenPosition.get(token).getX());
-                    transition.setToY(((y.getPosition()/columns) - (y.getOldPosition()/columns))*148 + newPosition.getY() - tokenPosition.get(token).getY());
+                    transition.setDuration(Duration.millis(1500));
+                    Position oldPosition = tokenPosition.get(token);
+                    int oldX = (y.getOldPosition()%columns -y.getPosition()%columns)*145 + oldPosition.getX() -newPosition.getX();
+                    int oldY = (y.getOldPosition()/columns -y.getPosition()/columns)*148 + oldPosition.getY() -newPosition.getY();
+                    oldPane.getChildren().remove(token);
+                    token.setLayoutX(newPosition.getX());
+                    token.setLayoutY(newPosition.getY());
+                    newPane.getChildren().add(token);
+                    transition.setFromX(oldX);
+                    transition.setFromY(oldY);
+                    transition.setToX(0);
+                    transition.setToY(0);
+                    positionMap.put(newPane, list);
+                    positionMap.get(oldPane).remove(tokenPosition.get(token));
+                    if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
+                    tokenPosition.put(token, newPosition);
                     transition.setOnFinished(e -> {
-                        oldPane.getChildren().remove(token);
                         token.setTranslateX(0);
                         token.setTranslateY(0);
-                        token.setLayoutX(newPosition.getX());
-                        token.setLayoutY(newPosition.getY());
-                        newPane.getChildren().add(token);
                     });
                     transition.play();
-                    positionMap.get(oldPane).remove(tokenPosition.get(token));
-                    tokenPosition.put(token, newPosition);
-                    if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
-                    positionMap.put(newPane, list);
                 }
             }
         });
