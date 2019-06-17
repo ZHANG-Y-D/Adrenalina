@@ -39,7 +39,7 @@ public class Map implements Serializable {
         weaponMap.put(Color.YELLOW, weapons3);
     }
 
-    public void setMap(){
+    public synchronized void setMap(){
         weaponMap.clear();
         ArrayList<Integer> weapons = new ArrayList<>();
         weapons.add(5);

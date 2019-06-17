@@ -1,0 +1,4 @@
+
+@|red █ |@@|blue █ █ |@      @|red 01 |@@|blue 02 03 |@
+@|red █ |@@|magenta █ █ |@@|yellow █|@     @|red 05 |@@|magenta 06 07 |@@|yellow 08|@
+@|black █ |@@|black █ █ |@@|yellow █|@     @|black 09 |@@|black 10 11 |@@|yellow 12|@

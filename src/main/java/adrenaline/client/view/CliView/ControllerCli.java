@@ -94,6 +94,8 @@ public abstract class ControllerCli{
         }
     }
 
+
+
     protected int getPlayerTurnNumber(){
 
         int num=1;
@@ -106,8 +108,9 @@ public abstract class ControllerCli{
             num++;
         }
         return num;
-
     }
+
+
 
     protected Ansi.Color transferColorToAnsiColor(Color value) {
 
@@ -129,8 +132,9 @@ public abstract class ControllerCli{
             default:
                 return Ansi.Color.DEFAULT;
         }
-
     }
+
+
 
     protected void printGameInfo() {
 

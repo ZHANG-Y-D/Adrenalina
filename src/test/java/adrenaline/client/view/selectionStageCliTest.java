@@ -15,31 +15,16 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class selectionStageCliTest {
 
 
-    SelectionStageCli selectionStageCli;
-    GameController gameController;
-
-
-    @BeforeEach
-    void setUp() {
-
-
-        Runnable runnable = ()-> {
-            gameController= new GameController();
-            gameController.setOwnNickname("zhang");
-            selectionStageCli = new SelectionStageCli(gameController);
-        };
-
-        Thread thread = new Thread(runnable);
-
-        thread.start();
-
-
-    }
 
     @Test
     void mapFilePrintTest(){
 
-        printSrcFile("GameStareTitle.txt");
+        printSrcFile("MapSelection.txt");
+        printSrcFile("Map1.txt");
+        printSrcFile("Map2.txt");
+        printSrcFile("Map3.txt");
+        printSrcFile("Map4.txt");
+
 
     }
 
