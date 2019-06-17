@@ -3,6 +3,7 @@ package adrenaline.client.view.CliView;
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -33,9 +34,12 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
         printSrcFile("GameStareTitle.txt");
         openChat();
-
-
+        if (getPlayerTurnNumber() != 1)
+            System.out.println("Wait for your turn...");
+        else
+            notifyTimer(60,gameController.getOwnNickname());
     }
+
 
     private void openChat() {
         Runnable runnableChat = () -> {
@@ -44,8 +48,8 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
             do {
                 chat=chatScanner.nextLine();
                 isQuit(chat);
-                if (chat.contains("chat:") || chat.contains("CHAT:")) {
-                    gameController.sendChatMessage(chat.replace("CHAT:",""));
+                if (chat.contains("chat:")) {
+                    gameController.sendChatMessage(chat.replace("chat:",""));
                 }
             } while (true);
 
@@ -80,28 +84,52 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     public void notifyTimer(Integer duration, String comment) {
 
 
+        Runnable runnableChat = () -> {
+
+            if (comment.contains(gameController.getOwnNickname())){
+
+                printGameInfo();
+                System.out.println("It's your turn,you have "+ duration + " seconds.");
+                selectAction();
+
+            }else{
+                System.out.println("You still have "+duration+" seconds.");
+            }
+
+        };
+        Thread chatThread = new Thread(runnableChat);
+        chatThread.start();
+
 
     }
 
+    private void selectAction() {
+
+
+
+
+    }
 
 
     @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
 
-        Runnable runnable = () -> System.out.println(ansi().eraseScreen().fgDefault().a("                                                     ||CHAT >>>").
-                            eraseScreen().bold().fg(trasnferColorToAnsiColor(senderColor)).
-                                a(nickname+": "+message).eraseScreen().fgDefault());
+        Runnable runnable = () ->
+                System.out.println(ansi().eraseScreen().fgDefault().a("                                                     ||CHAT >>> ").
+                    eraseScreen().bold().fg(transferColorToAnsiColor(senderColor)).
+                    a(nickname + ": " + message).eraseScreen().fgDefault());
 
         Thread changeThread = new Thread(runnable);
         changeThread.start();
 
-
     }
+
 
     @Override
     public void showValidSquares(ArrayList<Integer> validSquares) {
         /* info from server about valid squares (ex. when moving or shooting) */
     }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

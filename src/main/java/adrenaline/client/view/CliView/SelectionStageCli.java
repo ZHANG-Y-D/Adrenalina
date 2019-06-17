@@ -95,7 +95,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
         int num;
         Color color = Color.BLACK;
 
-        System.out.println("Which you like? From 1 to 5: ");
+        System.out.println("\nWhich you like? From 1 to 5: ");
         num = readANumber();
 
 
@@ -131,7 +131,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
         Runnable runnable = () -> {
 
-            if (error.equals("/OK") || error.equals("KO"))
+            if (error.equals("KO"))
                 returnValueIsOk.set(1);
             else {
                 if (!gameController.getPlayersNicknames().get(gameController.getOwnNickname()).equals(Color.WHITE))
@@ -150,6 +150,8 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     @Override
     public void showMessage(String message) {
+
+        returnValueIsOk.set(1);
 
     }
 

@@ -5,8 +5,9 @@ import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
-import java.sql.Time;
 import java.util.ArrayList;
+
+
 
 public class InitialStageCli extends ControllerCli implements ViewInterface{
 
@@ -42,6 +43,8 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         printSrcFile("CliBegin.txt");
         System.out.println("\nYou want to use Socket or Rmi (Remote Method Invocation)?");
 
+
+
         while (connectingType == 0)
             connectingType = chooseConnectingType();
 
@@ -62,7 +65,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
 
-    private void printGameInfo() {
+    private void printGameID() {
 
         System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
         System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
@@ -74,27 +77,35 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     @Override
     public void showError(String error) {
 
+
         Runnable runnable = () -> {
-            if (!error.equals("/OK")) {
-                System.err.println(error);
-                returnValueIsOk.set(2);
-            }
-            else {
-                System.out.println("Your nikename is "+name);
-                gameController.setOwnNickname(name);
-                returnValueIsOk.set(1);
-            }
+
+            System.err.println(error);
+            returnValueIsOk.set(2);
+
         };
 
         Thread changeThread = new Thread(runnable);
         changeThread.start();
 
 
-
     }
 
     @Override
     public void showMessage(String message) {
+
+        Runnable runnable = () -> {
+
+
+            System.out.println("Your nikename is "+name);
+            gameController.setOwnNickname(name);
+            returnValueIsOk.set(1);
+
+
+        };
+
+        Thread changeThread = new Thread(runnable);
+        changeThread.start();
 
     }
 
@@ -104,7 +115,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
         Runnable runnable = () -> {
 
-            printGameInfo();
+            printGameID();
 
             new SelectionStageCli(gameController);
 
@@ -139,6 +150,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         String  input;
 
         input = readAString();
+
 
         if (input.equalsIgnoreCase("socket") || input.equalsIgnoreCase("s"))
             return 1;

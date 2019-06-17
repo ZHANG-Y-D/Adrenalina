@@ -86,13 +86,15 @@ public abstract class ControllerCli{
         System.out.println("\nThese players are in the lobby:");
         for (Map.Entry<String, Color> players : gameController.getPlayersNicknames().entrySet()) {
 
-            Ansi.Color ansiColor = trasnferColorToAnsiColor(players.getValue());
+            Ansi.Color ansiColor = transferColorToAnsiColor(players.getValue());
 
             System.out.println(ansi().eraseScreen().bold().fg(ansiColor).a(num+"."+players.getKey()));
 
             num++;
         }
     }
+
+
 
     protected int getPlayerTurnNumber(){
 
@@ -106,10 +108,11 @@ public abstract class ControllerCli{
             num++;
         }
         return num;
-
     }
 
-    protected Ansi.Color trasnferColorToAnsiColor(Color value) {
+
+
+    protected Ansi.Color transferColorToAnsiColor(Color value) {
 
         switch (value) {
             case YELLOW:
@@ -129,10 +132,11 @@ public abstract class ControllerCli{
             default:
                 return Ansi.Color.DEFAULT;
         }
-
     }
 
-    protected void printMapInfo() {
+
+
+    protected void printGameInfo() {
 
 
 

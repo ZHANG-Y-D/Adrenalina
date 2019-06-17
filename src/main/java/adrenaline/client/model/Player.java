@@ -29,7 +29,7 @@ public class Player implements Serializable {
 
     public Player(){ }
 
-    public void setPlayer(){
+    public synchronized void setPlayer(){
         color = Color.BLUE;
         position = 3;
     }
