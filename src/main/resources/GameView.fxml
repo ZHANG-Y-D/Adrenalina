@@ -139,23 +139,23 @@
         </GridPane>
         <VBox fx:id="redWeapons" layoutX="10" layoutY="170">
          <children>
-             <ImageView fx:id="weaponRed1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponRed2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponRed3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed1" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed2" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed3" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </VBox>
         <HBox fx:id="blueWeapons" layoutX="290" layoutY="5">
          <children>
-            <ImageView fx:id="weaponBlue1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponBlue2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponBlue3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+            <ImageView fx:id="weaponBlue1" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponBlue2" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponBlue3" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </HBox>
         <VBox fx:id="yellowWeapons" layoutX="760" layoutY="233">
          <children>
-             <ImageView fx:id="weaponYellow1" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponYellow2" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponYellow3" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow1" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow2" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow3" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </VBox>
         <VBox fx:id="enemyPlayers" layoutX="940" layoutY="10" />
@@ -217,13 +217,8 @@
         </Pane>
         <Pane fx:id="ownCard" layoutX="10" layoutY="590" prefHeight="150" prefWidth="280" onMouseEntered="#showTriangles" onMouseExited="#hideTriangles">
             <children>
-                <ImageView fx:id="myWeapon" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="25.0" onMouseEntered="#drawBottom">
-                    <image>
-                        <Image url="Weapons/weapon_6-TOP.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="myPowerup" onMouseClicked="#selectPowerUp" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9">
-                </ImageView>
+                <ImageView fx:id="myWeapon" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="25.0" onMouseEntered="#drawBottom"/>
+                <ImageView fx:id="myPowerup" onMouseClicked="#selectPowerUp" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9"/>
                 <Polygon fx:id="powerupTriangle" onMouseClicked="#nextPowerUp" fill="WHITE" layoutX="109.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
                     <points>
                         <Double fx:value="-15.0" />
@@ -234,7 +229,7 @@
                         <Double fx:value="-4.5" />
                     </points>
                 </Polygon>
-                <Polygon fx:id="weaponTriangle" fill="WHITE" layoutX="268.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
+                <Polygon fx:id="weaponTriangle" onMouseClicked="#nextWeapon" fill="WHITE" layoutX="268.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
                     <points>
                         <Double fx:value="-15.0" />
                         <Double fx:value="15.0" />

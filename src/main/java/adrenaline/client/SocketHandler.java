@@ -115,6 +115,14 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(powerupMsg);
     }
 
+    public void selectWeapon(int weaponID) {
+        String weaponMsg = "selectWeapon;ARGSIZE=2;java.lang.String;";
+        weaponMsg += gson.toJson(clientID)+";";
+        weaponMsg += "java.lang.Integer;";
+        weaponMsg += gson.toJson(weaponID);
+        sendMessage(weaponMsg);
+    }
+
     public void sendSettings(int selectedMap, int selectedSkull) {
         String settingsMsg = "selectSettings;ARGSIZE=3;java.lang.String;";
         settingsMsg += gson.toJson(clientID) + ";";

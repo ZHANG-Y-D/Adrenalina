@@ -90,6 +90,10 @@ public class GameController {
 
     public void selectPowerUp(int powerupID){ connectionHandler.selectPowerUp(powerupID); }
 
+    public void selectWeapon(int weaponID) { connectionHandler.selectWeapon(weaponID); }
+
+    public void selectSquare(int index) { connectionHandler.selectSquare(index); }
+
     public void cleanExit(){
         if(connectionHandler != null) connectionHandler.unregister();
     }
@@ -163,8 +167,4 @@ public class GameController {
         connectionHandler.endTurn();
     }
 
-    public void selectSquare(int index) {
-        System.out.println(index);
-        connectionHandler.selectSquare(index);
-    }
 }

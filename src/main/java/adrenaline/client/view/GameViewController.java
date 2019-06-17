@@ -179,6 +179,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void selectSquare(Event event){
         Pane pane = (Pane) event.getSource();
+        Platform.runLater(()-> {
+            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
+        });
         gameController.selectSquare(Integer.parseInt(pane.getId().substring(4)));
     }
 
@@ -327,12 +330,15 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             });
             newMap.getWeaponMap().forEach((x,y) -> {
                 ArrayList<ImageView> list = weaponLists.get(x);
-                for(int i = 0; i < y.size(); i++) {
-                    String newImgUrl = "/Weapons/weapon_" + y.get(i) + "-TOP.png";
-                    try {
-                        list.get(i).setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
+                for(int i = 0; i < 3; i++) {
+                    if(i > y.size()-1) list.get(i).setImage(null);
+                    else {
+                        String newImgUrl = "/Weapons/weapon_" + y.get(i) + "-TOP.png";
+                        try {
+                            list.get(i).setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -341,7 +347,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
 
     public void updatePlayer(HashMap<adrenaline.Color, Player> newPlayersMap){
-        //set own powerup
+        //set own powerups
         Player ownPlayer = newPlayersMap.get(gameController.getOwnColor());
         Platform.runLater(() -> {
             if (ownPlayer.getPowerupCards() != null) {
@@ -352,8 +358,21 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     e.printStackTrace();
                 }
             } else myPowerup.setImage(null);
-            //set ammo
         });
+
+        //set own weapons
+        Platform.runLater(() -> {
+            if(ownPlayer.getWeaponCards() != null){
+                String newImgUrl = "/Weapons/weapon_" + ownPlayer.getWeaponCards().get(0) + "-TOP.png";
+                try {
+                    myWeapon.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            } else myWeapon.setImage(null);
+        });
+
+        //set ammo
         int[] ammoBox = ownPlayer.getAmmoBox();
         if(ammoBox != null) {
             Platform.runLater(() -> {
@@ -457,11 +476,35 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    public void nextWeapon(){
+        ArrayList<Integer> weaponList = gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards();
+        String weapon = myWeapon.getImage().getUrl();
+        weapon = new File(weapon).getName();
+        weapon = weapon.substring(weapon.indexOf('_') + 1, weapon.indexOf('-'));
+        int newIndex;
+        if(weaponList.indexOf(Integer.parseInt(weapon)) == (weaponList.size() -1)) newIndex = 0;
+        else newIndex = weaponList.indexOf(Integer.parseInt(weapon)) + 1;
+        weapon = "/Weapons/weapon_"+weaponList.get(newIndex)+"-TOP.png";
+        try {
+            myWeapon.setImage(new Image(new File(getClass().getResource(weapon).toURI()).toURI().toString()));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void selectPowerUp(){
         message.setText("");
         String powerupID = myPowerup.getImage().getUrl();
         powerupID = new File(powerupID).getName();
         powerupID = powerupID.substring(powerupID.indexOf('-') + 1, powerupID.indexOf('.'));
         gameController.selectPowerUp(Integer.parseInt(powerupID));
+    }
+
+    public void selectMapWeapon(Event event){
+        ImageView weapon = (ImageView) event.getSource();
+        String weaponID = weapon.getImage().getUrl();
+        weaponID = new File(weaponID).getName();
+        weaponID = weaponID.substring(weaponID.indexOf('_') + 1, weaponID.indexOf('-'));
+        gameController.selectWeapon(Integer.parseInt(weaponID));
     }
 }

@@ -58,9 +58,7 @@ public class SelectActionState implements GameState {
     }
 
     @Override
-    public String selectWeapon(int weaponID) {
-        return "Select an action!";
-    }
+    public String selectWeapon(int weaponID) { return "Select an action!"; }
 
     @Override
     public String selectFiremode(int firemode) {

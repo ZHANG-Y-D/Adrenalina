@@ -274,8 +274,8 @@ public class Player extends Observable{
 
     public void payCost(int[] ammoCost){
         for(int i=0; i<3; i++){
-            if(tempAmmoBox[i] - ammoCost[i] < 0){
-                ammoBox[i] -= (tempAmmoBox[i] - ammoCost[i]);
+            if(ammoCost[i] - tempAmmoBox[i] > 0){
+                ammoBox[i] -= (ammoCost[i] - tempAmmoBox[i]);
                 tempAmmoBox[i] = 0;
             }else{
                 tempAmmoBox[i] -= ammoCost[i];

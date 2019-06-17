@@ -75,6 +75,14 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    public void selectWeapon(int weaponID) {
+        try {
+            gameController.handleReturn(myLobby.selectWeapon(clientID, weaponID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendSettings(int selectedMap, int selectedSkull) {
         try {
             gameController.handleReturn(myLobby.selectSettings(clientID, selectedMap, selectedSkull));
