@@ -13,6 +13,12 @@
 <?import javafx.scene.effect.Glow?>
 <Pane fx:id="pane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.GameViewController">
     <children>
+        <VBox fx:id="timerBox" layoutY="10" prefWidth="160" alignment="CENTER">
+            <children>
+                <Label fx:id="timerLabel" alignment="CENTER" textAlignment="CENTER" prefWidth="160"/>
+                <Label fx:id="timerComment" alignment="CENTER" textAlignment="CENTER" prefWidth="160"/>
+            </children>
+        </VBox>
         <GridPane fx:id="map" layoutX="170" layoutY="125" prefHeight="444" prefWidth="580.0">
             <children>
                 <Pane fx:id="pane0" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
@@ -217,7 +223,11 @@
         </Pane>
         <Pane fx:id="ownCard" layoutX="10" layoutY="590" prefHeight="150" prefWidth="280" onMouseEntered="#showTriangles" onMouseExited="#hideTriangles">
             <children>
+                <ImageView fx:id="bgWeapon2" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="19.0" visible="false"><image><Image url="@Weapons/weapon_1-TOP.png" /></image></ImageView>
+                <ImageView fx:id="bgWeapon1" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="22.0" visible="false"><image><Image url="@Weapons/weapon_1-TOP.png" /></image></ImageView>
                 <ImageView fx:id="myWeapon" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="25.0" onMouseEntered="#drawBottom"/>
+                <ImageView fx:id="bgPowerup2" fitHeight="132.0" fitWidth="90.0" layoutX="21.0" layoutY="9.0" visible="false"><image><Image url="@Powerup/powerup-1.png" /></image></ImageView>
+                <ImageView fx:id="bgPowerup1" fitHeight="132.0" fitWidth="90.0" layoutX="18.0" layoutY="9.0" visible="false"><image><Image url="@Powerup/powerup-1.png" /></image></ImageView>
                 <ImageView fx:id="myPowerup" onMouseClicked="#selectPowerUp" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9"/>
                 <Polygon fx:id="powerupTriangle" onMouseClicked="#nextPowerUp" fill="WHITE" layoutX="109.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
                     <points>

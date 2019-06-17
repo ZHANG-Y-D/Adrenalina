@@ -65,7 +65,8 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
     private int playerCount = 0;
     private int selectedSkull = -1;
     private int selectedMap = -1;
-
+    private int nextstageTimer = 0;
+    private String nextstageComment = "";
 
     public void initialize() {
         imageMap = new HashMap<>();
@@ -117,30 +118,34 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
     }
 
     public void initializeNicknames() {
-        Platform.runLater(() -> {
-            gameController.getPlayersNicknames().forEach((x, y) -> {
-                Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 16);
-                timerLabel.setFont(font);
-                timerLabel.getStyleClass().add("WHITE");
+        Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 16);
+        Platform.runLater(()->{
+            timerLabel.setFont(font);
+            timerLabel.getStyleClass().add("WHITE");
+        });
+        gameController.getPlayersNicknames().forEach((x, y) -> {
+            Platform.runLater(() -> {
                 Label newLabel = new Label(x);
                 newLabel.setFont(font);
                 newLabel.getStyleClass().add("WHITE");
                 nicknamesBox.getChildren().add(newLabel);
-                playerCount++;
             });
+            playerCount++;
         });
     }
 
     public void notifyTimer(Integer duration, String comment) {
-        if (timer == null) timer = new Timer();
-        else {
+        if (timer != null){
             timer.cancel();
             timer.purge();
-            timer = new Timer();
-            if (playerCount == 0) {
-                Platform.runLater(this::changeScene);
-            } else timerLabel.setLayoutY(timerLabel.getLayoutY() + 26);
         }
+        timer = new Timer();
+        if (playerCount == 0) {
+            Platform.runLater(this::changeScene);
+        } else if(playerCount<0){
+            nextstageTimer=duration;
+            nextstageComment = comment;
+        }else timerLabel.setLayoutY(timerLabel.getLayoutY() + 26);
         playerCount--;
         timer.scheduleAtFixedRate(new TimerTask() {
             int time = duration;
@@ -319,6 +324,7 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
                 stage.setHeight(768);
                 stage.centerOnScreen();
                 stage.setScene(scene);
+                viewController.notifyTimer(nextstageTimer, nextstageComment);
             } catch (IOException e) {
                 e.printStackTrace();
             }

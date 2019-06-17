@@ -111,6 +111,12 @@ public class Lobby implements Runnable, LobbyAPI {
         playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
         playersMap.get(currentTurnPlayer).setFirstRound();
         currentState = new RespawnState(this, true);
+        scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+        clientMap.values().forEach(x -> {
+            try {
+                x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
+            } catch (RemoteException e) { }
+        });
         //TODO handles the game flow
     }
 
@@ -269,7 +275,7 @@ public class Lobby implements Runnable, LobbyAPI {
         scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
         clientMap.values().forEach(x -> {
             try {
-                x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn.");
+                x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
             } catch (RemoteException e) { }
         });
     }

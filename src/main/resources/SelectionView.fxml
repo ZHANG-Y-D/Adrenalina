@@ -107,7 +107,7 @@
             <Insets left="5.0" top="5.0" />
          </padding></VBox>
       <Label fx:id="playersList" layoutX="95.0" layoutY="210.0" text="PLAYERS" />
-      <Label fx:id="timerLabel" layoutX="10" layoutY="245" />
+      <Label fx:id="timerLabel" layoutX="10" layoutY="219" />
       <GridPane fx:id="skullbar" layoutX="425.0" layoutY="660.0" prefHeight="77.0" prefWidth="430.0" visible="false">
         <columnConstraints>
           <ColumnConstraints  minWidth="54.0" prefWidth="100.0" />

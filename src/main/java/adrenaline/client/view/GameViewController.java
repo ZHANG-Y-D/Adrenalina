@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -20,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -28,10 +30,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 import static javafx.scene.effect.BlurType.GAUSSIAN;
 
@@ -53,11 +52,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private ImageView ownPlayerLabel, redAmmo1, redAmmo2, redAmmo3, blueAmmo1, blueAmmo2, blueAmmo3, yellowAmmo1, yellowAmmo2, yellowAmmo3,
             weaponRed1, weaponRed2, weaponRed3, weaponBlue1, weaponBlue2, weaponBlue3, weaponYellow1, weaponYellow2, weaponYellow3,
-                     myWeapon,myPowerup;
+                     myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2;
     @FXML
-    private Label message;
+    private Label message, timerLabel, timerComment;
     @FXML
     private Polygon powerupTriangle,weaponTriangle;
+    private Timer clock = null;
     private HashMap<Integer, ArrayList<ImageView>> ammoBoxs = new HashMap<>();
     private HashMap<adrenaline.Color, ArrayList<ImageView>> weaponLists = new HashMap<>();
     private GameController gameController;
@@ -70,6 +70,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private final int rows = 3;
 
     public void initialize(){
+        Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
+        timerLabel.setFont(font);
+        font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 16);
+        timerComment.setFont(font);
+        timerLabel.setTextFill(Color.WHITE);
+        timerComment.setTextFill(Color.WHITE);
         message.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
         powerupTriangle.getStyleClass().add("triangle");
         weaponTriangle.getStyleClass().add("triangle");
@@ -100,6 +106,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
         myWeapon.getStyleClass().add("weapon");
         myPowerup.getStyleClass().add("weapon");
+        myPowerup.setEffect(new DropShadow());
+        bgPowerup1.setEffect(new DropShadow());
 
         for(int i = 0; i <= 11; i++){
             Pane pane = (Pane) map.lookup("#pane"+i);
@@ -207,7 +215,28 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void notifyTimer(Integer duration, String comment) {
-
+        Platform.runLater(() -> {
+            timerComment.setText(comment);
+            timerLabel.setTextFill(Color.WHITE);
+        });
+        if (clock != null){
+            clock.cancel();
+            clock.purge();
+        }
+        clock = new Timer();
+        clock.scheduleAtFixedRate(new TimerTask() {
+            int time = duration;
+            @Override
+            public void run() {
+                if (time > 0) {
+                    Platform.runLater(() -> {
+                        if(time==10) timerLabel.setTextFill(Color.MEDIUMVIOLETRED);
+                        timerLabel.setText(Integer.toString(time));
+                    });
+                    time--;
+                }
+            }
+        }, 0, 1000);
     }
 
     public void newChatMessage(String nickname, adrenaline.Color senderColor, String message) {
@@ -349,27 +378,41 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     public void updatePlayer(HashMap<adrenaline.Color, Player> newPlayersMap){
         //set own powerups
         Player ownPlayer = newPlayersMap.get(gameController.getOwnColor());
+        ArrayList<Integer> puCards = ownPlayer.getPowerupCards();
         Platform.runLater(() -> {
-            if (ownPlayer.getPowerupCards() != null) {
-                String newImgUrl = "/Powerup/powerup-" + ownPlayer.getPowerupCards().get(0) + ".png";
+            if (puCards != null) {
+                String newImgUrl = "/Powerup/powerup-" + puCards.get(0) + ".png";
                 try {
                     myPowerup.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
-            } else myPowerup.setImage(null);
+                bgPowerup1.setVisible(puCards.size() > 1);
+                bgPowerup2.setVisible(puCards.size() > 2);
+            } else{
+                myPowerup.setImage(null);
+                bgPowerup1.setVisible(false);
+                bgPowerup2.setVisible(false);
+            }
         });
 
         //set own weapons
+        ArrayList<Integer> wpCards = ownPlayer.getWeaponCards();
         Platform.runLater(() -> {
-            if(ownPlayer.getWeaponCards() != null){
-                String newImgUrl = "/Weapons/weapon_" + ownPlayer.getWeaponCards().get(0) + "-TOP.png";
+            if(wpCards != null){
+                String newImgUrl = "/Weapons/weapon_" + wpCards.get(0) + "-TOP.png";
                 try {
                     myWeapon.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
-            } else myWeapon.setImage(null);
+                bgWeapon1.setVisible(wpCards.size()>1);
+                bgWeapon2.setVisible(wpCards.size()>2);
+            } else{
+                myWeapon.setImage(null);
+                bgWeapon1.setVisible(false);
+                bgWeapon2.setVisible(false);
+            }
         });
 
         //set ammo
