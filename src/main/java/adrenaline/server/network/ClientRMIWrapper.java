@@ -5,11 +5,12 @@ import adrenaline.UpdateMessage;
 import adrenaline.client.ClientAPI;
 import adrenaline.server.controller.Lobby;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class ClientRMIWrapper implements Client {
-    private final String clientID;
+    private String clientID;
     private String nickname = null;
     private ClientAPI thisClient;
     private boolean active;
@@ -20,19 +21,33 @@ public class ClientRMIWrapper implements Client {
         active = true;
     }
 
+    public void setClientID(String ID) { clientID = ID; }
+
     public String getClientID() {
         return clientID;
     }
 
     public String getNickname(){ return nickname; }
 
-    public boolean setNickname(String nickname) {
+    public boolean setNicknameInternal(String nickname) {
         if(this.nickname != null) return false;
         this.nickname = nickname;
+        System.out.println("settato nickname "+nickname);
+        setNickname(nickname);
         return true;
     }
 
+    public void setNickname(String nickname) {
+        try {
+            thisClient.setNickname(nickname);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setActive(boolean active) { this.active = active; }
+
+    public boolean isActive() { return active; }
 
     public void setLobby(Lobby lobby, ArrayList<String> nicknames) { setLobby(lobby.getID(), nicknames); }
 

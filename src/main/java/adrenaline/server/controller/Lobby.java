@@ -78,6 +78,19 @@ public class Lobby implements Runnable, LobbyAPI {
         return this.lobbyID;
     }
 
+    public synchronized void updateClient(String clientID, Client newClient){
+        clientMap.put(clientID, newClient);
+        if(map!=null) map.attach(newClient);
+        playersMap.values().forEach(x -> x.attach(newClient));
+        if(scoreBoard!=null) scoreBoard.attach(newClient);
+    }
+
+    public synchronized void detachClient(Client client){
+        if(map!=null) map.detach(client);
+        playersMap.values().forEach(x -> x.detach(client));
+        if(scoreBoard!=null) scoreBoard.detach(client);
+    }
+
     //MERGED INTO initMap, TO BE SAFELY REMOVED
     public void chooseAndNewAMap(int num){
         try{

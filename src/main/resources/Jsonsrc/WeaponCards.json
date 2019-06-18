@@ -432,7 +432,7 @@
   },
   {
     "weaponID": 7,
-    "ammoCost": [1,0,0],
+    "ammoCost": [0,1,0],
     "freeAmmo": "BLUE",
     "firemodes": [
       {

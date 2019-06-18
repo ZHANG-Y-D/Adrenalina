@@ -18,6 +18,10 @@ public class RMIClientCommands extends UnicastRemoteObject implements ClientAPI{
         this.gameController = gameController;
     }
 
+    public void setNickname(String nickname){
+        gameController.setOwnNickname(nickname);
+    }
+
     public void setLobby(String lobbyID, ArrayList<String> nicknames) {
         client.setMyLobby(lobbyID);
         gameController.changeStage();

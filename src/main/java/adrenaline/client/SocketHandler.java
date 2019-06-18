@@ -5,9 +5,9 @@ import adrenaline.*;
 import adrenaline.client.controller.GameController;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -25,9 +25,8 @@ public class SocketHandler implements ConnectionHandler {
     private Gson gson;
     private GameController gameController;
 
-    public SocketHandler(String serverIp, int port, GameController gameController) throws IOException {
-        myServer = new java.net.Socket(serverIp, port);
-        System.out.println("Connection through socket was successful!");
+    public SocketHandler(String serverIP, int port, GameController gameController) throws IOException {
+        myServer = new java.net.Socket(serverIP, port);
         this.gameController = gameController;
         thisClient = new SocketClientCommands(this, gameController);
         for(Method m : thisClient.getClass().getDeclaredMethods()) methodsMap.put(m.getName(), thisClient);
@@ -38,6 +37,26 @@ public class SocketHandler implements ConnectionHandler {
         gsonBld.registerTypeAdapter(UpdateMessage.class, new CustomSerializer());
         gson = gsonBld.create();
         active = true;
+        try {
+            BufferedReader fileReader = new BufferedReader(new FileReader("reconnection.txt"));
+            if(fileReader.readLine().equals(serverIP)) {
+                String reconnID = fileReader.readLine();
+                sendMessage("reconnectSocketClient;ARGSIZE=2;java.lang.String;" + clientID + ";java.lang.String;" + reconnID);
+                String result = inputFromServer.nextLine();
+                while (!result.contains("RETURN")) {
+                    String[] readSplit = result.split(";");
+                    if(readSplit[0].equals("setNickname")) thisClient.setNickname(gson.fromJson(readSplit[3],String.class));
+                    else if(readSplit[0].equals("setLobby")) thisClient.setLobby(gson.fromJson(readSplit[3],String.class), gson.fromJson(readSplit[5], ArrayList.class));
+                    result = inputFromServer.nextLine();
+                }
+                if(result.substring(7,9).equals("OK")) clientID = reconnID;
+            }
+        }catch(FileNotFoundException e){}
+        PrintWriter fileWriter = new PrintWriter("reconnection.txt", "UTF-8");
+        fileWriter.println(serverIP);
+        fileWriter.println(clientID);
+        fileWriter.close();
+        System.out.println("Connection through Socket was succesful!");
         createServerListener(inputFromServer);
     }
 
