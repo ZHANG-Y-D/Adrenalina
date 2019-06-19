@@ -180,7 +180,6 @@ public class Lobby implements Runnable, LobbyAPI {
         if(clientID.equals(currentTurnPlayer)){
             ArrayList<Color> typeSafeColors = new ArrayList<>();
             for(Object o : playersColor){
-                System.out.println(o.toString());
                 typeSafeColors.add(Color.valueOf(o.toString()));
             }
             return currentState.selectPlayers(typeSafeColors);

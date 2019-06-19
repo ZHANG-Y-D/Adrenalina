@@ -169,7 +169,6 @@ public class GameController {
     }
 
     public void selectFiremode(int firemode) {
-        System.out.println("FIREMODE: "+firemode);
         connectionHandler.selectFiremode(firemode);
     }
 

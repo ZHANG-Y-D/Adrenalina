@@ -3,13 +3,11 @@ package adrenaline.client.view;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
 import adrenaline.client.model.Player;
-import adrenaline.server.model.AmmoCard;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -17,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -25,7 +22,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -416,7 +412,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ArrayList<Integer> puCards = ownPlayer.getPowerupCards();
         Platform.runLater(() -> {
             if (puCards != null) {
-                String newImgUrl = "/Powerup/powerup-" + puCards.get(0) + ".png";
+                String newImgUrl = "/Powerups/powerup-" + puCards.get(0) + ".png";
                 try {
                     myPowerup.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
                 } catch (URISyntaxException e) {
@@ -531,7 +527,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                         transition.setToX(0);
                         transition.setToY(0);
                         positionMap.put(newPane, list);
-                        positionMap.get(oldPane).remove(tokenPosition.get(token));
+                        ArrayList<Position> positions = positionMap.get(oldPane);
+                        Position pos = tokenPosition.get(token);
+                        positions.remove(pos);
+                        //positionMap.get(oldPane).remove(tokenPosition.get(token));
                         if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
                         tokenPosition.put(token, newPosition);
                         transition.setOnFinished(e -> {
@@ -573,7 +572,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         int newIndex;
         if(powerUpList.indexOf(Integer.parseInt(powerup)) == (powerUpList.size() -1)) newIndex = 0;
         else newIndex = powerUpList.indexOf(Integer.parseInt(powerup)) + 1;
-        powerup = "/Powerup/powerup-"+powerUpList.get(newIndex)+".png";
+        powerup = "/Powerups/powerup-" +powerUpList.get(newIndex)+".png";
         try {
             myPowerup.setImage(new Image(new File(getClass().getResource(powerup).toURI()).toURI().toString()));
         } catch (URISyntaxException e) {
@@ -611,6 +610,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         String weaponID = weapon.getImage().getUrl();
         weaponID = new File(weaponID).getName();
         weaponID = weaponID.substring(weaponID.indexOf('_') + 1, weaponID.indexOf('-'));
+        System.out.println(weaponID);
         gameController.selectWeapon(Integer.parseInt(weaponID));
         if(weapon == myWeapon) weaponSelection(Integer.parseInt(weaponID));
     }

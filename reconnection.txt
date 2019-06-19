@@ -1,6 +1,2 @@
 localhost
-<<<<<<< HEAD
-b1a60a7c-dc3c-4f74-a889-f8a54b7413b7
-=======
-dc782784-dc89-494a-bfeb-60fc9eb444df
->>>>>>> c7e753f913be1c812ac33de82fab305020562e21
+7e42b5eb-7406-40a2-ad2f-788d4b745f3d
