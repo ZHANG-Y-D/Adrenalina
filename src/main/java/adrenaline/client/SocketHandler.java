@@ -185,7 +185,7 @@ public class SocketHandler implements ConnectionHandler {
 
     @Override
     public void selectFiremode(int firemode) {
-        String firemodeMsg = "selectSquare;ARGSIZE=2;java.lang.String;";
+        String firemodeMsg = "selectFiremode;ARGSIZE=2;java.lang.String;";
         firemodeMsg += gson.toJson(clientID)+";";
         firemodeMsg += "java.lang.Integer;";
         firemodeMsg += gson.toJson(firemode);
@@ -194,7 +194,7 @@ public class SocketHandler implements ConnectionHandler {
 
     @Override
     public void selectPlayers(ArrayList<Color> targets) {
-        String  playersMsg = "selectSquare;ARGSIZE=2;java.lang.String;";
+        String  playersMsg = "selectPlayers;ARGSIZE=2;java.lang.String;";
         playersMsg += gson.toJson(clientID)+";";
         playersMsg += "java.util.ArrayList;";
         playersMsg += gson.toJson(targets);
