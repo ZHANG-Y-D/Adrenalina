@@ -30,9 +30,10 @@ public class ClientRMIWrapper implements Client {
     public String getNickname(){ return nickname; }
 
     public boolean setNicknameInternal(String nickname) {
-        if(this.nickname != null) return false;
+        if(this.nickname != null){
+            return false;
+        }
         this.nickname = nickname;
-        System.out.println("settato nickname "+nickname);
         setNickname(nickname);
         return true;
     }

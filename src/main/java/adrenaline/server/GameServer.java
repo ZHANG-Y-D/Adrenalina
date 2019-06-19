@@ -135,16 +135,9 @@ public class GameServer {
         Client oldC = clients.get(oldClientID);
         Client newC = clients.get(newClientID);
         if(oldC==null || oldC.isActive() || newC.getNickname()!=null) return false;
-        clients.remove(oldClientID);
-        synchronized (clientsWaitingList) {
-            if(clientsWaitingList.remove(oldC)) {
-                clientsWaitingList.add(newC);
-                clientsWaitingList.notifyAll();
-            }
-        }
         newC.setClientID(oldClientID);
-        System.out.println("setto nickname "+oldC.getNickname()+" a "+newC.toString());
         newC.setNicknameInternal(oldC.getNickname());
+        clients.put(oldClientID, clients.remove(newClientID));
         String assignedLobby = clientsLobbiesMap.get(oldClientID);
         if(assignedLobby!=null){
             ArrayList<String> playersNicknames = new ArrayList<>();
@@ -154,8 +147,13 @@ public class GameServer {
             Lobby lobby = activeLobbies.get(assignedLobby);
             newC.setLobby(lobby, playersNicknames);
             lobby.updateClient(oldClientID, newC);
+        }else{
+            synchronized (clientsWaitingList){
+                clientsWaitingList.remove(oldC);
+                clientsWaitingList.add(newC);
+                clientsWaitingList.notifyAll();
+            }
         }
-        clients.put(oldClientID, clients.remove(newClientID));
         return true;
     }
 

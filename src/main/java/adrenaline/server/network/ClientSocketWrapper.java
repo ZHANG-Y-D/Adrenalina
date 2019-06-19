@@ -96,7 +96,9 @@ public class ClientSocketWrapper implements Client {
     }
 
     public boolean setNicknameInternal(String nickname) {
-        if(this.nickname != null) return false;
+        if(this.nickname != null){
+            return false;
+        }
         this.nickname = nickname;
         setNickname(nickname);
         return true;

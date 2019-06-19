@@ -42,6 +42,7 @@ public class GameController {
 
     public void setOwnNickname(String name) {
         ownNickame = name;
+        view.showMessage("NICKNAME;"+name);
     }
 
     public String getOwnNickname() { return ownNickame; }
