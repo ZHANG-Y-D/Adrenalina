@@ -177,7 +177,14 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String selectPlayers(String clientID, ArrayList<Color> playersColor) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.selectPlayers(playersColor);
+        if(clientID.equals(currentTurnPlayer)){
+            ArrayList<Color> typeSafeColors = new ArrayList<>();
+            for(Object o : playersColor){
+                System.out.println(o.toString());
+                typeSafeColors.add(Color.valueOf(o.toString()));
+            }
+            return currentState.selectPlayers(typeSafeColors);
+        }
         else return "You can only do that during your turn!";
     }
 

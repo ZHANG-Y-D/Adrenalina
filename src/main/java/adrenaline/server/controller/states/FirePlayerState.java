@@ -47,7 +47,7 @@ public class FirePlayerState implements FiremodeSubState {
     }
 
     public String selectPlayers(ArrayList<Color> playersColor) {
-        playersColor = new ArrayList<>(playersColor.subList(0, targetsLimit));
+        playersColor = new ArrayList<>(playersColor.size()>targetsLimit ? playersColor.subList(0, targetsLimit) : playersColor.subList(0, playersColor.size()));
         ArrayList<Player> targets = lobby.generateTargets(targetsGenerator, playersColor);
         try {
             lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
