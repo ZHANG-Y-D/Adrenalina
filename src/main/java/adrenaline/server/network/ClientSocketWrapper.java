@@ -65,13 +65,13 @@ public class ClientSocketWrapper implements Client {
                     requestedMethod = methodsMap.get(methodName).getClass().getMethod(methodName, argClasses);
                     sendToClient += requestedMethod.invoke(methodsMap.get(methodName), argObjects).toString();
                 } catch (InvocationTargetException | ClassNotFoundException e) {
-                   // System.out.println("MESSAGE RECEIVED: "+readFromClient);
-                   // e.printStackTrace();
+                    System.out.println("MESSAGE RECEIVED: "+readFromClient);
+                    e.printStackTrace();
                     sendToClient += "SERVER ERROR!";
                 } catch (NullPointerException | NoSuchMethodException |
                             IllegalAccessException | NoSuchElementException e) {
-                   // System.out.println("MESSAGE RECEIVED: "+readFromClient);
-                   // e.printStackTrace();
+                    System.out.println("MESSAGE RECEIVED: "+readFromClient);
+                    e.printStackTrace();
                     sendToClient += "ERROR! Invalid command request";
                 }finally{ sendMessage(sendToClient);}
             }

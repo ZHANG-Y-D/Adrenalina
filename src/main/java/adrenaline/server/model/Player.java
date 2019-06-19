@@ -282,6 +282,7 @@ public class Player extends Observable{
                 tempAmmoBox[i] -= ammoCost[i];
             }
         }
+        notifyObservers(new PlayerUpdateMessage(this));
     }
 
     public void consumePowerup(PowerupCard powerup){

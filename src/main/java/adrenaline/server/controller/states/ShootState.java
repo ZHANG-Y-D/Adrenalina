@@ -35,12 +35,12 @@ public class ShootState implements GameState {
 
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
-        return "Select which weapon you want to use first";
+        return "player Select which weapon you want to use first";
     }
 
     @Override
     public String selectSquare(int index) {
-        return "Select which weapon you want to use first";
+        return "square Select which weapon you want to use first";
     }
 
     @Override

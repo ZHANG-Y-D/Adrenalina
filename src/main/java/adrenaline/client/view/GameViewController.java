@@ -636,6 +636,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void selectFiremode(Event event) {
         Pane clickedFiremode = (Pane) event.getSource();
+        clickedFiremode.setEffect(new Glow(0.8));
         int firemodeID = Integer.parseInt(clickedFiremode.getId().substring(12));
         if(firemodeID == 1) mode1 = 1;
         if(firemodeID == 2) mode2 = 2;
