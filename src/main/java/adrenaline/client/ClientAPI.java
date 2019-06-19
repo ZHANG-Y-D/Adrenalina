@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface ClientAPI extends Remote {
+    void setNickname(String nickname) throws RemoteException;
     void setLobby(String lobbyID, ArrayList<String> nicknames) throws RemoteException;
     void setPlayerColor(String nickname, Color color) throws  RemoteException;
     void timerStarted(Integer duration, String comment) throws RemoteException;

@@ -6,6 +6,7 @@ import adrenaline.server.LobbyAPI;
 import adrenaline.server.ServerAPI;
 import adrenaline.client.controller.GameController;
 
+import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,14 +23,26 @@ public class RMIHandler implements ConnectionHandler {
     private Registry registry;
     private GameController gameController;
 
-    public RMIHandler(String serverIP, int port, GameController gameController) throws RemoteException, NotBoundException {
+    public RMIHandler(String serverIP, int port, GameController gameController) throws IOException, NotBoundException {
         registry = LocateRegistry.getRegistry(serverIP, port);
         String remoteObjectName = "AdrenalineServer";
         this.myServer = (ServerAPI) registry.lookup(remoteObjectName);
-        System.out.println("Connection through RMI was succesful!");
         this.gameController = gameController;
         thisClient = new RMIClientCommands(this, gameController);
         clientID = myServer.registerRMIClient(thisClient);
+        try {
+            BufferedReader fileReader = new BufferedReader(new FileReader("reconnection.txt"));
+            if(fileReader.readLine().equals(serverIP)){
+                String reconnID = fileReader.readLine();
+                String result = myServer.reconnectRMIClient(thisClient, reconnID);
+                if(result.substring(0,2).equals("OK")) clientID=reconnID;
+            }
+        }catch(FileNotFoundException e){ }
+        PrintWriter fileWriter = new PrintWriter("reconnection.txt", "UTF-8");
+        fileWriter.println(serverIP);
+        fileWriter.println(clientID);
+        fileWriter.close();
+        System.out.println("Succesfully connected through RMI!");
     }
 
 

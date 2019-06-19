@@ -12,26 +12,28 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class ClientSocketWrapper implements Client {
-    private final String clientID;
+    private String clientID;
     private String nickname = null;
     private Socket thisClient;
     private volatile boolean active;
 
-    private final SocketServerCommands serverCommands;
+    private final ServerCommands serverCommands;
     private Lobby inLobby;
     private HashMap<String,Object> methodsMap = new HashMap<>();
     private PrintWriter outputToClient;
     private Gson gson;
 
-    public ClientSocketWrapper(Socket newClient, SocketServerCommands serverCommands) throws IOException {
+    public ClientSocketWrapper(Socket newClient, ServerCommands serverCommands) throws IOException {
         this.clientID = UUID.randomUUID().toString();
         this.thisClient = newClient;
         this.active = true;
         this.serverCommands = serverCommands;
-        for(Method m : serverCommands.getClass().getDeclaredMethods())methodsMap.put(m.getName(), serverCommands);
+        for(Method m : serverCommands.getClass().getDeclaredMethods())
+            if(!m.getName().equals("registerRMIClient") && !m.getName().equals("reconnectRMIClient")) methodsMap.put(m.getName(), serverCommands);
         Scanner inputFromClient = new Scanner(thisClient.getInputStream());
         outputToClient = new PrintWriter(thisClient.getOutputStream());
         GsonBuilder gsonBld = new GsonBuilder();
@@ -63,11 +65,13 @@ public class ClientSocketWrapper implements Client {
                     requestedMethod = methodsMap.get(methodName).getClass().getMethod(methodName, argClasses);
                     sendToClient += requestedMethod.invoke(methodsMap.get(methodName), argObjects).toString();
                 } catch (InvocationTargetException | ClassNotFoundException e) {
+                   // System.out.println("MESSAGE RECEIVED: "+readFromClient);
+                   // e.printStackTrace();
                     sendToClient += "SERVER ERROR!";
                 } catch (NullPointerException | NoSuchMethodException |
                             IllegalAccessException | NoSuchElementException e) {
-                    System.out.println("MESSAGE RECEIVED: "+readFromClient);
-                    e.printStackTrace();
+                   // System.out.println("MESSAGE RECEIVED: "+readFromClient);
+                   // e.printStackTrace();
                     sendToClient += "ERROR! Invalid command request";
                 }finally{ sendMessage(sendToClient);}
             }
@@ -79,6 +83,10 @@ public class ClientSocketWrapper implements Client {
         outputToClient.flush();
     }
 
+    public void setClientID(String ID) {
+        clientID = ID;
+    }
+
     public String getClientID() {
         return clientID;
     }
@@ -87,19 +95,29 @@ public class ClientSocketWrapper implements Client {
         return nickname;
     }
 
-    public boolean setNickname(String nickname) {
-        if(this.nickname != null) return false;
+    public boolean setNicknameInternal(String nickname) {
+        if(this.nickname != null){
+            return false;
+        }
         this.nickname = nickname;
+        setNickname(nickname);
         return true;
     }
 
+    public void setNickname(String nickname){
+        sendMessage("setNickname;ARGSIZE=1;java.lang.String;"+gson.toJson(nickname));
+    }
+
     public void setActive(boolean active) { this.active = active; }
+
+    public boolean isActive() { return active; }
 
     public void setLobby(Lobby lobby, ArrayList<String> nicknames)  {
         this.inLobby=lobby;
         for(Method m : inLobby.getClass().getDeclaredMethods()) methodsMap.put(m.getName(), inLobby);
         setLobby(inLobby.getID(), nicknames);
     }
+
 
     public void setLobby(String lobbyID, ArrayList<String> nicknames) {
         sendMessage("setLobby;ARGSIZE=2;java.lang.String;"+gson.toJson(lobbyID)+";java.util.ArrayList;"+gson.toJson(nicknames));

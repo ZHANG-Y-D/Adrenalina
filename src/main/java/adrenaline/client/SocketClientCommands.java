@@ -4,6 +4,7 @@ import adrenaline.Color;
 import adrenaline.UpdateMessage;
 import adrenaline.client.controller.GameController;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -15,6 +16,10 @@ public class SocketClientCommands  implements ClientAPI{
     SocketClientCommands(SocketHandler client, GameController gameController){
         this.client = client;
         this.gameController = gameController;
+    }
+
+    public void setNickname(String nickname) {
+        gameController.setOwnNickname(nickname);
     }
 
     public void setLobby(String lobbyID, ArrayList<String> nicknames){

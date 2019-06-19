@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 
 public class GameServer {
 
-    private final int rmiPort = 1099;                   //The initial value of Rmi is 1099
-    private final int socketPort = 1100;                //The initial value of Socket is 1100
+    private final int rmiPort = 1099;
+    private final int socketPort = 1100;
     private final int TIMEOUT_IN_SECONDS = 10;
     private final HashMap<String, Client> clients;
     private final ArrayList<Client> clientsWaitingList;
@@ -33,7 +33,7 @@ public class GameServer {
     public GameServer(){
         try {
             System.out.println("Setting up RMI Server...");
-            RMIServerCommands RMIAdrenalineServer = new RMIServerCommands(this);
+            ServerCommands RMIAdrenalineServer = new ServerCommands(this);
             try {
                 LocateRegistry.createRegistry(rmiPort).bind("AdrenalineServer", RMIAdrenalineServer);
             }catch (ExportException e){
@@ -42,7 +42,7 @@ public class GameServer {
 
 
             System.out.println("Setting up Socket Server...");
-            SocketServerCommands SocketAdrenalineServer = new SocketServerCommands(this);
+            ServerCommands SocketAdrenalineServer = new ServerCommands(this);
             new Thread(() -> {
                 ServerSocket serverSocket = null;
                 try {
@@ -56,7 +56,6 @@ public class GameServer {
                     try {
                         Socket client = serverSocket.accept();
                         registerClient(new ClientSocketWrapper(client, SocketAdrenalineServer));
-                        System.out.println("Client connected through Socket");
                     }catch (NullPointerException e){
                         e.getCause();
                     }catch (IOException e) { e.printStackTrace(); }
@@ -126,15 +125,42 @@ public class GameServer {
         Client c = clients.get(cID);
         c.setActive(false);
         synchronized (clientsWaitingList){
-            this.clientsWaitingList.remove(c);
-            clientsWaitingList.notifyAll();
+            if(clientsWaitingList.remove(c)) clientsWaitingList.notifyAll();
         }
+        String assignedLobby = clientsLobbiesMap.get(cID);
+        if(assignedLobby!=null) activeLobbies.get(assignedLobby).detachClient(c);
+    }
+
+    public boolean reconnectClient(String newClientID, String oldClientID){
+        Client oldC = clients.get(oldClientID);
+        Client newC = clients.get(newClientID);
+        if(oldC==null || oldC.isActive() || newC.getNickname()!=null) return false;
+        newC.setClientID(oldClientID);
+        newC.setNicknameInternal(oldC.getNickname());
+        clients.put(oldClientID, clients.remove(newClientID));
+        String assignedLobby = clientsLobbiesMap.get(oldClientID);
+        if(assignedLobby!=null){
+            ArrayList<String> playersNicknames = new ArrayList<>();
+            clientsLobbiesMap.forEach((x,y) -> {
+                if(y.equals(assignedLobby)) playersNicknames.add(clients.get(x).getNickname());
+            });
+            Lobby lobby = activeLobbies.get(assignedLobby);
+            newC.setLobby(lobby, playersNicknames);
+            lobby.updateClient(oldClientID, newC);
+        }else{
+            synchronized (clientsWaitingList){
+                clientsWaitingList.remove(oldC);
+                clientsWaitingList.add(newC);
+                clientsWaitingList.notifyAll();
+            }
+        }
+        return true;
     }
 
     public boolean setNickname(String cID, String nickname){
         if(usedNicknames.contains(nickname)) return false;
         Client c = clients.get(cID);
-        if(c.setNickname(nickname)) {
+        if(c.setNicknameInternal(nickname)) {
             usedNicknames.add(nickname);
             synchronized (clientsWaitingList) {
                 this.clientsWaitingList.add(c);

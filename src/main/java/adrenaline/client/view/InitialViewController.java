@@ -116,7 +116,7 @@ public class InitialViewController implements ViewInterface {
     @Override
     public void showMessage(String message) {
         Platform.runLater(() ->{
-            gameController.setOwnNickname(name.getText());
+            if(message.contains("NICKNAME;")) name.setText(message.substring(9));
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.ZERO, event -> {
                         String statusText = label.getText();

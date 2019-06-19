@@ -518,7 +518,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                         }
                         TranslateTransition transition = new TranslateTransition();
                         transition.setNode(token);
-                        transition.setDuration(Duration.millis(1500));
+                        transition.setDuration(Duration.millis(700));
                         Position oldPosition = tokenPosition.get(token);
                         int oldX = (y.getOldPosition()%columns -y.getPosition()%columns)*145 + oldPosition.getX() -newPosition.getX();
                         int oldY = (y.getOldPosition()/columns -y.getPosition()/columns)*148 + oldPosition.getY() -newPosition.getY();
