@@ -84,7 +84,7 @@ public class FirePlayerState implements FiremodeSubState {
             moveConstraints.add(new CardinalDirectionConstraint());
             targetValidSquares = lobby.sendTargetValidSquares(selectedTargets, moveConstraints);
         }
-        return "OK";
+        return "OK HIT!";
     }
 
     public String selectSquare(int index) {

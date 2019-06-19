@@ -2,6 +2,8 @@ package adrenaline.client;
 
 import adrenaline.Color;
 
+import java.util.ArrayList;
+
 public interface ConnectionHandler {
     void unregister();
     void setNickname(String nickname);
@@ -17,6 +19,8 @@ public interface ConnectionHandler {
     void back();
     void endTurn();
     void selectSquare(int index);
+    void selectFiremode(int firemode);
+    void selectPlayers(ArrayList<Color> targets);
     String getClientID();
     String getMyLobbyID();
 }

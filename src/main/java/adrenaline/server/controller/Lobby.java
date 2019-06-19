@@ -181,7 +181,6 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         else{
             if(puc.isUsableOutsideTurn()){
-                System.out.println("venom");
                 useGrenadePowerup(clientID, puc);
                 return "OK";
             }

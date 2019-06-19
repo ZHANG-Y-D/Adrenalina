@@ -126,6 +126,7 @@ public class Player extends Observable{
         if (this.damage.size() >= 11) alive = false;
         else if (this.damage.size() >= 6) this.adrenalineState = 2;
         else if (this.damage.size() >= 3) this.adrenalineState = 1;
+        notifyObservers(new PlayerUpdateMessage(this));
         return alive;
     }
 

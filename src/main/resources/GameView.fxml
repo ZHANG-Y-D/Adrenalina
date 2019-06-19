@@ -6,11 +6,7 @@
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.net.URL?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.shape.Polygon?>
 
-<?import javafx.scene.effect.Glow?>
 <Pane fx:id="pane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.GameViewController">
     <children>
         <VBox fx:id="timerBox" layoutY="10" prefWidth="160" alignment="CENTER">
@@ -21,9 +17,9 @@
         </VBox>
         <GridPane fx:id="map" layoutX="170" layoutY="125" prefHeight="444" prefWidth="580.0">
             <children>
-                <Pane fx:id="pane0" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Pane fx:id="pane0" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high0" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -31,9 +27,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane1" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="0" >
+                <Pane fx:id="pane1" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="0" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high1" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -41,9 +37,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane2" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="0" >
+                <Pane fx:id="pane2" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="0" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high2" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -51,9 +47,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane3" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="0" >
+                <Pane fx:id="pane3" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="0" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high3" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -61,9 +57,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane4" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Pane fx:id="pane4" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high4" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -71,9 +67,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane5" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" >
+                <Pane fx:id="pane5" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high5" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -81,9 +77,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane6" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="1" >
+                <Pane fx:id="pane6" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="1" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high6" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -91,9 +87,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane7" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="1" >
+                <Pane fx:id="pane7" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="1" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high7" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -101,9 +97,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane8" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="2" >
+                <Pane fx:id="pane8" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="0" GridPane.rowIndex="2" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high8" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -111,9 +107,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane9" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" >
+                <Pane fx:id="pane9" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high9" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -121,9 +117,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane10" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" >
+                <Pane fx:id="pane10" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high10" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -131,9 +127,9 @@
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
                     </children>
                 </Pane>
-                <Pane fx:id="pane11" onMouseClicked="#selectSquare" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="2" >
+                <Pane fx:id="pane11" prefHeight="148.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="2" >
                     <children>
-                        <ImageView opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
+                        <ImageView fx:id="high11" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
                                 <Image url="@highlight.png" />
                             </image>
@@ -145,30 +141,30 @@
         </GridPane>
         <VBox fx:id="redWeapons" layoutX="10" layoutY="170">
          <children>
-             <ImageView fx:id="weaponRed1" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponRed2" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponRed3" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed1" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed2" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponRed3" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </VBox>
         <HBox fx:id="blueWeapons" layoutX="290" layoutY="5">
          <children>
-            <ImageView fx:id="weaponBlue1" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponBlue2" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponBlue3" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+            <ImageView fx:id="weaponBlue1" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponBlue2" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponBlue3" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </HBox>
         <VBox fx:id="yellowWeapons" layoutX="760" layoutY="233">
          <children>
-             <ImageView fx:id="weaponYellow1" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponYellow2" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
-             <ImageView fx:id="weaponYellow3" onMouseClicked="#selectMapWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow1" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow2" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
+             <ImageView fx:id="weaponYellow3" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </VBox>
         <VBox fx:id="enemyPlayers" layoutX="940" layoutY="10" />
         <Pane fx:id="ownPlayer" layoutX="295" layoutY="590" prefHeight="150" prefWidth="690">
             <children>
-                <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="121" layoutY="10">
-                </ImageView>
+                <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="121" layoutY="10"/>
+                <HBox fx:id="ownDamage" spacing="10" layoutX="137" layoutY="63" prefHeight="30" prefWidth="480" minWidth="480" minHeight="25" />
                 <Button fx:id="run" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="10" />
                 <Button fx:id="shoot" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="55"/>
                 <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57"  layoutX="58" layoutY="100"/>
@@ -225,7 +221,7 @@
             <children>
                 <ImageView fx:id="bgWeapon2" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="19.0" visible="false"><image><Image url="@Weapons/weapon_1-TOP.png" /></image></ImageView>
                 <ImageView fx:id="bgWeapon1" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="22.0" visible="false"><image><Image url="@Weapons/weapon_1-TOP.png" /></image></ImageView>
-                <ImageView fx:id="myWeapon" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="25.0" onMouseEntered="#drawBottom"/>
+                <ImageView fx:id="myWeapon" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="25.0" onMouseEntered="#drawBottom"/>
                 <ImageView fx:id="bgPowerup2" fitHeight="132.0" fitWidth="90.0" layoutX="21.0" layoutY="9.0" visible="false"><image><Image url="@Powerup/powerup-1.png" /></image></ImageView>
                 <ImageView fx:id="bgPowerup1" fitHeight="132.0" fitWidth="90.0" layoutX="18.0" layoutY="9.0" visible="false"><image><Image url="@Powerup/powerup-1.png" /></image></ImageView>
                 <ImageView fx:id="myPowerup" onMouseClicked="#selectPowerUp" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9"/>
@@ -249,6 +245,33 @@
                         <Double fx:value="-4.5" />
                     </points>
                 </Polygon>
+            </children>
+        </Pane>
+        <Pane fx:id="firemodeSelection" layoutX="10" layoutY="590" prefHeight="150" prefWidth="280" visible="false">
+            <children>
+                <Button fx:id="selectFiremode" onAction="#sendShoot" text="SELECT" layoutX="200" layoutY="50"/>
+                <Pane fx:id="firemodeSet0" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false"/>
+                <Pane fx:id="firemodeSet1" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false">
+                    <children>
+                        <Pane fx:id="set1Firemode0" onMouseClicked="#selectFiremode" prefHeight="60" prefWidth="127"/>
+                        <HBox layoutX="0" layoutY="64" prefWidth="127" prefHeight="60">
+                            <children>
+                                <Pane fx:id="set1Firemode1" onMouseClicked="#selectFiremode" prefWidth="127" prefHeight="60"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </Pane>
+                <Pane fx:id="firemodeSet2" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false">
+                    <children>
+                        <Pane fx:id="set2Firemode0" onMouseClicked="#selectFiremode" prefHeight="60" prefWidth="127"/>
+                        <HBox layoutY="64" prefWidth="127" prefHeight="60">
+                            <children>
+                                <Pane fx:id="set2Firemode1" onMouseClicked="#selectFiremode" prefWidth="63" maxWidth="63" minWidth="63" prefHeight="60"/>
+                                <Pane fx:id="set2Firemode2" onMouseClicked="#selectFiremode" prefWidth="63" prefHeight="60"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </Pane>
             </children>
         </Pane>
         <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="989.0" layoutY="590.0" prefHeight="118.0" prefWidth="281.0" vvalue="1">

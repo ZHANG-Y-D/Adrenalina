@@ -10,6 +10,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 public class RMIHandler implements ConnectionHandler {
 
@@ -142,6 +143,22 @@ public class RMIHandler implements ConnectionHandler {
     public void selectSquare(int index) {
         try {
             gameController.handleReturn(myLobby.selectSquare(clientID,index));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectFiremode(int firemode) {
+        try {
+            gameController.handleReturn(myLobby.selectFiremode(clientID,firemode));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectPlayers(ArrayList<Color> targets) {
+        try {
+            gameController.handleReturn(myLobby.selectPlayers(clientID,targets));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

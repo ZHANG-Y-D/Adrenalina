@@ -53,4 +53,6 @@ public class Player implements Serializable {
         if(weaponCards.size() == 0) return null;
         return weaponCards;
     }
+
+    public ArrayList<Color> getDamage(){ return damage; }
 }

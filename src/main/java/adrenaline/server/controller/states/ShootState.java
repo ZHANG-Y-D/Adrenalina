@@ -53,7 +53,7 @@ public class ShootState implements GameState {
     public String selectWeapon(int weaponID) {
         selectedWeapon = lobby.useWeapon(weaponID);
         if(selectedWeapon==null) return "You can't shoot with that weapon! Please select a valid weapon";
-        else return "OK";
+        else return "OK Select the firemode";
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ShootState implements GameState {
                 nextStep.setContext(lobby, selectedWeapon, selectedFiremode, false);
                 lobby.setState(nextStep);
             }
-            return "OK";
+            return "OK Firemode accepted, choose your next move";
         } catch (NotEnoughAmmoException e) {
             return "You can't pay the ammo price for that firemode! HINT: powerups can be expended too";
         }

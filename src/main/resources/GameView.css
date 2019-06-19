@@ -20,7 +20,7 @@
 .ammo{
     -fx-effect: dropshadow(three-pass-box, black, 3, 0.8, 0, 0);
 }
-.weapon:hover{
+.hand:hover{
     -fx-cursor: hand;
 }
 #redWeapons{
@@ -49,6 +49,16 @@
 }
 #ownCard{
     -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+#firemodeSelection{
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+.setFiremode{
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+.setFiremode:hover{
+    -fx-cursor: hand;
 }
 #scrollPane{
     -fx-background-color: transparent;

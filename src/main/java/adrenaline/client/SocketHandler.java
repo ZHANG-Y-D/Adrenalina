@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -162,6 +163,24 @@ public class SocketHandler implements ConnectionHandler {
         squareMsg += "java.lang.Integer;";
         squareMsg += gson.toJson(index);
         sendMessage(squareMsg);
+    }
+
+    @Override
+    public void selectFiremode(int firemode) {
+        String firemodeMsg = "selectSquare;ARGSIZE=2;java.lang.String;";
+        firemodeMsg += gson.toJson(clientID)+";";
+        firemodeMsg += "java.lang.Integer;";
+        firemodeMsg += gson.toJson(firemode);
+        sendMessage(firemodeMsg);
+    }
+
+    @Override
+    public void selectPlayers(ArrayList<Color> targets) {
+        String  playersMsg = "selectSquare;ARGSIZE=2;java.lang.String;";
+        playersMsg += gson.toJson(clientID)+";";
+        playersMsg += "java.util.ArrayList;";
+        playersMsg += gson.toJson(targets);
+        sendMessage(playersMsg);
     }
 
     @Override

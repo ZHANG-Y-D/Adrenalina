@@ -27,6 +27,7 @@ public class DeckWeapon extends Deck<WeaponCard>{
 
             WeaponCard[] weaponCards = gson.fromJson(fileReader,WeaponCard[].class);
             cards.addAll(Arrays.asList(weaponCards));
+            cards.forEach(x -> x.setLoaded(true));
             shuffle();
 
         }catch (JsonIOException e){

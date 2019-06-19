@@ -82,7 +82,7 @@ public class FireAreaState implements FiremodeSubState {
                 nextStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
                 lobby.setState(nextStep);
             }
-            return "OK";
+            return "OK HIT!";
         } catch (InvalidTargetsException e) { return "You can't shoot there!"; }
     }
 

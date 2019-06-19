@@ -3,9 +3,13 @@ package adrenaline.client.view;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
 import adrenaline.client.model.Player;
+import adrenaline.server.model.AmmoCard;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -29,6 +33,9 @@ import javafx.util.Duration;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -38,7 +45,7 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer;
+    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2;
     @FXML
     private Button  run, shoot, grab, reload, back;
     @FXML
@@ -47,6 +54,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private GridPane map;
     @FXML
     private VBox chat, enemyPlayers;
+    @FXML
+    private HBox ownDamage;
     @FXML
     private TextField txtMsg;
     @FXML
@@ -63,11 +72,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private GameController gameController;
     private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>(); //forse non serve
     private HashMap<adrenaline.Color, ImageView> tokensMap = new HashMap<>();
-    private HashMap<Integer, Pane> mapPanes = new HashMap<>(); //get pane from position
     private HashMap<Pane, ArrayList<Position>> positionMap = new HashMap<>(); //get pane used positions
     private HashMap<ImageView, Position> tokenPosition = new HashMap<>(); //get token current position
+    private HashMap<Integer,Integer> firemodeMap;
+    private HashMap<ImageView, adrenaline.Color> tokenColor = new HashMap<>();
     private final int columns = 4;
-    private final int rows = 3;
+    private boolean shootState = false;
+    private ArrayList<adrenaline.Color> targets = new ArrayList<>();
+    private int mode0 = 0, mode1 = 0, mode2 = 0;
 
     public void initialize(){
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
@@ -104,19 +116,25 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         weaponLists.forEach((x,y) -> {
             for (ImageView img : y) img.getStyleClass().add("weapon");
         });
-        myWeapon.getStyleClass().add("weapon");
-        myPowerup.getStyleClass().add("weapon");
+        myWeapon.getStyleClass().add("hand");
+        myPowerup.getStyleClass().add("hand");
         myPowerup.setEffect(new DropShadow());
         bgPowerup1.setEffect(new DropShadow());
 
         for(int i = 0; i <= 11; i++){
             Pane pane = (Pane) map.lookup("#pane"+i);
             pane.getChildren().get(0).setEffect(new Glow(0.5));
-            mapPanes.put(i,pane);
+            pane.getChildren().get(0).getStyleClass().add("hand");
         }
 
-        //gameController = new GameController();
-        //gameController.addPropertyChangeListener(this);
+        try {
+            Gson gson = new Gson();
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Firemode.json");
+            Type type = new TypeToken<HashMap<Integer, Integer>>(){}.getType();
+            firemodeMap = gson.fromJson(fileReader, type);
+        }catch (FileNotFoundException e) {
+            System.out.println("Firemode.json file not found");
+        }
     }
 
     public void setGameController(GameController gameController) {
@@ -139,7 +157,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         enemyPlayers.getChildren().add(skullPane);
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
-        tokensMap.put(ownColor, new ImageView());
+        ImageView token = new ImageView();
+        tokensMap.put(ownColor, token);
+        tokenColor.put(token, ownColor);
         String newImgUrl = "/HUD/"+ownColor.toString()+"-HUD.png";
         ownPlayerLabel.setImage(new Image(getClass().getResourceAsStream(newImgUrl)));
         String runPath = "url(/HUD/"+ownColor.toString()+"-RUN.png)";
@@ -155,7 +175,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         nicknamesMap.forEach((y,x) -> {
                 if(x.equals(ownColor)) playersColorMap.put(x, ownPlayer);
                 else{
-                    tokensMap.put(x, new ImageView());
+                    ImageView newtoken = new ImageView();
+                    tokensMap.put(x, newtoken);
+                    tokenColor.put(newtoken, x);
                     Pane newPane = new Pane();
                     String newUrl = "/HUD/"+x.toString()+"-SCOREBOARD.png";
                     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(newUrl)));
@@ -186,11 +208,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void selectSquare(Event event){
-        Pane pane = (Pane) event.getSource();
+        ImageView square = (ImageView) event.getSource();
         Platform.runLater(()-> {
             for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
         });
-        gameController.selectSquare(Integer.parseInt(pane.getId().substring(4)));
+        gameController.selectSquare(Integer.parseInt(square.getId().substring(4)));
     }
 
     public void showError(String error) {
@@ -198,6 +220,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             message.getStyleClass().clear();
             message.getStyleClass().add("RED");
             this.message.setText(error);
+            //shootState = false;
         });
     }
 
@@ -207,6 +230,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             this.message.getStyleClass().clear();
             this.message.getStyleClass().add("GREEN");
             this.message.setText(message);
+            if(message.contains("HIT")) {
+                clearShootInfo();
+                shootState = false;
+            }
         });
     }
 
@@ -216,6 +243,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void notifyTimer(Integer duration, String comment) {
         Platform.runLater(() -> {
+            shootState = false;
+            clearShootInfo();
             timerComment.setText(comment);
             timerLabel.setTextFill(Color.WHITE);
         });
@@ -287,9 +316,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             case "reload": gameController.endTurn(); break;
             case "run": gameController.run(); break;
             case "grab": gameController.grab(); break;
-            case "shoot": gameController.shoot(); break;
+            case "shoot":
+                shootState = true;
+                gameController.shoot();
+                break;
             case "back":
                 gameController.back();
+                shootState = false;
+                clearShootInfo();
                 for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
                 break;
             default: break;
@@ -308,8 +342,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             e.printStackTrace();
         }
 
-        bottom.setFitWidth(120);
-        bottom.setFitHeight(127);
+        bottom.setFitWidth(127);
+        bottom.setFitHeight(120);
         bottom.setLayoutX(image.getParent().getLayoutX());
         bottom.setLayoutY(image.getParent().getLayoutY());
         bottom.setX(mouseEvent.getX()+20 +image.getLayoutX());
@@ -350,7 +384,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Platform.runLater(() -> {
             HashMap<Integer,Integer> ammoMap = newMap.getAmmoMap();
             ammoMap.forEach((x,y) -> {
-                ImageView ammoImage = (ImageView) mapPanes.get(x).getChildren().get(1);
+                Pane ammoPane = (Pane) map.lookup("#pane"+x);
+                ImageView ammoImage = (ImageView) ammoPane.getChildren().get(1);
                 if(y == 0) ammoImage.setImage(null);
                 else {
                     String imgUrl = y.toString() + ".png";
@@ -393,6 +428,23 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 myPowerup.setImage(null);
                 bgPowerup1.setVisible(false);
                 bgPowerup2.setVisible(false);
+            }
+        });
+
+        //set own damage
+        Platform.runLater(() -> {
+            ArrayList<adrenaline.Color> playerDamage = ownPlayer.getDamage();
+            if(!playerDamage.isEmpty()) {
+                for (int i = 0; i < playerDamage.size(); i++){
+                    if (i >= (ownDamage.getChildren().size())) {
+                        String damegeUrl = "/HUD/" + playerDamage.get(i).toString() + "-DROP.png";
+                        ImageView damage = new ImageView();
+                        damage.setFitWidth(20);
+                        damage.setFitHeight(30);
+                        damage.setImage(new Image(getClass().getResourceAsStream(damegeUrl)));
+                        ownDamage.getChildren().add(damage);
+                    }
+                }
             }
         });
 
@@ -441,9 +493,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     ImageView token = tokensMap.get(x);
                     Position newPosition;
                     ArrayList<Position> list = new ArrayList<>();
-                    Pane newPane =  mapPanes.get(y.getPosition());
+                    Pane newPane = (Pane) map.lookup("#pane"+y.getPosition());
                     Pane oldPane = (Pane) token.getParent();
                     if(oldPane == null) { //if is the first turn
+                        token.setOnMouseClicked(this::selectTarget);
                         String tokenUrl = "/"+x.toString()+"-TOKEN.png";
                         token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
                         token.setFitHeight(45);
@@ -490,6 +543,15 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 }
             });
         });
+    }
+
+    private void selectTarget(Event event) {
+        ImageView token = (ImageView) event.getSource();
+        if(shootState){
+            targets.add(tokenColor.get(token));
+            token.setEffect(new Glow(0.5));
+            System.out.println("TARGETS: "+targets.toString());
+        }
     }
 
     private Position getFreePosition(Pane pane){
@@ -543,11 +605,60 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         gameController.selectPowerUp(Integer.parseInt(powerupID));
     }
 
-    public void selectMapWeapon(Event event){
+    public void selectWeapon(Event event){
+        message.setText("");
         ImageView weapon = (ImageView) event.getSource();
         String weaponID = weapon.getImage().getUrl();
         weaponID = new File(weaponID).getName();
         weaponID = weaponID.substring(weaponID.indexOf('_') + 1, weaponID.indexOf('-'));
         gameController.selectWeapon(Integer.parseInt(weaponID));
+        if(weapon == myWeapon) weaponSelection(Integer.parseInt(weaponID));
+    }
+
+    private void weaponSelection(int weaponID){
+        if(shootState) {
+            ownCard.setVisible(false);
+            firemodeSelection.setVisible(true);
+            String path = "url(/Weapons/weapon_" + weaponID + "-BOTTOM.png)";
+            int firemode = firemodeMap.get(weaponID);
+            Pane weapon = firemodeSet0;
+            switch (firemode){
+                case 0: gameController.selectFiremode(0); break;
+                case 1: weapon = firemodeSet1; break;
+                case 2: weapon = firemodeSet2; break;
+                default: break;
+            }
+            weapon.setStyle("-fx-background-image: " + path);
+            weapon.getStyleClass().add("setFiremode");
+            weapon.setVisible(true);
+        }
+    }
+
+    public void selectFiremode(Event event) {
+        Pane clickedFiremode = (Pane) event.getSource();
+        int firemodeID = Integer.parseInt(clickedFiremode.getId().substring(12));
+        if(firemodeID == 1) mode1 = 1;
+        if(firemodeID == 2) mode2 = 2;
+    }
+
+    public void sendShoot() {
+        if(targets.isEmpty()){
+            gameController.selectFiremode(mode0+mode1+mode2);
+        }
+        else {
+            gameController.selectPlayers(targets);
+            targets.forEach(x -> tokensMap.get(x).setEffect(null));
+            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
+            System.out.println("send targets: "+targets.toString());
+            shootState = false;
+        }
+    }
+
+    private void clearShootInfo(){
+        mode1 = 0;
+        mode2 = 0;
+        targets.clear();
+        firemodeSelection.setVisible(false);
+        ownCard.setVisible(true);
     }
 }

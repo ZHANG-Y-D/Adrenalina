@@ -52,7 +52,7 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
 
     @Override
     public String selectFiremode(String clientID, Integer firemode) {
-        return null;
+        return lobbyRelay.selectFiremode(clientID, firemode);
     }
 
     @Override

@@ -21,7 +21,6 @@ public class WeaponGrabState implements GameState {
     public WeaponGrabState(Lobby lobby, SquareSpawn weaponSquare){
         this.lobby = lobby;
         this.weaponSquare = weaponSquare;
-        System.out.println("dentro state");
     }
 
     @Override

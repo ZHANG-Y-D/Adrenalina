@@ -18,7 +18,7 @@ public class WeaponCard {
     private final int weaponID;
     private final int[] ammoCost;     //Seq : red blue yellow
     private final Color freeAmmo;
-    private boolean loaded;
+    private boolean loaded = true;
     private ArrayList<Firemode> firemodes;
 
 
@@ -26,7 +26,6 @@ public class WeaponCard {
         this.weaponID = weaponID;
         this.ammoCost = ammoCost;
         this.freeAmmo = gratisAmmo;
-        this.loaded = true;
         this.firemodes = firemodes;
     }
 
