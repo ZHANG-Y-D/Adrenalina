@@ -63,6 +63,7 @@ public class FireAreaState implements FiremodeSubState {
             lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);
             if(!actionExecuted) {
                 lobby.incrementExecutedActions();
+                lobby.payCost(thisFiremode.getExtraCost());
                 weapon.setLoaded(false);
                 actionExecuted = true;
             }

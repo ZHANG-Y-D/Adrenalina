@@ -6,10 +6,11 @@ import adrenaline.server.model.Player;
 
 import java.util.ArrayList;
 
-public class ChargeConstraint extends TargetsConstraint {
-    private static boolean specialRange = true;
+public class ChargeConstraint implements TargetsConstraint {
+    public boolean isSpecialRange() {
+        return true;
+    }
 
-    @Override
     public boolean checkConst(Player shooter, ArrayList<Player> targets, Map map) {
         if(!map.areAligned(shooter.getPosition(), shooter.getOldPosition())) return false;
         for(Player trg : targets) {

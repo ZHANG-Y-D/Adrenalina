@@ -7,8 +7,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class SameDirectionConstraint extends TargetsConstraint implements TargetsGenerator {
-    protected static boolean specialRange = false;
+public class SameDirectionConstraint implements TargetsConstraint, TargetsGenerator {
+    private boolean specialRange;
+
+    @Override
+    public boolean isSpecialRange() {
+        return specialRange;
+    }
 
     @Override
     public boolean checkConst(Player shooter, ArrayList<Player> targets, Map map) {
@@ -26,7 +31,7 @@ public class SameDirectionConstraint extends TargetsConstraint implements Target
     public ArrayList<Integer> generateRange(Integer shooterPos, Integer root, Map map) {
         Set<Integer> validSquares = new LinkedHashSet<>();
         validSquares.add(root);
-        for(int i=shooterPos; 0<=i && i<=map.getMaxSquare(); i= (root<shooterPos)? i-1 : i+1){
+        for(int i=root; 0<=i && i<=map.getMaxSquare(); i= (root<shooterPos)? i-1 : i+1){
             if(map.areAligned(shooterPos,i) && map.areAligned(root, i) && !map.isWall(root,i))
                 validSquares.add(i);
         }

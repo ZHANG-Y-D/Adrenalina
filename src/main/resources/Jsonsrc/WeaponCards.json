@@ -179,7 +179,7 @@
             "type": "adrenaline.server.model.constraints.DifferentSquaresConstraint","properties": {}
           },
           {
-            "type": "adrenaline.server.model.constraints.SameDirectionConstraint","properties": {}
+            "type": "adrenaline.server.model.constraints.SameDirectionConstraint","properties": {"specialRange" :  false}
           }
         ],
         "firemodeSteps": [
@@ -209,14 +209,14 @@
         ],
         "trgConstraints": [
           {
-            "type": "adrenaline.server.model.constraints.SameDirectionConstraint","properties": {}
+            "type": "adrenaline.server.model.constraints.SameDirectionConstraint","properties": {"specialRange" :  true}
           }
         ],
         "firemodeSteps": [
           {
             "type": "adrenaline.server.controller.states.FireAreaState",
             "properties": {
-              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameDirectionConstraint", "properties": {}},
+              "targetsGenerator": { "type": "adrenaline.server.model.constraints.SameDirectionConstraint", "properties": {"specialRange" :  true}},
               "dmgmrkEachSquare": [[2,0],[1,0],[0,0]]
             }
           }
@@ -449,7 +449,7 @@
             "properties": {
               "targetsLimit": 1,
               "allowedMovement": 2,
-              "dmgdmgmrkEachTarget": [[1,0]]
+              "dmgmrkEachTarget": [[1,0]]
             }
           }
         ],
@@ -469,7 +469,7 @@
             "properties": {
               "targetsLimit": 1,
               "allowedMovement": 2,
-              "dmgdmgmrkEachTarget": [[3,0]]
+              "dmgmrkEachTarget": [[3,0]]
             }
           }
         ],
@@ -616,7 +616,7 @@
             "properties": {
               "targetsLimit": 1,
               "allowedMovement": 1,
-              "dmgdmgmrkEachTarget": [[2,0]]
+              "dmgmrkEachTarget": [[2,0]]
             }
           }
         ],
@@ -639,7 +639,7 @@
             "properties": {
               "targetsLimit": 3,
               "allowedMovement": 1,
-              "dmgdmgmrkEachTarget": [[2,0],[1,0]]
+              "dmgmrkEachTarget": [[1,0]]
             }
           }
         ],

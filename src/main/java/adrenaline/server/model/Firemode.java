@@ -29,8 +29,9 @@ public class Firemode {
 
     public MoveSelfState getMoveSelfStep() {
         if(allowedMovement>0){
+            int movement = allowedMovement;
             allowedMovement=0;
-            return new MoveSelfState(allowedMovement);
+            return new MoveSelfState(movement);
         }else return null;
     }
 

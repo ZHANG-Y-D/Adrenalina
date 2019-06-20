@@ -5,8 +5,11 @@ import adrenaline.server.model.Player;
 
 import java.util.ArrayList;
 
-public class SameSquareConstraint extends TargetsConstraint implements TargetsGenerator{
-    private static boolean specialRange = false;
+public class SameSquareConstraint implements TargetsConstraint, TargetsGenerator{
+    @Override
+    public boolean isSpecialRange() {
+        return false;
+    }
 
     @Override
     public boolean checkConst(Player shooter, ArrayList<Player> targets, Map map) {

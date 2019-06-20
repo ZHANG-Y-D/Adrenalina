@@ -58,7 +58,7 @@ public class ReloadState implements GameState{
         } catch (NotEnoughAmmoException e) {
             return "You can't pay the ammo cost for that weapon! HINT: powerups can be expended too";
         }
-        return "OK";
+        return "OK Weapon reloaded!";
     }
 
     @Override
