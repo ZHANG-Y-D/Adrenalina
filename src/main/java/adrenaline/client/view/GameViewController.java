@@ -507,7 +507,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                         newPane.getChildren().add(token);
                     }
                     else if(newPane != oldPane){
-                        System.out.println("else");
                         newPosition = getFreePosition(newPane);
                         if(positionMap.get(newPane) == null) list.add(newPosition);
                         else {
@@ -613,18 +612,15 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         String weaponID = weapon.getImage().getUrl();
         weaponID = new File(weaponID).getName();
         weaponID = weaponID.substring(weaponID.indexOf('_') + 1, weaponID.indexOf('-'));
-        System.out.println("SELECT: "+weaponID);
         gameController.selectWeapon(Integer.parseInt(weaponID));
         if(weapon == myWeapon) weaponSelection(Integer.parseInt(weaponID));
     }
 
     private void weaponSelection(int weaponID){
         if(shootState) {
-            System.out.println("WEAPON SELECTION: "+weaponID);
             ownCard.setVisible(false);
             firemodeSelection.setVisible(true);
             String path = "/Weapons/weapon_" + weaponID + "-BOTTOM.png";
-            System.out.println(path);
             int firemode = firemodeMap.get(weaponID);
             Pane weapon = firemodeSet0;
             switch (firemode){
