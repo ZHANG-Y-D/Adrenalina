@@ -57,7 +57,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private ImageView ownPlayerLabel, redAmmo1, redAmmo2, redAmmo3, blueAmmo1, blueAmmo2, blueAmmo3, yellowAmmo1, yellowAmmo2, yellowAmmo3,
             weaponRed1, weaponRed2, weaponRed3, weaponBlue1, weaponBlue2, weaponBlue3, weaponYellow1, weaponYellow2, weaponYellow3,
-                     myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2;
+                     myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2, firemodeBackground;
     @FXML
     private Label message, timerLabel, timerComment;
     @FXML
@@ -500,12 +500,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                         newPosition = getFreePosition(newPane);
                         token.setLayoutX(newPosition.getX());
                         token.setLayoutY(newPosition.getY());
+                        if(positionMap.get(newPane) != null) list = positionMap.get(newPane);
                         list.add(newPosition);
                         positionMap.put(newPane, list);
                         tokenPosition.put(token, newPosition);
                         newPane.getChildren().add(token);
                     }
                     else if(newPane != oldPane){
+                        System.out.println("else");
                         newPosition = getFreePosition(newPane);
                         if(positionMap.get(newPane) == null) list.add(newPosition);
                         else {
@@ -530,6 +532,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                         ArrayList<Position> positions = positionMap.get(oldPane);
                         Position pos = tokenPosition.get(token);
                         positions.remove(pos);
+                        positionMap.put(oldPane,positions);
                         //positionMap.get(oldPane).remove(tokenPosition.get(token));
                         if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
                         tokenPosition.put(token, newPosition);
@@ -610,16 +613,18 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         String weaponID = weapon.getImage().getUrl();
         weaponID = new File(weaponID).getName();
         weaponID = weaponID.substring(weaponID.indexOf('_') + 1, weaponID.indexOf('-'));
-        System.out.println(weaponID);
+        System.out.println("SELECT: "+weaponID);
         gameController.selectWeapon(Integer.parseInt(weaponID));
         if(weapon == myWeapon) weaponSelection(Integer.parseInt(weaponID));
     }
 
     private void weaponSelection(int weaponID){
         if(shootState) {
+            System.out.println("WEAPON SELECTION: "+weaponID);
             ownCard.setVisible(false);
             firemodeSelection.setVisible(true);
-            String path = "url(/Weapons/weapon_" + weaponID + "-BOTTOM.png)";
+            String path = "/Weapons/weapon_" + weaponID + "-BOTTOM.png";
+            System.out.println(path);
             int firemode = firemodeMap.get(weaponID);
             Pane weapon = firemodeSet0;
             switch (firemode){
@@ -628,7 +633,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 case 2: weapon = firemodeSet2; break;
                 default: break;
             }
-            weapon.setStyle("-fx-background-image: " + path);
+            firemodeBackground.setImage(new Image(getClass().getResourceAsStream(path)));
             weapon.getStyleClass().add("setFiremode");
             weapon.setVisible(true);
         }
@@ -636,7 +641,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void selectFiremode(Event event) {
         Pane clickedFiremode = (Pane) event.getSource();
-        clickedFiremode.setEffect(new Glow(0.8));
         int firemodeID = Integer.parseInt(clickedFiremode.getId().substring(12));
         if(firemodeID == 1) mode1 = 1;
         if(firemodeID == 2) mode2 = 2;
@@ -659,6 +663,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         mode1 = 0;
         mode2 = 0;
         targets.clear();
+        firemodeBackground.setImage(null);
         firemodeSelection.setVisible(false);
         ownCard.setVisible(true);
     }
