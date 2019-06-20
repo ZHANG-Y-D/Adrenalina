@@ -70,19 +70,12 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
         printSrcFile("MapSelection.txt");
         System.out.println("Which map do you want to play?");
 
-        mapNum = readANumber();
+        mapNum = readANumber(1,4);
 
         System.out.println("How many skulls you want to play? From 5 to 8");
 
-        skulls = readANumber();
+        skulls = readANumber(5,8);
 
-        if (mapNum < 1 || mapNum > 4 || skulls < 5 || skulls > 8){
-
-            System.err.println("Wrong range！！！ Map from 1 to 4, skull from 5 to 8!");
-            System.err.println("Please retry.\n");
-            selectMapAndSkulls();
-
-        }
 
         gameController.sendSettings(mapNum,skulls);
 
@@ -95,8 +88,8 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
         int num;
         Color color = Color.BLACK;
 
-        System.out.println("\nWhich you like? From 1 to 5: ");
-        num = readANumber();
+        System.out.println("Which you like? From 1 to 5: ");
+        num = readANumber(1,5);
 
 
         switch (num){

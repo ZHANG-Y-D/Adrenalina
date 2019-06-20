@@ -1,0 +1,3 @@
+@|bold,yellow TARGETING SCOPE █ : You may play this card when you are dealing damage to one or more targets. |@
+                 @|bold,yellow Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. |@
+                 @|bold,yellow Note: You cannot use this to do 1 damage to a target that is receiving only marks. |@

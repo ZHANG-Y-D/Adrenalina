@@ -25,6 +25,12 @@ public class selectionStageCliTest {
         printSrcFile("Map3.txt");
         printSrcFile("Map4.txt");
 
+        for (int i=1;i<=12;i++)
+            printSrcFile("Powerup"+i+".txt");
+
+        for (int i=1;i<=12;i++)
+            printSrcFile("Weapon"+i+".txt");
+
 
     }
 
