@@ -14,7 +14,7 @@ public class EndTurnAndReload {
      *
      * @param player The player who wants to do this Action
      * @param numWeapon The weapon Card index from 0 to 2 which the Player want reload
-     * @param discardPowerup A arrayList include the seq num of Powerup Card that player wants to discard for pay Weapon Card
+     * @param discardPowerup A arrayList include the seq num of Powerups Card that player wants to discard for pay Weapon Card
      *
      * @return True:this action is successful, False:Error,cause of the weapon card has already reload or no enough ammo
      *

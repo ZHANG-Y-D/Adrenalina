@@ -168,7 +168,9 @@ public class GameController {
         connectionHandler.endTurn();
     }
 
-    public void selectFiremode(int firemode) { connectionHandler.selectFiremode(firemode); }
+    public void selectFiremode(int firemode) {
+        connectionHandler.selectFiremode(firemode);
+    }
 
     public void selectPlayers(ArrayList<Color> targets) { connectionHandler.selectPlayers(targets); }
 }

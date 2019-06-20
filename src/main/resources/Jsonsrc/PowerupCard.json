@@ -8,101 +8,186 @@
       "isUseInTurn": true
     }
   },
-
   {
     "type" : "adrenaline.server.model.GrenadePowerup",
     "properties": {
       "powerupID": 2,
-      "color": "RED",
+      "color": "BLUE",
       "isUseInTurn": true
     }
   },
-
   {
     "type" : "adrenaline.server.model.GrenadePowerup",
     "properties": {
       "powerupID": 3,
+      "color": "RED",
+      "isUseInTurn": true
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.GrenadePowerup",
+    "properties": {
+      "powerupID": 4,
+      "color": "RED",
+      "isUseInTurn": true
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.GrenadePowerup",
+    "properties": {
+      "powerupID": 5,
       "color": "YELLOW",
       "isUseInTurn": true
     }
   },
-
   {
-    "type" : "adrenaline.server.model.ScopePowerup",
-    "properties": {
-      "powerupID": 4,
-      "color": "BLUE",
-      "isUseInTurn": false
-    }
-  },
-
-  {
-    "type" : "adrenaline.server.model.ScopePowerup",
-    "properties": {
-      "powerupID": 5,
-      "color": "RED",
-      "isUseInTurn": false
-    }
-  },
-
-  {
-    "type" : "adrenaline.server.model.ScopePowerup",
+    "type" : "adrenaline.server.model.GrenadePowerup",
     "properties": {
       "powerupID": 6,
       "color": "YELLOW",
-      "isUseInTurn": false
+      "isUseInTurn": true
     }
   },
-
   {
-    "type" : "adrenaline.server.model.NewtonPowerup",
+    "type" : "adrenaline.server.model.ScopePowerup",
     "properties": {
       "powerupID": 7,
       "color": "BLUE",
       "isUseInTurn": false
     }
   },
-
   {
-    "type" : "adrenaline.server.model.NewtonPowerup",
+    "type" : "adrenaline.server.model.ScopePowerup",
     "properties": {
       "powerupID": 8,
-      "color": "RED",
-      "isUseInTurn": false
-    }
-  },
-
-  {
-    "type" : "adrenaline.server.model.NewtonPowerup",
-    "properties": {
-      "powerupID": 9,
-      "color": "YELLOW",
-      "isUseInTurn": false
-    }
-  },
-
-  {
-    "type" : "adrenaline.server.model.TeleporterPowerup",
-    "properties": {
-      "powerupID": 10,
       "color": "BLUE",
       "isUseInTurn": false
     }
   },
-
   {
-    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "type" : "adrenaline.server.model.ScopePowerup",
     "properties": {
-      "powerupID": 11,
+      "powerupID": 9,
       "color": "RED",
       "isUseInTurn": false
     }
   },
-
+  {
+    "type" : "adrenaline.server.model.ScopePowerup",
+    "properties": {
+      "powerupID": 10,
+      "color": "RED",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.ScopePowerup",
+    "properties": {
+      "powerupID": 11,
+      "color": "YELLOW",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.ScopePowerup",
+    "properties": {
+      "powerupID": 12,
+      "color": "YELLOW",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 13,
+      "color": "BLUE",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 14,
+      "color": "BLUE",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 15,
+      "color": "RED",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 16,
+      "color": "RED",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 17,
+      "color": "YELLOW",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.NewtonPowerup",
+    "properties": {
+      "powerupID": 18,
+      "color": "YELLOW",
+      "isUseInTurn": false
+    }
+  },
   {
     "type" : "adrenaline.server.model.TeleporterPowerup",
     "properties": {
-      "powerupID": 12,
+      "powerupID": 19,
+      "color": "BLUE",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "properties": {
+      "powerupID": 20,
+      "color": "BLUE",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "properties": {
+      "powerupID": 21,
+      "color": "RED",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "properties": {
+      "powerupID": 22,
+      "color": "RED",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "properties": {
+      "powerupID": 23,
+      "color": "YELLOW",
+      "isUseInTurn": false
+    }
+  },
+  {
+    "type" : "adrenaline.server.model.TeleporterPowerup",
+    "properties": {
+      "powerupID": 24,
       "color": "YELLOW",
       "isUseInTurn": false
     }

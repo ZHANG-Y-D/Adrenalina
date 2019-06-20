@@ -70,8 +70,8 @@ public class ClientSocketWrapper implements Client {
                     sendToClient += "SERVER ERROR!";
                 } catch (NullPointerException | NoSuchMethodException |
                             IllegalAccessException | NoSuchElementException e) {
-                   // System.out.println("MESSAGE RECEIVED: "+readFromClient);
-                   // e.printStackTrace();
+                    System.out.println("MESSAGE RECEIVED: "+readFromClient);
+                    e.printStackTrace();
                     sendToClient += "ERROR! Invalid command request";
                 }finally{ sendMessage(sendToClient);}
             }

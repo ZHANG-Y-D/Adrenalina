@@ -16,7 +16,7 @@ import java.util.Arrays;
 /**
  *
  *
- *Function:This class for construct cardsDeck of Powerup card,the original file name is PowerupCard.json in resource
+ *Function:This class for construct cardsDeck of Powerups card,the original file name is PowerupCard.json in resource
  *
  *
  */
@@ -36,7 +36,6 @@ public class DeckPowerup extends Deck<PowerupCard> {
             gsonBld.registerTypeAdapter(PowerupCard.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             PowerupCard[] powerupCards = gson.fromJson(fileReader, PowerupCard[].class);
-            cards.addAll(Arrays.asList(powerupCards));
             cards.addAll(Arrays.asList(powerupCards));
             shuffle();
         }catch (JsonIOException e){

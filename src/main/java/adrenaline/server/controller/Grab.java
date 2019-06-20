@@ -28,7 +28,7 @@ public class Grab {
       *
       * @param grabber The player who wants to do Grab Action
       * @param numWeapon Which weapon Card the Player wants to Grab from 0 to 2.
-      * @param discardPowerup A arrayList include the seq num of Powerup Card that player wants to discard for pay Weapon Card
+      * @param discardPowerup A arrayList include the seq num of Powerups Card that player wants to discard for pay Weapon Card
       *
       * @return true:Action successful,
       * false: Action unsuccessful cause of the weapon position is empty,
@@ -58,7 +58,7 @@ public class Grab {
       *
       * @param grabber The player who wants to do Grab Action
       * @param numWeapon Which weapon Card the Player wants to Grab from 0 to 2
-      * @param discardPowerup A arrayList include the seq num of Powerup Card that player wants to discard for pay Weapon Card
+      * @param discardPowerup A arrayList include the seq num of Powerups Card that player wants to discard for pay Weapon Card
       * @param numWeaponSwitch Which Weapon Card the player wants to switch from 0 to 2
       *
       * @return true:Action successful,
@@ -97,7 +97,7 @@ public class Grab {
       * @param grabber The player who wants to do Grab Action
       * @param gotWeaponCard Which weapon Card the Player has got.
       * @param gratisColor Input gratisColor, if it's case of reload,input null
-      * @param discardPowerup A arrayList include the seq num of Powerup Card that player wants to discard for pay Weapon Card
+      * @param discardPowerup A arrayList include the seq num of Powerups Card that player wants to discard for pay Weapon Card
       *
       * @return true:AmmoBox is enough to pay, false AmmoBox is not enough to pay
       *
