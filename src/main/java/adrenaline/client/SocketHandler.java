@@ -9,6 +9,7 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import com.google.gson.GsonBuilder;
@@ -73,7 +74,7 @@ public class SocketHandler implements ConnectionHandler {
                     readSplit = readFromServer.split(";");
                     if (readSplit[0].equals("RETURN")) {
                         gameController.handleReturn(readSplit[1]);
-                    }else {
+                    } else {
                         String methodName = readSplit[0];
                         int argSize = Integer.parseInt(readSplit[1].substring(readSplit[1].indexOf("=") + 1).trim());
                         Class[] argClasses = new Class[argSize];
@@ -85,6 +86,10 @@ public class SocketHandler implements ConnectionHandler {
                         requestedMethod = methodsMap.get(methodName).getClass().getMethod(methodName, argClasses);
                         requestedMethod.invoke(methodsMap.get(methodName), argObjects);
                     }
+                } catch(NoSuchElementException nee){
+                    active = false;
+                    nee.printStackTrace();
+                    System.out.println("DISCONNECTED FROM SERVER");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -520,6 +520,10 @@ public class Lobby implements Runnable, LobbyAPI {
         deckPowerup.addToDiscarded(puc);
     }
 
+    public void payCost(int[] cost){
+        playersMap.get(currentTurnPlayer).payCost(cost);
+    }
+
     public void reloadWeapon(int weaponID) throws InvalidCardException,AlreadyLoadedException, NotEnoughAmmoException{
         Player currPlayer = playersMap.get(currentTurnPlayer);
         WeaponCard wc = currPlayer.getWeaponCard(weaponID);
@@ -569,7 +573,6 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public void applyFire(Firemode firemode, List<Player> targets, List<int[]> dmgmrkEachTarget) throws InvalidTargetsException {
         if(!firemode.checkTargets(playersMap.get(currentTurnPlayer), (ArrayList) targets, map)) throw new InvalidTargetsException();
-
         int kills = 0;
         for(int i=0; i<targets.size(); i++){
             Player target = targets.get(i);

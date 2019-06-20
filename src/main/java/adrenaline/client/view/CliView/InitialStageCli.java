@@ -97,10 +97,10 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         Runnable runnable = () -> {
 
 
-            System.out.println("Your nikename is "+name);
-            gameController.setOwnNickname(name);
-            returnValueIsOk.set(1);
-
+            if (message.contains("NICKNAME;")) {
+                System.out.println(message.replace("NICKNAME;","Your nickname is :"));
+                returnValueIsOk.set(1);
+            }
 
         };
 
@@ -127,10 +127,12 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     }
 
+
     @Override
     public void setGameController(GameController gameController) {
 
     }
+
 
     public void notifyTimer(Integer duration, String comment) {
         //operation not supported at this stage
@@ -173,7 +175,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         System.out.println("Insert host ip");
         host = readAString();
         System.out.println("Insert port");
-        port = readANumber();
+        port = readANumber(0,999999);
 
         returnValueIsOk.set(0);
         if (connectingType == 1)

@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-public class DifferentSquaresConstraint extends TargetsConstraint {
-    private static boolean specialRange = false;
+public class DifferentSquaresConstraint implements TargetsConstraint {
+    public boolean isSpecialRange() {
+        return false;
+    }
 
-    @Override
     public boolean checkConst(Player shooter, ArrayList<Player> targets, Map map) {
         HashSet<Integer> helper = new HashSet<>();
         for(Player trg : targets){

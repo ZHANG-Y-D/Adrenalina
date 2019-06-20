@@ -1,4 +1,4 @@
 
-@|red █ |@@|blue █ █ |@@|green █|@     @|red 01 |@@|blue 02 03 |@@|green 04|@
-@|red █ |@@|magenta █ |@@|yellow █ |@@|yellow █|@     @|red 05 |@@|magenta 06 |@@|yellow 07 |@@|yellow 08|@
-@|black █ |@@|black █ |@@|yellow █ █ |@    @|black 09 |@@|black 10 |@@|yellow 11 12 |@
+ @|red █ |@@|blue █ █ |@@|green █|@     @|red 01 |@@|blue 02 03 |@@|green 04|@
+ @|red █ |@@|magenta █ |@@|yellow █ |@@|yellow █|@     @|red 05 |@@|magenta 06 |@@|yellow 07 |@@|yellow 08|@
+ @|black █ |@@|black █ |@@|yellow █ █ |@    @|black 09 |@@|black 10 |@@|yellow 11 12 |@

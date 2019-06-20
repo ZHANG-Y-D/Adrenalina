@@ -28,7 +28,6 @@ public class MoveEnemyState implements FiremodeSubState {
         this.weapon = weapon;
         this.thisFiremode = firemode;
         this.actionExecuted = actionExecuted;
-        validSquares = lobby.sendCurrentPlayerValidSquares(firemode);
     }
     @Override
     public String runAction() {
@@ -47,7 +46,8 @@ public class MoveEnemyState implements FiremodeSubState {
 
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
-        this.selectedPlayers = new ArrayList<>(playersColor.subList(0, targetsLimit));
+        this.selectedPlayers = new ArrayList<>(playersColor.size()>targetsLimit ? playersColor.subList(0, targetsLimit) : playersColor.subList(0, playersColor.size()));
+        validSquares = lobby.sendCurrentPlayerValidSquares(thisFiremode);
         return "OK";
     }
 
@@ -59,6 +59,7 @@ public class MoveEnemyState implements FiremodeSubState {
         if(targets!=null){
             try {
                 lobby.incrementExecutedActions();
+                lobby.payCost(thisFiremode.getExtraCost());
                 weapon.setLoaded(false);
                 actionExecuted = true;
                 lobby.applyFire(thisFiremode, targets, dmgmrkEachTarget);

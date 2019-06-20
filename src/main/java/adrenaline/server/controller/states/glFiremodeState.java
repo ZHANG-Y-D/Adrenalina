@@ -59,6 +59,7 @@ public class glFiremodeState implements FiremodeSubState {
             if(!areaCompleted) {
                 playerCompleted = true;
                 lobby.incrementExecutedActions();
+                lobby.payCost(thisFiremode.getExtraCost());
                 weapon.setLoaded(false);
             }
             return "OK";
@@ -92,6 +93,7 @@ public class glFiremodeState implements FiremodeSubState {
                 else{
                     lobby.incrementExecutedActions();
                     weapon.setLoaded(false);
+                    lobby.payCost(thisFiremode.getExtraCost());
                     areaCompleted=true;
                 }
                 return "OK";

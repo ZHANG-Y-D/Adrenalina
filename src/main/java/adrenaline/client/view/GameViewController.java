@@ -653,7 +653,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         else {
             gameController.selectPlayers(targets);
             targets.forEach(x -> tokensMap.get(x).setEffect(null));
-            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
+            //for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
             System.out.println("send targets: "+targets.toString());
             shootState = false;
         }

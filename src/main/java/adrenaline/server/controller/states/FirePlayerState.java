@@ -54,6 +54,7 @@ public class FirePlayerState implements FiremodeSubState {
             selectedTarget = playersColor.get(0);
             if(!actionExecuted){
                 lobby.incrementExecutedActions();
+                lobby.payCost(thisFiremode.getExtraCost());
                 weapon.setLoaded(false);
                 actionExecuted=true;
             }
@@ -95,7 +96,9 @@ public class FirePlayerState implements FiremodeSubState {
         FiremodeSubState nextStep = thisFiremode.getNextStep();
         if(nextStep==null){
             MoveSelfState mvSelStep=thisFiremode.getMoveSelfStep();
-            if(mvSelStep==null)lobby.setState(new SelectActionState(lobby));
+            if(mvSelStep==null){
+                lobby.setState(new SelectActionState(lobby));
+            }
             else{
                 mvSelStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
                 lobby.setState(mvSelStep);

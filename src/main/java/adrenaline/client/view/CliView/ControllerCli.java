@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
@@ -41,7 +42,7 @@ public abstract class ControllerCli{
         }
     }
 
-    protected int readANumber() {
+    protected int readANumber(int down,int up) {
 
         int num;
         try{
@@ -50,8 +51,14 @@ public abstract class ControllerCli{
         }catch (InputMismatchException e){
             System.out.println("\nPlease answer with a number");
             isQuit(scanner.nextLine());
-            num = readANumber();
+            num = readANumber(down,up);
         }
+
+        if (num < down || num > up) {
+            System.err.println("Please answer with a number from "+down+" to "+up+"! Retry:");
+            num = readANumber(down, up);
+        }
+
         return num;
     }
 
@@ -136,7 +143,40 @@ public abstract class ControllerCli{
 
 
 
-    protected void printGameInfo() {
+    protected synchronized void printGameInfo() {
+
+        printSrcFile("GameInfo.txt");
+        System.out.println("Map...");
+        printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
+        System.out.println("Weapon Info...");
+        printWeaponInfo();
+
+
+    }
+
+    private void printWeaponInfo(){
+
+
+        for (Map.Entry<Color, ArrayList<Integer>> weaponInfo : gameController.getMap().getWeaponMap().entrySet()) {
+
+
+
+            switch (weaponInfo.getKey()){
+                case BLUE:
+                    System.out.print(ansi().bold().fg(Ansi.Color.BLUE).a("█ 3:").fgDefault());
+                    break;
+                case RED:
+                    System.out.print(ansi().bold().fg(Ansi.Color.RED).a("█ 5:").fgDefault());
+                    break;
+                case YELLOW:
+                    ansi().bold().fg(Ansi.Color.YELLOW).a("█ 12:").fgDefault();
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
 
 
 

@@ -8,8 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class SameRoomConstraint extends TargetsConstraint implements TargetsGenerator {
-    private static boolean specialRange = false;
+public class SameRoomConstraint implements TargetsConstraint, TargetsGenerator {
+    @Override
+    public boolean isSpecialRange() {
+        return false;
+    }
 
     @Override
     public boolean checkConst(Player shooter, ArrayList<Player> targets, Map map) {

@@ -1,0 +1,3 @@
+@|bold,red TELEPORTER █ : You may play this card on your turn before or after any action. |@
+            @|bold,red Pick up your figure and set it down on any square of the board. |@
+            @|bold,red (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.) |@

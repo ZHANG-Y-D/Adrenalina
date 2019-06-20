@@ -1,4 +1,4 @@
 
-@|blue █ █ █ |@@|green █|@     @|blue 01 02 03 |@@|green 04|@
-@|red █ █ |@@|yellow █ █|@     @|red 05 06 |@@|yellow 07 08|@
-  @|black █ |@@|yellow █ █|@        @|black 10 |@@|yellow 11 12|@
+ @|blue █ █ █ |@@|green █|@     @|blue 01 02 03 |@@|green 04|@
+ @|red █ █ |@@|yellow █ █|@     @|red 05 06 |@@|yellow 07 08|@
+   @|black █ |@@|yellow █ █|@        @|black 10 |@@|yellow 11 12|@
