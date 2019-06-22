@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 127.0.0.1
 d2cc2b6c-f4c6-48db-8683-90245c5a482c
+=======
+localhost
+398796ad-9c49-4e9d-b67e-2b3241c054c2
+>>>>>>> b0a0f34ab0bbecfdd2102023801e60a9ae08aaf3

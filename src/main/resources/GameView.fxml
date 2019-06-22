@@ -164,7 +164,8 @@
         <Pane fx:id="ownPlayer" layoutX="295" layoutY="590" prefHeight="150" prefWidth="690">
             <children>
                 <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="121" layoutY="10"/>
-                <HBox fx:id="ownDamage" spacing="10" layoutX="137" layoutY="63" prefHeight="30" prefWidth="480" minWidth="480" minHeight="25" />
+                <HBox fx:id="ownDamage" spacing="10" layoutX="137" layoutY="63" prefHeight="30" prefWidth="480" minWidth="480" />
+                <HBox fx:id="ownMarks" spacing="5" layoutX="340" layoutY="10" prefHeight="30" prefWidth="200" minWidth="200" />
                 <Button fx:id="run" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="10" />
                 <Button fx:id="shoot" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="55"/>
                 <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57"  layoutX="58" layoutY="100"/>
@@ -251,76 +252,43 @@
             <children>
                 <ImageView fx:id="firemodeBackground" fitHeight="120" fitWidth="127" layoutX="20" layoutY="10"/>
                 <Button fx:id="selectFiremode" onAction="#sendShoot" text="SELECT" layoutX="200" layoutY="50"/>
-                <Pane fx:id="firemodeSet0" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false">
-                    <children>
-                        <ImageView opacity="0.8" fitWidth="127.0" fitHeight="120.0" visible="true">
-                            <image>
-                                <Image url="@highlight.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </Pane>
+                <Pane fx:id="firemodeSet0" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false"/>
                 <Pane fx:id="firemodeSet1" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false">
                     <children>
-                        <Pane fx:id="set1Firemode0" onMouseClicked="#selectFiremode" prefHeight="60" prefWidth="127">
-                            <children>
-                                <ImageView opacity="0.8" fitWidth="127.0" fitHeight="60.0" visible="false">
-                                    <image>
-                                        <Image url="@highlight.png" />
-                                    </image>
-                                </ImageView>
-                            </children>
-                        </Pane>
+                        <Pane fx:id="set1Firemode0" onMouseClicked="#selectFiremode" prefHeight="60" prefWidth="127"/>
                         <HBox layoutX="0" layoutY="64" prefWidth="127" prefHeight="60">
                             <children>
-                                <Pane fx:id="set1Firemode1" onMouseClicked="#selectFiremode" prefWidth="127" prefHeight="60">
-                                    <children>
-                                        <ImageView opacity="0.8" fitWidth="127.0" fitHeight="60.0" visible="false">
-                                            <image>
-                                                <Image url="@highlight.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </Pane>
+                                <Pane fx:id="set1Firemode1" onMouseClicked="#selectFiremode" prefWidth="127" prefHeight="60"/>
                             </children>
                         </HBox>
                     </children>
                 </Pane>
                 <Pane fx:id="firemodeSet2" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false">
                     <children>
-                        <Pane fx:id="set2Firemode0" onMouseClicked="#selectFiremode" prefHeight="60" prefWidth="127">
-                            <children>
-                                <ImageView opacity="0.8" fitWidth="127.0" fitHeight="60.0" visible="false">
-                                    <image>
-                                        <Image url="@highlight.png" />
-                                    </image>
-                                </ImageView>
-                            </children>
-                        </Pane>
+                        <Pane fx:id="set2Firemode0" onMouseClicked="#selectFiremode" prefHeight="60" prefWidth="127"/>
                         <HBox layoutY="64" prefWidth="127" prefHeight="60">
                             <children>
-                                <Pane fx:id="set2Firemode1" onMouseClicked="#selectFiremode" prefWidth="63" maxWidth="63" minWidth="63" prefHeight="60">
-                                    <children>
-                                        <ImageView opacity="0.8" fitWidth="63.0" fitHeight="60.0" visible="false">
-                                            <image>
-                                                <Image url="@highlight.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </Pane>
-                                <Pane fx:id="set2Firemode2" onMouseClicked="#selectFiremode" prefWidth="63" prefHeight="60">
-                                    <children>
-                                        <ImageView opacity="0.8" fitWidth="63.0" fitHeight="60.0" visible="false">
-                                            <image>
-                                                <Image url="@highlight.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </Pane>
+                                <Pane fx:id="set2Firemode1" onMouseClicked="#selectFiremode" prefWidth="63" maxWidth="63" minWidth="63" prefHeight="60"/>
+                                <Pane fx:id="set2Firemode2" onMouseClicked="#selectFiremode" prefWidth="63" prefHeight="60"/>
                             </children>
                         </HBox>
                     </children>
                 </Pane>
+                <ImageView fx:id="fire1" opacity="0.8" visible="false">
+                    <image>
+                        <Image url="@highlight.png" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="fire2" opacity="0.8" visible="false">
+                    <image>
+                        <Image url="@highlight.png" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="fire3" opacity="0.8" visible="false">
+                    <image>
+                        <Image url="@highlight.png" />
+                    </image>
+                </ImageView>
             </children>
         </Pane>
         <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="989.0" layoutY="590.0" prefHeight="118.0" prefWidth="281.0" vvalue="1">
