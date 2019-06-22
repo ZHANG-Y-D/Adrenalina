@@ -50,6 +50,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
                 }
             }
 
+
             printPlayerInfo();
 
             selectMapAndSkulls();

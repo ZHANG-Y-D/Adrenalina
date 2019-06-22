@@ -42,7 +42,7 @@ public abstract class ControllerCli{
         }
     }
 
-    protected int readANumber(int down,int up) {
+    protected synchronized int readANumber(int down,int up) {
 
         int num;
         try{
@@ -60,6 +60,15 @@ public abstract class ControllerCli{
         }
 
         return num;
+    }
+
+
+    protected synchronized String readAString(){
+
+        String input = scanner.nextLine();
+        isQuit(input);
+        return input;
+
     }
 
 
@@ -154,7 +163,7 @@ public abstract class ControllerCli{
 
     }
 
-    private void printWeaponInfo(){
+    protected void printWeaponInfo(){
 
 
         for (Map.Entry<Color, ArrayList<Integer>> weaponInfo : gameController.getMap().getWeaponMap().entrySet()) {
@@ -182,13 +191,7 @@ public abstract class ControllerCli{
 
     }
 
-    protected String readAString(){
 
-        String input = scanner.nextLine();
-        isQuit(input);
-        return input;
-
-    }
 
 
     protected void isQuit(String input){
