@@ -77,11 +77,7 @@ public class Player extends Observable{
         position = -1;
         clients.forEach(this::attach);
         observers.forEach(x -> {
-            try {
-                x.setPlayerColor(clientNickname, avatar.getColor());
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            x.setPlayerColorInternal(clientNickname, avatar.getColor());
         });
     }
 

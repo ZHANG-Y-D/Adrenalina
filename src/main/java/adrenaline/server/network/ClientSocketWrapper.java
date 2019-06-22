@@ -69,18 +69,24 @@ public class ClientSocketWrapper implements Client {
                     e.printStackTrace();
                     sendToClient += "SERVER ERROR!";
                 } catch (NullPointerException | NoSuchMethodException |
-                            IllegalAccessException | NoSuchElementException e) {
-                    System.out.println("MESSAGE RECEIVED: "+readFromClient);
+                            IllegalAccessException e) {
+                    System.out.println("MESSAGE RECEIVED: " + readFromClient);
                     e.printStackTrace();
                     sendToClient += "ERROR! Invalid command request";
-                }finally{ sendMessage(sendToClient);}
+                } catch (NoSuchElementException fatal){
+                    active = false;
+                    serverCommands.unregisterClient(clientID);
+                    inLobby.detachClient(this);
+                }finally{ if(active) sendMessage(sendToClient);}
             }
         }).start();
     }
 
     private synchronized void sendMessage(String sendToClient){
-        outputToClient.println(sendToClient);
-        outputToClient.flush();
+        if(active) {
+            outputToClient.println(sendToClient);
+            outputToClient.flush();
+        }
     }
 
     public void setClientID(String ID) {
@@ -118,9 +124,12 @@ public class ClientSocketWrapper implements Client {
         setLobby(inLobby.getID(), nicknames);
     }
 
-
     public void setLobby(String lobbyID, ArrayList<String> nicknames) {
         sendMessage("setLobby;ARGSIZE=2;java.lang.String;"+gson.toJson(lobbyID)+";java.util.ArrayList;"+gson.toJson(nicknames));
+    }
+
+    public void setPlayerColorInternal(String nickname, Color color) {
+        setPlayerColor(nickname, color);
     }
 
     public void setPlayerColor(String nickname, Color color) {

@@ -5,6 +5,8 @@ import adrenaline.UpdateMessage;
 import adrenaline.client.ClientAPI;
 import adrenaline.server.controller.Lobby;
 
+import java.rmi.ConnectException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -13,11 +15,14 @@ public class ClientRMIWrapper implements Client {
     private String clientID;
     private String nickname = null;
     private ClientAPI thisClient;
+    private ServerCommands serverCommands;
+    private Lobby inLobby;
     private boolean active;
 
-    public ClientRMIWrapper(ClientAPI newClient) {
+    public ClientRMIWrapper(ClientAPI newClient, ServerCommands serverCommands) {
         clientID = UUID.randomUUID().toString();
         thisClient = newClient;
+        this.serverCommands = serverCommands;
         active = true;
     }
 
@@ -39,10 +44,15 @@ public class ClientRMIWrapper implements Client {
     }
 
     public void setNickname(String nickname) {
-        try {
-            thisClient.setNickname(nickname);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+        if(active) {
+            try {
+                thisClient.setNickname(nickname);
+            } catch (RemoteException e) {
+                active = false;
+                serverCommands.unregisterClient(clientID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -50,47 +60,82 @@ public class ClientRMIWrapper implements Client {
 
     public boolean isActive() { return active; }
 
-    public void setLobby(Lobby lobby, ArrayList<String> nicknames) { setLobby(lobby.getID(), nicknames); }
+    public void setLobby(Lobby lobby, ArrayList<String> nicknames) {
+        inLobby = lobby;
+        setLobby(lobby.getID(), nicknames);
+    }
 
     public void setLobby(String lobbyID, ArrayList<String> nicknames){
-        try {
-            thisClient.setLobby(lobbyID, nicknames);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(active) {
+            try {
+                thisClient.setLobby(lobbyID, nicknames);
+            } catch (RemoteException e) {
+                active = false;
+                serverCommands.unregisterClient(clientID);
+                inLobby.detachClient(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
-
+    public void setPlayerColorInternal(String nickname, Color color) {
+        setPlayerColor(nickname, color);
+    }
 
     public void setPlayerColor(String nickname, Color color){
-        try {
-            thisClient.setPlayerColor(nickname,color);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(active) {
+            try {
+                thisClient.setPlayerColor(nickname, color);
+            } catch (RemoteException e) {
+                active = false;
+                serverCommands.unregisterClient(clientID);
+                inLobby.detachClient(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void timerStarted(Integer duration, String comment) {
-        try {
-            thisClient.timerStarted(duration, comment);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(active) {
+            try {
+                thisClient.timerStarted(duration, comment);
+            } catch (RemoteException e) {
+                active = false;
+                serverCommands.unregisterClient(clientID);
+                inLobby.detachClient(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void validSquaresInfo(ArrayList<Integer> validSquares) {
-        try {
-            thisClient.validSquaresInfo(validSquares);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(active) {
+            try {
+                thisClient.validSquaresInfo(validSquares);
+            } catch (RemoteException e) {
+                active = false;
+                serverCommands.unregisterClient(clientID);
+                inLobby.detachClient(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void update(UpdateMessage updatemsg) {
-        try {
-            thisClient.update(updatemsg);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(active) {
+            try {
+                thisClient.update(updatemsg);
+            } catch (RemoteException e) {
+                active = false;
+                serverCommands.unregisterClient(clientID);
+                inLobby.detachClient(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

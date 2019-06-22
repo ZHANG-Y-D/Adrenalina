@@ -80,7 +80,12 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public synchronized void updateClient(String clientID, Client newClient){
         clientMap.put(clientID, newClient);
-        if(map!=null) map.attach(newClient);
+        clientMap.forEach((x,y)-> newClient.setPlayerColorInternal(y.getNickname(), playersMap.get(x).getColor()));
+        if(map!=null){
+            ArrayList<Client> client = new ArrayList<>();
+            client.add(newClient);
+            map.setObservers(client);
+        }
         playersMap.values().forEach(x -> x.attach(newClient));
         if(scoreBoard!=null) scoreBoard.attach(newClient);
     }

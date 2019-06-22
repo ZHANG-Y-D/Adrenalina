@@ -16,13 +16,13 @@ public class ServerCommands extends UnicastRemoteObject implements ServerAPI {
     }
 
     public String registerRMIClient(ClientAPI clientAPI) {
-        ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI);
+        ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI, this);
         mainServer.registerClient(wrapper);
         return wrapper.getClientID();
     }
 
     public String reconnectRMIClient(ClientAPI clientAPI, String oldClientID) {
-        ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI);
+        ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI, this);
         mainServer.registerClient(wrapper);
         if(mainServer.reconnectClient(wrapper.getClientID(), oldClientID)) return "OK";
         else return "KO";

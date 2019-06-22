@@ -1,5 +1,6 @@
 package adrenaline.server.network;
 
+import adrenaline.Color;
 import adrenaline.client.ClientAPI;
 import adrenaline.server.controller.Lobby;
 
@@ -13,4 +14,5 @@ public interface Client extends ClientAPI {
     void setActive(boolean active);
     boolean isActive();
     void setLobby(Lobby lobby, ArrayList<String> nicknames);
+    void setPlayerColorInternal(String nickname, Color color);
 }
