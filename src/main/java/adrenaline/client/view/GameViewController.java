@@ -12,9 +12,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -57,7 +54,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private ImageView ownPlayerLabel, redAmmo1, redAmmo2, redAmmo3, blueAmmo1, blueAmmo2, blueAmmo3, yellowAmmo1, yellowAmmo2, yellowAmmo3,
             weaponRed1, weaponRed2, weaponRed3, weaponBlue1, weaponBlue2, weaponBlue3, weaponYellow1, weaponYellow2, weaponYellow3,
-                     myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2, firemodeBackground;
+                     myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2, firemodeBackground, fire1, fire2, fire3;
     @FXML
     private Label message, timerLabel, timerComment;
     @FXML
@@ -624,9 +621,37 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             int firemode = firemodeMap.get(weaponID);
             Pane weapon = firemodeSet0;
             switch (firemode){
-                case 0: gameController.selectFiremode(0); break;
-                case 1: weapon = firemodeSet1; break;
-                case 2: weapon = firemodeSet2; break;
+                case 0: gameController.selectFiremode(0);
+                        fire1.setFitHeight(120);
+                        fire1.setFitWidth(127);
+                        fire1.setLayoutX(20);
+                        fire1.setLayoutY(10);
+                        fire1.setVisible(true);
+                        break;
+                case 1: weapon = firemodeSet1;
+                        fire1.setFitHeight(60);
+                        fire1.setFitWidth(127);
+                        fire1.setLayoutX(20);
+                        fire1.setLayoutY(10);
+                        fire2.setFitHeight(60);
+                        fire2.setFitWidth(127);
+                        fire2.setLayoutX(20);
+                        fire2.setLayoutY(70);
+                        break;
+                case 2: weapon = firemodeSet2;
+                        fire1.setFitHeight(60);
+                        fire1.setFitWidth(127);
+                        fire1.setLayoutX(20);
+                        fire1.setLayoutY(10);
+                        fire2.setFitHeight(60);
+                        fire2.setFitWidth(63);
+                        fire2.setLayoutX(20);
+                        fire2.setLayoutY(70);
+                        fire3.setFitHeight(60);
+                        fire3.setFitWidth(63);
+                        fire3.setLayoutX(83);
+                        fire3.setLayoutY(70);
+                        break;
                 default: break;
             }
             firemodeBackground.setImage(new Image(getClass().getResourceAsStream(path)));
@@ -638,8 +663,17 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     public void selectFiremode(Event event) {
         Pane clickedFiremode = (Pane) event.getSource();
         int firemodeID = Integer.parseInt(clickedFiremode.getId().substring(12));
-        if(firemodeID == 1) mode1 = 1;
-        if(firemodeID == 2) mode2 = 2;
+        switch (firemodeID){
+            case 0: fire1.setVisible(true); break;
+            case 1: mode1 = 1;
+                    fire2.setVisible(true);
+                    break;
+            case 2: mode2 = 2;
+                    fire3.setVisible(true);
+                    break;
+
+            default: break;
+        }
     }
 
     public void sendShoot() {
@@ -658,6 +692,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private void clearShootInfo(){
         mode1 = 0;
         mode2 = 0;
+        fire1.setVisible(false);
+        fire2.setVisible(false);
+        fire3.setVisible(false);
         targets.clear();
         firemodeBackground.setImage(null);
         firemodeSelection.setVisible(false);
