@@ -138,6 +138,7 @@ public class Player extends Observable{
 
     public void addMarks(Color markOrigin, int amount) {
         for(int i=0; i<amount && Collections.frequency(marks,markOrigin)<3; i++) marks.add(markOrigin);
+        notifyObservers(new PlayerUpdateMessage(this));
     }
 
 

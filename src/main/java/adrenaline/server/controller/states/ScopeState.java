@@ -39,7 +39,7 @@ public class ScopeState implements GameState {
         lobby.applyExtraDamage(playersColor.get(0));
         lobby.removePowerup(thisPowerup);
         lobby.setState(new SelectActionState(lobby));
-        return "OK";
+        return "OK Damage added with the scope";
     }
 
     @Override
