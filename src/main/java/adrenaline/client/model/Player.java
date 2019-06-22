@@ -55,4 +55,6 @@ public class Player implements Serializable {
     }
 
     public ArrayList<Color> getDamage(){ return damage; }
+
+    public ArrayList<Color> getMarks() { return marks; }
 }

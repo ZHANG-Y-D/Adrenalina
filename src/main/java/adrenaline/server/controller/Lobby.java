@@ -200,8 +200,7 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         else{
             if(puc.isUsableOutsideTurn()){
-                useGrenadePowerup(clientID, puc);
-                return "OK";
+                return useGrenadePowerup(clientID, puc);
             }
             else return "You can only do that during your turn!";
         }
@@ -495,12 +494,12 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public String usePowerup(ScopePowerup scope){
         setState(new ScopeState(this, scope, damagedThisTurn));
-        return "Select the target you want to give extra damage to.";
+        return "OK Select the target you want to give extra damage to.";
     }
 
     public String usePowerup(TeleporterPowerup teleporter){
         setState(new TeleportState(this, teleporter));
-        return "Select the square you want to teleport in.";
+        return "OK Select the square you want to teleport in.";
     }
 
     public String usePowerup(GrenadePowerup grenade){
@@ -511,8 +510,8 @@ public class Lobby implements Runnable, LobbyAPI {
         Player user = playersMap.get(userID);
         if(!damagedThisTurn.contains(user.getColor())) return "You have not been damaged during this turn!";
         playersMap.get(currentTurnPlayer).addMarks(user.getColor(), 1);
-        removePowerup(powerup);
-        return "OK";
+        user.removePowerupCard(powerup);
+        return "OK Grenade used";
     }
 
     public void removePowerup(PowerupCard puc){

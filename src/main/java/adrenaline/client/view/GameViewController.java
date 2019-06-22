@@ -48,7 +48,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private VBox chat, enemyPlayers;
     @FXML
-    private HBox ownDamage;
+    private HBox ownDamage, ownMarks;
     @FXML
     private TextField txtMsg;
     @FXML
@@ -107,7 +107,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         weaponLists.put(adrenaline.Color.BLUE, blueWeaponsList);
         weaponLists.put(adrenaline.Color.YELLOW, yellowWeaponsList);
         weaponLists.forEach((x,y) -> {
-            for (ImageView img : y) img.getStyleClass().add("weapon");
+            for (ImageView img : y) img.getStyleClass().add("hand");
         });
         myWeapon.getStyleClass().add("hand");
         myPowerup.getStyleClass().add("hand");
@@ -169,6 +169,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 if(x.equals(ownColor)) playersColorMap.put(x, ownPlayer);
                 else{
                     ImageView newtoken = new ImageView();
+                    newtoken.getStyleClass().add("hand");
                     tokensMap.put(x, newtoken);
                     tokenColor.put(newtoken, x);
                     Pane newPane = new Pane();
@@ -441,6 +442,22 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             }
         });
 
+        //set own marks
+        Platform.runLater(() -> {
+            ArrayList<adrenaline.Color> playerMarks = ownPlayer.getMarks();
+            ownMarks.getChildren().clear();
+            if(!playerMarks.isEmpty()) {
+                for (int i = 0; i < playerMarks.size(); i++){
+                    String marksUrl = "/HUD/" + playerMarks.get(i).toString() + "-DROP.png";
+                    ImageView damage = new ImageView();
+                    damage.setFitWidth(20);
+                    damage.setFitHeight(30);
+                    damage.setImage(new Image(getClass().getResourceAsStream(marksUrl)));
+                    ownMarks.getChildren().add(damage);
+                }
+            }
+        });
+
         //set own weapons
         ArrayList<Integer> wpCards = ownPlayer.getWeaponCards();
         Platform.runLater(() -> {
@@ -545,10 +562,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     private void selectTarget(Event event) {
         ImageView token = (ImageView) event.getSource();
-        if(shootState){
+        if(shootState) {
             targets.add(tokenColor.get(token));
             token.setEffect(new Glow(0.5));
-            System.out.println("TARGETS: "+targets.toString());
+            System.out.println("TARGETS: " + targets.toString());
+        }
+        else {
+            ArrayList<adrenaline.Color> player = new ArrayList<>(Collections.singletonList(tokenColor.get(token)));
+            gameController.selectPlayers(player);
         }
     }
 
@@ -605,6 +626,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void selectWeapon(Event event){
         message.setText("");
+        //targets.forEach(x -> tokensMap.get(x).setEffect(null));
         ImageView weapon = (ImageView) event.getSource();
         String weaponID = weapon.getImage().getUrl();
         weaponID = new File(weaponID).getName();
