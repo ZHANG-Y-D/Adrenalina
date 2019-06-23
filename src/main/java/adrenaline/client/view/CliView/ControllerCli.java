@@ -62,6 +62,18 @@ public abstract class ControllerCli{
         return num;
     }
 
+    protected synchronized void printAString(String printState,String printString){
+
+        if (printState.equals("err"))
+            System.err.println(printString);
+        else if (printState.equals("OutWithOutNewLine"))
+            System.out.print(printState);
+        else
+            System.out.println(printString);
+
+        return;
+    }
+
 
     protected synchronized String readAString(){
 
@@ -95,7 +107,7 @@ public abstract class ControllerCli{
 
 
 
-    protected void printPlayerInfo() {
+    protected void printAllPlayerInfo() {
 
         int num=1;
 
@@ -162,6 +174,11 @@ public abstract class ControllerCli{
 
 
     }
+
+    protected void printPlayerSelfInfo() {
+        printWeaponInfo();
+    }
+
 
     protected void printWeaponInfo(){
 

@@ -79,7 +79,6 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     @Override
     public void showError(String error) {
 
-
         Runnable runnable = () -> {
 
             System.err.println(error);
@@ -97,7 +96,6 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     public void showMessage(String message) {
 
         Runnable runnable = () -> {
-
 
             if (message.contains("NICKNAME;")) {
                 System.out.println(message.replace("NICKNAME;","Your nickname is : "));

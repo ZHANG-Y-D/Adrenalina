@@ -84,7 +84,7 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     @Override
     public void showError(String error) {
 
-        Runnable runnable = () -> System.err.println(error);
+        Runnable runnable = () -> printAString("err",error);
 
         Thread showErrorThread = new Thread(runnable);
         showErrorThread.start();
@@ -95,7 +95,7 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     @Override
     public void showMessage(String message) {
 
-        Runnable runnable = () -> System.out.println(message);
+        Runnable runnable = () -> printAString("out",message);
 
         Thread showMessageThread = new Thread(runnable);
         showMessageThread.start();
@@ -109,28 +109,41 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
         while (isInTurn.get()){
 
-            printWeaponInfo();
+
+            printPlayerSelfInfo();
 
             System.out.println("Choose a weapon card, input 0 to pass and finish this turn:");
 
-            weaponID = readANumber(0,3);
-
-            if (weaponID==0){
+            weaponID = readANumber(0,24);
+            if (weaponID==0) {
                 gameController.endTurn();
                 finishThisTurn();
                 return;
-            }else
-                gameController.selectWeapon(readANumber(1,3));
+            }
+
+            System.out.println("You want pay ammo with your powerup cards? Input yes to do:");
+            if (readAString().equalsIgnoreCase("y")
+                    || readAString().equalsIgnoreCase("yes")){
+                System.out.println("How much powerups do you want to use?");
+                int powers = readANumber(1,3);
+                for (;powers>0;powers--){
+                    System.out.println("Input number of powerup:");
+                    gameController.selectPowerUp(readANumber(1,24));
+                }
+            }
+
+            gameController.selectWeapon(weaponID);
 
             try {
-                sleep(3000);
+                sleep(2000);
             }catch (InterruptedException ignored){
                 Thread.currentThread().interrupt();
 
             }
-
         }
     }
+
+
 
 
     private void finishThisTurn() {
@@ -138,10 +151,14 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
         isInTurn.set(false);
 
         System.out.println("Your turn is finished");
-        if (timeThread.isAlive())
-            timeThread.interrupt();
-        if (turnControllerThread.isAlive())
-            turnControllerThread.interrupt();
+        try {
+            if (timeThread.isAlive())
+                timeThread.interrupt();
+            if (turnControllerThread.isAlive())
+                turnControllerThread.interrupt();
+        }catch (NullPointerException ignored){
+
+        }
 
     }
 
@@ -190,7 +207,9 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
                     }
 
                 }
-                reloadWeaponAndEndTurn();
+                if (isInTurn.get())
+                    reloadWeaponAndEndTurn();
+
             };
 
             Runnable timeRunnable = () -> {
@@ -262,6 +281,8 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
     private void selectAction() {
 
+        //TODO use powerup card
+
             System.out.println("Witch action you want to do? \n1.RUN AROUND \n2.GRAB STUFF \n3.SHOOT PEOPLE \n4.END TURN ");
             switch (readANumber(1, 4)) {
                     case 1:
@@ -277,8 +298,6 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
                         reloadWeaponAndEndTurn();
                         break;
             }
-
-
     }
 
 
@@ -304,12 +323,14 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
         Runnable runnable = () ->{
 
+            //TODO print map
+
             System.out.println("You can go to these Squares:");
 
-            synchronized (this) {
-                for (int i = 0; i < validSquares.size(); i++)
-                    System.out.print(validSquares.get(i) + " ");
-            }
+
+            for (int i = 0; i < validSquares.size(); i++)
+                printAString("OutWithOutNewLine",validSquares.get(i) + " ");
+
 
             System.out.println(" ");
 
