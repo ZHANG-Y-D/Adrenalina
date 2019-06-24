@@ -3,21 +3,21 @@ package adrenaline.client.view.CliView;
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
+import org.fusesource.jansi.Ansi;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.Thread.sleep;
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class GameStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
+public  class GameStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
 
 
     private Scanner chatScanner = new Scanner(System.in);
@@ -26,7 +26,9 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     private AtomicBoolean isInTurn = new AtomicBoolean(false);
     private Thread turnControllerThread;
     private Thread timeThread;
-    private final Object objectLock = new Object();
+    private final Object actionLock = new Object();
+    private final Object subActionLock = new Object();
+    private AtomicInteger isSelectedSquare = new AtomicInteger(-1);
 
 
     public GameStageCli(GameController gameController) {
@@ -46,6 +48,8 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
         openChat();
         if (getPlayerTurnNumber() != 1)
             System.out.println("Wait for your turn...");
+        else
+            notifyTimer(60,gameController.getOwnNickname());
 
     }
 
@@ -95,7 +99,12 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
     @Override
     public void showMessage(String message) {
 
-        Runnable runnable = () -> printAString("out",message);
+        Runnable runnable = () -> {
+
+            //TODO for Powerup
+            printAString("out",message);
+
+        };
 
         Thread showMessageThread = new Thread(runnable);
         showMessageThread.start();
@@ -195,22 +204,29 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
                 while (actionTimes>0 && isInTurn.get()){
 
-                    actionTimes--;
-                    selectAction();
 
-                    synchronized (objectLock){
+                    int actionNum = selectAction();
+                    if (actionNum == 1 || actionNum == 2 || actionNum == 3)
+                        actionTimes--;
+
+
+                    synchronized (actionLock){
                         try {
-                            objectLock.wait();
+                            //TODO not wait
+                            actionLock.wait();
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                         }
+
                     }
 
+
                 }
+
                 if (isInTurn.get())
                     reloadWeaponAndEndTurn();
-
             };
+
 
             Runnable timeRunnable = () -> {
 
@@ -227,15 +243,25 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
             };
 
-            if (comment.contains(gameController.getOwnNickname())) {
 
+
+            if (comment.contains(gameController.getOwnNickname()) && !isInTurn.get()) {
+
+                isInTurn.set(true);
                 timeThread = new Thread(timeRunnable);
                 timeThread.start();
 
-                isInTurn.set(true);
+
                 System.out.println("Your turn is arrived,you have " + duration + " seconds,input anything to start!");
 
+
                 chatLock.lock();
+
+                if (!isInTurn.get()){
+                    chatLock.unlock();
+                    return;
+                }
+
                 turnControllerThread = new Thread(turnControllerRunable);
                 turnControllerThread.start();
 
@@ -247,6 +273,7 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
                 }
 
             }
+
 
         };
 
@@ -279,25 +306,140 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
 
 
-    private void selectAction() {
+    private int selectAction() {
 
-        //TODO use powerup card
 
-            System.out.println("Witch action you want to do? \n1.RUN AROUND \n2.GRAB STUFF \n3.SHOOT PEOPLE \n4.END TURN ");
-            switch (readANumber(1, 4)) {
+            System.out.println("Witch action you want to do? " +
+                    "\n1.RUN AROUND \n2.GRAB STUFF \n3.SHOOT PEOPLE \n4.END TURN \n5.Use Powerup Cards");
+            int num = readANumber(1, 5);
+            switch (num) {
                     case 1:
-                        gameController.run();
+                        runAction();
                         break;
                     case 2:
-                        gameController.grab();
+                        grabAction();
                         break;
                     case 3:
                         gameController.shoot();
+                        //TODO for  shoot
                         break;
                     case 4:
                         reloadWeaponAndEndTurn();
                         break;
+                    case 5:
+                        usePowerupCard();
+                        break;
+                    default:
+                        break;
             }
+
+            return num;
+    }
+
+    private void usePowerupCard() {
+
+        //TODO for complete powerup
+        int selected;
+        ArrayList<Integer> powerupList;
+
+        System.out.println("Here is your powerup cards.");
+
+        powerupList = gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards();
+        for (int powerup:powerupList) {
+            printPowerupInfo(powerup);
+        }
+        System.out.println("Whitch you want to use? If you don't want to use,input 0");
+        while (true){
+            selected = readANumber(1,24);
+            if (selected == 0)
+                return;
+            if (powerupList.contains(selected)){
+                gameController.selectPowerUp(selected);
+                break;
+            }
+            else {
+                System.out.println("You don't have this powerup card,retry:");
+            }
+        }
+    }
+
+    private void runAction() {
+
+        isSelectedSquare.set(-1);
+        gameController.run();
+
+
+        while (isSelectedSquare.get()==-1) {
+            synchronized (subActionLock) {
+                try {
+                    subActionLock.wait();
+
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+
+
+        synchronized (actionLock) {
+            actionLock.notifyAll();
+        }
+
+
+    }
+
+    private void grabAction() {
+
+        isSelectedSquare.set(-1);
+        gameController.grab();
+
+        while (isSelectedSquare.get()==-1) {
+            synchronized (subActionLock) {
+                try {
+                    subActionLock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
+            }
+        }
+
+        if (isSelectedSquare.get()==2 ||
+                isSelectedSquare.get()==4 ||
+                    isSelectedSquare.get()==11){
+
+            System.out.println("You can choose a weapon.");
+
+
+            switch (isSelectedSquare.get()){
+                case 2:
+                    for (int num:gameController.getMap().getWeaponMap().get(Color.BLUE)) {
+                        printWeaponInfo(num);
+                    }
+                    break;
+                case 4:
+                    for (int num:gameController.getMap().getWeaponMap().get(Color.RED)) {
+                        printWeaponInfo(num);
+                    }
+                    break;
+                case 11:
+                    for (int num:gameController.getMap().getWeaponMap().get(Color.YELLOW)) {
+                        printWeaponInfo(num);
+                    }
+                    break;
+
+                    default:
+                        break;
+            }
+            System.out.println("Witch you want: ");
+            gameController.selectWeapon(readANumber(1,21));
+
+
+        }
+
+        synchronized (actionLock) {
+            actionLock.notifyAll();
+        }
     }
 
 
@@ -327,9 +469,16 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
 
             System.out.println("You can go to these Squares:");
 
+            try {
+                sleep(500);
+            }catch (InterruptedException ignored){
+                Thread.currentThread().interrupt();
+            }
 
-            for (int i = 0; i < validSquares.size(); i++)
-                printAString("OutWithOutNewLine",validSquares.get(i) + " ");
+            synchronized (this) {
+                for (Integer validSquare : validSquares)
+                    printAString("OutWithOutNewLine", validSquare + " ");
+            }
 
 
             System.out.println(" ");
@@ -341,8 +490,9 @@ public class GameStageCli extends ControllerCli implements ViewInterface, Proper
                         System.err.println("You can't go to here,retry: ");
                     }else {
                         gameController.selectSquare(num);
-                        synchronized (objectLock) {
-                            objectLock.notify();
+                        synchronized (subActionLock) {
+                            isSelectedSquare.set(num);
+                            subActionLock.notifyAll();
                         }
                         break;
                     }

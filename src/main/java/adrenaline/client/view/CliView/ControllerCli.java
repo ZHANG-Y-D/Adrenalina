@@ -67,7 +67,7 @@ public abstract class ControllerCli{
         if (printState.equals("err"))
             System.err.println(printString);
         else if (printState.equals("OutWithOutNewLine"))
-            System.out.print(printState);
+            System.out.print(printString);
         else
             System.out.println(printString);
 
@@ -170,38 +170,45 @@ public abstract class ControllerCli{
         System.out.println("Map...");
         printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
         System.out.println("Weapon Info...");
-        printWeaponInfo();
+        printWeaponInfo(0);
+        //TODO
 
+    }
 
+    protected void printPowerupInfo(int num){
+
+        //TODO
     }
 
     protected void printPlayerSelfInfo() {
-        printWeaponInfo();
+
+        printWeaponInfo(0);
+        //TODO
     }
 
 
-    protected void printWeaponInfo(){
+    protected void printWeaponInfo(int numOfWeapon){
 
 
-        for (Map.Entry<Color, ArrayList<Integer>> weaponInfo : gameController.getMap().getWeaponMap().entrySet()) {
+        //TODO
+        if (numOfWeapon==0) {
+            for (Map.Entry<Color, ArrayList<Integer>> weaponInfo : gameController.getMap().getWeaponMap().entrySet()) {
 
 
-
-            switch (weaponInfo.getKey()){
-                case BLUE:
-                    System.out.print(ansi().bold().fg(Ansi.Color.BLUE).a("█ 3:").fgDefault());
-                    break;
-                case RED:
-                    System.out.print(ansi().bold().fg(Ansi.Color.RED).a("█ 5:").fgDefault());
-                    break;
-                case YELLOW:
-                    ansi().bold().fg(Ansi.Color.YELLOW).a("█ 12:").fgDefault();
-                    break;
-                default:
-                    break;
+                switch (weaponInfo.getKey()) {
+                    case BLUE:
+                        System.out.print(ansi().bold().fg(Ansi.Color.BLUE).a("█ 3:").fgDefault());
+                        break;
+                    case RED:
+                        System.out.print(ansi().bold().fg(Ansi.Color.RED).a("█ 5:").fgDefault());
+                        break;
+                    case YELLOW:
+                        ansi().bold().fg(Ansi.Color.YELLOW).a("█ 12:").fgDefault();
+                        break;
+                    default:
+                        break;
+                }
             }
-
-
         }
 
 
