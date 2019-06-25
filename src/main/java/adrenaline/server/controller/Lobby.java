@@ -496,7 +496,10 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String usePowerup(NewtonPowerup newton){
+
+        //TODO for this powerup card
        return "NOT IMPLEMENTED YET";
+
     }
 
     public String usePowerup(ScopePowerup scope){

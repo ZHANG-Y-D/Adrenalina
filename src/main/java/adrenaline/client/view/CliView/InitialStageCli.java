@@ -6,7 +6,9 @@ import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import static java.util.UUID.randomUUID;
 
 
 public class InitialStageCli extends ControllerCli implements ViewInterface{
@@ -67,8 +69,13 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     private void printGameID() {
 
-        System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
-        System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
+        try {
+            System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
+            System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
+        }catch (NullPointerException e){
+            System.err.println("NullPointerException!!!");
+        }
+
 
 
     }
@@ -76,7 +83,6 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     @Override
     public void showError(String error) {
-
 
         Runnable runnable = () -> {
 
@@ -96,9 +102,8 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
         Runnable runnable = () -> {
 
-
             if (message.contains("NICKNAME;")) {
-                System.out.println(message.replace("NICKNAME;","Your nickname is :"));
+                System.out.println(message.replace("NICKNAME;","Your nickname is : "));
                 returnValueIsOk.set(1);
             }
 
@@ -153,6 +158,10 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
         input = readAString();
 
+        //for quickly test
+        if (input.equals(""))
+            return 1;
+
 
         if (input.equalsIgnoreCase("socket") || input.equalsIgnoreCase("s"))
             return 1;
@@ -174,8 +183,16 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
         System.out.println("Insert host ip");
         host = readAString();
+
+        //for quickly test
+        if (host.equals(""))
+            return gameController.connectSocket("127.0.0.1", 1100);
+
+
         System.out.println("Insert port");
         port = readANumber(0,999999);
+
+
 
         returnValueIsOk.set(0);
         if (connectingType == 1)
@@ -191,6 +208,15 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         returnValueIsOk.set(0);
         System.out.println("\nPlease insert your Nickname");
         String input = readAString();
+
+
+        //for quickly test
+        if (input.equals("")) {
+            gameController.setNickname(new Random().toString());
+            return;
+        }
+
+
         name = input;
         gameController.setNickname(input);
 

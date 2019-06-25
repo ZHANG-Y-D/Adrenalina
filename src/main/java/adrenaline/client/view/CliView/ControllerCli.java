@@ -42,7 +42,7 @@ public abstract class ControllerCli{
         }
     }
 
-    protected int readANumber(int down,int up) {
+    protected synchronized int readANumber(int down,int up) {
 
         int num;
         try{
@@ -60,6 +60,27 @@ public abstract class ControllerCli{
         }
 
         return num;
+    }
+
+    protected synchronized void printAString(String printState,String printString){
+
+        if (printState.equals("err"))
+            System.err.println(printString);
+        else if (printState.equals("OutWithOutNewLine"))
+            System.out.print(printString);
+        else
+            System.out.println(printString);
+
+        return;
+    }
+
+
+    protected synchronized String readAString(){
+
+        String input = scanner.nextLine();
+        isQuit(input);
+        return input;
+
     }
 
 
@@ -86,7 +107,7 @@ public abstract class ControllerCli{
 
 
 
-    protected void printPlayerInfo() {
+    protected void printAllPlayerInfo() {
 
         int num=1;
 
@@ -149,46 +170,52 @@ public abstract class ControllerCli{
         System.out.println("Map...");
         printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
         System.out.println("Weapon Info...");
-        printWeaponInfo();
-
+        printWeaponInfo(0);
+        //TODO
 
     }
 
-    private void printWeaponInfo(){
+    protected void printPowerupInfo(int num){
+
+        //TODO
+    }
+
+    protected void printPlayerSelfInfo() {
+
+        printWeaponInfo(0);
+        //TODO
+    }
 
 
-        for (Map.Entry<Color, ArrayList<Integer>> weaponInfo : gameController.getMap().getWeaponMap().entrySet()) {
+    protected void printWeaponInfo(int numOfWeapon){
 
 
+        //TODO
+        if (numOfWeapon==0) {
+            for (Map.Entry<Color, ArrayList<Integer>> weaponInfo : gameController.getMap().getWeaponMap().entrySet()) {
 
-            switch (weaponInfo.getKey()){
-                case BLUE:
-                    System.out.print(ansi().bold().fg(Ansi.Color.BLUE).a("█ 3:").fgDefault());
-                    break;
-                case RED:
-                    System.out.print(ansi().bold().fg(Ansi.Color.RED).a("█ 5:").fgDefault());
-                    break;
-                case YELLOW:
-                    ansi().bold().fg(Ansi.Color.YELLOW).a("█ 12:").fgDefault();
-                    break;
-                default:
-                    break;
+
+                switch (weaponInfo.getKey()) {
+                    case BLUE:
+                        System.out.print(ansi().bold().fg(Ansi.Color.BLUE).a("█ 3:").fgDefault());
+                        break;
+                    case RED:
+                        System.out.print(ansi().bold().fg(Ansi.Color.RED).a("█ 5:").fgDefault());
+                        break;
+                    case YELLOW:
+                        ansi().bold().fg(Ansi.Color.YELLOW).a("█ 12:").fgDefault();
+                        break;
+                    default:
+                        break;
+                }
             }
-
-
         }
 
 
 
     }
 
-    protected String readAString(){
 
-        String input = scanner.nextLine();
-        isQuit(input);
-        return input;
-
-    }
 
 
     protected void isQuit(String input){
