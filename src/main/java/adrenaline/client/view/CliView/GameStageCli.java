@@ -3,12 +3,13 @@ package adrenaline.client.view.CliView;
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
-import org.fusesource.jansi.Ansi;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
@@ -209,18 +210,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                     if (actionNum == 1 || actionNum == 2 || actionNum == 3)
                         actionTimes--;
 
-
-                    synchronized (actionLock){
-                        try {
-                            //TODO not wait
-                            actionLock.wait();
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-
-                    }
-
-
                 }
 
                 if (isInTurn.get())
@@ -379,12 +368,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 }
             }
         }
-
-
-        synchronized (actionLock) {
-            actionLock.notifyAll();
-        }
-
 
     }
 
