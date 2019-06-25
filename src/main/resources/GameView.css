@@ -53,6 +53,10 @@
 #firemodeSelection{
     -fx-background-color: rgba(0, 0, 0, 0.3);
 }
+.blackTransparent{
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+
+}
 .setFiremode{
     -fx-background-size: cover;
     -fx-background-position: center;
