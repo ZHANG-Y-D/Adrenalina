@@ -29,11 +29,6 @@ public class Player implements Serializable {
 
     public Player(){ }
 
-    public synchronized void setPlayer(){
-        color = Color.BLUE;
-        position = 3;
-    }
-
     public Color getColor() {
         return color;
     }
@@ -44,15 +39,9 @@ public class Player implements Serializable {
 
     public int[] getAmmoBox() { return ammoBox; }
 
-    public ArrayList<Integer> getPowerupCards() {
-        if(powerupCards.size() == 0) return null;
-        return powerupCards;
-    }
+    public ArrayList<Integer> getPowerupCards() { return powerupCards; }
 
-    public ArrayList<Integer> getWeaponCards() {
-        if(weaponCards.size() == 0) return null;
-        return weaponCards;
-    }
+    public ArrayList<Integer> getWeaponCards() { return weaponCards; }
 
     public ArrayList<Color> getDamage(){ return damage; }
 

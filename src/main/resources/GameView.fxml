@@ -165,7 +165,7 @@
             <children>
                 <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="121" layoutY="10"/>
                 <HBox fx:id="ownDamage" spacing="10" layoutX="137" layoutY="63" prefHeight="30" prefWidth="480" minWidth="480" />
-                <HBox fx:id="ownMarks" spacing="5" layoutX="340" layoutY="10" prefHeight="30" prefWidth="200" minWidth="200" />
+                <HBox fx:id="ownMarks" spacing="5" layoutX="340" layoutY="11" prefHeight="30" prefWidth="200" minWidth="200" />
                 <Button fx:id="run" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="10" />
                 <Button fx:id="shoot" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="55"/>
                 <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57"  layoutX="58" layoutY="100"/>

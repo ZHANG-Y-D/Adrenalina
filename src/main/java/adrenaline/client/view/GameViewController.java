@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
@@ -21,6 +22,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -69,6 +71,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private HashMap<ImageView, Position> tokenPosition = new HashMap<>(); //get token current position
     private HashMap<Integer,Integer> firemodeMap;
     private HashMap<ImageView, adrenaline.Color> tokenColor = new HashMap<>();
+    private HashMap<adrenaline.Color, HBox> enemyWeaponsMap = new HashMap<>();
     private final int columns = 4;
     private boolean shootState = false;
     private ArrayList<adrenaline.Color> targets = new ArrayList<>();
@@ -178,6 +181,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(320);
                     newPane.getChildren().add(imageView);
+                    newPane.setId(x.toString());
                     Label nickname = new Label(y);
                     Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 16);
                     nickname.setFont(font);
@@ -187,6 +191,46 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     nickname.getStyleClass().add(x.toString());
                     nickname.setAlignment(Pos.TOP_RIGHT);
                     newPane.getChildren().add(nickname);
+                    HBox damage = new HBox();
+                    damage.setLayoutX(6);
+                    damage.setLayoutY(65);
+                    damage.setSpacing(10);
+                    newPane.getChildren().add(damage);
+                    HBox marks = new HBox();
+                    marks.setLayoutX(167);
+                    marks.setLayoutY(35);
+                    marks.setSpacing(2);
+                    newPane.getChildren().add(marks);
+                    String cardsUrl = "/Powerups/powerup-1.png";
+                    ImageView cards = new ImageView(new Image(getClass().getResourceAsStream(cardsUrl)));
+                    cards.setLayoutY(20);
+                    cards.setFitWidth(20);
+                    cards.setFitHeight(40);
+                    cards.getStyleClass().add("hand");
+                    cards.setOnMouseClicked(this::showEnemyCards);
+                    newPane.getChildren().add(cards);
+                    Pane cardsPane = new Pane();
+                    cardsPane.setLayoutY(20);
+                    cardsPane.setVisible(false);
+                    cardsPane.getStyleClass().add("blackTransparent");
+                    cardsPane.setOnMouseClicked(this::hideEnemyCards);
+                    HBox weapons = new HBox();
+                    weapons.setLayoutX(46);
+                    enemyWeaponsMap.put(x,weapons);
+                    cardsPane.getChildren().add(weapons);
+                    String pwupUrl = "/Powerups/powerup-BACK.png";
+                    ImageView powerup = new ImageView(new Image(getClass().getResourceAsStream(pwupUrl)));
+                    powerup.setFitHeight(70);
+                    powerup.setFitWidth(45);
+                    cardsPane.getChildren().add(powerup);
+                    Label num = new Label();
+                    num.setLayoutX(17);
+                    num.setLayoutY(28);
+                    num.setFont(font);
+                    num.setText("0");
+                    num.getStyleClass().add("RED");
+                    cardsPane.getChildren().add(num);
+                    newPane.getChildren().add(cardsPane);
                     enemyPlayers.getChildren().add(newPane);
                     playersColorMap.put(x, newPane);
                 }
@@ -365,8 +409,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void showTriangles(){
-        if(gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards()!=null) powerupTriangle.setVisible(true);
-        if(gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards()!=null) weaponTriangle.setVisible(true);
+        if(!gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards().isEmpty()) powerupTriangle.setVisible(true);
+        if(!gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards().isEmpty()) weaponTriangle.setVisible(true);
     }
 
     public void hideTriangles(){
@@ -409,7 +453,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Player ownPlayer = newPlayersMap.get(gameController.getOwnColor());
         ArrayList<Integer> puCards = ownPlayer.getPowerupCards();
         Platform.runLater(() -> {
-            if (puCards != null) {
+            if (!puCards.isEmpty()) {
                 String newImgUrl = "/Powerups/powerup-" + puCards.get(0) + ".png";
                 try {
                     myPowerup.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
@@ -425,43 +469,41 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             }
         });
 
-        //set own damage
+        //set damage
         Platform.runLater(() -> {
-            ArrayList<adrenaline.Color> playerDamage = ownPlayer.getDamage();
-            if(!playerDamage.isEmpty()) {
-                for (int i = 0; i < playerDamage.size(); i++){
-                    if (i >= (ownDamage.getChildren().size())) {
-                        String damegeUrl = "/HUD/" + playerDamage.get(i).toString() + "-DROP.png";
-                        ImageView damage = new ImageView();
-                        damage.setFitWidth(20);
-                        damage.setFitHeight(30);
-                        damage.setImage(new Image(getClass().getResourceAsStream(damegeUrl)));
-                        ownDamage.getChildren().add(damage);
+            newPlayersMap.forEach((x,y)->{
+                ArrayList<adrenaline.Color> list = y.getMarks();
+                if(!list.isEmpty()){
+                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(y,list,ownDamage,30,20);
+                    else {
+                        Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
+                        HBox damageTraker = (HBox) playerPane.getChildren().get(2);
+                        updateDamageMarks(y,list,damageTraker,25,17);
                     }
                 }
-            }
+            });
         });
 
-        //set own marks
+        //set marks
         Platform.runLater(() -> {
-            ArrayList<adrenaline.Color> playerMarks = ownPlayer.getMarks();
-            ownMarks.getChildren().clear();
-            if(!playerMarks.isEmpty()) {
-                for (int i = 0; i < playerMarks.size(); i++){
-                    String marksUrl = "/HUD/" + playerMarks.get(i).toString() + "-DROP.png";
-                    ImageView damage = new ImageView();
-                    damage.setFitWidth(20);
-                    damage.setFitHeight(30);
-                    damage.setImage(new Image(getClass().getResourceAsStream(marksUrl)));
-                    ownMarks.getChildren().add(damage);
+            newPlayersMap.forEach((x,y) -> {
+                ArrayList<adrenaline.Color> list = y.getMarks();
+                ownMarks.getChildren().clear();
+                if(!list.isEmpty()) {
+                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(y,list,ownMarks,28,18);
+                    else {
+                        Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
+                        HBox markTraker = (HBox) playerPane.getChildren().get(3);
+                        updateDamageMarks(y,list,markTraker,20,13);
+                    }
                 }
-            }
+            });
         });
 
         //set own weapons
         ArrayList<Integer> wpCards = ownPlayer.getWeaponCards();
         Platform.runLater(() -> {
-            if(wpCards != null){
+            if(!wpCards.isEmpty()){
                 String newImgUrl = "/Weapons/weapon_" + wpCards.get(0) + "-TOP.png";
                 try {
                     myWeapon.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
@@ -475,6 +517,30 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 bgWeapon1.setVisible(false);
                 bgWeapon2.setVisible(false);
             }
+        });
+
+        //set others weapons
+        Platform.runLater(()->{
+            newPlayersMap.forEach((x,y)->{
+                if(x!=gameController.getOwnColor()){
+                    HBox weapons = enemyWeaponsMap.get(x);
+                    ArrayList<Integer> cards = y.getWeaponCards();
+                    weapons.getChildren().clear();
+                    if(!cards.isEmpty()){
+                        for (Integer card : cards) {
+                            String weaponUrl = "/Weapons/weapon_" + card + "-TOP.png";
+                            ImageView weapon = new ImageView();
+                            weapon.setFitWidth(94);
+                            weapon.setFitHeight(70);
+                            weapon.setImage(new Image(getClass().getResourceAsStream(weaponUrl)));
+                            weapons.getChildren().add(weapon);
+                        }
+                    }
+                    Pane parent = (Pane) weapons.getParent();
+                    Label num = (Label) parent.getChildren().get(2);
+                    num.setText(Integer.toString(y.getPowerupCards().size()));
+                }
+            });
         });
 
         //set ammo
@@ -494,6 +560,19 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
         //set player position
         updatePosition(newPlayersMap);
+    }
+
+    private void updateDamageMarks(Player player, ArrayList<adrenaline.Color> list, HBox damageTracker, int height, int width){
+        for (int i = 0; i < list.size(); i++){
+            if (i >= (damageTracker.getChildren().size())) {
+                String damegeUrl = "/HUD/" + list.get(i).toString() + "-DROP.png";
+                ImageView damage = new ImageView();
+                damage.setFitWidth(width);
+                damage.setFitHeight(height);
+                damage.setImage(new Image(getClass().getResourceAsStream(damegeUrl)));
+                damageTracker.getChildren().add(damage);
+            }
+        }
     }
 
     private void updatePosition(HashMap<adrenaline.Color,Player> newPlayersMap){
@@ -721,5 +800,16 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         firemodeBackground.setImage(null);
         firemodeSelection.setVisible(false);
         ownCard.setVisible(true);
+    }
+
+    private void showEnemyCards(Event event){
+        Node source = (Node) event.getSource();
+        Pane parent = (Pane) source.getParent();
+        parent.getChildren().get(5).setVisible(true);
+    }
+
+    private void hideEnemyCards(Event event) {
+        Pane source = (Pane) event.getSource();
+        source.setVisible(false);
     }
 }
