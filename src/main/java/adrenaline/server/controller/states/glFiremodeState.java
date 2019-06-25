@@ -56,6 +56,7 @@ public class glFiremodeState implements FiremodeSubState {
             moveConstraints.add(new InRadiusConstraint(1));
             targetValidSquares = lobby.sendTargetValidSquares(selectedTarget, moveConstraints);
             pushing=true;
+            System.out.println("pushing = true");
             if(!areaCompleted) {
                 playerCompleted = true;
                 lobby.incrementExecutedActions();
@@ -69,6 +70,7 @@ public class glFiremodeState implements FiremodeSubState {
     @Override
     public String selectSquare(int index) {
         if(pushing) {
+            System.out.println("in pushing");
             if(!targetValidSquares.contains(index)) return "You can't move your target there!";
             lobby.movePlayer(index, selectedTarget.get(0));
             if(areaCompleted){

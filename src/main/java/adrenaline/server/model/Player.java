@@ -345,6 +345,8 @@ public class Player extends Observable{
         return alive;
     }
 
+    public void setAlive(boolean alive){ this.alive = alive; }
+
     public Color getColor() {
         return avatar.getColor();
     }

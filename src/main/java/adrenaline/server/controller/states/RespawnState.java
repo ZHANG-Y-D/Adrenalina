@@ -47,17 +47,13 @@ public class RespawnState implements GameState {
 
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
-        try {
-            lobby.respawnWithPowerup(powerUp);
-            if(firstRound){
-                lobby.setState(new SelectActionState(lobby));
-            }else {
-                lobby.endTurn(false);
-            }
-            return "OK";
-        }catch(InvalidCardException ice){
-            return "Invalid selection! Please select a valid card";
+        lobby.respawnWithPowerup(powerUp);
+        if(firstRound){
+            lobby.setState(new SelectActionState(lobby));
+        }else {
+            lobby.endTurn(false);
         }
+        return "OK";
     }
 
     @Override

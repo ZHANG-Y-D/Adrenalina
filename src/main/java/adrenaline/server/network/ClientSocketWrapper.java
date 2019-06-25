@@ -76,7 +76,7 @@ public class ClientSocketWrapper implements Client {
                 } catch (NoSuchElementException fatal){
                     active = false;
                     serverCommands.unregisterClient(clientID);
-                    inLobby.detachClient(this);
+                    if(inLobby!=null) inLobby.detachClient(this);
                 }finally{ if(active) sendMessage(sendToClient);}
             }
         }).start();
@@ -129,6 +129,7 @@ public class ClientSocketWrapper implements Client {
     }
 
     public void setPlayerColorInternal(String nickname, Color color) {
+        System.out.println("blalbalb");
         setPlayerColor(nickname, color);
     }
 

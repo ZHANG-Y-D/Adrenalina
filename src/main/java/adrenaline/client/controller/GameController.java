@@ -83,6 +83,7 @@ public class GameController {
 
     public void setPlayerColor(String nickname, Color color){
         if(nickname.equals(ownNickame)) ownColor = color;
+        System.out.println("setting color of "+nickname+" "+color.toString());
         playersMap.put(color, new Player());
         changes.firePropertyChange("nicknamesColor", playersNicknames, playersNicknames.put(nickname, color));
     }

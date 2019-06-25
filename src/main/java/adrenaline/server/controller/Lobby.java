@@ -384,16 +384,18 @@ public class Lobby implements Runnable, LobbyAPI {
             constraints.forEach(y -> validSquares.retainAll(y.checkConst(target.getPosition(), map)));
         }
         try {
+            System.out.println("sending squares: "+validSquares.toString());
             clientMap.get(currentTurnPlayer).validSquaresInfo(validSquares);
         } catch (RemoteException e) { }
         return validSquares;
     }
 
-    public void respawnWithPowerup(PowerupCard powerup) throws InvalidCardException {
+    public void respawnWithPowerup(PowerupCard powerup) {
         Player currPlayer = playersMap.get(currentTurnPlayer);
         currPlayer.setPosition(map.getSpawnIndex(powerup.getColor()));
         currPlayer.removePowerupCard(powerup);
         deckPowerup.addToDiscarded(powerup);
+        currPlayer.setAlive(true);
     }
 
     public void movePlayer(int squareIndex){
