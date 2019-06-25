@@ -488,15 +488,15 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Platform.runLater(() -> {
             newPlayersMap.forEach((x,y) -> {
                 ArrayList<adrenaline.Color> list = y.getMarks();
-                ownMarks.getChildren().removeAll();
-                if(!list.isEmpty()) {
-                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(list,ownMarks,28,18);
-                    else {
-                        Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
-                        HBox markTraker = (HBox) playerPane.getChildren().get(3);
-                        markTraker.getChildren().removeAll();
-                        updateDamageMarks(list,markTraker,20,13);
-                    }
+                if(x.equals(gameController.getOwnColor())) {
+                    ownMarks.getChildren().clear();
+                    updateDamageMarks(list,ownMarks,28,18);
+                }
+                else {
+                    Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
+                    HBox markTraker = (HBox) playerPane.getChildren().get(3);
+                    markTraker.getChildren().clear();
+                    updateDamageMarks(list,markTraker,20,13);
                 }
             });
         });
@@ -566,7 +566,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private void updateDamageMarks(ArrayList<adrenaline.Color> list, HBox damageTracker, int height, int width){
         for (int i = 0; i < list.size(); i++){
             if (i >= (damageTracker.getChildren().size())) {
-                System.out.println("HERE");
                 String damegeUrl = "/HUD/" + list.get(i).toString() + "-DROP.png";
                 ImageView damage = new ImageView();
                 damage.setFitWidth(width);
@@ -646,7 +645,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         if(shootState) {
             targets.add(tokenColor.get(token));
             token.setEffect(new Glow(0.5));
-            System.out.println("TARGETS: " + targets.toString());
         }
         else {
             ArrayList<adrenaline.Color> player = new ArrayList<>(Collections.singletonList(tokenColor.get(token)));
@@ -787,7 +785,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             gameController.selectPlayers(targets);
             targets.forEach(x -> tokensMap.get(x).setEffect(null));
             //for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
-            System.out.println("send targets: "+targets.toString());
             shootState = false;
         }
     }
