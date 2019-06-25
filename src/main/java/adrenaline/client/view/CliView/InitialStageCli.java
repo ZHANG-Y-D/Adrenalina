@@ -69,8 +69,13 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     private void printGameID() {
 
-        System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
-        System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
+        try {
+            System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
+            System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
+        }catch (NullPointerException e){
+            System.err.println("NullPointerException!!!");
+        }
+
 
 
     }
