@@ -472,13 +472,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         //set damage
         Platform.runLater(() -> {
             newPlayersMap.forEach((x,y)->{
-                ArrayList<adrenaline.Color> list = y.getMarks();
+                ArrayList<adrenaline.Color> list = y.getDamage();
                 if(!list.isEmpty()){
-                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(y,list,ownDamage,30,20);
+                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(list,ownDamage,30,20);
                     else {
                         Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
                         HBox damageTraker = (HBox) playerPane.getChildren().get(2);
-                        updateDamageMarks(y,list,damageTraker,25,17);
+                        updateDamageMarks(list,damageTraker,25,17);
                     }
                 }
             });
@@ -488,13 +488,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Platform.runLater(() -> {
             newPlayersMap.forEach((x,y) -> {
                 ArrayList<adrenaline.Color> list = y.getMarks();
-                ownMarks.getChildren().clear();
+                ownMarks.getChildren().removeAll();
                 if(!list.isEmpty()) {
-                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(y,list,ownMarks,28,18);
+                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(list,ownMarks,28,18);
                     else {
                         Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
                         HBox markTraker = (HBox) playerPane.getChildren().get(3);
-                        updateDamageMarks(y,list,markTraker,20,13);
+                        markTraker.getChildren().removeAll();
+                        updateDamageMarks(list,markTraker,20,13);
                     }
                 }
             });
@@ -562,9 +563,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         updatePosition(newPlayersMap);
     }
 
-    private void updateDamageMarks(Player player, ArrayList<adrenaline.Color> list, HBox damageTracker, int height, int width){
+    private void updateDamageMarks(ArrayList<adrenaline.Color> list, HBox damageTracker, int height, int width){
         for (int i = 0; i < list.size(); i++){
             if (i >= (damageTracker.getChildren().size())) {
+                System.out.println("HERE");
                 String damegeUrl = "/HUD/" + list.get(i).toString() + "-DROP.png";
                 ImageView damage = new ImageView();
                 damage.setFitWidth(width);
