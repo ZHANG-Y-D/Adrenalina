@@ -473,13 +473,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         //set damage
         Platform.runLater(() -> {
             newPlayersMap.forEach((x,y)->{
-                ArrayList<adrenaline.Color> list = y.getMarks();
+                ArrayList<adrenaline.Color> list = y.getDamage();
                 if(!list.isEmpty()){
-                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(y,list,ownDamage,30,20);
+                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(list,ownDamage,30,20);
                     else {
                         Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
                         HBox damageTraker = (HBox) playerPane.getChildren().get(2);
-                        updateDamageMarks(y,list,damageTraker,25,17);
+                        updateDamageMarks(list,damageTraker,25,17);
                     }
                 }
             });
@@ -489,14 +489,15 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Platform.runLater(() -> {
             newPlayersMap.forEach((x,y) -> {
                 ArrayList<adrenaline.Color> list = y.getMarks();
-                ownMarks.getChildren().clear();
-                if(!list.isEmpty()) {
-                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(y,list,ownMarks,28,18);
-                    else {
-                        Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
-                        HBox markTraker = (HBox) playerPane.getChildren().get(3);
-                        updateDamageMarks(y,list,markTraker,20,13);
-                    }
+                if(x.equals(gameController.getOwnColor())) {
+                    ownMarks.getChildren().clear();
+                    updateDamageMarks(list,ownMarks,28,18);
+                }
+                else {
+                    Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
+                    HBox markTraker = (HBox) playerPane.getChildren().get(3);
+                    markTraker.getChildren().clear();
+                    updateDamageMarks(list,markTraker,20,13);
                 }
             });
         });
@@ -563,7 +564,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         updatePosition(newPlayersMap);
     }
 
-    private void updateDamageMarks(Player player, ArrayList<adrenaline.Color> list, HBox damageTracker, int height, int width){
+    private void updateDamageMarks(ArrayList<adrenaline.Color> list, HBox damageTracker, int height, int width){
         for (int i = 0; i < list.size(); i++){
             if (i >= (damageTracker.getChildren().size())) {
                 String damegeUrl = "/HUD/" + list.get(i).toString() + "-DROP.png";
@@ -645,7 +646,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         if(shootState) {
             targets.add(tokenColor.get(token));
             token.setEffect(new Glow(0.5));
-            System.out.println("TARGETS: " + targets.toString());
         }
         else {
             ArrayList<adrenaline.Color> player = new ArrayList<>(Collections.singletonList(tokenColor.get(token)));
@@ -786,7 +786,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             gameController.selectPlayers(targets);
             targets.forEach(x -> tokensMap.get(x).setEffect(null));
             //for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
-            System.out.println("send targets: "+targets.toString());
             shootState = false;
         }
     }
