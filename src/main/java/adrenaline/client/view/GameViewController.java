@@ -202,10 +202,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     marks.setLayoutY(35);
                     marks.setSpacing(2);
                     newPane.getChildren().add(marks);
-                    String cardsUrl = "/Powerups/powerup-1.png";
+                    String cardsUrl = "/HUD/CARDS_BUTTON.png";
                     ImageView cards = new ImageView(new Image(getClass().getResourceAsStream(cardsUrl)));
                     cards.setLayoutY(20);
-                    cards.setFitWidth(20);
+                    cards.setFitWidth(40);
                     cards.setFitHeight(40);
                     cards.getStyleClass().add("hand");
                     cards.setOnMouseClicked(this::showEnemyCards);
