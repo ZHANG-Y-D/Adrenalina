@@ -84,6 +84,7 @@ public class Lobby implements Runnable, LobbyAPI {
     public synchronized void updateClient(String clientID, Client newClient){
         clientMap.put(clientID, newClient);
         clientMap.forEach((x,y)-> newClient.setPlayerColorInternal(y.getNickname(), playersMap.get(x).getColor()));
+        chat.attach(newClient);
         if(map!=null) map.attach(newClient);
         ArrayList<Player> players = new ArrayList<>();
         playersMap.values().forEach(x -> {
@@ -94,6 +95,7 @@ public class Lobby implements Runnable, LobbyAPI {
         try {
             newClient.update(new RestoreUpdateMessage(map, players));
         } catch (RemoteException e) { }
+        chat.addServerMessage("User "+newClient.getNickname()+" has reconnected.");
     }
 
     public synchronized void detachClient(Client client){
@@ -102,30 +104,6 @@ public class Lobby implements Runnable, LobbyAPI {
         if(scoreBoard!=null) scoreBoard.detach(client);
     }
 
-    //MERGED INTO initMap, TO BE SAFELY REMOVED
-    public void chooseAndNewAMap(int num){
-        try{
-            Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map"+ num +".json");
-            this.map=gson.fromJson(fileReader,Map.class);
-
-        }catch (JsonIOException e){
-            System.out.println("JsonIOException!");
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("PowerupCard.json file not found");
-        }
-        //setSquaresCards();
-    }
-
-
-    public Map getMap() {
-        return map;
-    }
-
-    public DeckWeapon getDeckWeapon() {
-        return deckWeapon;
-    }
 
     @Override
     public void run() {
@@ -431,7 +409,6 @@ public class Lobby implements Runnable, LobbyAPI {
             constraints.forEach(y -> validSquares.retainAll(y.checkConst(target.getPosition(), map)));
         }
         try {
-            System.out.println("sending squares: "+validSquares.toString());
             clientMap.get(currentTurnPlayer).validSquaresInfo(validSquares);
         } catch (RemoteException e) { }
         return validSquares;

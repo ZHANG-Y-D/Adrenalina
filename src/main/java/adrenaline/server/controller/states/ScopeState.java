@@ -16,6 +16,7 @@ public class ScopeState implements GameState {
         this.lobby = lobby;
         thisPowerup = powerup;
         this.damagedThisTurn = damagedThisTurn;
+        System.out.println(damagedThisTurn.toString());
     }
 
     @Override

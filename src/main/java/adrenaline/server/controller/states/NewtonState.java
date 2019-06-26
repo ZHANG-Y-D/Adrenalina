@@ -34,11 +34,12 @@ public class NewtonState implements GameState {
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         if(playersColor.get(0).equals(currPlayer)) return "You can't use this powerup on yourself!";
+        playersColor.subList(1, playersColor.size()).clear();
         selectedPlayer = playersColor.get(0);
         ArrayList<RangeConstraint> moveConstraints = new ArrayList<>();
         moveConstraints.add(new InRadiusConstraint(2));
         moveConstraints.add(new CardinalDirectionConstraint());
-        validSquares = lobby.sendTargetValidSquares((ArrayList)playersColor.subList(1, playersColor.size()), moveConstraints);
+        validSquares = lobby.sendTargetValidSquares(playersColor, moveConstraints);
         return "OK";
     }
 

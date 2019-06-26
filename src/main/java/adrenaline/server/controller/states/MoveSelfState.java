@@ -80,7 +80,7 @@ public class MoveSelfState implements FiremodeSubState {
                 if(nextStep!=null){
                     nextStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
                     lobby.setState(nextStep);
-                }else lobby.setState(new ShootState(lobby));
+                }else lobby.setState(new SelectActionState(lobby));
             }else {
                 callBackState.setContext(lobby, weapon, thisFiremode, true);
                 lobby.setState(callBackState);
@@ -117,7 +117,7 @@ public class MoveSelfState implements FiremodeSubState {
     @Override
     public String goBack() {
         if(callBackState==null){
-            lobby.setState(new ShootState(lobby));
+            lobby.setState(new SelectActionState(lobby));
         }else {
             callBackState.setContext(lobby, weapon, thisFiremode, true);
             lobby.setState(callBackState);

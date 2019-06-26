@@ -1,5 +1,6 @@
 package adrenaline.server.model.constraints;
 
+import adrenaline.server.model.Avatar;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import org.junit.jupiter.api.BeforeAll;
@@ -39,15 +40,16 @@ class TargetsConstraintTest {
     void checkConstTest(){
 
         Lobby lobby = new Lobby(null);
-        Player shooter = new Player("Anna", Color.YELLOW,lobby);
+        Avatar avatar = new Avatar("TESTER", Color.WHITE);
+        Player shooter = new Player(avatar,"A", new ArrayList<>());
 
 
         /* Different Squares */
         TargetsConstraint constraint = new DifferentSquaresConstraint();
         ArrayList<Player> targets = new ArrayList<>();
-        targets.add(new Player("Bob",Color.RED,lobby));
-        targets.add(new Player("Ceci",Color.WHITE,lobby));
-        targets.add(new Player("Devie", Color.BLUE,lobby));
+        targets.add(new Player(avatar,"B", new ArrayList<>()));
+        targets.add(new Player(avatar,"C", new ArrayList<>()));
+        targets.add(new Player(avatar,"D", new ArrayList<>()));
         targets.get(0).setPosition(0);
         targets.get(1).setPosition(7);
         targets.get(2).setPosition(11);
@@ -90,8 +92,8 @@ class TargetsConstraintTest {
         assertTrue(constraint.checkConst(shooter, targets, map));
 
 
-        targets.add(new Player("Emila", Color.BLACK,lobby));
-        targets.add(new Player("Frank",Color.PURPLE,lobby));
+        targets.add(new Player(avatar,"E", new ArrayList<>()));
+        targets.add(new Player(avatar,"F", new ArrayList<>()));
         /* Same Room */
         constraint = new SameRoomConstraint();
         targets.get(0).setPosition(4);

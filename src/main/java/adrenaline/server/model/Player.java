@@ -24,14 +24,12 @@ import java.util.Comparator;
 public class Player extends Observable{
 
     private Avatar avatar;
-    private Lobby lobby;
     private int[] ammoBox;
     private int[] tempAmmoBox;
-    private ArrayList<Color> damage;    //use a ArrayList for index the source of damage
+    private ArrayList<Color> damage;
     private ArrayList<Color> marks;
     private ArrayList<PowerupCard> powerupCards;
     private ArrayList<WeaponCard> weaponCards;
-    private int score;
     private boolean firstRound = true;
 
 
@@ -41,27 +39,7 @@ public class Player extends Observable{
                                 //The first element is for steps,second is for index how much steps can move before grab
                                 //The third element is for index how much steps can move before shoot
 
-    private int numOfActions; //This's for index the times of action the player can choose.Max is 2.
-                                // When his turn is finished, This value will be reload at 2.
-
     private boolean alive; //For index is this player still alive. It can help shooter count score
-
-
-
-
-    //costruttore temporaneo per fare buildare il progetto
-    public Player(String avatar, Color color, Lobby lobby){
-        damage = new ArrayList<>();
-        powerupCards = new ArrayList<>();
-        weaponCards = new ArrayList<>();
-        marks = new ArrayList<>();
-        adrenalineState = 0;
-        ammoBox = new int[]{0,0,0};
-        numOfActions = 2;
-        score = 0;
-        this.lobby = lobby;
-    }
-
 
     public Player(Avatar avatar, String clientNickname, ArrayList<Client> clients){
         this.avatar = avatar;
@@ -72,13 +50,10 @@ public class Player extends Observable{
         adrenalineState = 0;
         ammoBox = new int[]{1,1,1};
         tempAmmoBox = new int[]{0,0,0};
-        numOfActions = 2;
         alive = false;
         position = -1;
         clients.forEach(this::attach);
-        observers.forEach(x -> {
-            x.setPlayerColorInternal(clientNickname, avatar.getColor());
-        });
+        observers.forEach(x -> x.setPlayerColorInternal(clientNickname, avatar.getColor()));
     }
 
 
@@ -86,30 +61,12 @@ public class Player extends Observable{
 
     public boolean isFirstRound() { return  firstRound; }
 
-    /**
-     *
-     *
-     * This is a getter, It can get the lobby of this player
-     *
-     * @return The reference of lobby of this player
-     *
-     *
-     */
-
-    public Lobby getLobby() {
-        return lobby;
-    }
 
 
 
     /**
-     *
-     *
      * Add damage for this player
-     *
      * @return This boolean is for index if the this play is already died.
-     *
-     *
      */
 
     public boolean applyDamage(Color damageOrigin, int amount, boolean extra) {
@@ -322,23 +279,6 @@ public class Player extends Observable{
 
     public ArrayList<PowerupCard> getPowerupCards() {
         return powerupCards;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                ", lobby=" + lobby +
-                ", ammoBox=" + Arrays.toString(ammoBox) +
-                ", damage=" + damage +
-                ", powerupCards=" + powerupCards +
-                ", weaponCards=" + weaponCards +
-                ", marks=" + marks +
-                ", position=" + position +
-                ", oldPosition=" + oldPosition +
-                ", adrenalineState=" + adrenalineState +
-                ", numOfActions=" + numOfActions +
-                '}';
     }
 
     public boolean isAlive() {

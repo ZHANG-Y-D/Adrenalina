@@ -22,7 +22,6 @@ public class ServerCommands extends UnicastRemoteObject implements ServerAPI {
     }
 
     public String reconnectClient(String tempClientID, String oldClientID) {
-        System.out.printf("attempt to reconnect");
         if(mainServer.reconnectClient(tempClientID, oldClientID)) return "OK";
         else return "KO";
     }
