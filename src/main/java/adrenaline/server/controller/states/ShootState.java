@@ -13,9 +13,11 @@ public class ShootState implements GameState {
 
     private Lobby lobby;
     private WeaponCard selectedWeapon = null;
+    private ArrayList<Integer> validSquares;
 
     public ShootState(Lobby lobby){
         this.lobby = lobby;
+        if(lobby.getCurrentPlayerAdrenalineState()>1) validSquares = lobby.sendCurrentPlayerValidSquares(1);
     }
 
     @Override
@@ -35,12 +37,17 @@ public class ShootState implements GameState {
 
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
-        return "player Select which weapon you want to use first";
+        return "Select which weapon you want to use first";
     }
 
     @Override
     public String selectSquare(int index) {
-        return "square Select which weapon you want to use first";
+        if(validSquares==null) return "Select which weapon you want to use first";
+        if(validSquares.contains(index)){
+            lobby.movePlayer(index);
+            lobby.incrementExecutedActions();
+            return "OK";
+        }else return "You can't move there!";
     }
 
     @Override

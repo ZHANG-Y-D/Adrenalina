@@ -73,7 +73,7 @@ public class Player extends Observable{
         ammoBox = new int[]{1,1,1};
         tempAmmoBox = new int[]{0,0,0};
         numOfActions = 2;
-        alive = true;
+        alive = false;
         position = -1;
         clients.forEach(this::attach);
         observers.forEach(x -> {
