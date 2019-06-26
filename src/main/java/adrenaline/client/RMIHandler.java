@@ -30,14 +30,16 @@ public class RMIHandler implements ConnectionHandler {
         this.gameController = gameController;
         thisClient = new RMIClientCommands(this, gameController);
         clientID = myServer.registerRMIClient(thisClient);
+        BufferedReader fileReader = null;
         try {
-            BufferedReader fileReader = new BufferedReader(new FileReader("reconnection.txt"));
-            if(fileReader.readLine().equals(serverIP)){
+            fileReader = new BufferedReader(new FileReader("reconnection.txt"));
+            if (fileReader.readLine().equals(serverIP)) {
                 String reconnID = fileReader.readLine();
-                String result = myServer.reconnectRMIClient(thisClient, reconnID);
-                if(result.substring(0,2).equals("OK")) clientID=reconnID;
+                String result = myServer.reconnectClient(clientID, reconnID);
+                if (result.substring(0, 2).equals("OK")) clientID = reconnID;
             }
-        }catch(FileNotFoundException e){ }
+        } catch (FileNotFoundException e) {
+        }finally { if(fileReader!=null) fileReader.close(); }
         PrintWriter fileWriter = new PrintWriter("reconnection.txt", "UTF-8");
         fileWriter.println(serverIP);
         fileWriter.println(clientID);
@@ -185,5 +187,11 @@ public class RMIHandler implements ConnectionHandler {
     @Override
     public String getMyLobbyID() {
         return myLobbyID;
+    }
+
+    @Override
+    public void closeConnection() {
+        myServer = null;
+        myLobby = null;
     }
 }

@@ -70,7 +70,6 @@ public class ClientRMIWrapper implements Client {
             try {
                 thisClient.setLobby(lobbyID, nicknames);
             } catch (RemoteException e) {
-                active = false;
                 serverCommands.unregisterClient(clientID);
                 inLobby.detachClient(this);
             } catch (Exception e) {
@@ -88,7 +87,6 @@ public class ClientRMIWrapper implements Client {
             try {
                 thisClient.setPlayerColor(nickname, color);
             } catch (RemoteException e) {
-                active = false;
                 serverCommands.unregisterClient(clientID);
                 inLobby.detachClient(this);
             } catch (Exception e) {
@@ -102,7 +100,6 @@ public class ClientRMIWrapper implements Client {
             try {
                 thisClient.timerStarted(duration, comment);
             } catch (RemoteException e) {
-                active = false;
                 serverCommands.unregisterClient(clientID);
                 inLobby.detachClient(this);
             } catch (Exception e) {
@@ -116,7 +113,6 @@ public class ClientRMIWrapper implements Client {
             try {
                 thisClient.validSquaresInfo(validSquares);
             } catch (RemoteException e) {
-                active = false;
                 serverCommands.unregisterClient(clientID);
                 inLobby.detachClient(this);
             } catch (Exception e) {
@@ -130,12 +126,25 @@ public class ClientRMIWrapper implements Client {
             try {
                 thisClient.update(updatemsg);
             } catch (RemoteException e) {
-                active = false;
                 serverCommands.unregisterClient(clientID);
                 inLobby.detachClient(this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void kickClient() {
+        serverCommands.unregisterClient(clientID);
+        inLobby.detachClient(this);
+        kick();
+    }
+
+    public void kick() {
+        try{
+            thisClient.kick();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 

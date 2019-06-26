@@ -14,4 +14,5 @@ public interface ClientAPI extends Remote {
     void timerStarted(Integer duration, String comment) throws RemoteException;
     void validSquaresInfo(ArrayList<Integer> validSquares) throws RemoteException;
     void update(UpdateMessage updatemsg) throws RemoteException;
+    void kick() throws RemoteException;
 }

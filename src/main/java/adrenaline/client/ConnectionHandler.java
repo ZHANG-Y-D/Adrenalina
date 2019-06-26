@@ -23,4 +23,5 @@ public interface ConnectionHandler {
     void selectPlayers(ArrayList<Color> targets);
     String getClientID();
     String getMyLobbyID();
+    void closeConnection();
 }

@@ -2,6 +2,7 @@ package adrenaline.server.controller;
 
 import adrenaline.Color;
 import adrenaline.CustomSerializer;
+import adrenaline.RestoreUpdateMessage;
 import adrenaline.server.controller.states.*;
 import adrenaline.server.exceptions.*;
 import adrenaline.server.model.*;
@@ -52,6 +53,8 @@ public class Lobby implements Runnable, LobbyAPI {
     private ScheduledExecutorService turnTimer;
     private Future scheduledTimeout;
 
+    private boolean commandReceived = false;
+
 
     public Lobby(ArrayList<Client> clients) {
         lobbyID = UUID.randomUUID().toString();
@@ -81,13 +84,16 @@ public class Lobby implements Runnable, LobbyAPI {
     public synchronized void updateClient(String clientID, Client newClient){
         clientMap.put(clientID, newClient);
         clientMap.forEach((x,y)-> newClient.setPlayerColorInternal(y.getNickname(), playersMap.get(x).getColor()));
-        if(map!=null){
-            ArrayList<Client> client = new ArrayList<>();
-            client.add(newClient);
-            map.setObservers(client);
-        }
-        playersMap.values().forEach(x -> x.attach(newClient));
+        if(map!=null) map.attach(newClient);
+        ArrayList<Player> players = new ArrayList<>();
+        playersMap.values().forEach(x -> {
+            x.attach(newClient);
+            players.add(x);
+        });
         if(scoreBoard!=null) scoreBoard.attach(newClient);
+        try {
+            newClient.update(new RestoreUpdateMessage(map, players));
+        } catch (RemoteException e) { }
     }
 
     public synchronized void detachClient(Client client){
@@ -166,23 +172,32 @@ public class Lobby implements Runnable, LobbyAPI {
     public void setState(GameState newState){ currentState = newState; }
 
     public String runAction(String clientID) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.runAction();
+        if(clientID.equals(currentTurnPlayer)){
+            commandReceived = true;
+            return currentState.runAction();
+        }
         else return "You can only do that during your turn!";
     }
 
     public String grabAction(String clientID) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.grabAction();
+        if(clientID.equals(currentTurnPlayer)){
+            commandReceived = true;
+            return currentState.grabAction();
+        }
         else return "You can only do that during your turn!";
     }
 
     public String shootAction(String clientID) {
-
-        if(clientID.equals(currentTurnPlayer)) return currentState.shootAction();
+        if(clientID.equals(currentTurnPlayer)){
+            commandReceived = true;
+            return currentState.shootAction();
+        }
         else return "You can only do that during your turn!";
     }
 
     public String selectPlayers(String clientID, ArrayList<Color> playersColor) {
         if(clientID.equals(currentTurnPlayer)){
+            commandReceived = true;
             ArrayList<Color> typeSafeColors = new ArrayList<>();
             for(Object o : playersColor){
                 typeSafeColors.add(Color.valueOf(o.toString()));
@@ -193,7 +208,10 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String selectSquare(String clientID, Integer index) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.selectSquare(index);
+        if(clientID.equals(currentTurnPlayer)){
+            commandReceived = true;
+            return currentState.selectSquare(index);
+        }
         else return "You can only do that during your turn!";
     }
 
@@ -201,6 +219,7 @@ public class Lobby implements Runnable, LobbyAPI {
         PowerupCard puc = playersMap.get(clientID).getPowerupCard(powerupID);
         if(puc==null) return "You cannot use that powerup!";
         if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
             return currentState.selectPowerUp(puc);
         }
         else{
@@ -212,35 +231,54 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String selectWeapon(String clientID, Integer weaponID) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.selectWeapon(weaponID);
+        if(clientID.equals(currentTurnPlayer)){
+            commandReceived = true;
+            return currentState.selectWeapon(weaponID);
+        }
         else return "You can only do that during your turn!";
     }
 
     public String selectFiremode(String clientID, Integer firemode) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.selectFiremode(firemode);
+        if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
+            return currentState.selectFiremode(firemode);
+        }
         else return "You can only do that during your turn!";
     }
 
     public String moveSubAction(String clientID) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.moveSubAction();
+        if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
+            return currentState.moveSubAction();
+        }
         else return "You can only do that during your turn!";
     }
     public String goBack(String clientID) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.goBack();
+        if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
+            return currentState.goBack();
+        }
         else return "You can only do that during your turn!";
     }
     public String endOfTurnAction(String clientID) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.endOfTurnAction();
+        if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
+            return currentState.endOfTurnAction();
+        }
         else return "You can only do that during your turn!";
     }
 
     public String selectAvatar(String clientID, Color color) {
-        if(clientID.equals(currentTurnPlayer)) return currentState.selectAvatar(color);
+        if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
+            return currentState.selectAvatar(color);
+        }
         else return "You can only do that during your turn!";
     }
 
     public String selectSettings(String clientID, Integer mapID, Integer skulls) {
         if(clientMap.keySet().contains(clientID)){
+            commandReceived = true;
             return currentState.selectSettings(mapID, skulls, clientID);
         }
         //else: user not part of the lobby
@@ -273,6 +311,12 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public synchronized void endTurn(boolean timeoutReached){
         if(!timeoutReached) scheduledTimeout.cancel(false);
+        else if(!commandReceived){
+            Client disconnected = clientMap.get(currentTurnPlayer);
+            disconnected.kickClient();
+            chat.addServerMessage("User "+disconnected.getNickname()+" has left the game.");
+        }
+        commandReceived=false;
         executedActions=0;
         setMapCards();
         checkDeadPlayers();
@@ -309,6 +353,7 @@ public class Lobby implements Runnable, LobbyAPI {
         while (!temp.equals(currentTurnPlayer)) temp= itr.next();
         if (itr.hasNext()) nextTurnPlayer = itr.next();
         else nextTurnPlayer = clientMap.keySet().iterator().next();
+        if(!clientMap.get(currentTurnPlayer).isActive()) nextPlayer();
     }
 
     public synchronized void initCurrentPlayer(Avatar chosen, boolean timeoutReached){
@@ -316,6 +361,7 @@ public class Lobby implements Runnable, LobbyAPI {
         Player newPlayer = new Player(chosen, clientMap.get(currentTurnPlayer).getNickname(), new ArrayList<>(clientMap.values()));
         playersMap.put(currentTurnPlayer, newPlayer);
         playersColor.put(chosen.getColor(), newPlayer);
+        commandReceived=true;
         nextPlayer();
         notifyAll();
     }
@@ -346,7 +392,8 @@ public class Lobby implements Runnable, LobbyAPI {
     private void checkDeadPlayers(){
         for(String s : clientMap.keySet()){
             Player player = playersMap.get(s);
-            if(!player.isAlive() && !player.isFirstRound()) deadPlayers.add(s);
+            Client client = clientMap.get(s);
+            if(!player.isAlive() && !player.isFirstRound() && client.isActive()) deadPlayers.add(s);
         }
     }
 
@@ -462,14 +509,14 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public void grabWeapon(WeaponCard weaponCard) throws NotEnoughAmmoException, WeaponHandFullException {
         Player currPlayer = playersMap.get(currentTurnPlayer);
-        int[] cost = weaponCard.getAmmoCost();
+        int[] cost = weaponCard.getAmmoCost().clone();
         switch(weaponCard.getFreeAmmo()){
             case RED: cost[0]--; break;
             case BLUE: cost[1]--; break;
             case YELLOW: cost[2]--; break;
         }
         if(!currPlayer.canPayCost(cost)) throw new NotEnoughAmmoException();
-        if(!(currPlayer.getWeaponHandSize()<3)) throw new WeaponHandFullException();
+        if(currPlayer.getWeaponHandSize()>=3) throw new WeaponHandFullException();
         currPlayer.payCost(cost);
         currPlayer.addWeaponCard(weaponCard);
     }

@@ -42,5 +42,9 @@ public class RMIClientCommands extends UnicastRemoteObject implements ClientAPI{
         updatemsg.applyUpdate(gameController);
     }
 
+    public void kick(){
+        client.closeConnection();
+        gameController.notifyDisconnect();
+    }
 
 }

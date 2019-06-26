@@ -15,4 +15,5 @@ public interface Client extends ClientAPI {
     boolean isActive();
     void setLobby(Lobby lobby, ArrayList<String> nicknames);
     void setPlayerColorInternal(String nickname, Color color);
+    void kickClient();
 }

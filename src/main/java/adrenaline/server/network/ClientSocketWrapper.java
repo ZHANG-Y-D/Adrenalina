@@ -74,7 +74,6 @@ public class ClientSocketWrapper implements Client {
                     e.printStackTrace();
                     sendToClient += "ERROR! Invalid command request";
                 } catch (NoSuchElementException fatal){
-                    active = false;
                     serverCommands.unregisterClient(clientID);
                     if(inLobby!=null) inLobby.detachClient(this);
                 }finally{ if(active) sendMessage(sendToClient);}
@@ -102,9 +101,7 @@ public class ClientSocketWrapper implements Client {
     }
 
     public boolean setNicknameInternal(String nickname) {
-        if(this.nickname != null){
-            return false;
-        }
+        if(this.nickname != null) return false;
         this.nickname = nickname;
         setNickname(nickname);
         return true;
@@ -129,7 +126,6 @@ public class ClientSocketWrapper implements Client {
     }
 
     public void setPlayerColorInternal(String nickname, Color color) {
-        System.out.println("blalbalb");
         setPlayerColor(nickname, color);
     }
 
@@ -149,4 +145,13 @@ public class ClientSocketWrapper implements Client {
         sendMessage("update;ARGSIZE=1;adrenaline.UpdateMessage;"+gson.toJson(updatemsg, UpdateMessage.class));
     }
 
+    public void kick() {
+        inLobby.detachClient(this);
+        kick();
+    }
+
+    public void kickClient() {
+        sendMessage("kick;ARGSIZE=0;");
+        serverCommands.unregisterClient(clientID);
+    }
 }

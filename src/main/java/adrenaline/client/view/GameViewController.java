@@ -153,7 +153,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         enemyPlayers.getChildren().add(skullPane);
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
-    System.out.println(ownColor.toString());
         ImageView token = new ImageView();
         tokensMap.put(ownColor, token);
         tokenColor.put(token, ownColor);

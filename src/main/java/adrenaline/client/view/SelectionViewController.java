@@ -113,6 +113,7 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
 
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
+        if(gameController.getOwnColor()!=null && gameController.getOwnColor()!=Color.WHITE) changeStage();
         gameController.addPropertyChangeListener(this);
         initializeNicknames();
     }

@@ -83,7 +83,6 @@ public class GameController {
 
     public void setPlayerColor(String nickname, Color color){
         if(nickname.equals(ownNickame)) ownColor = color;
-        System.out.println("setting color of "+nickname+" "+color.toString());
         playersMap.put(color, new Player());
         changes.firePropertyChange("nicknamesColor", playersNicknames, playersNicknames.put(nickname, color));
     }
@@ -105,7 +104,9 @@ public class GameController {
         else if(returnMsg.length() > 2) view.showMessage(returnMsg.substring(3));
     }
 
-    public void changeStage(){ view.changeStage(); }
+    public void changeStage(){
+        view.changeStage();
+    }
 
     public synchronized void updatePlayer(Player newPlayer){
         HashMap<Color, Player> oldPlayersMap = playersMap;
@@ -174,4 +175,9 @@ public class GameController {
     }
 
     public void selectPlayers(ArrayList<Color> targets) { connectionHandler.selectPlayers(targets); }
+
+    public void notifyDisconnect() {
+        view.showError("Connection to the server has been lost!");
+        connectionHandler=null;
+    }
 }

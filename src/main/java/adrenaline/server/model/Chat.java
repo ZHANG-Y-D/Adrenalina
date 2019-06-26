@@ -18,6 +18,10 @@ public class Chat extends Observable {
         notifyObservers(new ChatUpdateMessage(nickname, senderColor, message));
     }
 
+    public void addServerMessage(String message){
+        notifyObservers(new ChatUpdateMessage("SERVER", Color.WHITE, message));
+    }
+
     private String replaceEmojis(String message){
         String newMessage;
         newMessage = message;

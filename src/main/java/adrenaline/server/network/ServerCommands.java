@@ -21,14 +21,8 @@ public class ServerCommands extends UnicastRemoteObject implements ServerAPI {
         return wrapper.getClientID();
     }
 
-    public String reconnectRMIClient(ClientAPI clientAPI, String oldClientID) {
-        ClientRMIWrapper wrapper = new ClientRMIWrapper(clientAPI, this);
-        mainServer.registerClient(wrapper);
-        if(mainServer.reconnectClient(wrapper.getClientID(), oldClientID)) return "OK";
-        else return "KO";
-    }
-
-    public String reconnectSocketClient(String tempClientID, String oldClientID) {
+    public String reconnectClient(String tempClientID, String oldClientID) {
+        System.out.printf("attempt to reconnect");
         if(mainServer.reconnectClient(tempClientID, oldClientID)) return "OK";
         else return "KO";
     }

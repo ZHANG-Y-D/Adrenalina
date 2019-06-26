@@ -46,5 +46,9 @@ public class SocketClientCommands  implements ClientAPI{
         updatemsg.applyUpdate(gameController);
     }
 
+    public void kick() {
+        client.closeConnection();
+        gameController.notifyDisconnect();
+    }
 
 }

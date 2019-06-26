@@ -42,12 +42,24 @@ public class SocketHandler implements ConnectionHandler {
             BufferedReader fileReader = new BufferedReader(new FileReader("reconnection.txt"));
             if(fileReader.readLine().equals(serverIP)) {
                 String reconnID = fileReader.readLine();
-                sendMessage("reconnectSocketClient;ARGSIZE=2;java.lang.String;" + clientID + ";java.lang.String;" + reconnID);
+                sendMessage("reconnectClient;ARGSIZE=2;java.lang.String;" + clientID + ";java.lang.String;" + reconnID);
                 String result = inputFromServer.nextLine();
                 while (!result.contains("RETURN")) {
                     String[] readSplit = result.split(";");
-                    if(readSplit[0].equals("setNickname")) thisClient.setNickname(gson.fromJson(readSplit[3],String.class));
-                    else if(readSplit[0].equals("setLobby")) thisClient.setLobby(gson.fromJson(readSplit[3],String.class), gson.fromJson(readSplit[5], ArrayList.class));
+                    switch(readSplit[0]) {
+                        case("setNickname"):
+                            thisClient.setNickname(gson.fromJson(readSplit[3], String.class));
+                            break;
+                        case("setLobby"):
+                            thisClient.setLobby(gson.fromJson(readSplit[3], String.class), gson.fromJson(readSplit[5], ArrayList.class));
+                            break;
+                        case("setPlayerColor"):
+                            thisClient.setPlayerColor(gson.fromJson(readSplit[3], String.class), gson.fromJson(readSplit[5], Color.class));
+                            break;
+                        case("update"):
+                            thisClient.update(gson.fromJson(readSplit[3], UpdateMessage.class));
+                            break;
+                    }
                     result = inputFromServer.nextLine();
                 }
                 if(result.substring(7,9).equals("OK")) clientID = reconnID;
@@ -87,8 +99,7 @@ public class SocketHandler implements ConnectionHandler {
                         requestedMethod.invoke(methodsMap.get(methodName), argObjects);
                     }
                 } catch(NoSuchElementException nee){
-                    active = false;
-                    nee.printStackTrace();
+                    closeConnection();
                     System.out.println("DISCONNECTED FROM SERVER");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -236,4 +247,16 @@ public class SocketHandler implements ConnectionHandler {
     public String getMyLobbyID() {
         return myLobbyID;
     }
+
+    @Override
+    public void closeConnection() {
+        active = false;
+        try {
+            myServer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
