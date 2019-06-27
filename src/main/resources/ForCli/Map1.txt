@@ -2,4 +2,3 @@
  @|blue █ █ █ |@      @|blue 00 01 02 |@
  @|red █ █ █ |@@|yellow █|@     @|red 04 05 06 |@@|yellow 07|@
    @|black █ █ |@@|yellow █|@        @|black 09 10 |@@|yellow 11|@
-

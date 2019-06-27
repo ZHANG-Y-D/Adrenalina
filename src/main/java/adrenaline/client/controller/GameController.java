@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 public class GameController {
 
     private LinkedHashMap<String, Color> playersNicknames = new LinkedHashMap<>();
-    private String ownNickame;
+    private String ownNickname;
     private Color ownColor;
 
     private HashMap<Color, Player> playersMap = new HashMap<>();
@@ -41,11 +41,11 @@ public class GameController {
     }
 
     public void setOwnNickname(String name) {
-        ownNickame = name;
+        ownNickname = name;
         view.showMessage("NICKNAME;"+name);
     }
 
-    public String getOwnNickname() { return ownNickame; }
+    public String getOwnNickname() { return ownNickname; }
 
     public Color getOwnColor() { return  ownColor; }
 
@@ -82,7 +82,7 @@ public class GameController {
     }
 
     public void setPlayerColor(String nickname, Color color){
-        if(nickname.equals(ownNickame)) ownColor = color;
+        if(nickname.equals(ownNickname)) ownColor = color;
         playersMap.put(color, new Player());
         changes.firePropertyChange("nicknamesColor", playersNicknames, playersNicknames.put(nickname, color));
     }

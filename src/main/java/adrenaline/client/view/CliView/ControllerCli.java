@@ -62,6 +62,28 @@ public abstract class ControllerCli{
         return num;
     }
 
+    protected synchronized int readANumber(ArrayList<Integer> rangeList){
+
+
+        int num;
+        try{
+            num = scanner.nextInt();
+            scanner.nextLine();
+        }catch (InputMismatchException e){
+            System.out.println("\nPlease answer with a number");
+            isQuit(scanner.nextLine());
+            num = readANumber(rangeList);
+        }
+
+        if (!rangeList.contains(num) || num!=0) {
+            System.err.println("Invalid number, Retry:");
+            num = readANumber(rangeList);
+        }
+
+        return num;
+
+    }
+
     protected synchronized void printAString(String printState,String printString){
 
         if (printState.equals("err"))
@@ -170,28 +192,34 @@ public abstract class ControllerCli{
         System.out.println("Map...");
         printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
         System.out.println("Weapon Info...");
-        printWeaponInfo(0);
+        printWeaponInfo(null);
         //TODO
+        printMap();
 
     }
 
-    protected void printPowerupInfo(int num){
+    protected void printMap() {
+
+    }
+
+
+    protected void printPowerupInfo(ArrayList<Integer> powerupList){
 
         //TODO
     }
 
     protected void printPlayerSelfInfo() {
 
-        printWeaponInfo(0);
+        printWeaponInfo(null);
         //TODO
     }
 
 
-    protected void printWeaponInfo(int numOfWeapon){
+    protected void printWeaponInfo(ArrayList<Integer> weaponList){
 
 
         //TODO
-        if (numOfWeapon==0) {
+        if (weaponList==null) {
             for (Map.Entry<Color, ArrayList<Integer>> weaponInfo : gameController.getMap().getWeaponMap().entrySet()) {
 
 

@@ -1,2 +1,2 @@
-@|bold,red TAGBACK GRENADE █ : You may play this card when you receive damage from a player you can see. |@
-                 @|bold,red Give that player 1 mark. |@
+@|bold,blue 2.TAGBACK GRENADE █ : You may play this card when you receive damage from a player you can see. |@
+                 @|bold,blue Give that player 1 mark. |@
