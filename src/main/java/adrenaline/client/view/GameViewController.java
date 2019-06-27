@@ -22,7 +22,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -56,7 +55,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private ImageView ownPlayerLabel, redAmmo1, redAmmo2, redAmmo3, blueAmmo1, blueAmmo2, blueAmmo3, yellowAmmo1, yellowAmmo2, yellowAmmo3,
             weaponRed1, weaponRed2, weaponRed3, weaponBlue1, weaponBlue2, weaponBlue3, weaponYellow1, weaponYellow2, weaponYellow3,
-                     myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2, firemodeBackground, fire1, fire2, fire3;
+                     myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2, firemodeBackground, fire0, fire1, fire2;
     @FXML
     private Label message, timerLabel, timerComment;
     @FXML
@@ -473,13 +472,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Platform.runLater(() -> {
             newPlayersMap.forEach((x,y)->{
                 ArrayList<adrenaline.Color> list = y.getDamage();
-                if(!list.isEmpty()){
-                    if(x.equals(gameController.getOwnColor())) updateDamageMarks(list,ownDamage,30,20);
-                    else {
-                        Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
-                        HBox damageTraker = (HBox) playerPane.getChildren().get(2);
-                        updateDamageMarks(list,damageTraker,25,17);
-                    }
+                if(x.equals(gameController.getOwnColor())) updateDamageMarks(list,ownDamage,30,20);
+                else {
+                    Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
+                    HBox damageTraker = (HBox) playerPane.getChildren().get(2);
+                    updateDamageMarks(list,damageTraker,25,17);
                 }
             });
         });
@@ -564,14 +561,17 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     private void updateDamageMarks(ArrayList<adrenaline.Color> list, HBox damageTracker, int height, int width){
-        for (int i = 0; i < list.size(); i++){
-            if (i >= (damageTracker.getChildren().size())) {
-                String damegeUrl = "/HUD/" + list.get(i).toString() + "-DROP.png";
-                ImageView damage = new ImageView();
-                damage.setFitWidth(width);
-                damage.setFitHeight(height);
-                damage.setImage(new Image(getClass().getResourceAsStream(damegeUrl)));
-                damageTracker.getChildren().add(damage);
+        if(list.isEmpty()) damageTracker.getChildren().clear();
+        else {
+            for (int i = 0; i < list.size(); i++) {
+                if (i >= (damageTracker.getChildren().size())) {
+                    String damegeUrl = "/HUD/" + list.get(i).toString() + "-DROP.png";
+                    ImageView damage = new ImageView();
+                    damage.setFitWidth(width);
+                    damage.setFitHeight(height);
+                    damage.setImage(new Image(getClass().getResourceAsStream(damegeUrl)));
+                    damageTracker.getChildren().add(damage);
+                }
             }
         }
     }
@@ -723,35 +723,35 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             Pane weapon = firemodeSet0;
             switch (firemode){
                 case 0: gameController.selectFiremode(0);
-                        fire1.setFitHeight(120);
-                        fire1.setFitWidth(127);
-                        fire1.setLayoutX(20);
-                        fire1.setLayoutY(10);
-                        fire1.setVisible(true);
+                        fire0.setFitHeight(120);
+                        fire0.setFitWidth(127);
+                        fire0.setLayoutX(20);
+                        fire0.setLayoutY(10);
+                        fire0.setVisible(true);
                         break;
                 case 1: weapon = firemodeSet1;
+                        fire0.setFitHeight(60);
+                        fire0.setFitWidth(127);
+                        fire0.setLayoutX(20);
+                        fire0.setLayoutY(10);
                         fire1.setFitHeight(60);
                         fire1.setFitWidth(127);
                         fire1.setLayoutX(20);
-                        fire1.setLayoutY(10);
-                        fire2.setFitHeight(60);
-                        fire2.setFitWidth(127);
-                        fire2.setLayoutX(20);
-                        fire2.setLayoutY(70);
+                        fire1.setLayoutY(70);
                         break;
                 case 2: weapon = firemodeSet2;
+                        fire0.setFitHeight(60);
+                        fire0.setFitWidth(127);
+                        fire0.setLayoutX(20);
+                        fire0.setLayoutY(10);
                         fire1.setFitHeight(60);
-                        fire1.setFitWidth(127);
+                        fire1.setFitWidth(63);
                         fire1.setLayoutX(20);
-                        fire1.setLayoutY(10);
+                        fire1.setLayoutY(70);
                         fire2.setFitHeight(60);
                         fire2.setFitWidth(63);
-                        fire2.setLayoutX(20);
+                        fire2.setLayoutX(83);
                         fire2.setLayoutY(70);
-                        fire3.setFitHeight(60);
-                        fire3.setFitWidth(63);
-                        fire3.setLayoutX(83);
-                        fire3.setLayoutY(70);
                         break;
                 default: break;
             }
@@ -765,12 +765,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Pane clickedFiremode = (Pane) event.getSource();
         int firemodeID = Integer.parseInt(clickedFiremode.getId().substring(12));
         switch (firemodeID){
-            case 0: fire1.setVisible(true); break;
+            case 0: fire0.setVisible(true); break;
             case 1: mode1 = 1;
-                    fire2.setVisible(true);
+                    fire1.setVisible(true);
                     break;
             case 2: mode2 = 2;
-                    fire3.setVisible(true);
+                    fire2.setVisible(true);
                     break;
 
             default: break;
@@ -792,9 +792,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private void clearShootInfo(){
         mode1 = 0;
         mode2 = 0;
+        firemodeSet0.setVisible(false);
+        firemodeSet1.setVisible(false);
+        firemodeSet2.setVisible(false);
+        fire0.setVisible(false);
         fire1.setVisible(false);
         fire2.setVisible(false);
-        fire3.setVisible(false);
         targets.clear();
         firemodeBackground.setImage(null);
         firemodeSelection.setVisible(false);

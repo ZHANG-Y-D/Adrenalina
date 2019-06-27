@@ -419,6 +419,7 @@ public class Lobby implements Runnable, LobbyAPI {
         currPlayer.setPosition(map.getSpawnIndex(powerup.getColor()));
         currPlayer.removePowerupCard(powerup);
         deckPowerup.addToDiscarded(powerup);
+        currPlayer.clearDamage();
         currPlayer.setAlive(true);
     }
 
