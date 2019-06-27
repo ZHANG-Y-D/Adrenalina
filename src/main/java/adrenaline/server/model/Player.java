@@ -297,4 +297,9 @@ public class Player extends Observable{
         tempAmmoBox[2] = 0;
 
     }
+
+    public void clearDamage(){
+        damage.clear();
+        notifyObservers(new PlayerUpdateMessage(this));
+    }
 }

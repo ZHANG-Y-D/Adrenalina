@@ -274,17 +274,17 @@
                         </HBox>
                     </children>
                 </Pane>
+                <ImageView fx:id="fire0" opacity="0.8" visible="false">
+                    <image>
+                        <Image url="@highlight.png" />
+                    </image>
+                </ImageView>
                 <ImageView fx:id="fire1" opacity="0.8" visible="false">
                     <image>
                         <Image url="@highlight.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="fire2" opacity="0.8" visible="false">
-                    <image>
-                        <Image url="@highlight.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="fire3" opacity="0.8" visible="false">
                     <image>
                         <Image url="@highlight.png" />
                     </image>
