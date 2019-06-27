@@ -7,6 +7,7 @@ import adrenaline.server.controller.states.*;
 import adrenaline.server.exceptions.*;
 import adrenaline.server.model.*;
 import adrenaline.server.model.Map;
+import adrenaline.server.model.constraints.InSightConstraint;
 import adrenaline.server.model.constraints.RangeConstraint;
 import adrenaline.server.model.constraints.TargetsGenerator;
 import com.google.gson.Gson;
@@ -541,6 +542,8 @@ public class Lobby implements Runnable, LobbyAPI {
     private String useGrenadePowerup(String userID, PowerupCard powerup) {
         Player user = playersMap.get(userID);
         if(!damagedThisTurn.contains(user.getColor())) return "You have not been damaged during this turn!";
+        if(!new InSightConstraint().checkConst(playersMap.get(userID).getPosition(), map).contains(playersMap.get(currentTurnPlayer).getPosition()))
+            return "You can't use this powerup on players you can't see!";
         playersMap.get(currentTurnPlayer).addMarks(user.getColor(), 1);
         user.removePowerupCard(powerup);
         return "OK Grenade used";
