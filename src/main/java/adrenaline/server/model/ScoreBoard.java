@@ -17,4 +17,8 @@ public class ScoreBoard extends Observable {
         clients.stream().forEach(x -> clientColorMap.put(x.getClientID(), Color.WHITE));
     }
 
+    public void initSkullbar(int skulls){
+        
+    }
+
 }

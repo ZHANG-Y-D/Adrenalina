@@ -54,21 +54,21 @@ public class glFiremodeState implements FiremodeSubState {
             selectedTarget.add(playersColor.get(0));
             ArrayList<RangeConstraint> moveConstraints = new ArrayList<>();
             moveConstraints.add(new InRadiusConstraint(1));
-            targetValidSquares = lobby.sendTargetValidSquares(selectedTarget, moveConstraints);
             pushing=true;
-            System.out.println("pushing = true");
             if(!areaCompleted) {
                 playerCompleted = true;
                 lobby.incrementExecutedActions();
                 lobby.payCost(thisFiremode.getExtraCost());
                 weapon.setLoaded(false);
             }
+            targetValidSquares = lobby.sendTargetValidSquares(selectedTarget, moveConstraints);
             return "OK";
         } catch (InvalidTargetsException e) { return "Invalid targets!"; }
     }
 
     @Override
     public String selectSquare(int index) {
+        String completedmsg = "";
         if(pushing) {
             System.out.println("in pushing");
             if(!targetValidSquares.contains(index)) return "You can't move your target there!";
@@ -76,12 +76,13 @@ public class glFiremodeState implements FiremodeSubState {
             if(areaCompleted){
                 lobby.clearTempAmmo();
                 lobby.setState(new SelectActionState(lobby));
+                completedmsg = " HIT!";
             }
             else{
                 pushing=false;
                 lobby.sendCurrentPlayerValidSquares(thisFiremode);
             }
-            return "OK";
+            return "OK"+completedmsg;
         }else {
             if(areaCompleted) return "You can't target any more squares! Select a player or GO BACK.";
             if(!validSquares.contains(index)) return "You can't shoot there!";
@@ -91,6 +92,7 @@ public class glFiremodeState implements FiremodeSubState {
                 if(playerCompleted){
                     lobby.clearTempAmmo();
                     lobby.setState(new SelectActionState(lobby));
+                    completedmsg = " HIT!";
                 }
                 else{
                     lobby.incrementExecutedActions();
@@ -98,7 +100,8 @@ public class glFiremodeState implements FiremodeSubState {
                     lobby.payCost(thisFiremode.getExtraCost());
                     areaCompleted=true;
                 }
-                return "OK";
+                lobby.sendCurrentPlayerValidSquares(thisFiremode);
+                return "OK"+completedmsg;
             } catch (InvalidTargetsException e) { return "Invalid targets!"; }
         }
     }
@@ -120,7 +123,7 @@ public class glFiremodeState implements FiremodeSubState {
 
     @Override
     public String goBack() {
-        lobby.setState(new ShootState(lobby));
+        lobby.setState(new SelectActionState(lobby));
         return "OK";
     }
 
