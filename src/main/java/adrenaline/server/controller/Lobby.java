@@ -103,6 +103,7 @@ public class Lobby implements Runnable, LobbyAPI {
         if(map!=null) map.detach(client);
         playersMap.values().forEach(x -> x.detach(client));
         if(scoreBoard!=null) scoreBoard.detach(client);
+        chat.addServerMessage("User "+client.getNickname()+" has left the game.");
     }
 
 
@@ -293,7 +294,6 @@ public class Lobby implements Runnable, LobbyAPI {
         else if(!commandReceived){
             Client disconnected = clientMap.get(currentTurnPlayer);
             disconnected.kickClient();
-            chat.addServerMessage("User "+disconnected.getNickname()+" has left the game.");
         }
         commandReceived=false;
         executedActions=0;
