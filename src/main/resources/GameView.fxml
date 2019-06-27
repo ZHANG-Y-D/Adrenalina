@@ -251,7 +251,8 @@
         <Pane fx:id="firemodeSelection" layoutX="10" layoutY="590" prefHeight="150" prefWidth="280" visible="false">
             <children>
                 <ImageView fx:id="firemodeBackground" fitHeight="120" fitWidth="127" layoutX="20" layoutY="10"/>
-                <Button fx:id="selectFiremode" onAction="#sendShoot" text="SELECT" layoutX="200" layoutY="50"/>
+                <Button fx:id="selectFiremode" onAction="#sendShoot" text="SELECT" layoutX="190" layoutY="35" prefWidth="75"/>
+                <Button fx:id="moveSub" onAction="#moveSub" text="MOVE" layoutX="190" layoutY="75" prefWidth="75"/>
                 <Pane fx:id="firemodeSet0" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false"/>
                 <Pane fx:id="firemodeSet1" layoutX="20" layoutY="10" prefHeight="120" prefWidth="127" visible="false">
                     <children>

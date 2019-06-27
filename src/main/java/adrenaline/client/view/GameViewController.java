@@ -185,9 +185,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     nickname.setAlignment(Pos.TOP_RIGHT);
                     newPane.getChildren().add(nickname);
                     HBox damage = new HBox();
-                    damage.setLayoutX(6);
+                    damage.setLayoutX(5);
                     damage.setLayoutY(65);
-                    damage.setSpacing(10);
+                    damage.setSpacing(9);
                     newPane.getChildren().add(damage);
                     HBox marks = new HBox();
                     marks.setLayoutX(167);
@@ -808,4 +808,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Pane source = (Pane) event.getSource();
         source.setVisible(false);
     }
+
+    public void moveSub(){ gameController.moveSubAction(); }
 }
