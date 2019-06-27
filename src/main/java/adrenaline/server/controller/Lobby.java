@@ -20,6 +20,7 @@ import adrenaline.server.network.Client;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -128,8 +129,7 @@ public class Lobby implements Runnable, LobbyAPI {
     private synchronized void avatarSelection(){
         try{
             Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Avatar.json");
-            Avatar[] avatarsGson= gson.fromJson(fileReader,Avatar[].class);
+            Avatar[] avatarsGson= gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/Avatar.json")),Avatar[].class);
             ArrayList<Avatar> avatars = new ArrayList<>(Arrays.asList(avatarsGson));
             AvatarSelectionState avatarSelectionState = new AvatarSelectionState(this, avatars);
             currentState = avatarSelectionState;
@@ -143,7 +143,6 @@ public class Lobby implements Runnable, LobbyAPI {
                 });
                 wait();
             }
-        }catch (JsonIOException | FileNotFoundException e) {
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }
@@ -352,18 +351,16 @@ public class Lobby implements Runnable, LobbyAPI {
             try { x.timerStarted(mapSelectionState.getTimeoutDuration(), "Vote match settings.");
             } catch (RemoteException e) { }
         });
-        int votes[] = mapSelectionState.startTimer();
+        int[] votes = mapSelectionState.startTimer();
         try{
-            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map"+ votes[0] +".json");
             GsonBuilder gsonBld = new GsonBuilder();
             gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
             Gson gson = gsonBld.create();
-            map = gson.fromJson(fileReader,Map.class);
+            map = gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/Map"+votes[0]+".json")),Map.class);
             map.setSquaresContext();
             setMapCards();
             map.setObservers(new ArrayList<>(clientMap.values()));
-            fileReader.close();
-        } catch (JsonIOException | IOException e){
+        } catch (JsonIOException e){
             e.printStackTrace();
         }
     }

@@ -21,7 +21,7 @@
                     <children>
                         <ImageView fx:id="high0" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -31,7 +31,7 @@
                     <children>
                         <ImageView fx:id="high1" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -41,7 +41,7 @@
                     <children>
                         <ImageView fx:id="high2" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -51,7 +51,7 @@
                     <children>
                         <ImageView fx:id="high3" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -61,7 +61,7 @@
                     <children>
                         <ImageView fx:id="high4" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -71,7 +71,7 @@
                     <children>
                         <ImageView fx:id="high5" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -81,7 +81,7 @@
                     <children>
                         <ImageView fx:id="high6" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -91,7 +91,7 @@
                     <children>
                         <ImageView fx:id="high7" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -101,7 +101,7 @@
                     <children>
                         <ImageView fx:id="high8" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -111,7 +111,7 @@
                     <children>
                         <ImageView fx:id="high9" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -121,7 +121,7 @@
                     <children>
                         <ImageView fx:id="high10" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -131,7 +131,7 @@
                     <children>
                         <ImageView fx:id="high11" onMouseClicked="#selectSquare" opacity="0.8" fitWidth="145.0" fitHeight="148.0" visible="false">
                             <image>
-                                <Image url="@highlight.png" />
+                                <Image url="@Graphic-assets/highlight.png" />
                             </image>
                         </ImageView>
                         <ImageView opacity="0.8" fitWidth="40" fitHeight="40" layoutX="105" layoutY="100"/>
@@ -173,58 +173,58 @@
                 <Button fx:id="back" onMouseClicked="#selectAction" prefHeight="62" prefWidth="42" layoutX="10" layoutY="10" />
                 <ImageView fx:id="redAmmo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="20" visible="false">
                     <image>
-                        <Image url="@HUD/ammo_red.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_red.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="redAmmo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="20" visible="false">
                     <image>
-                        <Image url="@HUD/ammo_red.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_red.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="redAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="20">
                     <image>
-                        <Image url="@HUD/ammo_red.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_red.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="blueAmmo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="60" visible="false">
                     <image>
-                        <Image url="@HUD/ammo_blue.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="blueAmmo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="60" visible="false">
                     <image>
-                        <Image url="@HUD/ammo_blue.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="blueAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="60">
                     <image>
-                        <Image url="@HUD/ammo_blue.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="yellowAmmo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="100" visible="false">
                     <image>
-                        <Image url="@HUD/ammo_yellow.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="yellowAmmo2" fitHeight="28.0" fitWidth="28.0" layoutX="639" layoutY="100" visible="false">
                     <image>
-                        <Image url="@HUD/ammo_yellow.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="yellowAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="100">
                     <image>
-                        <Image url="@HUD/ammo_yellow.png" />
+                        <Image url="@Graphic-assets/HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
             </children>
         </Pane>
         <Pane fx:id="ownCard" layoutX="10" layoutY="590" prefHeight="150" prefWidth="280" onMouseEntered="#showTriangles" onMouseExited="#hideTriangles">
             <children>
-                <ImageView fx:id="bgWeapon2" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="19.0" visible="false"><image><Image url="@Weapons/weapon_1-TOP.png" /></image></ImageView>
-                <ImageView fx:id="bgWeapon1" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="22.0" visible="false"><image><Image url="@Weapons/weapon_1-TOP.png" /></image></ImageView>
+                <ImageView fx:id="bgWeapon2" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="19.0" visible="false"><image><Image url="@Graphic-assets/Weapons/weapon_1-TOP.png" /></image></ImageView>
+                <ImageView fx:id="bgWeapon1" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="22.0" visible="false"><image><Image url="@Graphic-assets/Weapons/weapon_1-TOP.png" /></image></ImageView>
                 <ImageView fx:id="myWeapon" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" layoutX="122.0" layoutY="25.0" onMouseEntered="#drawBottom"/>
-                <ImageView fx:id="bgPowerup2" fitHeight="132.0" fitWidth="90.0" layoutX="21.0" layoutY="9.0" visible="false"><image><Image url="@Powerups/powerup-1.png" /></image></ImageView>
-                <ImageView fx:id="bgPowerup1" fitHeight="132.0" fitWidth="90.0" layoutX="18.0" layoutY="9.0" visible="false"><image><Image url="@Powerups/powerup-1.png" /></image></ImageView>
+                <ImageView fx:id="bgPowerup2" fitHeight="132.0" fitWidth="90.0" layoutX="21.0" layoutY="9.0" visible="false"><image><Image url="@Graphic-assets/Powerups/powerup-1.png" /></image></ImageView>
+                <ImageView fx:id="bgPowerup1" fitHeight="132.0" fitWidth="90.0" layoutX="18.0" layoutY="9.0" visible="false"><image><Image url="@Graphic-assets/Powerups/powerup-1.png" /></image></ImageView>
                 <ImageView fx:id="myPowerup" onMouseClicked="#selectPowerUp" fitHeight="132.0" fitWidth="90.0" layoutX="15" layoutY="9"/>
                 <Polygon fx:id="powerupTriangle" onMouseClicked="#nextPowerUp" fill="WHITE" layoutX="109.0" layoutY="75.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" visible="false">
                     <points>
@@ -276,17 +276,17 @@
                 </Pane>
                 <ImageView fx:id="fire0" opacity="0.8" visible="false">
                     <image>
-                        <Image url="@highlight.png" />
+                        <Image url="@Graphic-assets/highlight.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="fire1" opacity="0.8" visible="false">
                     <image>
-                        <Image url="@highlight.png" />
+                        <Image url="@Graphic-assets/highlight.png" />
                     </image>
                 </ImageView>
                 <ImageView fx:id="fire2" opacity="0.8" visible="false">
                     <image>
-                        <Image url="@highlight.png" />
+                        <Image url="@Graphic-assets/highlight.png" />
                     </image>
                 </ImageView>
             </children>

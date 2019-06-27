@@ -19,7 +19,8 @@ public class ScoreBoard extends Observable {
     }
 
     public void initKillshotTrack(int skulls){
-
+        killshotTrack = new Color[skulls];
+        overkillFlags = new Boolean[skulls];
     }
 
 }

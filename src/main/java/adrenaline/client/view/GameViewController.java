@@ -27,8 +27,7 @@ import javafx.util.Duration;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -122,14 +121,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             pane.getChildren().get(0).getStyleClass().add("hand");
         }
 
-        try {
-            Gson gson = new Gson();
-            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Firemode.json");
-            Type type = new TypeToken<HashMap<Integer, Integer>>(){}.getType();
-            firemodeMap = gson.fromJson(fileReader, type);
-        }catch (FileNotFoundException e) {
-            System.out.println("Firemode.json file not found");
-        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<HashMap<Integer, Integer>>(){}.getType();
+        firemodeMap = gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/Firemode.json")), type);
     }
 
     public void setGameController(GameController gameController) {
@@ -141,11 +135,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void initializeHUD(){
         Map modelMap = gameController.getMap();
-        String path = "url(/Maps/MAP"+ modelMap.getMapID()+".png)";
+        String path = "url(/Graphic-assets/Maps/MAP"+ modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
         updateMap(modelMap);
         Pane skullPane = new Pane();
-        ImageView skulls = new ImageView(new Image(getClass().getResourceAsStream("/SKULLBAR.png")));
+        ImageView skulls = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULLBAR.png")));
         skulls.setFitHeight(57);
         skulls.setFitWidth(320);
         skullPane.getChildren().add(skulls);
@@ -155,17 +149,17 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ImageView token = new ImageView();
         tokensMap.put(ownColor, token);
         tokenColor.put(token, ownColor);
-        String newImgUrl = "/HUD/"+ownColor.toString()+"-HUD.png";
+        String newImgUrl = "/Graphic-assets/HUD/" +ownColor.toString()+"-HUD.png";
         ownPlayerLabel.setImage(new Image(getClass().getResourceAsStream(newImgUrl)));
-        String runPath = "url(/HUD/"+ownColor.toString()+"-RUN.png)";
+        String runPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-RUN.png)";
         run.setStyle("-fx-background-image: "+ runPath);
-        String grabPath = "url(/HUD/"+ownColor.toString()+"-GRAB.png)";
+        String grabPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-GRAB.png)";
         grab.setStyle("-fx-background-image: "+ grabPath);
-        String shootPath = "url(/HUD/"+ownColor.toString()+"-SHOOT.png)";
+        String shootPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-SHOOT.png)";
         shoot.setStyle("-fx-background-image: "+ shootPath);
-        String reloadPath = "url(/HUD/"+ownColor.toString()+"-RELOAD.png)";
+        String reloadPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-RELOAD.png)";
         reload.setStyle("-fx-background-image: "+ reloadPath);
-        String backPath = "url(/HUD/"+ownColor.toString()+"-GOBACK.png)";
+        String backPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-GOBACK.png)";
         back.setStyle("-fx-background-image: "+ backPath);
         nicknamesMap.forEach((y,x) -> {
                 if(x.equals(ownColor)) playersColorMap.put(x, ownPlayer);
@@ -175,7 +169,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     tokensMap.put(x, newtoken);
                     tokenColor.put(newtoken, x);
                     Pane newPane = new Pane();
-                    String newUrl = "/HUD/"+x.toString()+"-SCOREBOARD.png";
+                    String newUrl = "/Graphic-assets/HUD/" +x.toString()+"-SCOREBOARD.png";
                     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(newUrl)));
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(320);
@@ -200,7 +194,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     marks.setLayoutY(35);
                     marks.setSpacing(2);
                     newPane.getChildren().add(marks);
-                    String cardsUrl = "/HUD/CARDS_BUTTON.png";
+                    String cardsUrl = "/Graphic-assets/HUD/CARDS_BUTTON.png";
                     ImageView cards = new ImageView(new Image(getClass().getResourceAsStream(cardsUrl)));
                     cards.setLayoutY(20);
                     cards.setFitWidth(40);
@@ -217,7 +211,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     weapons.setLayoutX(46);
                     enemyWeaponsMap.put(x,weapons);
                     cardsPane.getChildren().add(weapons);
-                    String pwupUrl = "/Powerups/powerup-BACK.png";
+                    String pwupUrl = "/Graphic-assets/Powerups/powerup-BACK.png";
                     ImageView powerup = new ImageView(new Image(getClass().getResourceAsStream(pwupUrl)));
                     powerup.setFitHeight(70);
                     powerup.setFitWidth(45);
@@ -372,7 +366,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ImageView image = (ImageView) mouseEvent.getSource();
         String imgUrl = image.getImage().getUrl();
         String imgName = new File(imgUrl).getName();
-        String newImgUrl = "/Weapons/"+imgName.substring(0, imgName.length()-7) + "BOTTOM.png";
+        String newImgUrl = "/Graphic-assets/Weapons/" +imgName.substring(0, imgName.length()-7) + "BOTTOM.png";
         try {
             bottom.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
         } catch (URISyntaxException e) {
@@ -426,7 +420,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 if(y == 0) ammoImage.setImage(null);
                 else {
                     String imgUrl = y.toString() + ".png";
-                    ammoImage.setImage(new Image(getClass().getResourceAsStream("/Ammo/ammo-" + imgUrl)));
+                    ammoImage.setImage(new Image(getClass().getResourceAsStream("/Graphic-assets/Ammo/ammo-" + imgUrl)));
                 }
             });
             newMap.getWeaponMap().forEach((x,y) -> {
@@ -434,7 +428,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 for(int i = 0; i < 3; i++) {
                     if(i > y.size()-1) list.get(i).setImage(null);
                     else {
-                        String newImgUrl = "/Weapons/weapon_" + y.get(i) + "-TOP.png";
+                        String newImgUrl = "/Graphic-assets/Weapons/weapon_" + y.get(i) + "-TOP.png";
                         try {
                             list.get(i).setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
                         } catch (URISyntaxException e) {
@@ -453,7 +447,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ArrayList<Integer> puCards = ownPlayer.getPowerupCards();
         Platform.runLater(() -> {
             if (!puCards.isEmpty()) {
-                String newImgUrl = "/Powerups/powerup-" + puCards.get(0) + ".png";
+                String newImgUrl = "/Graphic-assets/Powerups/powerup-" + puCards.get(0) + ".png";
                 try {
                     myPowerup.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
                 } catch (URISyntaxException e) {
@@ -502,7 +496,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ArrayList<Integer> wpCards = ownPlayer.getWeaponCards();
         Platform.runLater(() -> {
             if(!wpCards.isEmpty()){
-                String newImgUrl = "/Weapons/weapon_" + wpCards.get(0) + "-TOP.png";
+                String newImgUrl = "/Graphic-assets/Weapons/weapon_" + wpCards.get(0) + "-TOP.png";
                 try {
                     myWeapon.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
                 } catch (URISyntaxException e) {
@@ -526,7 +520,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     weapons.getChildren().clear();
                     if(!cards.isEmpty()){
                         for (Integer card : cards) {
-                            String weaponUrl = "/Weapons/weapon_" + card + "-TOP.png";
+                            String weaponUrl = "/Graphic-assets/Weapons/weapon_" + card + "-TOP.png";
                             ImageView weapon = new ImageView();
                             weapon.setFitWidth(94);
                             weapon.setFitHeight(70);
@@ -565,7 +559,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         else {
             for (int i = 0; i < list.size(); i++) {
                 if (i >= (damageTracker.getChildren().size())) {
-                    String damegeUrl = "/HUD/" + list.get(i).toString() + "-DROP.png";
+                    String damegeUrl = "/Graphic-assets/HUD/" + list.get(i).toString() + "-DROP.png";
                     ImageView damage = new ImageView();
                     damage.setFitWidth(width);
                     damage.setFitHeight(height);
@@ -587,7 +581,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     Pane oldPane = (Pane) token.getParent();
                     if(oldPane == null) { //if is the first turn
                         token.setOnMouseClicked(this::selectTarget);
-                        String tokenUrl = "/"+x.toString()+"-TOKEN.png";
+                        String tokenUrl = "/Graphic-assets/"+x.toString()+"-TOKEN.png";
                         token.setImage(new Image(getClass().getResourceAsStream(tokenUrl)));
                         token.setFitHeight(45);
                         token.setFitWidth(45);
@@ -671,7 +665,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         int newIndex;
         if(powerUpList.indexOf(Integer.parseInt(powerup)) == (powerUpList.size() -1)) newIndex = 0;
         else newIndex = powerUpList.indexOf(Integer.parseInt(powerup)) + 1;
-        powerup = "/Powerups/powerup-" +powerUpList.get(newIndex)+".png";
+        powerup = "/Graphic-assets/Powerups/powerup-" +powerUpList.get(newIndex)+".png";
         try {
             myPowerup.setImage(new Image(new File(getClass().getResource(powerup).toURI()).toURI().toString()));
         } catch (URISyntaxException e) {
@@ -687,7 +681,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         int newIndex;
         if(weaponList.indexOf(Integer.parseInt(weapon)) == (weaponList.size() -1)) newIndex = 0;
         else newIndex = weaponList.indexOf(Integer.parseInt(weapon)) + 1;
-        weapon = "/Weapons/weapon_"+weaponList.get(newIndex)+"-TOP.png";
+        weapon = "/Graphic-assets/Weapons/weapon_" +weaponList.get(newIndex)+"-TOP.png";
         try {
             myWeapon.setImage(new Image(new File(getClass().getResource(weapon).toURI()).toURI().toString()));
         } catch (URISyntaxException e) {
@@ -718,7 +712,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         if(shootState) {
             ownCard.setVisible(false);
             firemodeSelection.setVisible(true);
-            String path = "/Weapons/weapon_" + weaponID + "-BOTTOM.png";
+            String path = "/Graphic-assets/Weapons/weapon_" + weaponID + "-BOTTOM.png";
             int firemode = firemodeMap.get(weaponID);
             Pane weapon = firemodeSet0;
             switch (firemode){
