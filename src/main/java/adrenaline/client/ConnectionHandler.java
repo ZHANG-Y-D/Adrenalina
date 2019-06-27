@@ -21,6 +21,7 @@ public interface ConnectionHandler {
     void selectSquare(int index);
     void selectFiremode(int firemode);
     void selectPlayers(ArrayList<Color> targets);
+    void moveSubAction();
     String getClientID();
     String getMyLobbyID();
     void closeConnection();

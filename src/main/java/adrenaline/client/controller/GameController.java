@@ -175,6 +175,7 @@ public class GameController {
     }
 
     public void selectPlayers(ArrayList<Color> targets) { connectionHandler.selectPlayers(targets); }
+    public void moveSubAction() { connectionHandler.moveSubAction(); }
 
     public void notifyDisconnect() {
         view.showError("Connection to the server has been lost!");
