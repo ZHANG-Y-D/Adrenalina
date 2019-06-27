@@ -2,8 +2,12 @@ package adrenaline.server;
 
 import adrenaline.server.network.*;
 import adrenaline.server.controller.Lobby;
+import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,9 +21,7 @@ import java.util.stream.Collectors;
 
 public class GameServer {
 
-    private final int rmiPort = 1099;
-    private final int socketPort = 1100;
-    private final int TIMEOUT_IN_SECONDS = 10;
+    private final ServerSettings SERVER_SETTINGS;
     private final HashMap<String, Client> clients;
     private final ArrayList<Client> clientsWaitingList;
     private final HashMap<String, Lobby> activeLobbies;
@@ -31,22 +33,24 @@ public class GameServer {
     }
 
     public GameServer(){
+        Gson gson = new Gson();
+        SERVER_SETTINGS = gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/server-settings.json")), ServerSettings.class);
         try {
             System.out.println("Setting up RMI Server...");
             ServerCommands RMIAdrenalineServer = new ServerCommands(this);
+            System.setProperty("java.rmi.server.hostname", SERVER_SETTINGS.getRMI_HOSTNAME());
             try {
-                LocateRegistry.createRegistry(rmiPort).bind("AdrenalineServer", RMIAdrenalineServer);
+                LocateRegistry.createRegistry(SERVER_SETTINGS.getRMI_PORT()).bind("AdrenalineServer", RMIAdrenalineServer);
             }catch (ExportException e){
                 System.err.println(" Rmi Port already in use: 1099. "+ e.detail);
             }
-
 
             System.out.println("Setting up Socket Server...");
             ServerCommands SocketAdrenalineServer = new ServerCommands(this);
             new Thread(() -> {
                 ServerSocket serverSocket = null;
                 try {
-                    serverSocket = new ServerSocket(socketPort);
+                    serverSocket = new ServerSocket(SERVER_SETTINGS.getSOCKET_PORT());
                 }catch (BindException e){
                     System.err.println("Address already in use (Bind failed) "+ e.getCause());
                 }catch (IOException e) {
@@ -62,7 +66,7 @@ public class GameServer {
                 }
             }).start();
 
-            System.out.println("Server listening on ports\n\t"+ rmiPort + " (RMI service)\n\t" + socketPort +" (Socket service)");
+            System.out.println("Server listening on ports\n\t"+ SERVER_SETTINGS.getRMI_PORT() + " (RMI service)\n\t" + SERVER_SETTINGS.getSOCKET_PORT() +" (Socket service)");
 
         }catch(Exception e){
             System.out.println("Error setting up server.");
@@ -89,7 +93,7 @@ public class GameServer {
                 long timestart = System.currentTimeMillis();
                 while(clientsWaitingList.size() < 5){
                     if(clientsWaitingList.size() < 3) break;
-                    long timeremaining = timestart + TIMEOUT_IN_SECONDS * 1000 - System.currentTimeMillis();
+                    long timeremaining = timestart + SERVER_SETTINGS.getWAITLIST_TIMEOUT_IN_SECONDS() * 1000 - System.currentTimeMillis();
                     if(timeremaining <= 0) break;
                     else{
                         try {
@@ -174,9 +178,31 @@ public class GameServer {
 
     private void RMIexportLobby(Lobby lobby){
         try {
-            LocateRegistry.getRegistry(rmiPort).bind("Game;"+lobby.getID(), new LobbyExportable(lobby));
+            LocateRegistry.getRegistry(SERVER_SETTINGS.getRMI_PORT()).bind("Game;"+lobby.getID(), new LobbyExportable(lobby));
         } catch (RemoteException | AlreadyBoundException e) {
             e.printStackTrace();
         }
     }
+}
+
+class ServerSettings{
+    private final int RMI_PORT;
+    private final int SOCKET_PORT;
+    private final String RMI_HOSTNAME;
+    private final int WAITLIST_TIMEOUT_IN_SECONDS;
+
+    ServerSettings(int rmi_port, int socket_port, String rmi_hostname, int waitlist_timeout_in_seconds) {
+        RMI_PORT = rmi_port;
+        SOCKET_PORT = socket_port;
+        RMI_HOSTNAME = rmi_hostname;
+        WAITLIST_TIMEOUT_IN_SECONDS = waitlist_timeout_in_seconds;
+    }
+
+    public int getRMI_PORT() { return RMI_PORT; }
+
+    public int getSOCKET_PORT() { return SOCKET_PORT; }
+
+    public String getRMI_HOSTNAME() { return RMI_HOSTNAME; }
+
+    public int getWAITLIST_TIMEOUT_IN_SECONDS() { return WAITLIST_TIMEOUT_IN_SECONDS; }
 }

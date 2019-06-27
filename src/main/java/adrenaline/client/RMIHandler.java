@@ -179,6 +179,14 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    public void moveSubAction() {
+        try {
+            gameController.handleReturn(myLobby.moveSubAction(clientID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public String getClientID() {
         return clientID;

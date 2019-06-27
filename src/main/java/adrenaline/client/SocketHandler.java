@@ -218,6 +218,13 @@ public class SocketHandler implements ConnectionHandler {
     }
 
     @Override
+    public void moveSubAction() {
+        String moveMsg = "moveSubAction;ARGSIZE=1;java.lang.String;";
+        moveMsg += gson.toJson(clientID);
+        sendMessage(moveMsg);
+    }
+
+    @Override
     public void grab() {
         String grabMsg = "grabAction;ARGSIZE=1;java.lang.String;";
         grabMsg += gson.toJson(clientID);

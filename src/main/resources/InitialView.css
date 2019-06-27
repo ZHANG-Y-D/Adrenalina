@@ -1,9 +1,9 @@
 #initPane{
-    -fx-background-image: url("TitleScreen.png");
+    -fx-background-image: url("Graphic-assets/TitleScreen.png");
     -fx-background-size: cover;
 }
 #selectionPane{
-    -fx-background-image: url("Background.png");
+    -fx-background-image: url("Graphic-assets/Background.png");
     -fx-background-size: cover;
 }
 #title{
@@ -88,6 +88,6 @@
     -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
 }
 #skullbar{
-    -fx-background-image: url("SKULLBAR.png");
+    -fx-background-image: url("Graphic-assets/SKULLBAR.png");
     -fx-background-size: cover;
 }

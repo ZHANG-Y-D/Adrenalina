@@ -11,6 +11,7 @@ import com.google.gson.JsonIOException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class DeckWeapon extends Deck<WeaponCard>{
@@ -23,18 +24,12 @@ public class DeckWeapon extends Deck<WeaponCard>{
                     .registerTypeAdapter(FiremodeSubState.class, new CustomSerializer())
                     .registerTypeAdapter(TargetsGenerator.class, new CustomSerializer());
             Gson gson = gsonBld.create();
-            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/WeaponCards.json");
-
-            WeaponCard[] weaponCards = gson.fromJson(fileReader,WeaponCard[].class);
+            WeaponCard[] weaponCards = gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/WeaponCards.json")),WeaponCard[].class);
             cards.addAll(Arrays.asList(weaponCards));
             cards.forEach(x -> x.setLoaded(true));
             shuffle();
-
         }catch (JsonIOException e){
             System.out.println("JsonIOException!");
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("PowerupCard.json file not found");
         }
     }
 

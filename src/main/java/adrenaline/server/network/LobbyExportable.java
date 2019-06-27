@@ -57,7 +57,7 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
 
     @Override
     public String moveSubAction(String clientID) {
-        return null;
+        return lobbyRelay.moveSubAction(clientID);
     }
 
     @Override

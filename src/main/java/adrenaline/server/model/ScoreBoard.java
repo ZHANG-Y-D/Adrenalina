@@ -11,14 +11,16 @@ public class ScoreBoard extends Observable {
     private HashMap<String,Color> clientColorMap = new HashMap<>();
     private HashMap<Color,Integer> scoreMap;
     private HashMap<Color,Integer> skullMap;
-    private ArrayList<Color>[] killCount;
+    private Color[] killshotTrack;
+    private Boolean[] overkillFlags;
 
     public ScoreBoard(ArrayList<Client> clients){
         clients.stream().forEach(x -> clientColorMap.put(x.getClientID(), Color.WHITE));
     }
 
-    public void initSkullbar(int skulls){
-        
+    public void initKillshotTrack(int skulls){
+        killshotTrack = new Color[skulls];
+        overkillFlags = new Boolean[skulls];
     }
 
 }
