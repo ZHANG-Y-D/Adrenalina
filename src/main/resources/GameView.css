@@ -5,6 +5,20 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
+#selectFiremode{
+    -fx-background-color: #261212;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+#moveSub{
+    -fx-background-color: #261212;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
 .button{
     -fx-background-size: cover;
     -fx-background-position: center;

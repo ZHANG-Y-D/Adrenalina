@@ -59,15 +59,6 @@ public class Map extends Observable {
     public int getMapID(){ return mapID; }
 
     /**
-     * Use x,y coordinate to get SquareAmmo
-     *
-     * @return  the SquareAmmo
-     */
-    //TODO delete method
-    public Square getSquare(int x, int y) { return mapSquares[x][y]; }
-
-
-    /**
      * Gets the square from the given index.
      *
      * @param pos   is the index of the square

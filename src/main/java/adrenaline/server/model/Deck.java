@@ -21,7 +21,7 @@ public abstract class Deck<T> {
 
     public T draw(){
         if(cards.isEmpty()){
-            cards = (ArrayList<T>)discarded.clone();
+            cards = (ArrayList<T>) discarded.clone();
             discarded.clear();
             shuffle();
         }
