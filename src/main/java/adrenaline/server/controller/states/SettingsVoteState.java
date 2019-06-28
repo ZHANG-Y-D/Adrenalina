@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class MapSelectionState implements GameState {
+public class SettingsVoteState implements GameState {
 
     private final int MAPSELECTION_TIMEOUT_IN_SECONDS = 40;
     private final int EXISTING_MAPS_NUMBER = 4;
@@ -18,7 +18,7 @@ public class MapSelectionState implements GameState {
     private ArrayList<Integer> skullsVotes;
     private ArrayList<String> leftToVote;
 
-    public MapSelectionState(Lobby lobby, ArrayList<String> clientIDs){
+    public SettingsVoteState(Lobby lobby, ArrayList<String> clientIDs){
         this.lobby = lobby;
         leftToVote = clientIDs;
         mapVotes = new ArrayList<>();

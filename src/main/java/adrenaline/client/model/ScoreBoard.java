@@ -7,9 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ScoreBoard implements Serializable {
+    private HashMap<Color,Integer> diminValues;
+    private Color[] killshotTrack;
+    private Boolean[] overkillFlags;
 
-    private HashMap<Color,String> nicknameMap;
-    private HashMap<Color,Integer> scoreMap;
-    private HashMap<Color,Integer> skullMap;
-    private ArrayList<Color>[] killCount;
+    public ScoreBoard(HashMap<Color,Integer> diminValues, Color[] killshotTrack, Boolean[] overkillFlags){
+        this.diminValues = diminValues;
+        this.killshotTrack = killshotTrack;
+        this.overkillFlags = overkillFlags;
+    }
 }

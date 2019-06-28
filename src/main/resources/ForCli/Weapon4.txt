@@ -1,0 +1,4 @@
+--------
+@|bold 4.FURNACE|@ [@|bold,red █|@] @|bold,blue █ |@
+0.basic mode: Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.
+1.in cozy fire mode: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.
