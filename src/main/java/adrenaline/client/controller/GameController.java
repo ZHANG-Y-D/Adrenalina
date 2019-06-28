@@ -122,6 +122,12 @@ public class GameController {
         changes.firePropertyChange("map", oldMap, newMap);
     }
 
+    public void updateScoreboard(ScoreBoard newScoreboard) {
+        ScoreBoard oldScorebard = scoreBoard;
+        scoreBoard = newScoreboard;
+        changes.firePropertyChange("scoreboard", oldScorebard, newScoreboard);
+    }
+
     public synchronized void updateChat(String nickname, Color senderColor, String message){
         view.newChatMessage(nickname, senderColor, message);
     }

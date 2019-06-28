@@ -49,10 +49,11 @@ public class ScoreBoard extends Observable {
             }
         }
         points = diminValues.get(dead);
-        diminValues.put(dead, (points-2)<1 ? 1 : points);
+        diminValues.put(dead, (points-2)<1 ? 1 : points-2*count);
         killshotTrack[killCount] = damageTrack.get(10);
         overkillFlags[killCount] = damageTrack.size()>=12;
         killCount++;
+        System.out.println(scoreMap.toString()+"\n"+diminValues.toString());
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
 
@@ -63,5 +64,17 @@ public class ScoreBoard extends Observable {
 
     public boolean gameEnded(){
         return (killCount==killshotTrack.length);
+    }
+
+    public HashMap<Color, Integer> getDiminValues() {
+        return diminValues;
+    }
+
+    public Color[] getKillshotTrack() {
+        return killshotTrack;
+    }
+
+    public Boolean[] getOverkillFlags() {
+        return overkillFlags;
     }
 }
