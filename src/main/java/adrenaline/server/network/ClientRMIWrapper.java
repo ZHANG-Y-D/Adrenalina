@@ -136,7 +136,6 @@ public class ClientRMIWrapper implements Client {
 
     public void kickClient() {
         serverCommands.unregisterClient(clientID);
-        inLobby.detachClient(this);
         kick();
     }
 

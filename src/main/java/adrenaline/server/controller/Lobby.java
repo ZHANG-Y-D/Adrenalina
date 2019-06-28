@@ -17,9 +17,6 @@ import adrenaline.server.LobbyAPI;
 import adrenaline.server.controller.states.GameState;
 import adrenaline.server.network.Client;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -50,6 +47,7 @@ public class Lobby implements Runnable, LobbyAPI {
     private DeckPowerup deckPowerup;
     private ArrayList<String> deadPlayers;
     private Set<Color> damagedThisTurn;
+    private int killedthisturn;
     private Chat chat;
 
     private ScheduledExecutorService turnTimer;
@@ -71,6 +69,7 @@ public class Lobby implements Runnable, LobbyAPI {
         deckPowerup = new DeckPowerup();
         deadPlayers = new ArrayList<>();
         damagedThisTurn = new HashSet<>();
+        killedthisturn=0;
         chat = new Chat(clients);
         currentTurnPlayer = clients.get(0).getClientID();
         nextTurnPlayer = clients.get(1).getClientID();
@@ -111,7 +110,7 @@ public class Lobby implements Runnable, LobbyAPI {
     @Override
     public void run() {
         avatarSelection();
-        initMap();
+        initSettings();
         playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
         playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
         playersMap.get(currentTurnPlayer).setFirstRound();
@@ -122,7 +121,17 @@ public class Lobby implements Runnable, LobbyAPI {
                 x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
             } catch (RemoteException e) { }
         });
-        //TODO handles the game flow
+        synchronized (this){
+            while(!scoreBoard.gameEnded()) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+            }
+            System.out.println("GAME ENDED!");
+        }
     }
 
 
@@ -296,6 +305,9 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         commandReceived=false;
         executedActions=0;
+        if(killedthisturn>=2) scoreBoard.scoreDoubleKill(playersMap.get(currentTurnPlayer).getColor());
+        killedthisturn=0;
+        damagedThisTurn.clear();
         setMapCards();
         checkDeadPlayers();
         if(!deadPlayers.isEmpty()){
@@ -322,6 +334,7 @@ public class Lobby implements Runnable, LobbyAPI {
                 x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
             } catch (RemoteException e) { }
         });
+        notifyAll();
     }
 
     private synchronized void nextPlayer(){
@@ -339,19 +352,20 @@ public class Lobby implements Runnable, LobbyAPI {
         Player newPlayer = new Player(chosen, clientMap.get(currentTurnPlayer).getNickname(), new ArrayList<>(clientMap.values()));
         playersMap.put(currentTurnPlayer, newPlayer);
         playersColor.put(chosen.getColor(), newPlayer);
+        scoreBoard.initPlayerScore(chosen.getColor());
         commandReceived=true;
         nextPlayer();
         notifyAll();
     }
 
-    private void initMap(){
-        MapSelectionState mapSelectionState = new MapSelectionState(this, new ArrayList<>(clientMap.keySet()));
-        currentState = mapSelectionState;
+    private void initSettings(){
+        SettingsVoteState settingsVoteState = new SettingsVoteState(this, new ArrayList<>(clientMap.keySet()));
+        currentState = settingsVoteState;
         clientMap.values().forEach(x -> {
-            try { x.timerStarted(mapSelectionState.getTimeoutDuration(), "Vote match settings.");
+            try { x.timerStarted(settingsVoteState.getTimeoutDuration(), "Vote match settings.");
             } catch (RemoteException e) { }
         });
-        int[] votes = mapSelectionState.startTimer();
+        int[] votes = settingsVoteState.startTimer();
         try{
             GsonBuilder gsonBld = new GsonBuilder();
             gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
@@ -360,6 +374,7 @@ public class Lobby implements Runnable, LobbyAPI {
             map.setSquaresContext();
             setMapCards();
             map.setObservers(new ArrayList<>(clientMap.values()));
+            scoreBoard.initKillshotTrack(votes[1]);
         } catch (JsonIOException e){
             e.printStackTrace();
         }
@@ -369,7 +384,12 @@ public class Lobby implements Runnable, LobbyAPI {
         for(String s : clientMap.keySet()){
             Player player = playersMap.get(s);
             Client client = clientMap.get(s);
-            if(!player.isAlive() && !player.isFirstRound() && client.isActive()) deadPlayers.add(s);
+            if(!player.isAlive() && !player.isFirstRound() && client.isActive()){
+                ArrayList<Color> damageTrack = player.getDamageTrack();
+                scoreBoard.scoreKill(player.getColor(), damageTrack);
+                if(damageTrack.size()>=12) playersColor.get(damageTrack.get(12)).addMarks(player.getColor(),1);
+                deadPlayers.add(s);
+            }
         }
     }
 
@@ -615,12 +635,12 @@ public class Lobby implements Runnable, LobbyAPI {
             target.addMarks(playersMap.get(currentTurnPlayer).getColor(), dmgMrk[1]);
             if(dmgMrk[0] > 0) damagedThisTurn.add(target.getColor());
         }
-        //if kills >= 2 add double kill score to scoreboard
+        if(kills>=2) killedthisturn++;
     }
 
     public void applyExtraDamage(Color color) {
-       playersColor.get(color).applyDamage(playersMap.get(currentTurnPlayer).getColor(), 1, true);
-       //count kills
+       if(playersColor.get(color).applyDamage(playersMap.get(currentTurnPlayer).getColor(), 1, true)) killedthisturn++;
+
     }
 }
 
