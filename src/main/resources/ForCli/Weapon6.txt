@@ -1,5 +1,5 @@
 --------
-@|bold 6.T.H.O.R.|@ [@|bold,blue █|@] @|bold,red █ |@
+@|bold,blue 6.T.H.O.R. █|@ @|bold,red █ |@
 0.basic effect: Deal 2 damage to 1 target you can see.
 1.@|bold,blue █|@ with chain reaction: Deal 1 damage to a second target that your first target can see.
 2.@|bold,blue █|@ with high voltage: Deal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction.

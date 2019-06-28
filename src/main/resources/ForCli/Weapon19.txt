@@ -1,2 +1,4 @@
 --------
-19.
+@|bold,yellow 19.SHOCKWAVE █ |@
+0.basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.
+1.@|bold,yellow █ |@in tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.

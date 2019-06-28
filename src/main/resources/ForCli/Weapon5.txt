@@ -1,4 +1,4 @@
 --------
-@|bold 5.HELLION|@ [@|bold,red █|@] @|bold,yellow █ |@
+@|bold,red 5.HELLION █|@ @|bold,yellow █ |@
 0.basic mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.
 1.@|bold,red █|@ in nano-tracer mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.

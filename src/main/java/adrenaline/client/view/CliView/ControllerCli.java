@@ -3,6 +3,7 @@ package adrenaline.client.view.CliView;
 
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
+import adrenaline.client.model.Player;
 import org.fusesource.jansi.Ansi;
 
 import java.io.BufferedReader;
@@ -32,13 +33,13 @@ public abstract class ControllerCli{
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String string = bufferedReader.readLine();
             while (string != null){
-                System.out.println(ansi().eraseScreen().render(string) );
+                printAString("ansi",string);
                 string=bufferedReader.readLine();
             }
         }catch (FileNotFoundException e){
-            System.out.println("\nsrc/main/resources/ForCli/"+srcFileName+"  File Not Found ");
+            System.err.println("\nsrc/main/resources/ForCli/"+srcFileName+"  File Not Found ");
         }catch (IOException e){
-            System.out.println("\n IOException ");
+            System.err.println("\n printSrcFile IOException ");
         }
     }
 
@@ -75,7 +76,7 @@ public abstract class ControllerCli{
             num = readANumber(rangeList);
         }
 
-        if (!rangeList.contains(num) || num!=0) {
+        if (!rangeList.contains(num) && num!=0) {
             System.err.println("Invalid number, Retry:");
             num = readANumber(rangeList);
         }
@@ -84,13 +85,16 @@ public abstract class ControllerCli{
 
     }
 
-    protected synchronized void printAString(String printState,String printString){
+
+    protected synchronized static void printAString(String printState,String printString){
 
         if (printState.equals("err"))
             System.err.println(printString);
         else if (printState.equals("OutWithOutNewLine"))
             System.out.print(printString);
-        else
+        else if (printState.equals("ansi")){
+            System.out.println(ansi().eraseScreen().render(printString));
+        }else
             System.out.println(printString);
 
         return;
@@ -188,58 +192,72 @@ public abstract class ControllerCli{
 
     protected synchronized void printGameInfo() {
 
+
         printSrcFile("GameInfo.txt");
-        System.out.println("Map...");
-        printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
-        System.out.println("Weapon Info...");
-        printWeaponInfo(null);
-        //TODO
         printMap();
+
+        System.out.println("\n-------");
+        System.out.println("Weapon Info...");
+        System.out.println(" ");
+        System.out.println(ansi().bold().fg(Ansi.Color.BLUE).a("At map square  NO.2 █").fgDefault());
+        printWeaponInfo(gameController.getMap().getWeaponMap().get(Color.BLUE));
+        System.out.println(" ");
+        System.out.println(ansi().bold().fg(Ansi.Color.RED).a("At map square  NO.4 █").fgDefault());
+        printWeaponInfo(gameController.getMap().getWeaponMap().get(Color.RED));
+        System.out.println(" ");
+        System.out.println(ansi().bold().fg(Ansi.Color.YELLOW).a("At map square  NO.11 █").fgDefault());
+        printWeaponInfo(gameController.getMap().getWeaponMap().get(Color.YELLOW));
+
+        printPlayerSelfInfo();
+
+        printSrcFile("GameInfoEnd.txt");
 
     }
 
     protected void printMap() {
 
+        System.out.println("\n-------");
+        System.out.println("Map...");
+        printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
+
     }
 
 
-    protected void printPowerupInfo(ArrayList<Integer> powerupList){
+    protected static void printPowerupInfo(ArrayList<Integer> powerupList){
 
-        //TODO
+        if (powerupList==null) {
+            System.err.println("You don't have powerup card now");
+            return;
+        }
+
+        for (int powerup:powerupList){
+            printSrcFile("Powerup"+powerup+".txt");
+        }
+
     }
 
     protected void printPlayerSelfInfo() {
 
-        printWeaponInfo(null);
-        //TODO
+        Player player = gameController.getPlayersMap().get(gameController.getOwnColor());
+
+        System.out.println("\n-------");
+        System.out.println("Your own powerup cards...");
+        printPowerupInfo(player.getPowerupCards());
+        System.out.println("Your own weapon cards...");
+        printWeaponInfo(player.getWeaponCards());
     }
 
 
-    protected void printWeaponInfo(ArrayList<Integer> weaponList){
+    protected static void printWeaponInfo(ArrayList<Integer> weaponList){
 
-
-        //TODO
         if (weaponList==null) {
-            for (Map.Entry<Color, ArrayList<Integer>> weaponInfo : gameController.getMap().getWeaponMap().entrySet()) {
-
-
-                switch (weaponInfo.getKey()) {
-                    case BLUE:
-                        System.out.print(ansi().bold().fg(Ansi.Color.BLUE).a("█ 3:").fgDefault());
-                        break;
-                    case RED:
-                        System.out.print(ansi().bold().fg(Ansi.Color.RED).a("█ 5:").fgDefault());
-                        break;
-                    case YELLOW:
-                        ansi().bold().fg(Ansi.Color.YELLOW).a("█ 12:").fgDefault();
-                        break;
-                    default:
-                        break;
-                }
-            }
+            System.err.println("Don't have weapon card now");
+            return;
         }
 
-
+        for (int weapon:weaponList){
+            printSrcFile("Weapon"+weapon+".txt");
+        }
 
     }
 

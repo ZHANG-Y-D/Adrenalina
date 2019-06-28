@@ -1,2 +1,4 @@
 --------
-21.
+@|bold,red 21.HEATSEEKER █ |@
+0.effect: Choose 1 target you cannot see and deal 3 damage to it.
+Notes: Yes,this can only hit targets you cannot see.

@@ -1,2 +1,4 @@
 --------
-12.
+@|bold,blue 12.ELECTROSCYTHE █|@
+0.basic mode: Deal 1 damage to every other player on your square.
+1.@|bold,blue █ |@@|bold,red █ |@in reaper mode: Deal 2 damage to every other player on your square.

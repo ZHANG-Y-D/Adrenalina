@@ -1,2 +1,4 @@
 --------
-11.
+@|bold,blue 11.LOCK RIFLE █ █|@
+0.basic effect: Deal 2 damage and 1 mark to 1 target you can see.
+1.@|bold,red █ |@with second lock: Deal 1 mark to a different target you can see.

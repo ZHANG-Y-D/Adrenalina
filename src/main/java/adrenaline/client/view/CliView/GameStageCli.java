@@ -97,7 +97,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         Runnable runnable = () -> {
 
-            //TODO for Powerup
             printAString("out",message);
 
         };
@@ -113,8 +112,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         gameController.endTurn();
 
         while (isInTurn.get()){
-
-
 
             printPlayerSelfInfo();
 
@@ -185,6 +182,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         Runnable turnCentralRunnable = () -> {
 
+            System.out.println(comment);
             if (comment.contains(gameController.getOwnNickname()) && !isInTurn.get()) {
 
                 isInTurn.set(true);
@@ -327,6 +325,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     private void shootAction() {
 
+        //TODO shootAction
         ArrayList<Integer> ownWeaponList =
                 gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards();
 
@@ -356,12 +355,13 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         printPowerupInfo(powerupList);
 
-        System.out.println("Whitch you want to use? If you don't want to use,input 0");
+        System.out.println("Which you want to use? If you don't want to use,input 0");
 
         selected = readANumber(powerupList);
         if (selected == 0)
             return;
         gameController.selectPowerUp(selected);
+
     }
 
 

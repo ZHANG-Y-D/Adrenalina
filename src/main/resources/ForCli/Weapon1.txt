@@ -1,5 +1,5 @@
 --------
-@|bold 1.ROCKET LAUNCHER|@ [@|bold,red █|@] @|bold,red █ |@
+@|bold,red 1.ROCKET LAUNCHER █|@ @|bold,red █ |@
 0.Basic effect: Deal 2 damage to 1 target you can see that is not on your square. Then you may move the target 1 square.
 1.@|bold,blue █ |@ With rocket jump: Move 1 or 2 squares. This effect can be used either before or after the basic effect.
 2.@|bold,yellow █ |@ With fragmenting warhead: During the basic effect, deal 1 damage to every player on your target's original square – including the target, even if you move it.
