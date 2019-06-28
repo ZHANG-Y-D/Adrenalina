@@ -9,9 +9,9 @@ public class SquareAmmoTest {
     void getWeaponCardTest() {
 
 
-        SquareAmmo square =new SquareAmmo();
+        /*SquareAmmo square =new SquareAmmo();
         square.setAmmoTile(new AmmoCard());
-        System.out.print(square.toString());
+        System.out.print(square.toString());*/
 
 
     }

@@ -291,6 +291,8 @@ public class Player extends Observable{
         return avatar.getColor();
     }
 
+    public int[] getTempAmmoBox() { return tempAmmoBox; }
+
     public void clearTempAmmo() {
         tempAmmoBox[0] = 0;
         tempAmmoBox[1] = 0;

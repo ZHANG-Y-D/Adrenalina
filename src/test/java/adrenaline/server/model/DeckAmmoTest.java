@@ -2,28 +2,36 @@ package adrenaline.server.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-public class DeckAmmoTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class DeckAmmoTest {
 
     @Test
-    void PrintDeckAmmo() {
-
-
+    void deckAmmoBuildTest() {
         DeckAmmo deckAmmo = new DeckAmmo();
-        System.out.println(deckAmmo.toString());
 
+        //Test cards total
+        assertEquals(36,deckAmmo.cards.size());
 
-        //Test total
-        assertEquals(deckAmmo.cards.size(),36);
+        //Test deck contains all index
+        ArrayList<Integer> index = new ArrayList<>();
+        for(int i = 1; i <= deckAmmo.cards.size(); i++) index.add(i);
+        for(AmmoCard ammo : deckAmmo.cards){
+            assertTrue(index.contains(ammo.getAmmoID()));
+        }
 
-
-        //Test the first element
-        int[] num= new int[]{0,2,1,0};
-        assertArrayEquals(num,deckAmmo.cards.get(0).getAmmoContent());
-        assertEquals(2,deckAmmo.cards.get(0).getAmmoID());
-
+        //Test contains a content
+        int[] content = {0,1,2,0};
+        int[] testContent = new int[4];
+        for(AmmoCard ammo : deckAmmo.cards){
+            if(ammo.getAmmoID() == 11) testContent = ammo.getAmmoContent();
+        }
+        assertArrayEquals(content,testContent);
 
     }
 

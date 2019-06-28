@@ -2,22 +2,28 @@ package adrenaline.server.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.ArrayList;
 
-public class DeckWeaponTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class DeckWeaponTest {
 
     @Test
-    void PrintDeckWeapon() {
+    void deckWeaponBuildTest() {
 
         DeckWeapon deckWeapon =new DeckWeapon();
-        System.out.print((deckWeapon.toString()));
-
-        //Test total
+        //Test cards total
         assertEquals(21,deckWeapon.cards.size());
 
+        //Test deck contains all index
+        ArrayList<Integer> index = new ArrayList<>();
+        for(int i = 1; i <= deckWeapon.cards.size(); i++) index.add(i);
+        for(WeaponCard wc : deckWeapon.cards){
+            assertTrue(index.contains(wc.getWeaponID()));
+        }
     }
 
-    @Test
+    /*@Test
     void DrawTest(){
 
         DeckWeapon deckWeapon = new DeckWeapon();
@@ -32,5 +38,5 @@ public class DeckWeaponTest {
             assertEquals(21, deckWeapon.cards.size() + deckWeapon.discarded.size());
         }
 
-    }
+    }*/
 }
