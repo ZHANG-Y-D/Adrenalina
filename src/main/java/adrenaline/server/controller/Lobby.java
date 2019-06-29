@@ -387,7 +387,7 @@ public class Lobby implements Runnable, LobbyAPI {
             if(!player.isAlive() && !player.isFirstRound() && client.isActive()){
                 ArrayList<Color> damageTrack = player.getDamageTrack();
                 scoreBoard.scoreKill(player.getColor(), damageTrack);
-                if(damageTrack.size()>=12) playersColor.get(damageTrack.get(12)).addMarks(player.getColor(),1);
+                if(damageTrack.size()>=12) playersColor.get(damageTrack.get(11)).addMarks(player.getColor(),1);
                 deadPlayers.add(s);
             }
         }
