@@ -74,6 +74,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private boolean shootState = false;
     private ArrayList<adrenaline.Color> targets = new ArrayList<>();
     private int mode0 = 0, mode1 = 0, mode2 = 0;
+    private Random rand = new Random();
 
     public void initialize(){
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
@@ -654,7 +655,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         else {
             ArrayList<Position> allPosition = new ArrayList<>(Arrays.asList(Position.TOP, Position.CENTER, Position.RIGHT, Position.LEFT, Position.DOWN));
             allPosition.removeIf(positionList::contains);
-            Random rand = new Random();
             return allPosition.get(rand.nextInt(allPosition.size()));
         }
     }

@@ -220,13 +220,4 @@ public class Map extends Observable {
     public int getSpawnIndex(Color color){
         return spawnMap.get(color);
     }
-
-    @Override
-    public String toString() {
-        return "Map{" +
-                "mapSquares=" + Arrays.toString(mapSquares) +
-                ", rows=" + rows +
-                ", columns=" + columns +
-                '}';
-    }
 }

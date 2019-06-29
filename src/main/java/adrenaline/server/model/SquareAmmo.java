@@ -36,11 +36,4 @@ public class SquareAmmo extends Square{
         this.ammoTile = card;
         if(map.anyObserver()) map.notifyObservers(new MapUpdateMessage(map));
     }
-
-    @Override
-    public String toString() {
-        return "SquareAmmo{" +
-                "color=" + color +
-                '}';
-    }
 }

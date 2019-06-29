@@ -15,13 +15,4 @@ public class DeckAmmo extends Deck<AmmoCard>{
         cards.addAll(Arrays.asList(ammoCards));
         shuffle();
     }
-
-    @Override
-    public String toString() {
-        return "DeckAmmo{" +
-                "cardsDeck=" + cards +
-                '}';
-    }
-
-
 }

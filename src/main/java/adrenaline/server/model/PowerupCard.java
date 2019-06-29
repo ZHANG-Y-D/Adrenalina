@@ -15,13 +15,5 @@ public abstract class PowerupCard {
 
     public abstract boolean isUsableOutsideTurn();
 
-    @Override
-    public String toString() {
-        return "PowerupCard{" +
-                ", color='" + color + '\'' +
-                ", powerupID=" + powerupID +
-                '}';
-    }
-
     public abstract String acceptUse(Lobby lobby);
 }

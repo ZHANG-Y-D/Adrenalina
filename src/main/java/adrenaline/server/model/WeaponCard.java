@@ -57,25 +57,5 @@ public class WeaponCard {
         return deepCopy;
     }
 
-
-
-    @Override
-    public String toString() {
-        String string = "WeaponCard{" +
-                "ammoCost=" + Arrays.toString(ammoCost) +
-                ", freeAmmo=" + freeAmmo +
-                ", loaded=" + loaded;
-
-        /* Temporarily closed because it is not completed
-        for(Firemode fm : firemodes) {
-            string += "\n\t" + fm.toString();
-        }
-         */
-
-        string += "\n}";
-        return string;
-    }
-
-
     public int getWeaponID() { return weaponID; }
 }

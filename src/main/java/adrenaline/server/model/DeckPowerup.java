@@ -37,12 +37,4 @@ public class DeckPowerup extends Deck<PowerupCard> {
             System.out.println("JsonIOException!");
         }
     }
-
-    @Override
-    public String toString() {
-
-        return "DeckPowerup{" +
-                "cardsDeck=" + cards +
-                '}';
-    }
 }
