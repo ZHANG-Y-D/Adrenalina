@@ -315,7 +315,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void showValidSquares(ArrayList<Integer> validSquares) {
-        Platform.runLater(()-> validSquares.forEach(i -> ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(true)));
+        Platform.runLater(()-> {
+            for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(validSquares.contains(i));
+        });
     }
 
     public void propertyChange(PropertyChangeEvent evt) {

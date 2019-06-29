@@ -30,7 +30,8 @@ import java.util.stream.Collectors;
 public class Lobby implements Runnable, LobbyAPI {
 
     private final String lobbyID;
-    private final Integer TURN_TIMEOUT_IN_SECONDS = 60;
+    private final Integer TURN_TIMEOUT_IN_SECONDS = 90;
+    private final Integer RESPAWN_TIMEOUT_IN_SECONDS = 30;
 
     private LinkedHashMap<String, Client> clientMap;
     private HashMap <String, Player> playersMap;
@@ -298,9 +299,8 @@ public class Lobby implements Runnable, LobbyAPI {
     public int getExecutedActions(){ return executedActions; }
 
     public synchronized void endTurn(boolean timeoutReached){
-        System.out.println("ending turn");
         if(!timeoutReached) scheduledTimeout.cancel(true);
-        else if(!commandReceived){
+        else if(!commandReceived || !playersMap.get(currentTurnPlayer).isAlive()){
             Client disconnected = clientMap.get(currentTurnPlayer);
             disconnected.kickClient();
         }
@@ -308,17 +308,19 @@ public class Lobby implements Runnable, LobbyAPI {
         executedActions=0;
         if(killedthisturn>=2) scoreBoard.scoreDoubleKill(playersMap.get(currentTurnPlayer).getColor());
         killedthisturn=0;
-        damagedThisTurn.clear();
         setMapCards();
         checkDeadPlayers();
+        damagedThisTurn.clear();
+        int TIMEOUT;
         if(!deadPlayers.isEmpty()){
             String dead = deadPlayers.get(0);
             for(int i = 1; i<deadPlayers.size();i++) deadPlayers.set(i-1, deadPlayers.get(i));
             deadPlayers.remove(deadPlayers.size()-1);
             //NOTE: this is to preserve the same order of players between respawns and regular turns
-            playersMap.get(dead).addPowerupCard(deckPowerup.draw());
+            if(playersMap.get(dead).getPowerupHandSize()<3) playersMap.get(dead).addPowerupCard(deckPowerup.draw());
             currentTurnPlayer = dead;
             currentState = new RespawnState(this);
+            TIMEOUT = RESPAWN_TIMEOUT_IN_SECONDS;
         }else {
             nextPlayer();
             Player currentPlayer = playersMap.get(currentTurnPlayer);
@@ -326,13 +328,17 @@ public class Lobby implements Runnable, LobbyAPI {
                 currentPlayer.addPowerupCard(deckPowerup.draw());
                 currentPlayer.addPowerupCard(deckPowerup.draw());
                 currentState = new RespawnState(this, true);
+                TIMEOUT = TURN_TIMEOUT_IN_SECONDS;
                 currentPlayer.setFirstRound();
-            }else currentState = new SelectActionState(this);
+            }else{
+                TIMEOUT = TURN_TIMEOUT_IN_SECONDS;
+                currentState = new SelectActionState(this);
+            }
         }
-        scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+        scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TIMEOUT, TimeUnit.SECONDS);
         clientMap.values().forEach(x -> {
             try {
-                x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
+                x.timerStarted(TIMEOUT, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
             } catch (RemoteException e) { }
         });
         notifyAll();
@@ -382,14 +388,16 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     private void checkDeadPlayers(){
-        for(String s : clientMap.keySet()){
-            Player player = playersMap.get(s);
-            Client client = clientMap.get(s);
+        for(java.util.Map.Entry<String,Client> entry: clientMap.entrySet()){
+            Player player = playersMap.get(entry.getKey());
+            Client client = entry.getValue();
             if(!player.isAlive() && !player.isFirstRound() && client.isActive()){
-                ArrayList<Color> damageTrack = player.getDamageTrack();
-                scoreBoard.scoreKill(player.getColor(), damageTrack);
-                if(damageTrack.size()>=12) playersColor.get(damageTrack.get(11)).addMarks(player.getColor(),1);
-                deadPlayers.add(s);
+                if(damagedThisTurn.contains(player.getColor())){
+                    ArrayList<Color> damageTrack = player.getDamageTrack();
+                    scoreBoard.scoreKill(player.getColor(), damageTrack);
+                    if(damageTrack.size()>=12) playersColor.get(damageTrack.get(11)).addMarks(player.getColor(),1);
+                }
+                deadPlayers.add(entry.getKey());
             }
         }
     }

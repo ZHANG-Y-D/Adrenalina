@@ -74,11 +74,14 @@ public class Player extends Observable{
             amount += Collections.frequency(marks,damageOrigin);
             marks.removeIf(damageOrigin::equals);
         }
-        for(int i=0; i<amount && (damage.size() < 12); i++) this.damage.add(damageOrigin);
+        for(int i=0; i<amount && (damage.size() < 12); i++) damage.add(damageOrigin);
 
-        if (this.damage.size() >= 11) alive = false;
-        else if (this.damage.size() >= 6) this.adrenalineState = 2;
-        else if (this.damage.size() >= 3) this.adrenalineState = 1;
+        if (damage.size() >= 11) {
+            alive = false;
+            adrenalineState=0;
+        }
+        else if (damage.size() >= 6) adrenalineState = 2;
+        else if (damage.size() >= 3) adrenalineState = 1;
         notifyObservers(new PlayerUpdateMessage(this));
         return alive;
     }
@@ -111,70 +114,7 @@ public class Player extends Observable{
     public ArrayList<Color> getMarks() {
         return marks;
     }
-
-
-    /**
-     *
-     *
-     * This is a private class, for count the points,when someone is dead.
-     *
-     *
-     */
-
-    private void killAndOverkillScoreCount(){
-
-
-        ArrayList<Player> playerToBeSort;
-
-        Comparator comparator = (Comparator<Player>) (Player o1, Player o2) -> {
-
-            if (Collections.frequency(this.damage,o1)>Collections.frequency(this.damage,o2))
-                return 1;
-            else if (Collections.frequency(this.damage,o1)==Collections.frequency(this.damage,o2)
-                    && Collections.frequency(this.damage,o1)!=0){
-                if (this.damage.indexOf(o1)<this.damage.indexOf(o2))
-                    return 1;
-                else
-                    return -1;
-            }
-            else
-                return -1;
-        };
-
-
-        //playerToBeSort = (ArrayList<Player>) getLobby().getPlayersList().clone();
-
-        //playerToBeSort.sort(comparator);
-
-
-        /*
-        int maxElement=0;
-        int a;
-        Player maxPlayer=null;
-
-        //Collections.frequency(this.damage,damageOrigin);
-
-
-        for (int i=0;i<this.player.getLobby().getPlayersList().size();i++){
-            a = Collections.frequency(this.damage,this.player.getLobby().getPlayersList().get(i));
-            if (a>maxElement){
-                maxElement=a;
-                maxPlayer=this.player.getLobby().getPlayersList().get(i);
-            }
-            else if(a==maxElement && maxPlayer!=null && maxElement!=0){
-                if (this.damage.indexOf(this.player.getLobby().getPlayersList().get(i))
-                        < this.damage.indexOf(maxPlayer)){
-                    maxElement=a;
-                    maxPlayer=this.player.getLobby().getPlayersList().get(i);
-                }
-            }
-        }
-        maxPlayer.addScore(this.scoreBoard[this.player.getNumberOfDeaths()]);
-         */
-
-    }
-
-
+    
     public ArrayList<WeaponCard> getWeaponCards() {
         return weaponCards;
     }
