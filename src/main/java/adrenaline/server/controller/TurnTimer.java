@@ -9,6 +9,7 @@ public class TurnTimer  implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("tempo scaduto");
         callBackLobby.endTurn(true);
     }
 }

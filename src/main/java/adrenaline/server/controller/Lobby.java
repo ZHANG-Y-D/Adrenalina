@@ -298,7 +298,8 @@ public class Lobby implements Runnable, LobbyAPI {
     public int getExecutedActions(){ return executedActions; }
 
     public synchronized void endTurn(boolean timeoutReached){
-        if(!timeoutReached) scheduledTimeout.cancel(false);
+        System.out.println("ending turn");
+        if(!timeoutReached) scheduledTimeout.cancel(true);
         else if(!commandReceived){
             Client disconnected = clientMap.get(currentTurnPlayer);
             disconnected.kickClient();
