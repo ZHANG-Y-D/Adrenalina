@@ -370,7 +370,9 @@ public class Lobby implements Runnable, LobbyAPI {
         currentState = settingsVoteState;
         clientMap.values().forEach(x -> {
             try { x.timerStarted(settingsVoteState.getTimeoutDuration(), "Vote match settings.");
-            } catch (RemoteException e) { }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         });
         int[] votes = settingsVoteState.startTimer();
         try{
@@ -382,7 +384,7 @@ public class Lobby implements Runnable, LobbyAPI {
             setMapCards();
             map.setObservers(new ArrayList<>(clientMap.values()));
             scoreBoard.initKillshotTrack(votes[1]);
-        } catch (JsonIOException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -634,7 +636,7 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public void applyFire(Firemode firemode, List<Player> targets, List<int[]> dmgmrkEachTarget) throws InvalidTargetsException {
         targets.remove(playersMap.get(currentTurnPlayer));
-        if(targets.isEmpty() || !firemode.checkTargets(playersMap.get(currentTurnPlayer), (ArrayList) targets, map)) throw new InvalidTargetsException();
+        if(targets.isEmpty() || !firemode.checkTargets(playersMap.get(currentTurnPlayer), (ArrayList<Player>) targets, map)) throw new InvalidTargetsException();
         int kills = 0;
         for(int i=0; i<targets.size(); i++){
             Player target = targets.get(i);
