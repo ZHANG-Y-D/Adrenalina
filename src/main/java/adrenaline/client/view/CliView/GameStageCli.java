@@ -15,6 +15,12 @@ import java.util.concurrent.locks.ReentrantLock;
 import static java.lang.Thread.sleep;
 import static org.fusesource.jansi.Ansi.ansi;
 
+
+/**
+ *
+ *
+ *
+ */
 public  class GameStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
 
 
@@ -28,6 +34,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     private AtomicInteger isSelectedSquare = new AtomicInteger(-1);
 
 
+    /**
+     *
+     *
+     *
+     */
     public GameStageCli(GameController gameController) {
 
         this.gameController = gameController;
@@ -38,6 +49,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+    /**
+     *
+     * For initial set of current stage
+     *
+     */
     @Override
     protected void initialStageCli() {
 
@@ -50,7 +66,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-
+    /**
+     *
+     *
+     *
+     */
     @SuppressWarnings("InfiniteLoopStatement")
     private void openChat() {
         Runnable runnableChat = () -> {
@@ -81,6 +101,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
 
 
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void showError(String error) {
 
@@ -92,12 +117,17 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void showMessage(String message) {
 
         Runnable runnable = () -> {
 
-            printAString("out",message);
+            printAString(message);
 
         };
 
@@ -105,6 +135,12 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         showMessageThread.start();
     }
 
+
+    /**
+     *
+     *
+     *
+     */
     private void reloadWeaponAndEndTurn() {
 
         int weaponID;
@@ -148,7 +184,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
 
 
-
+    /**
+     *
+     *
+     *
+     */
     private void finishThisTurn() {
 
         isInTurn.set(false);
@@ -164,18 +204,36 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         }
     }
 
+
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void changeStage() {
 
 
     }
 
+
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void setGameController(GameController gameController) {
         //Not server for GameStageCli
     }
 
 
+
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void notifyTimer(Integer duration, String comment) {
 
@@ -215,7 +273,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     }
 
-
+    /**
+     *
+     *
+     *
+     */
     private void startTurnControllerThread() {
 
 
@@ -248,7 +310,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-
+    /**
+     *
+     *
+     *
+     */
     private void startTimer(Integer duration) {
 
         Runnable timeRunnable = () -> {
@@ -271,7 +337,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-
+    /**
+     *
+     *
+     *
+     */
     private void firstTurnSet() {
 
 
@@ -293,6 +363,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+    /**
+     *
+     *
+     *
+     */
     private int selectAction() {
 
 
@@ -323,6 +398,12 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+
+    /**
+     *
+     *
+     *
+     */
     private void shootAction() {
 
         //TODO shootAction
@@ -343,6 +424,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+    /**
+     *
+     *
+     *
+     */
     private void usePowerupCard() {
 
         //TODO for complete powerup
@@ -365,6 +451,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+    /**
+     *
+     *
+     *
+     */
     private void runAction() {
 
         isSelectedSquare.set(-1);
@@ -385,7 +476,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-
+    /**
+     *
+     *
+     *
+     */
     private void grabAction() {
 
         Color grabbedColor;
@@ -436,7 +531,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
 
 
-
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {
 
@@ -453,7 +552,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
 
 
-
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void showValidSquares(ArrayList<Integer> validSquares) {
 
@@ -494,7 +597,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

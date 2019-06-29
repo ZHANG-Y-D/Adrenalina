@@ -13,6 +13,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
+/**
+ *
+ *
+ *
+ *
+ */
 public class RMIHandler implements ConnectionHandler {
 
     private String clientID;
@@ -23,6 +29,12 @@ public class RMIHandler implements ConnectionHandler {
     private Registry registry;
     private GameController gameController;
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public RMIHandler(String serverIP, int port, GameController gameController) throws IOException, NotBoundException {
         registry = LocateRegistry.getRegistry(serverIP, port);
         String remoteObjectName = "AdrenalineServer";
@@ -48,7 +60,12 @@ public class RMIHandler implements ConnectionHandler {
     }
 
 
-
+    /**
+     *
+     *
+     *
+     *
+     */
     public void setMyLobby(String myLobbyID){
         this.myLobbyID = myLobbyID;
         String remoteObjectName = "Game;"+myLobbyID;
@@ -59,6 +76,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void unregister() {
         try {
             gameController.handleReturn(myServer.unregisterClient(clientID));
@@ -67,6 +90,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void setNickname(String nickname) {
         try {
             gameController.handleReturn(myServer.setNickname(clientID, nickname));
@@ -75,6 +104,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectAvatar(Color color){
         try {
             gameController.handleReturn(myLobby.selectAvatar(clientID, color));
@@ -83,6 +118,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectPowerUp(int powerupID) {
         try {
             gameController.handleReturn(myLobby.selectPowerUp(clientID, powerupID));
@@ -91,6 +132,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectWeapon(int weaponID) {
         try {
             gameController.handleReturn(myLobby.selectWeapon(clientID, weaponID));
@@ -99,6 +146,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void sendSettings(int selectedMap, int selectedSkull) {
         try {
             gameController.handleReturn(myLobby.selectSettings(clientID, selectedMap, selectedSkull));
@@ -107,6 +160,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void sendChatMessage(String message) {
         try{
             gameController.handleReturn(myLobby.sendChatMessage(clientID, message));
@@ -115,6 +174,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void run() {
         try {
             gameController.handleReturn(myLobby.runAction(clientID));
@@ -123,6 +188,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void grab() {
         try {
             gameController.handleReturn(myLobby.grabAction(clientID));
@@ -131,6 +202,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void shoot() {
         try {
             gameController.handleReturn(myLobby.shootAction(clientID));
@@ -139,6 +216,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void back() {
         try {
             gameController.handleReturn(myLobby.goBack(clientID));
@@ -147,6 +230,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void endTurn() {
         try {
             gameController.handleReturn(myLobby.endOfTurnAction(clientID));
@@ -155,6 +244,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectSquare(int index) {
         try {
             gameController.handleReturn(myLobby.selectSquare(clientID,index));
@@ -163,6 +258,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectFiremode(int firemode) {
         try {
             gameController.handleReturn(myLobby.selectFiremode(clientID,firemode));
@@ -171,6 +272,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectPlayers(ArrayList<Color> targets) {
         try {
             gameController.handleReturn(myLobby.selectPlayers(clientID,targets));
@@ -179,6 +286,12 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void moveSubAction() {
         try {
             gameController.handleReturn(myLobby.moveSubAction(clientID));
@@ -187,16 +300,34 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public String getClientID() {
         return clientID;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public String getMyLobbyID() {
         return myLobbyID;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void closeConnection() {
         myServer = null;

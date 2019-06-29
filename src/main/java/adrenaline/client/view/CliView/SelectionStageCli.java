@@ -9,7 +9,11 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+/**
+ *
+ *
+ *
+ */
 public class SelectionStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
 
 
@@ -17,6 +21,11 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     Thread mainThread;
 
 
+    /**
+     *
+     *
+     *
+     */
     public SelectionStageCli(GameController gameController) {
 
         this.gameController = gameController;
@@ -28,7 +37,11 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     }
 
 
-
+    /**
+     *
+     * For initial set of current stage
+     *
+     */
     @Override
     protected void initialStageCli() {
 
@@ -62,6 +75,12 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     }
 
+
+    /**
+     *
+     *
+     *
+     */
     private void selectMapAndSkulls() {
 
         int mapNum;
@@ -83,7 +102,11 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     }
 
 
-
+    /**
+     *
+     *
+     *
+     */
     private void selectAvatar() {
 
         int num;
@@ -120,6 +143,11 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     }
 
 
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void showError(String error) {
 
@@ -142,6 +170,12 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     }
 
+
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void showMessage(String message) {
 
@@ -150,6 +184,11 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     }
 
 
+    /**
+     *
+     *
+     *
+     */
     @Override
     public synchronized void changeStage() {
 
@@ -167,27 +206,51 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     }
 
-
+    /**
+     *
+     *
+     *
+     */
     @Override
     public void setGameController(GameController gameController) {
 
     }
 
-
+    /**
+     *
+     *
+     *
+     */
     public void notifyTimer(Integer duration, String comment) {
         //operation not supported at this stage
     }
 
+
+    /**
+     *
+     *
+     *
+     */
     public void newChatMessage(String nickname, Color senderColor, String message) {
         //operation not supported at this stage
     }
 
+
+    /**
+     *
+     *
+     *
+     */
     public void showValidSquares(ArrayList<Integer> validSquares) {
         //operation not supported at this stage
     }
 
 
-
+    /**
+     *
+     *
+     *
+     */
     @Override
     public synchronized void propertyChange(PropertyChangeEvent evt) {
 

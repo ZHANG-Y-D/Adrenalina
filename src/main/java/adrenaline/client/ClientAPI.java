@@ -7,6 +7,12 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ *
+ *
+ *
+ *
+ */
 public interface ClientAPI extends Remote {
     void setNickname(String nickname) throws RemoteException;
     void setLobby(String lobbyID, ArrayList<String> nicknames) throws RemoteException;

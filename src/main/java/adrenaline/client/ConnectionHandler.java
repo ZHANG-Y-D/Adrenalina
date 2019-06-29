@@ -4,6 +4,12 @@ import adrenaline.Color;
 
 import java.util.ArrayList;
 
+/**
+ *
+ *
+ *
+ *
+ */
 public interface ConnectionHandler {
     void unregister();
     void setNickname(String nickname);

@@ -10,14 +10,19 @@ import java.util.Random;
 
 import static java.util.UUID.randomUUID;
 
-
+/**
+ *
+ * The first stage of game flow,for connect the internet and set nickname.
+ *
+ */
 public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
-
-    private String name;
-
-
+    /**
+     *
+     * The constructor,for initial set of current stage
+     *
+     */
     public InitialStageCli() {
         gameController = new GameController();
         gameController.setViewController(this);
@@ -31,11 +36,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
      *
      * This method for initial this stage
      *
-     *
-     *
-     *
      */
-
     @Override
     protected void initialStageCli(){
 
@@ -66,7 +67,11 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     }
 
 
-
+    /**
+     *
+     * For print LobbyID and ClientID when th
+     *
+     */
     private void printGameID() {
 
         try {
@@ -80,7 +85,13 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     }
 
-
+    /**
+     *
+     * For print error message from server
+     *
+     * @param error The error message
+     *
+     */
     @Override
     public void showError(String error) {
 
@@ -97,6 +108,14 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     }
 
+
+    /**
+     *
+     * For print ok message from server
+     *
+     * @param message The ok message
+     *
+     */
     @Override
     public void showMessage(String message) {
 
@@ -114,7 +133,11 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
     }
 
-
+    /**
+     *
+     * For change stage,the next stage is SelectionStageCli
+     *
+     */
     @Override
     public void changeStage() {
 
@@ -133,25 +156,12 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     }
 
 
-    @Override
-    public void setGameController(GameController gameController) {
-
-    }
-
-
-    public void notifyTimer(Integer duration, String comment) {
-        //operation not supported at this stage
-    }
-
-    public void newChatMessage(String nickname, Color senderColor, String message) {
-        //operation not supported at this stage
-    }
-
-    public void showValidSquares(ArrayList<Integer> validSquares) {
-        //operation not supported at this stage
-    }
-
-
+    /**
+     *
+     * For choose connecting type,socket or rmi.
+     *
+     * @return 1 for socket, 2 for rmi
+     */
     private int chooseConnectingType(){
 
         String  input;
@@ -175,7 +185,15 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
 
 
 
-
+    /**
+     *
+     * For connecting to server.
+     *
+     * @param connectingType 1 for socket,2 for rmi
+     * @return True for successful.
+     *
+     *
+     */
     private boolean connectingToServer(int connectingType){
 
         String host;
@@ -202,6 +220,12 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     }
 
 
+
+    /**
+     *
+     * For set nickname of the player
+     *
+     */
     private void setNickname(){
 
 
@@ -217,9 +241,47 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         }
 
 
-        name = input;
         gameController.setNickname(input);
 
+    }
+
+    /**
+     *
+     *  Not supported for Cli
+     *
+     */
+    @Override
+    public void setGameController(GameController gameController) {
+
+    }
+
+    /**
+     *
+     * Not supported at this stage
+     *
+     */
+    public void notifyTimer(Integer duration, String comment) {
+        //operation not supported at this stage
+    }
+
+
+    /**
+     *
+     * Not supported at this stage
+     *
+     */
+    public void newChatMessage(String nickname, Color senderColor, String message) {
+        //operation not supported at this stage
+    }
+
+
+    /**
+     *
+     * Not supported at this stage
+     *
+     */
+    public void showValidSquares(ArrayList<Integer> validSquares) {
+        //operation not supported at this stage
     }
 
 

@@ -18,15 +18,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+
+/**
+ *
+ * The abstract class of Cli,for control Cli flow
+ *
+ */
 public abstract class ControllerCli{
 
     protected GameController gameController;
     protected AtomicInteger returnValueIsOk = new AtomicInteger(0); //0:initial 1:/OK 2:other
     protected Scanner scanner = new Scanner(System.in);
 
+
+    /**
+     *
+     * For initial set of current stage
+     *
+     */
     protected abstract void initialStageCli();
 
 
+    /**
+     *
+     * A static method, can print file from "src/main/resources/ForCli/"
+     *
+     * @param srcFileName input a source file name in "src/main/resources/ForCli/"
+     *
+     */
     protected static void printSrcFile(String srcFileName){
 
         try(FileReader fileReader = new FileReader("src/main/resources/ForCli/" + srcFileName)) {
@@ -43,6 +62,14 @@ public abstract class ControllerCli{
         }
     }
 
+    /**
+     *
+     * A synchronized method, can read a number from console by down and up range
+     *
+     * @param down The down number
+     * @param up The up number
+     *
+     */
     protected synchronized int readANumber(int down,int up) {
 
         int num;
@@ -63,6 +90,13 @@ public abstract class ControllerCli{
         return num;
     }
 
+    /**
+     *
+     * A synchronized method, can read a number from console by a range of ArrayList
+     *
+     * @param rangeList The range ArrayList
+     *
+     */
     protected synchronized int readANumber(ArrayList<Integer> rangeList){
 
 
@@ -86,21 +120,56 @@ public abstract class ControllerCli{
     }
 
 
-    protected synchronized static void printAString(String printState,String printString){
+    /**
+     *
+     * A synchronized static class,Can print a String in the console
+     *  
+     * @param printString input the string which you want to print
+     *
+     */
+    protected synchronized static void printAString(String printString) {
 
-        if (printState.equals("err"))
-            System.err.println(printString);
-        else if (printState.equals("OutWithOutNewLine"))
-            System.out.print(printString);
-        else if (printState.equals("ansi")){
-            System.out.println(ansi().eraseScreen().render(printString));
-        }else
-            System.out.println(printString);
+        printAString("out", printString);
 
-        return;
     }
 
 
+    /**
+     *
+     * A synchronized static class,Can print a String in the console
+     *
+     * @param printState input a print state,
+     *                   choose from err/OutWithOutNewLine/ansi or normal type
+     * @param printString input the string which you want to print
+     *
+     */
+    protected synchronized static void printAString(String printState,String printString){
+
+        switch (printState) {
+            case "err":
+                System.err.println(printString);
+                break;
+            case "OutWithOutNewLine":
+                System.out.print(printString);
+                break;
+            case "ansi":
+                System.out.println(ansi().eraseScreen().render(printString));
+                break;
+            default:
+                System.out.println(printString);
+                break;
+        }
+
+    }
+
+
+    /**
+     *
+     * A synchronized class,Can read a string from console
+     *
+     * @return return a string readied from console
+     *
+     */
     protected synchronized String readAString(){
 
         String input = scanner.nextLine();
@@ -111,6 +180,14 @@ public abstract class ControllerCli{
 
 
 
+    /**
+     *
+     * A listener to listen the return from server
+     *
+     * @return return a boolean value Ok return true,
+     *          other return false
+     *
+     */
     protected boolean listenerReturnValueIsOK() {
 
 
@@ -133,6 +210,11 @@ public abstract class ControllerCli{
 
 
 
+    /**
+     *
+     * For print player's info
+     *
+     */
     protected void printAllPlayerInfo() {
 
         int num=1;
@@ -149,7 +231,13 @@ public abstract class ControllerCli{
     }
 
 
-
+    /**
+     *
+     * Can get the current player's turn number
+     *
+     * @return the turn number
+     *
+     */
     protected int getPlayerTurnNumber(){
 
         int num=1;
@@ -165,8 +253,17 @@ public abstract class ControllerCli{
     }
 
 
+    /**
+     *
+     * Can transfer the adrenaline.Color to Ansi.Color
+     *
+     * @param value The adrenaline.Color
+     *
+     * @return The Ansi.Color
+     *
+     */
+    protected static Ansi.Color transferColorToAnsiColor(Color value) {
 
-    protected Ansi.Color transferColorToAnsiColor(Color value) {
 
         switch (value) {
             case YELLOW:
@@ -189,12 +286,18 @@ public abstract class ControllerCli{
     }
 
 
-
+    /**
+     *
+     * A synchronized class for print game info when the turn started
+     *
+     *
+     */
     protected synchronized void printGameInfo() {
 
 
         printSrcFile("GameInfo.txt");
         printMap();
+
 
         System.out.println("\n-------");
         System.out.println("Weapon Info...");
@@ -214,6 +317,11 @@ public abstract class ControllerCli{
 
     }
 
+    /**
+     *
+     * For print map
+     *
+     */
     protected void printMap() {
 
         System.out.println("\n-------");
@@ -222,7 +330,13 @@ public abstract class ControllerCli{
 
     }
 
-
+    /**
+     *
+     * A static class,For print powerup cards' info.
+     *
+     * @param powerupList The list contain the powerup card which have to print
+     *
+     */
     protected static void printPowerupInfo(ArrayList<Integer> powerupList){
 
         if (powerupList==null) {
@@ -236,6 +350,12 @@ public abstract class ControllerCli{
 
     }
 
+
+    /**
+     *
+     * For print player own powerup and weapon cards
+     *
+     */
     protected void printPlayerSelfInfo() {
 
         Player player = gameController.getPlayersMap().get(gameController.getOwnColor());
@@ -248,6 +368,14 @@ public abstract class ControllerCli{
     }
 
 
+
+    /**
+     *
+     * A static class,For print weapon cards' info.
+     *
+     * @param weaponList The list contain the weapon card which have to print
+     *
+     */
     protected static void printWeaponInfo(ArrayList<Integer> weaponList){
 
         if (weaponList==null) {
@@ -263,7 +391,13 @@ public abstract class ControllerCli{
 
 
 
-
+    /**
+     *
+     * For exit the game
+     *
+     * @param input If input string is "Quit",the game will exit
+     *
+     */
     protected void isQuit(String input){
 
         if (input.equals("Quit")){

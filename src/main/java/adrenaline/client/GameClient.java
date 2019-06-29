@@ -7,6 +7,13 @@ import javafx.application.Application;
 
 import java.util.Scanner;
 
+
+/**
+ *
+ * For start class of client,Contain the main method
+ *
+ *
+ */
 public class GameClient {
 
 

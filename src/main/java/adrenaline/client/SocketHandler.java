@@ -14,6 +14,12 @@ import java.util.Scanner;
 
 import com.google.gson.GsonBuilder;
 
+/**
+ *
+ *
+ *
+ *
+ */
 public class SocketHandler implements ConnectionHandler {
 
     private String clientID;
@@ -26,6 +32,12 @@ public class SocketHandler implements ConnectionHandler {
     private Gson gson;
     private GameController gameController;
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public SocketHandler(String serverIP, int port, GameController gameController) throws IOException {
         myServer = new java.net.Socket(serverIP, port);
         this.gameController = gameController;
@@ -73,7 +85,12 @@ public class SocketHandler implements ConnectionHandler {
         createServerListener(inputFromServer);
     }
 
-
+    /**
+     *
+     *
+     *
+     *
+     */
     private void createServerListener(Scanner inputFromServer) {
         new Thread(() -> {
             String readFromServer;
@@ -109,11 +126,23 @@ public class SocketHandler implements ConnectionHandler {
         ).start();
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     private synchronized void sendMessage(String msg){
         outputToServer.println(msg);
         outputToServer.flush();
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void unregister() {
         String unregisterMsg = "unregisterClient;ARGSIZE=1;java.lang.String;";
         unregisterMsg += gson.toJson(clientID);
@@ -121,6 +150,12 @@ public class SocketHandler implements ConnectionHandler {
         active = false;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void setNickname(String nickname) {
         String nicknameMsg = "setNickname;ARGSIZE=2;java.lang.String;";
         nicknameMsg += gson.toJson(clientID)+";";
@@ -129,11 +164,22 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(nicknameMsg);
     }
 
-
+    /**
+     *
+     *
+     *
+     *
+     */
     public void setMyLobby(String lobbyID) {
         myLobbyID = lobbyID;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectAvatar(Color color) {
         String avatarMsg = "selectAvatar;ARGSIZE=2;java.lang.String;";
         avatarMsg += gson.toJson(clientID)+";";
@@ -142,6 +188,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(avatarMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectPowerUp(int powerupID) {
         String powerupMsg = "selectPowerUp;ARGSIZE=2;java.lang.String;";
         powerupMsg += gson.toJson(clientID)+";";
@@ -150,6 +202,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(powerupMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void selectWeapon(int weaponID) {
         String weaponMsg = "selectWeapon;ARGSIZE=2;java.lang.String;";
         weaponMsg += gson.toJson(clientID)+";";
@@ -158,6 +216,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(weaponMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void sendSettings(int selectedMap, int selectedSkull) {
         String settingsMsg = "selectSettings;ARGSIZE=3;java.lang.String;";
         settingsMsg += gson.toJson(clientID) + ";";
@@ -168,6 +232,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(settingsMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public void sendChatMessage(String message) {
         String chatMsg = "sendChatMessage;ARGSIZE=2;java.lang.String;";
         chatMsg += gson.toJson(clientID) + ";";
@@ -176,6 +246,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(chatMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void run() {
         String runMsg = "runAction;ARGSIZE=1;java.lang.String;";
@@ -183,6 +259,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(runMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void endTurn() {
         String endMsg = "endOfTurnAction;ARGSIZE=1;java.lang.String;";
@@ -190,6 +272,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(endMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void selectSquare(int index) {
         String squareMsg = "selectSquare;ARGSIZE=2;java.lang.String;";
@@ -199,6 +287,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(squareMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void selectFiremode(int firemode) {
         String firemodeMsg = "selectFiremode;ARGSIZE=2;java.lang.String;";
@@ -208,6 +302,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(firemodeMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void selectPlayers(ArrayList<Color> targets) {
         String  playersMsg = "selectPlayers;ARGSIZE=2;java.lang.String;";
@@ -217,6 +317,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(playersMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void moveSubAction() {
         String moveMsg = "moveSubAction;ARGSIZE=1;java.lang.String;";
@@ -224,6 +330,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(moveMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void grab() {
         String grabMsg = "grabAction;ARGSIZE=1;java.lang.String;";
@@ -231,6 +343,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(grabMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void shoot() {
         String shootMsg = "shootAction;ARGSIZE=1;java.lang.String;";
@@ -238,6 +356,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(shootMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void back() {
         String backMsg = "goBack;ARGSIZE=1;java.lang.String;";
@@ -245,16 +369,34 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(backMsg);
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public String getClientID() {
         return clientID;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public String getMyLobbyID() {
         return myLobbyID;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     @Override
     public void closeConnection() {
         active = false;
