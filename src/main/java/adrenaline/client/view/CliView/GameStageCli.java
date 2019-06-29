@@ -295,7 +295,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 firstTurnSet();
                 isFirstTurn = false;
             }
-            System.out.println("You can choose actions two times.");
 
             while (isInTurn.get()){
                 selectAction();
@@ -369,8 +368,9 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     private void selectAction() {
 
 
+
         printSrcFile("SelectAction.txt");
-        System.out.print("To do: ");
+        System.out.println("To do: ");
         int num = readANumber(1, 9);
         switch (num) {
             case 1:
@@ -479,12 +479,10 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         isSelectedSquare.set(-1);
         gameController.run();
 
-
         while (isSelectedSquare.get()==-1) {
             synchronized (subActionLock) {
                 try {
                     subActionLock.wait();
-
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -581,9 +579,14 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         Runnable runnable = () ->{
 
-            printMapAndMapWeaponAmmoInfo();
+            printMap();
             System.out.println("You can go to these Squares:");
 
+            try {
+                sleep(250);
+            }catch (InterruptedException e){
+                Thread.currentThread().interrupt();
+            }
 
             synchronized (this) {
                 for (Integer validSquare : validSquares)

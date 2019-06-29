@@ -287,6 +287,18 @@ public abstract class ControllerCli{
     }
 
 
+    /**
+     *
+     * A synchronized class for print map Info
+     *
+     */
+    protected synchronized void printMap() {
+
+        System.out.println("\n-------");
+        System.out.println("Map...");
+        printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
+
+    }
 
 
     /**
@@ -299,9 +311,7 @@ public abstract class ControllerCli{
 
         //TODO per map ammo
 
-        System.out.println("\n-------");
-        System.out.println("Map...");
-        printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
+        printMap();
 
         System.out.println("\n-------");
         System.out.println("Weapon Info...");
@@ -325,8 +335,6 @@ public abstract class ControllerCli{
      */
     protected synchronized void printPlayerStateInfo(){
 
-        //TODO player positions damage track
-
 
         Set<Map.Entry<String, Color>> entryNicknameMap = gameController.getPlayersNicknames().entrySet();
 
@@ -348,12 +356,12 @@ public abstract class ControllerCli{
 
 
         }
-        
+
     }
 
     private synchronized static void printMarkTrack(ArrayList<Color> marks) {
 
-        System.out.print("Mark");
+        System.out.print("Mark: ");
         for (Color color:marks){
             System.out.print(ansi().fg(transferColorToAnsiColor(color)).a("♠ ").fgDefault());
         }
@@ -363,7 +371,7 @@ public abstract class ControllerCli{
 
     private synchronized static void printDamageTrack(ArrayList<Color> damageArrayList) {
 
-        System.out.print("Damage");
+        System.out.print("Damage: ");
         for (Color color:damageArrayList){
             System.out.print(ansi().fg(transferColorToAnsiColor(color)).a("❤ ").fgDefault());
         }
@@ -379,7 +387,9 @@ public abstract class ControllerCli{
     private synchronized void printAmmoBoxInfo(int[] ammoBox) {
 
 
+        //TODO for ammo box
 
+        System.out.println(" ");
 
     }
 
