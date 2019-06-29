@@ -10,10 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -101,6 +98,7 @@ public abstract class ControllerCli{
 
 
         int num;
+
         try{
             num = scanner.nextInt();
             scanner.nextLine();
@@ -118,6 +116,8 @@ public abstract class ControllerCli{
         return num;
 
     }
+
+
 
 
     /**
@@ -215,7 +215,7 @@ public abstract class ControllerCli{
      * For print player's info
      *
      */
-    protected void printAllPlayerInfo() {
+    protected void printLobbyInfo() {
 
         int num=1;
 
@@ -229,6 +229,7 @@ public abstract class ControllerCli{
             num++;
         }
     }
+
 
 
     /**
@@ -286,18 +287,21 @@ public abstract class ControllerCli{
     }
 
 
+
+
     /**
      *
-     * A synchronized class for print game info when the turn started
-     *
+     * A synchronized class for print map Info
      *
      */
-    protected synchronized void printGameInfo() {
+    protected synchronized void printMapAndMapWeaponAmmoInfo() {
 
 
-        printSrcFile("GameInfo.txt");
-        printMap();
+        //TODO per map ammo
 
+        System.out.println("\n-------");
+        System.out.println("Map...");
+        printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
 
         System.out.println("\n-------");
         System.out.println("Weapon Info...");
@@ -311,24 +315,74 @@ public abstract class ControllerCli{
         System.out.println(ansi().bold().fg(Ansi.Color.YELLOW).a("At map square  NO.11 █").fgDefault());
         printWeaponInfo(gameController.getMap().getWeaponMap().get(Color.YELLOW));
 
-        printPlayerSelfInfo();
-
-        printSrcFile("GameInfoEnd.txt");
-
     }
+
 
     /**
      *
-     * For print map
+     * A synchronized class for print players' Info
      *
      */
-    protected void printMap() {
+    protected synchronized void printPlayerStateInfo(){
 
-        System.out.println("\n-------");
-        System.out.println("Map...");
-        printSrcFile("Map"+gameController.getMap().getMapID()+".txt");
+        //TODO player positions damage track
+
+
+        Set<Map.Entry<String, Color>> entryNicknameMap = gameController.getPlayersNicknames().entrySet();
+
+        for (Map.Entry<String, Color> player : entryNicknameMap){
+
+            Player modelPlayer = gameController.getPlayersMap().get(player.getValue());
+
+
+            System.out.println("----------------");
+            System.out.print("--->");
+            System.out.println(ansi().eraseScreen().bold().
+                    fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault());
+            System.out.println("Position: "+modelPlayer.getPosition());
+            System.out.print("AmmoBox: ");
+            printAmmoBoxInfo(modelPlayer.getAmmoBox());
+
+            printDamageTrack(modelPlayer.getDamage());
+            printMarkTrack(modelPlayer.getMarks());
+
+
+        }
+        
+    }
+
+    private synchronized static void printMarkTrack(ArrayList<Color> marks) {
+
+        System.out.print("Mark");
+        for (Color color:marks){
+            System.out.print(ansi().fg(transferColorToAnsiColor(color)).a("♠ ").fgDefault());
+        }
+        System.out.println(" ");
 
     }
+
+    private synchronized static void printDamageTrack(ArrayList<Color> damageArrayList) {
+
+        System.out.print("Damage");
+        for (Color color:damageArrayList){
+            System.out.print(ansi().fg(transferColorToAnsiColor(color)).a("❤ ").fgDefault());
+        }
+        System.out.println(" ");
+    }
+
+
+    /**
+     *
+     * A synchronized class for print Ammo BoxInfo
+     *
+     */
+    private synchronized void printAmmoBoxInfo(int[] ammoBox) {
+
+
+
+
+    }
+
 
     /**
      *
@@ -339,7 +393,7 @@ public abstract class ControllerCli{
      */
     protected static void printPowerupInfo(ArrayList<Integer> powerupList){
 
-        if (powerupList==null) {
+        if (powerupList.size()==0) {
             System.err.println("You don't have powerup card now");
             return;
         }
@@ -356,7 +410,7 @@ public abstract class ControllerCli{
      * For print player own powerup and weapon cards
      *
      */
-    protected void printPlayerSelfInfo() {
+    protected synchronized void printPlayerOwnPowerupAndWeaponInfo() {
 
         Player player = gameController.getPlayersMap().get(gameController.getOwnColor());
 
@@ -365,6 +419,7 @@ public abstract class ControllerCli{
         printPowerupInfo(player.getPowerupCards());
         System.out.println("Your own weapon cards...");
         printWeaponInfo(player.getWeaponCards());
+
     }
 
 
@@ -378,7 +433,7 @@ public abstract class ControllerCli{
      */
     protected static void printWeaponInfo(ArrayList<Integer> weaponList){
 
-        if (weaponList==null) {
+        if (weaponList.size()==0) {
             System.err.println("Don't have weapon card now");
             return;
         }

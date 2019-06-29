@@ -46,7 +46,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
     protected void initialStageCli() {
 
         turnNumber.set(getPlayerTurnNumber());
-        printAllPlayerInfo();
+        printLobbyInfo();
         printSrcFile("Avatar.txt");
         if (turnNumber.get()!=1)
             System.out.println("Wait for your turn...");
@@ -64,7 +64,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
             }
 
 
-            printAllPlayerInfo();
+            printLobbyInfo();
 
             selectMapAndSkulls();
 

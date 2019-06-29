@@ -338,10 +338,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /*
     public void test(){
         gameController.updateMap(new Map());
         gameController.updatePlayer(new Player());
     }
+
+     */
 
     public void selectAction(Event evt){
         message.setText("");
