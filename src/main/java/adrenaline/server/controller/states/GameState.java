@@ -14,8 +14,10 @@ public interface GameState {
     String selectPowerUp(PowerupCard powerUp);
     String selectWeapon(int weaponID);
     String selectFiremode(int firemode);
+    String selectAmmo(Color color);
     String moveSubAction();
     String endOfTurnAction();
+    String selectFinalFrenzyAction(Integer action);
     String goBack();
     String selectAvatar(Color color);
     String selectSettings(int mapID, int skulls, String voterID);

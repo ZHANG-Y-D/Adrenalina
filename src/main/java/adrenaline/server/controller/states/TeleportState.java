@@ -43,7 +43,7 @@ public class TeleportState implements GameState {
         if(!squares.contains(index)) return "Invalid selection! Select a valid square.";
         lobby.movePlayer(index);
         lobby.removePowerup(thisCard);
-        lobby.setState(new SelectActionState(lobby));
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         return "OK";
     }
 
@@ -63,6 +63,9 @@ public class TeleportState implements GameState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "You can't do that now!"; }
+
+    @Override
     public String moveSubAction() {
         return "Select the square you want to teleport in.";
     }
@@ -73,8 +76,11 @@ public class TeleportState implements GameState {
     }
 
     @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+
+    @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby));
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         return "OK";
     }
 

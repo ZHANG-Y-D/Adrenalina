@@ -65,7 +65,7 @@ public class FirePlayerState implements FiremodeSubState {
                 MoveSelfState mvSelStep=thisFiremode.getMoveSelfStep();
                 if(mvSelStep==null){
                     lobby.clearTempAmmo();
-                    lobby.setState(new SelectActionState(lobby));
+                    lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
                 }
                 else{
                     mvSelStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
@@ -97,7 +97,7 @@ public class FirePlayerState implements FiremodeSubState {
         if(nextStep==null){
             MoveSelfState mvSelStep=thisFiremode.getMoveSelfStep();
             if(mvSelStep==null){
-                lobby.setState(new SelectActionState(lobby));
+                lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
             }
             else{
                 mvSelStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
@@ -123,6 +123,10 @@ public class FirePlayerState implements FiremodeSubState {
         return "Select your target(s) or GO BACK.";
     }
 
+    public String selectAmmo(Color color) {
+        return "Select your target(s) or GO BACK.";
+    }
+
     public String moveSubAction() {
         MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
         if(moveStep==null) return "You can't do that!";
@@ -138,6 +142,8 @@ public class FirePlayerState implements FiremodeSubState {
         return "Select your target(s) or GO BACK.";
     }
 
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+
     public String goBack() {
         lobby.setState(new ShootState(lobby));
         return "OK";
@@ -147,7 +153,6 @@ public class FirePlayerState implements FiremodeSubState {
         return "KO";
     }
 
-    @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";
     }

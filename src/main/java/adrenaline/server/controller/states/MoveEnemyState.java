@@ -68,7 +68,7 @@ public class MoveEnemyState implements FiremodeSubState {
                     MoveSelfState mvSelStep=thisFiremode.getMoveSelfStep();
                     if(mvSelStep==null){
                         lobby.clearTempAmmo();
-                        lobby.setState(new SelectActionState(lobby));
+                        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
                     }
                     else{
                         mvSelStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
@@ -105,6 +105,9 @@ public class MoveEnemyState implements FiremodeSubState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "Select your target(s) or GO BACK."; }
+
+    @Override
     public String moveSubAction() {
         MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
         if(moveStep==null) return "You can't do that!";
@@ -119,6 +122,9 @@ public class MoveEnemyState implements FiremodeSubState {
     public String endOfTurnAction() {
         return "Select your target(s) or GO BACK.";
     }
+
+    @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
     @Override
     public String goBack() {

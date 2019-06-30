@@ -67,6 +67,9 @@ public class ReloadState implements GameState{
     }
 
     @Override
+    public String selectAmmo(Color color) { return "You can't do that now!"; }
+
+    @Override
     public String moveSubAction() {
         return "You can't do that now!";
     }
@@ -76,6 +79,9 @@ public class ReloadState implements GameState{
         lobby.endTurn(false);
         return "OK";
     }
+
+    @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
     @Override
     public String goBack() {

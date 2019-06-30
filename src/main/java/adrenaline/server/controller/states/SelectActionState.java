@@ -27,7 +27,7 @@ public class SelectActionState implements GameState {
     public String grabAction() {
         if (lobby.getExecutedActions() >= 2) return "You have run out of moves!";
         else {
-            lobby.setState(new GrabState(lobby));
+            lobby.setState(new GrabState(lobby, lobby.getCurrentPlayerAdrenalineState() > 0 ? 2 : 1));
             return "OK Select something to grab";
         }
     }
@@ -62,8 +62,11 @@ public class SelectActionState implements GameState {
 
     @Override
     public String selectFiremode(int firemode) {
-        return null;
+        return "Select an action!";
     }
+
+    @Override
+    public String selectAmmo(Color color) { return "Select an action!"; }
 
     @Override
     public String moveSubAction() {
@@ -75,6 +78,8 @@ public class SelectActionState implements GameState {
         lobby.setState(new ReloadState(lobby));
         return "OK Select a weapon to reload";
     }
+
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
     @Override
     public String goBack() {

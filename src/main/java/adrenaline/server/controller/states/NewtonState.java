@@ -49,7 +49,7 @@ public class NewtonState implements GameState {
         if(validSquares.contains(index)){
             lobby.movePlayer(index, selectedPlayer);
             lobby.removePowerup(thisPowerup);
-            lobby.setState(new SelectActionState(lobby));
+            lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
             return "OK Target moved.";
         }else return "You can't move your target there! Please select a valid square.";
     }
@@ -64,10 +64,16 @@ public class NewtonState implements GameState {
     public String selectFiremode(int firemode) { return "Select the target you want to move."; }
 
     @Override
+    public String selectAmmo(Color color) { return "You can't do that now!"; }
+
+    @Override
     public String moveSubAction() { return "Select the target you want to move."; }
 
     @Override
     public String endOfTurnAction() { return "Select the target you want to move."; }
+
+    @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
     @Override
     public String goBack() { return "Select the target you want to move."; }

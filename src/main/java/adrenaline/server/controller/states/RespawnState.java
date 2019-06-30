@@ -49,7 +49,7 @@ public class RespawnState implements GameState {
     public String selectPowerUp(PowerupCard powerUp) {
         lobby.respawnWithPowerup(powerUp);
         if(firstRound){
-            lobby.setState(new SelectActionState(lobby));
+            lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         }else {
             lobby.endTurn(false);
         }
@@ -67,6 +67,9 @@ public class RespawnState implements GameState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "You are dead! Discard a powerup card to choose your spawn point"; }
+
+    @Override
     public String moveSubAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
@@ -75,6 +78,9 @@ public class RespawnState implements GameState {
     public String endOfTurnAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
+
+    @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
     @Override
     public String goBack() {

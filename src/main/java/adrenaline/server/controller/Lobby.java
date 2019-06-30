@@ -37,8 +37,8 @@ public class Lobby implements Runnable, LobbyAPI {
     private HashMap <String, Player> playersMap;
     private HashMap <Color, Player> playersColor;
     private GameState currentState;
-    private String currentTurnPlayer;
-    private String nextTurnPlayer;
+    private String currentTurnPlayer = null;
+    private String nextTurnPlayer = null;
     private int executedActions;
 
     private Map map=null;
@@ -56,6 +56,8 @@ public class Lobby implements Runnable, LobbyAPI {
 
     private boolean commandReceived = false;
 
+    private boolean finalfrenzy = false;
+    private boolean firstPlayerFF = false;
 
     public Lobby(ArrayList<Client> clients) {
         lobbyID = UUID.randomUUID().toString();
@@ -72,8 +74,7 @@ public class Lobby implements Runnable, LobbyAPI {
         damagedThisTurn = new HashSet<>();
         killedthisturn=0;
         chat = new Chat(clients);
-        currentTurnPlayer = clients.get(0).getClientID();
-        nextTurnPlayer = clients.get(1).getClientID();
+        nextTurnPlayer = clients.get(0).getClientID();
         turnTimer = Executors.newScheduledThreadPool(1);
         System.out.println("NEW LOBBY STARTED WITH "+ clients.size()+" USERS.");
     }
@@ -112,21 +113,37 @@ public class Lobby implements Runnable, LobbyAPI {
     public void run() {
         avatarSelection();
         initSettings();
-        playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
-        playersMap.get(currentTurnPlayer).addPowerupCard(deckPowerup.draw());
-        playersMap.get(currentTurnPlayer).setFirstRound();
-        currentState = new RespawnState(this, true);
-        scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
-        clientMap.values().forEach(x -> {
-            try {
-                x.timerStarted(TURN_TIMEOUT_IN_SECONDS, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
-            } catch (RemoteException e) { }
-        });
         synchronized (this){
             while(!scoreBoard.gameEnded()) {
                 try {
+                    int TIMEOUT = nextTurnState();
+                    scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TIMEOUT, TimeUnit.SECONDS);
+                    clientMap.values().forEach(x -> {
+                        try {
+                            x.timerStarted(TIMEOUT, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
+                        } catch (RemoteException e) { }
+                    });
                     wait();
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+            }
+            playersMap.values().stream().filter(x -> x.getDamageTrack().isEmpty()).forEach(x -> scoreBoard.setFinalFrenzyValues(x.getColor()));
+            finalfrenzy=true;
+            System.out.println("ENTERING FINAL FRENZY");
+            for(int i=0; i<clientMap.keySet().size(); i++){
+                try {
+                    int TIMEOUT = nextFinalfrenzyTurnState();
+                    scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TIMEOUT, TimeUnit.SECONDS);
+                    clientMap.values().forEach(x -> {
+                        try {
+                            x.timerStarted(TIMEOUT, clientMap.get(currentTurnPlayer).getNickname() + "'s turn");
+                        } catch (RemoteException e) {
+                        }
+                    });
+                    wait();
+                }catch (InterruptedException e) {
                     e.printStackTrace();
                     Thread.currentThread().interrupt();
                 }
@@ -144,6 +161,7 @@ public class Lobby implements Runnable, LobbyAPI {
             AvatarSelectionState avatarSelectionState = new AvatarSelectionState(this, avatars);
             currentState = avatarSelectionState;
             while(clientMap.size()>playersMap.size()) {
+                nextPlayer();
                 scheduledTimeout = turnTimer.schedule(new AvatarTimer(avatarSelectionState), TURN_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
                 clientMap.values().forEach(x -> {
                     try {
@@ -235,6 +253,14 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    public String selectAmmo(String clientID, Color color) {
+        if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
+            return currentState.selectAmmo(color);
+        }
+        else return "You can only do that during your turn!";
+    }
+
     public String moveSubAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -255,6 +281,11 @@ public class Lobby implements Runnable, LobbyAPI {
             return currentState.endOfTurnAction();
         }
         else return "You can only do that during your turn!";
+    }
+
+    public String selectFinalFrenzyAction(String clientID, Integer action) {
+        //TODO
+        return null;
     }
 
     public String selectAvatar(String clientID, Color color) {
@@ -298,6 +329,10 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public int getExecutedActions(){ return executedActions; }
 
+    public boolean isFinalfrenzy(){ return finalfrenzy; }
+
+    public boolean isFirstPlayerFF() { return firstPlayerFF; }
+
     public synchronized void endTurn(boolean timeoutReached){
         if(!timeoutReached) scheduledTimeout.cancel(true);
         else if(!commandReceived || !playersMap.get(currentTurnPlayer).isAlive()){
@@ -311,7 +346,10 @@ public class Lobby implements Runnable, LobbyAPI {
         setMapCards();
         checkDeadPlayers();
         damagedThisTurn.clear();
-        int TIMEOUT;
+        notifyAll();
+    }
+
+    private synchronized int nextTurnState(){
         if(!deadPlayers.isEmpty()){
             String dead = deadPlayers.get(0);
             for(int i = 1; i<deadPlayers.size();i++) deadPlayers.set(i-1, deadPlayers.get(i));
@@ -320,7 +358,7 @@ public class Lobby implements Runnable, LobbyAPI {
             if(playersMap.get(dead).getPowerupHandSize()<3) playersMap.get(dead).addPowerupCard(deckPowerup.draw());
             currentTurnPlayer = dead;
             currentState = new RespawnState(this);
-            TIMEOUT = RESPAWN_TIMEOUT_IN_SECONDS;
+            return RESPAWN_TIMEOUT_IN_SECONDS;
         }else {
             nextPlayer();
             Player currentPlayer = playersMap.get(currentTurnPlayer);
@@ -328,25 +366,38 @@ public class Lobby implements Runnable, LobbyAPI {
                 currentPlayer.addPowerupCard(deckPowerup.draw());
                 currentPlayer.addPowerupCard(deckPowerup.draw());
                 currentState = new RespawnState(this, true);
-                TIMEOUT = TURN_TIMEOUT_IN_SECONDS;
                 currentPlayer.setFirstRound();
             }else{
-                TIMEOUT = TURN_TIMEOUT_IN_SECONDS;
                 currentState = new SelectActionState(this);
             }
+            return TURN_TIMEOUT_IN_SECONDS;
         }
-        scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TIMEOUT, TimeUnit.SECONDS);
-        clientMap.values().forEach(x -> {
-            try {
-                x.timerStarted(TIMEOUT, clientMap.get(currentTurnPlayer).getNickname()+"'s turn");
-            } catch (RemoteException e) { }
-        });
-        notifyAll();
+
+    }
+
+    private synchronized int nextFinalfrenzyTurnState(){
+        if(!deadPlayers.isEmpty()){
+            String dead = deadPlayers.get(0);
+            for(int i = 1; i<deadPlayers.size();i++) deadPlayers.set(i-1, deadPlayers.get(i));
+            deadPlayers.remove(deadPlayers.size()-1);
+            //NOTE: this is to preserve the same order of players between respawns and regular turns
+            scoreBoard.setFinalFrenzyValues(playersMap.get(dead).getColor());
+            if(playersMap.get(dead).getPowerupHandSize()<3) playersMap.get(dead).addPowerupCard(deckPowerup.draw());
+            currentTurnPlayer = dead;
+            currentState = new RespawnState(this);
+            return RESPAWN_TIMEOUT_IN_SECONDS;
+        }else {
+            nextPlayer();
+            firstPlayerFF |= currentTurnPlayer.equals(clientMap.keySet().iterator().next());
+                    System.out.println("first player ff: "+firstPlayerFF);
+            currentState = new SelectFreneticActionState(this);
+            return TURN_TIMEOUT_IN_SECONDS;
+        }
     }
 
     private synchronized void nextPlayer(){
-        currentTurnPlayer = nextTurnPlayer;
         Iterator<String> itr = clientMap.keySet().iterator();
+        currentTurnPlayer = nextTurnPlayer;
         String temp = itr.next();
         while (!temp.equals(currentTurnPlayer)) temp= itr.next();
         if (itr.hasNext()) nextTurnPlayer = itr.next();
@@ -361,7 +412,6 @@ public class Lobby implements Runnable, LobbyAPI {
         playersColor.put(chosen.getColor(), newPlayer);
         scoreBoard.initPlayerScore(chosen.getColor());
         commandReceived=true;
-        nextPlayer();
         notifyAll();
     }
 
@@ -507,7 +557,7 @@ public class Lobby implements Runnable, LobbyAPI {
             //If the tile depicts a powerup card, draw one.
             if (grabbedAmmoContent[3] != 0 && currentPlayer.getPowerupHandSize()<3) currentPlayer.addPowerupCard(deckPowerup.draw());
         }
-        setState(new SelectActionState(this));
+        setState(finalfrenzy? new SelectFreneticActionState(this) : new SelectActionState(this));
     }
 
     public void grabFromSquare(SquareSpawn square){
@@ -555,7 +605,7 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String usePowerup(ScopePowerup scope){
-        setState(new ScopeState(this, scope, damagedThisTurn));
+        setState(new ScopeState(this, scope, damagedThisTurn, playersMap.get(currentTurnPlayer)));
         return "OK Select the target you want to give extra damage to.";
     }
 
@@ -599,10 +649,20 @@ public class Lobby implements Runnable, LobbyAPI {
         }else throw new NotEnoughAmmoException();
     }
 
-    public WeaponCard useWeapon(int weaponID){
+    public WeaponCard useWeapon(int weaponID, boolean reloadIfPossible){
         WeaponCard wc = playersMap.get(currentTurnPlayer).getWeaponCard(weaponID);
-        if(wc == null || !wc.isLoaded()) return null;
-        else return wc;
+        if(wc == null) return null;
+        if(wc.isLoaded()) return wc;
+        else if(reloadIfPossible){
+            int[] ammoCost = wc.getAmmoCost();
+            Player currPlayer = playersMap.get(currentTurnPlayer);
+            if(currPlayer.canPayCost(ammoCost)){
+                currPlayer.payCost(ammoCost);
+                wc.setLoaded(true);
+                return wc;
+            }
+        }
+        return null;
     }
 
     public Firemode getFiremode(int weaponID, int firemode) throws NotEnoughAmmoException{

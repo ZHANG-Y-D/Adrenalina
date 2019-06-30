@@ -37,7 +37,7 @@ public class RunState implements GameState {
         System.out.println("STATE");
         if(!validSquares.contains(index)) return "You can't move there! Please select a valid square";
         lobby.movePlayer(index);
-        lobby.setState(new SelectActionState(lobby));
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         lobby.incrementExecutedActions();
         return "OK";
     }
@@ -58,6 +58,9 @@ public class RunState implements GameState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "You can't do that now!"; }
+
+    @Override
     public String moveSubAction() { return "You can't do that now!"; }
 
     @Override
@@ -66,8 +69,11 @@ public class RunState implements GameState {
     }
 
     @Override
+    public String selectFinalFrenzyAction(Integer action) { return "You can't do that now!"; }
+
+    @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby));
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         return "OK Select an action";
     }
 

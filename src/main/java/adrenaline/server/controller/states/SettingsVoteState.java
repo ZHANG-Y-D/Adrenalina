@@ -62,8 +62,11 @@ public class SettingsVoteState implements GameState {
 
     @Override
     public String selectFiremode(int firemode) {
-        return null;
+        return "KO";
     }
+
+    @Override
+    public String selectAmmo(Color color) { return "KO"; }
 
     @Override
     public String moveSubAction() {
@@ -74,6 +77,9 @@ public class SettingsVoteState implements GameState {
     public String endOfTurnAction() {
         return "KO";
     }
+
+    @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
     @Override
     public String goBack() {

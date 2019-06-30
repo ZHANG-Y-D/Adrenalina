@@ -1,5 +1,6 @@
 package adrenaline.client.view;
 
+import org.fusesource.jansi.Ansi;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -40,6 +41,19 @@ public class selectionStageCliTest {
 
         for (int i=1;i<=21;i++)
             printSrcFile("Weapon"+i+".txt");
+
+
+        System.out.print(ansi().fg(Ansi.Color.BLUE).a("❤ ❤ ❤ ❤ ❤ ❤").fgDefault());
+
+    }
+
+    @Test
+    void AmmoBoxFilePrintTest() {
+
+        for (int i=1;i<=36;i++) {
+            System.out.print(i+": ");
+            printSrcFile("AmmoBox" + i + ".txt");
+        }
 
     }
 

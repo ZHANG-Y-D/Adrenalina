@@ -1,38 +1,38 @@
 package adrenaline.server.controller.states;
 
-import adrenaline.server.exceptions.NotEnoughAmmoException;
-import adrenaline.server.controller.Lobby;
 import adrenaline.Color;
+import adrenaline.server.controller.Lobby;
+import adrenaline.server.exceptions.NotEnoughAmmoException;
 import adrenaline.server.model.Firemode;
 import adrenaline.server.model.PowerupCard;
 import adrenaline.server.model.WeaponCard;
 
 import java.util.ArrayList;
 
-public class ShootState implements GameState {
+public class FreneticActionState implements GameState {
 
     private Lobby lobby;
-    private WeaponCard selectedWeapon = null;
     private ArrayList<Integer> validSquares;
+    private boolean moveExecuted = false;
+    private WeaponCard selectedWeapon = null;
 
-    public ShootState(Lobby lobby){
+    public FreneticActionState(Lobby lobby, int runrange){
         this.lobby = lobby;
-        if(lobby.getCurrentPlayerAdrenalineState()>1) validSquares = lobby.sendCurrentPlayerValidSquares(1);
+        validSquares = lobby.sendCurrentPlayerValidSquares(runrange);
     }
-
     @Override
     public String runAction() {
-        return "Select a weapon or GO BACK to action selection!";
+        return "KO";
     }
 
     @Override
     public String grabAction() {
-        return "Select a weapon or GO BACK to action selection!";
+        return "KO";
     }
 
     @Override
     public String shootAction() {
-        return "Select a weapon or GO BACK to action selection!";
+        return "KO";
     }
 
     @Override
@@ -42,11 +42,12 @@ public class ShootState implements GameState {
 
     @Override
     public String selectSquare(int index) {
-        if(validSquares==null) return "Select which weapon you want to use first";
-        if(validSquares.contains(index)){
+        if(!moveExecuted && validSquares.contains(index)){
             lobby.movePlayer(index);
+            moveExecuted=true;
             lobby.incrementExecutedActions();
             return "OK";
+
         }else return "You can't move there!";
     }
 
@@ -58,8 +59,8 @@ public class ShootState implements GameState {
 
     @Override
     public String selectWeapon(int weaponID) {
-        selectedWeapon = lobby.useWeapon(weaponID, false);
-        if(selectedWeapon==null) return "You can't shoot with that weapon! Please select a valid weapon";
+        selectedWeapon = lobby.useWeapon(weaponID, true);
+        if(selectedWeapon==null) return "You can't use that weapon!";
         else return "OK Select the firemode";
     }
 
@@ -94,11 +95,13 @@ public class ShootState implements GameState {
     }
 
     @Override
-    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+    public String selectFinalFrenzyAction(Integer action) {
+        return "Select a weaopon or GO BACK to action selection!";
+    }
 
     @Override
     public String goBack() {
-        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
+        lobby.setState(new SelectFreneticActionState(lobby));
         lobby.clearTempAmmo();
         return "OK";
     }

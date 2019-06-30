@@ -14,6 +14,7 @@ public class ScoreBoard extends Observable {
     private Color[] killshotTrack;
     private Boolean[] overkillFlags;
     private int killCount;
+    private ArrayList<Color> finalfrenzyPlayers = new ArrayList<>();
 
     public ScoreBoard(ArrayList<Client> clients){
         clients.forEach(this::attach);
@@ -31,8 +32,10 @@ public class ScoreBoard extends Observable {
     }
 
     public void scoreKill(Color dead, ArrayList<Color> damageTrack){
-        int firstBlood = scoreMap.get(damageTrack.get(0));
-        scoreMap.put(damageTrack.get(0), firstBlood+1);
+        if(!finalfrenzyPlayers.contains(dead)) {
+            int firstBlood = scoreMap.get(damageTrack.get(0));
+            scoreMap.put(damageTrack.get(0), firstBlood + 1);
+        }
 
         List<Integer> frequencies = damageTrack.stream().map(x -> Collections.frequency(damageTrack, x)).distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
         List<Color> attackers = damageTrack.stream().distinct().collect(Collectors.toList());
@@ -76,7 +79,14 @@ public class ScoreBoard extends Observable {
         return overkillFlags;
     }
 
+<<<<<<< HEAD
     public HashMap<Color,Integer> getScoreMap() { return scoreMap; }
 
     public int getKillCount() { return killCount; }
+=======
+    public void setFinalFrenzyValues(Color player){
+        diminValues.put(player,2);
+        finalfrenzyPlayers.add(player);
+    }
+>>>>>>> 433d2236b6912355ea34893b0cd1fdfc79c14e7f
 }

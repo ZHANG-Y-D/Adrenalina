@@ -80,7 +80,7 @@ public class MoveSelfState implements FiremodeSubState {
                 if(nextStep!=null){
                     nextStep.setContext(lobby, weapon, thisFiremode, actionExecuted);
                     lobby.setState(nextStep);
-                }else lobby.setState(new SelectActionState(lobby));
+                }else lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
             }else {
                 callBackState.setContext(lobby, weapon, thisFiremode, true);
                 lobby.setState(callBackState);
@@ -105,6 +105,9 @@ public class MoveSelfState implements FiremodeSubState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "Select the square you want to move in"; }
+
+    @Override
     public String moveSubAction() {
         return "Select which square you want to move in";
     }
@@ -115,9 +118,12 @@ public class MoveSelfState implements FiremodeSubState {
     }
 
     @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+
+    @Override
     public String goBack() {
         if(callBackState==null){
-            lobby.setState(new SelectActionState(lobby));
+            lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         }else {
             callBackState.setContext(lobby, weapon, thisFiremode, true);
             lobby.setState(callBackState);
