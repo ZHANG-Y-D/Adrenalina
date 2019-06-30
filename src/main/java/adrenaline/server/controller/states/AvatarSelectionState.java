@@ -68,6 +68,9 @@ public class AvatarSelectionState implements GameState {
     }
 
     @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+
+    @Override
     public String goBack() {
         return "KO";
     }

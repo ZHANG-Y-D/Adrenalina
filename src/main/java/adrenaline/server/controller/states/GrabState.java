@@ -11,9 +11,9 @@ public class GrabState implements GameState {
     private Lobby lobby;
     private ArrayList<Integer> validSquares;
 
-    public GrabState(Lobby lobby) {
+    public GrabState(Lobby lobby, int moveRange) {
         this.lobby = lobby;
-        this.validSquares = lobby.sendCurrentPlayerValidSquares(lobby.getCurrentPlayerAdrenalineState() > 0 ? 2 : 1);
+        this.validSquares = lobby.sendCurrentPlayerValidSquares(moveRange);
     }
 
     @Override
@@ -77,8 +77,11 @@ public class GrabState implements GameState {
     }
 
     @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+
+    @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby));
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         lobby.clearTempAmmo();
         return "OK Select an action";
     }

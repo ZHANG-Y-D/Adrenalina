@@ -17,6 +17,7 @@ public interface GameState {
     String selectAmmo(Color color);
     String moveSubAction();
     String endOfTurnAction();
+    String selectFinalFrenzyAction(Integer action);
     String goBack();
     String selectAvatar(Color color);
     String selectSettings(int mapID, int skulls, String voterID);
