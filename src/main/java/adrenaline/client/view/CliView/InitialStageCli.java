@@ -5,6 +5,8 @@ import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,7 +17,7 @@ import static java.util.UUID.randomUUID;
  * The first stage of game flow,for connect the internet and set nickname.
  *
  */
-public class InitialStageCli extends ControllerCli implements ViewInterface{
+public class InitialStageCli extends ControllerCli implements ViewInterface {
 
 
     /**
@@ -144,7 +146,6 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
         Runnable runnable = () -> {
 
             printGameID();
-
             new SelectionStageCli(gameController);
 
 
@@ -283,6 +284,5 @@ public class InitialStageCli extends ControllerCli implements ViewInterface{
     public void showValidSquares(ArrayList<Integer> validSquares) {
         //operation not supported at this stage
     }
-
 
 }

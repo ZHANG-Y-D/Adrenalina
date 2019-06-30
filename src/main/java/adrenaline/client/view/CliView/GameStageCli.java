@@ -30,9 +30,8 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     private Lock chatLock = new ReentrantLock();
     private AtomicBoolean isInTurn = new AtomicBoolean(false);
     private Thread turnControllerThread;
-    private Thread timeThread;
     private final Object subActionLock = new Object();
-    private AtomicInteger isSelectedSquare = new AtomicInteger(-1);
+    private AtomicInteger isDidAction = new AtomicInteger(-1);
 
 
     /**
@@ -68,6 +67,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+    //TODO respwan
 
     /**
      *
@@ -114,8 +114,12 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         Runnable runnable = () -> {
             printAString("err",error);
 
-            if (error.contains("You have run out of moves"))
+            if (error.contains("You have run out of moves")) {
+                isDidAction.set(0);
                 finishActionAndWakeupWaitThread();
+            }
+            else if (error.contains("You can only do that during your turn"))
+                finishThisTurn();
 
         };
 
@@ -162,26 +166,17 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             printPlayerOwnPowerupAndWeaponInfo();
 
             System.out.println("Select actions is finished.");
-            System.out.println("Choose a weapon card for reload, input 0 to pass and finish this turn:");
+            System.out.println("Choose a weapon card for reload, input -1 to pass and finish this turn:");
 
             weaponID = readANumber(playerSelf.getWeaponCards());
-            if (weaponID==0) {
+            if (weaponID==-1) {
                 gameController.endTurn();
                 finishThisTurn();
                 return;
             }
 
-            System.out.println("You want pay ammo with your powerup cards? Input yes to do:");
-            if (readAString().equalsIgnoreCase("y")
-                    || readAString().equalsIgnoreCase("yes")){
-                System.out.println("How much powerups do you want to use?You have "
-                        +playerSelf.getPowerupCards().size()+" powerup cards");
-                int powers = readANumber(1,3);
-                for (;powers>0 && playerSelf.getPowerupCards().size()>=powers;powers--){
-                    System.out.println("Input number of powerup:");
-                    gameController.selectPowerUp(readANumber(playerSelf.getPowerupCards()));
-                }
-            }
+            payWithPowerup();
+
 
             gameController.selectWeapon(weaponID);
 
@@ -195,6 +190,26 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
 
 
+    private void payWithPowerup() {
+
+        Player playerSelf = gameController.getPlayersMap().get(gameController.getOwnColor());
+
+        System.out.println("You want pay ammo with your powerup cards? Input yes to do:");
+        if (readAString().equalsIgnoreCase("y")
+                || readAString().equalsIgnoreCase("yes")){
+
+            System.out.println("How much powerups do you want to use?You have "
+                    +playerSelf.getPowerupCards().size()+" powerup cards");
+            int powers = readANumber(1,3);
+            for (;powers>0 && playerSelf.getPowerupCards().size()>=powers;powers--){
+                System.out.println("Input number of powerup:");
+                gameController.selectPowerUp(readANumber(playerSelf.getPowerupCards()));
+            }
+        }
+
+    }
+
+
     /**
      *
      *
@@ -206,8 +221,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         System.out.println("Your turn is finished");
         try {
-            if (timeThread.isAlive())
-                timeThread.interrupt();
             if (turnControllerThread.isAlive())
                 turnControllerThread.interrupt();
         }catch (NullPointerException ignored){
@@ -255,7 +268,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             if (comment.contains(gameController.getOwnNickname()) && !isInTurn.get()) {
 
                 isInTurn.set(true);
-                startTimer(duration);
 
                 System.out.println("Your turn is arrived,you have " +
                         duration + " seconds,input anything to start!");
@@ -313,34 +325,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-    /**
-     *
-     *
-     *
-     */
-    private void startTimer(Integer duration) {
 
-        Runnable timeRunnable = () -> {
-
-
-            //TODO cancel timer.
-
-            Timer timer = new Timer();
-
-            TimerTask deadline = new TimerTask() {
-                @Override
-                public void run() {
-                    finishThisTurn();
-                }
-            };
-            long delay = (long) duration * 1000;
-            timer.schedule(deadline, delay);
-
-        };
-
-        timeThread = new Thread(timeRunnable);
-        timeThread.start();
-    }
 
 
     /**
@@ -433,7 +418,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      */
     private void shootAction() {
 
-        //TODO shootAction
+
         ArrayList<Integer> ownWeaponList =
                 gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards();
 
@@ -445,8 +430,12 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         System.out.println("Select one : ");
         gameController.selectWeapon(readANumber(ownWeaponList));
 
+        payWithPowerup();
+
         System.out.println("Select a fire mode: ");
         gameController.selectFiremode(readANumber(0,2));
+
+        //waitProcessCompleted();
 
     }
 
@@ -468,10 +457,10 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         printPowerupInfo(powerupList);
 
-        System.out.println("Which you want to use? If you don't want to use,input 0");
+        System.out.println("Which you want to use? If you don't want to use,input -1");
 
         selected = readANumber(powerupList);
-        if (selected == 0)
+        if (selected == -1)
             return;
         gameController.selectPowerUp(selected);
 
@@ -485,10 +474,17 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      */
     private void runAction() {
 
-        isSelectedSquare.set(-1);
+        isDidAction.set(-1);
         gameController.run();
 
-        while (isSelectedSquare.get()==-1) {
+        waitProcessCompleted();
+
+
+    }
+
+    private void waitProcessCompleted() {
+
+        while (isDidAction.get()==-1) {
             synchronized (subActionLock) {
                 try {
                     subActionLock.wait();
@@ -511,28 +507,19 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         Color grabbedColor;
         ArrayList<Integer> weaponList;
 
-        isSelectedSquare.set(-1);
+        isDidAction.set(-1);
         gameController.grab();
 
-        while (isSelectedSquare.get()==-1) {
-            synchronized (subActionLock) {
-                try {
-                    subActionLock.wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+        waitProcessCompleted();
 
-            }
-        }
-
-        if (isSelectedSquare.get()==2 ||
-                isSelectedSquare.get()==4 ||
-                    isSelectedSquare.get()==11){
+        if (isDidAction.get()==2 ||
+                isDidAction.get()==4 ||
+                    isDidAction.get()==11){
 
             System.out.println("You can choose a weapon.");
 
 
-            switch (isSelectedSquare.get()){
+            switch (isDidAction.get()){
                 case 2:
                     grabbedColor=Color.BLUE;
                     break;
@@ -603,11 +590,18 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             }
 
             System.out.println(" ");
+            System.out.println("Choose one: Input -1 to go back.");
 
             int num = readANumber(validSquares);
 
-            gameController.selectSquare(num);
-            isSelectedSquare.set(num);
+            if (num==-1) {
+                gameController.back();
+                isDidAction.set(0);
+            }
+            else{
+                gameController.selectSquare(num);
+                isDidAction.set(num);
+            }
 
             finishActionAndWakeupWaitThread();
 
