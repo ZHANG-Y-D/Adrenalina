@@ -67,6 +67,9 @@ public class RespawnState implements GameState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "You are dead! Discard a powerup card to choose your spawn point"; }
+
+    @Override
     public String moveSubAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }

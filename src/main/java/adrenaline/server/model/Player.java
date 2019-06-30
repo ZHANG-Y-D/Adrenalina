@@ -114,7 +114,7 @@ public class Player extends Observable{
     public ArrayList<Color> getMarks() {
         return marks;
     }
-    
+
     public ArrayList<WeaponCard> getWeaponCards() {
         return weaponCards;
     }

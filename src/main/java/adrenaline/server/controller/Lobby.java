@@ -235,6 +235,14 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    public String selectAmmo(String clientID, Color color) {
+        if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
+            return currentState.selectAmmo(color);
+        }
+        else return "You can only do that during your turn!";
+    }
+
     public String moveSubAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -553,7 +561,7 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String usePowerup(ScopePowerup scope){
-        setState(new ScopeState(this, scope, damagedThisTurn));
+        setState(new ScopeState(this, scope, damagedThisTurn, playersMap.get(currentTurnPlayer)));
         return "OK Select the target you want to give extra damage to.";
     }
 

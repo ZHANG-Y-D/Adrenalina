@@ -63,6 +63,9 @@ public class TeleportState implements GameState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "You can't do that now!"; }
+
+    @Override
     public String moveSubAction() {
         return "Select the square you want to teleport in.";
     }

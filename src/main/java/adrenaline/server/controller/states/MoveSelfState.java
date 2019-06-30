@@ -105,6 +105,9 @@ public class MoveSelfState implements FiremodeSubState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "Select the square you want to move in"; }
+
+    @Override
     public String moveSubAction() {
         return "Select which square you want to move in";
     }

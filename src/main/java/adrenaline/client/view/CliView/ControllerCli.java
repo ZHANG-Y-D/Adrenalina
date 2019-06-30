@@ -6,10 +6,7 @@ import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Player;
 import org.fusesource.jansi.Ansi;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,8 +41,7 @@ public abstract class ControllerCli{
      *
      */
     protected static void printSrcFile(String srcFileName){
-
-        try(FileReader fileReader = new FileReader("src/main/resources/ForCli/" + srcFileName)) {
+        try(InputStreamReader fileReader = new InputStreamReader(GameController.class.getResourceAsStream("/ForCli/" + srcFileName))) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String string = bufferedReader.readLine();
             while (string != null){
@@ -53,7 +49,7 @@ public abstract class ControllerCli{
                 string=bufferedReader.readLine();
             }
         }catch (FileNotFoundException e){
-            System.err.println("\nsrc/main/resources/ForCli/"+srcFileName+"  File Not Found ");
+            System.err.println("\n/ForCli/"+srcFileName+"  File Not Found ");
         }catch (IOException e){
             System.err.println("\n printSrcFile IOException ");
         }

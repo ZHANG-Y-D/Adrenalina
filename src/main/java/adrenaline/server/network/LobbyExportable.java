@@ -56,6 +56,11 @@ public class LobbyExportable extends UnicastRemoteObject implements LobbyAPI {
     }
 
     @Override
+    public String selectAmmo(String clientID, Color color) throws RemoteException {
+        return lobbyRelay.selectAmmo(clientID, color);
+    }
+
+    @Override
     public String moveSubAction(String clientID) {
         return lobbyRelay.moveSubAction(clientID);
     }

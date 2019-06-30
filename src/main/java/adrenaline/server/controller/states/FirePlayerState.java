@@ -123,6 +123,11 @@ public class FirePlayerState implements FiremodeSubState {
         return "Select your target(s) or GO BACK.";
     }
 
+    @Override
+    public String selectAmmo(Color color) {
+        return "Select your target(s) or GO BACK.";
+    }
+
     public String moveSubAction() {
         MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
         if(moveStep==null) return "You can't do that!";

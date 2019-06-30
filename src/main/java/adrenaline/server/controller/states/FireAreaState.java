@@ -100,6 +100,9 @@ public class FireAreaState implements FiremodeSubState {
     @Override
     public String selectFiremode(int firemode) { return "Select your target area or GO BACK."; }
 
+    @Override
+    public String selectAmmo(Color color) { return "Select your target area or GO BACK."; }
+
     public String moveSubAction() {
         MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
         if(moveStep==null) return "You can't do that!";

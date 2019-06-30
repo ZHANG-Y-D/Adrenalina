@@ -105,6 +105,9 @@ public class MoveEnemyState implements FiremodeSubState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "Select your target(s) or GO BACK."; }
+
+    @Override
     public String moveSubAction() {
         MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
         if(moveStep==null) return "You can't do that!";
