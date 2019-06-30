@@ -111,7 +111,13 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     @Override
     public void showError(String error) {
 
-        Runnable runnable = () -> printAString("err",error);
+        Runnable runnable = () -> {
+            printAString("err",error);
+
+            if (error.contains("You have run out of moves"))
+                finishActionAndWakeupWaitThread();
+
+        };
 
         Thread showErrorThread = new Thread(runnable);
         showErrorThread.start();
@@ -315,6 +321,9 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     private void startTimer(Integer duration) {
 
         Runnable timeRunnable = () -> {
+
+
+            //TODO cancel timer.
 
             Timer timer = new Timer();
 
@@ -600,7 +609,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             gameController.selectSquare(num);
             isSelectedSquare.set(num);
 
-            finishAction();
+            finishActionAndWakeupWaitThread();
 
 
         };
@@ -611,7 +620,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     }
 
-    private void finishAction() {
+    private void finishActionAndWakeupWaitThread() {
 
         synchronized (subActionLock) {
             subActionLock.notifyAll();

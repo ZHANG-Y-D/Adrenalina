@@ -325,6 +325,8 @@ public abstract class ControllerCli{
         System.out.println(ansi().bold().fg(Ansi.Color.YELLOW).a("At map square  NO.11 █").fgDefault());
         printWeaponInfo(gameController.getMap().getWeaponMap().get(Color.YELLOW));
 
+
+
     }
 
 
