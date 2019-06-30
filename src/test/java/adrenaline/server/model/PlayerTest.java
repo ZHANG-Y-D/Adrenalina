@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import adrenaline.server.network.Client;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,33 +38,36 @@ class PlayerTest {
     void weaponCardTest(){
         DeckWeapon deckWeapon = new DeckWeapon();
         WeaponCard weaponCard = deckWeapon.cards.get(0);
+        WeaponCard weaponCard2 = deckWeapon.cards.get(1);
         player.addWeaponCard(deckWeapon.cards.get(0));
-        int weaponId = weaponCard.getWeaponID();
-        assertEquals(weaponCard,player.getWeaponCard(weaponId));
+        assertEquals(1,player.getWeaponHandSize());
+        int weaponId = weaponCard2.getWeaponID();
+        player.addWeaponCard(weaponCard2);
+        assertEquals(weaponCard2,player.getWeaponCard(weaponId));
         assertTrue(player.removeWeaponCard(weaponCard));
         assertFalse(player.removeWeaponCard(weaponCard));
+        assertNull(player.getWeaponCard(50));
+        player.removeWeaponCard(weaponCard2);
     }
 
     @Test
     void powerupCardTest(){
         DeckPowerup deckPowerup = new DeckPowerup();
         PowerupCard powerupCard = deckPowerup.cards.get(0);
+        PowerupCard powerupCard2 = deckPowerup.cards.get(1);
         player.addPowerupCard(powerupCard);
-        int powerupId = powerupCard.getPowerupID();
-        assertEquals(powerupCard, player.getPowerupCard(powerupId));
+        assertEquals(1,player.getPowerupHandSize());
+        int powerupId = powerupCard2.getPowerupID();
+        player.addPowerupCard(powerupCard2);
+        assertEquals(powerupCard2, player.getPowerupCard(powerupId));
         assertTrue(player.removePowerupCard(powerupCard));
         assertFalse(player.removePowerupCard(powerupCard));
+        player.removePowerupCard(powerupCard2);
         player.addPowerupCard(powerupCard);
         player.consumePowerup(powerupCard);
-        switch (powerupCard.getColor()){
-            case RED: assertEquals(1,player.getTempAmmoBox()[0]); break;
-            case BLUE: assertEquals(1,player.getTempAmmoBox()[1]); break;
-            case YELLOW: assertEquals(1,player.getTempAmmoBox()[2]); break;
-        }
         player.clearTempAmmo();
-        int[] tempAmmo = {0,0,0};
-        assertArrayEquals(tempAmmo, player.getTempAmmoBox());
         assertEquals(0,player.getPowerupCards().size());
+        assertNull(player.getPowerupCard(50));
     }
 
     @Test
@@ -92,6 +96,31 @@ class PlayerTest {
         player.payCost(ammo);
         finalAmmo = new int[] {0,0,0};
         assertArrayEquals(finalAmmo,player.getAmmoBox());
+        DeckPowerup deckPowerup = new DeckPowerup();
+        PowerupCard powerupCard = deckPowerup.cards.get(0);
+        player.consumePowerup(powerupCard);
+        switch (powerupCard.getColor()){
+            case RED: ammo = new int[] {1,0,0}; break;
+            case BLUE: ammo = new int[] {0,1,0}; break;
+            case YELLOW: ammo = new int[] {0,0,1}; break;
+        }
+        player.payCost(ammo);
+        assertArrayEquals(finalAmmo,player.getAmmoBox());
+
+        //Test add temp ammo
+        ArrayList<Color> colors = new ArrayList<>(Arrays.asList(Color.RED,Color.BLUE,Color.YELLOW));
+        ArrayList<PowerupCard> powerupCards = new ArrayList<>();
+        while (!colors.isEmpty()){
+            PowerupCard pwc = deckPowerup.draw();
+            if(colors.contains(pwc.getColor())) {
+                powerupCards.add(pwc);
+                colors.remove(pwc.getColor());
+            }
+        }
+        for(PowerupCard pw : powerupCards){ player.consumePowerup(pw); }
+        ammo = new int[] {1,1,1};
+        assertArrayEquals(ammo, player.getTempAmmoBox());
+        player.clearTempAmmo();
     }
 
     @Test

@@ -10,8 +10,7 @@ public abstract class Observable {
     protected ArrayList<Client> observers = new ArrayList<>();
 
     public boolean anyObserver(){
-        if(observers.size()>0) return true;
-        else return false;
+        return !observers.isEmpty();
     }
     public void attach(Client observer){ observers.add(observer); }
     public void detach(Client observer){ observers.remove(observer); }

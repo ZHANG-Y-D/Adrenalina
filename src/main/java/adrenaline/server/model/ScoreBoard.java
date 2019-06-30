@@ -75,4 +75,8 @@ public class ScoreBoard extends Observable {
     public Boolean[] getOverkillFlags() {
         return overkillFlags;
     }
+
+    public HashMap<Color,Integer> getScoreMap() { return scoreMap; }
+
+    public int getKillCount() { return killCount; }
 }

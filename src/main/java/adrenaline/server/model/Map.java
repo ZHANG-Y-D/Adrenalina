@@ -110,10 +110,10 @@ public class Map extends Observable {
             for(int j = oldSize; j < size; j++){
                 nodeX = validSquares.get(j) % columns;
                 nodeY = validSquares.get(j)/columns;
-                if((nodeX+1 < columns)&&(nodeX+1 >= 0)&&(!isEmptySquare(nodeY*4 + nodeX+1))&&(!isWall(nodeX,nodeY,nodeX+1,nodeY))) validSquares.add((nodeY*4) + (nodeX+1));
-                if((nodeX-1 < columns)&&(nodeX-1 >= 0)&&(!isEmptySquare(nodeY*4 + nodeX-1))&&(!isWall(nodeX,nodeY,nodeX-1,nodeY))) validSquares.add(nodeY*4 + nodeX-1);
-                if((nodeY+1 < rows)&&(nodeY+1 >= 0)&&(!isEmptySquare((nodeY+1)*4 + nodeX)&&(!isWall(nodeX,nodeY,nodeX,nodeY+1)))) validSquares.add((nodeY+1)*4 + nodeX);
-                if((nodeY-1 < rows)&&(nodeY-1 >= 0)&&(!isEmptySquare((nodeY-1)*4 + nodeX))&&(!isWall(nodeX,nodeY,nodeX,nodeY-1))) validSquares.add((nodeY-1)*4 + nodeX);
+                if(isValid(nodeX,nodeX+1,nodeY,nodeY)) validSquares.add((nodeY*4) + (nodeX+1));
+                if(isValid(nodeX,nodeX-1,nodeY,nodeY)) validSquares.add(nodeY*4 + nodeX-1);
+                if(isValid(nodeX,nodeX,nodeY,nodeY+1)) validSquares.add((nodeY+1)*4 + nodeX);
+                if(isValid(nodeX,nodeX,nodeY,nodeY-1)) validSquares.add((nodeY-1)*4 + nodeX);
             }
             validSquares = (ArrayList<Integer>) validSquares.stream().distinct().collect(Collectors.toList());
             oldSize = size;
@@ -121,30 +121,19 @@ public class Map extends Observable {
         return validSquares;
     }
 
+    private boolean isValid(int x1, int x2, int y1, int y2){
+        return (x2 < columns) && (y2 < rows) && (x2 >= 0) && (y2 >= 0) && (!isEmptySquare(y2 * 4 + x2)) && (!isWall(y1 * 4 + x1, y2 * 4 + x2));
+    }
 
     /**
      * Returns <code>true</code> if between the
      * two given squares there is wall.
      *
-     * @param x1    is the x-coordinate of the first square
-     * @param y1    is the y-coordinate of the first square
-     * @param x2    is the x-coordinate of the second square
-     * @param y2    is the y-coordinate of the second square
+     * @param pos1    is the index of the first square
+     * @param pos2    is the index of the second square
      * @return      <code>true</code> if there is a wall;
      *              <code>false</code> otherwise
      */
-
-    private boolean isWall(int x1, int y1, int x2, int y2){
-        int pos1 = y1*4 + x1;
-        int pos2 = y2*4 + x2;
-        int []arrayPos = {pos1,pos2};
-        Arrays.sort(arrayPos);
-        for(int[] i : mapWalls) {
-            if (Arrays.equals(i,arrayPos)) return true;
-        }
-        return false;
-    }
-
     public boolean isWall(int pos1, int pos2){
         int[] arrayPos = {pos1, pos2};
         Arrays.sort(arrayPos);

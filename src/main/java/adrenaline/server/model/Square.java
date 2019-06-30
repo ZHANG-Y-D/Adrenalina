@@ -15,4 +15,5 @@ public abstract class Square {
 
     public Color getColor(){ return color; }
     public void setMap(Map map){ this.map = map; }
+    public Map getMap() { return map; }
 }

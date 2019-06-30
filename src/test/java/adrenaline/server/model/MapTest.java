@@ -1,5 +1,6 @@
 package adrenaline.server.model;
 
+import adrenaline.Color;
 import adrenaline.CustomSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,6 +30,30 @@ class MapTest {
         }catch(Exception e){e.printStackTrace();}
     }
 
+    @Test
+    void mapBuildTest(){
+        assertEquals(4,map.getColumns());
+        assertEquals(3,map.getRows());
+        assertEquals(11,map.getMaxSquare());
+        assertEquals(1,map.getMapID());
+    }
+
+    @Test
+    void getSquareTest(){
+        assertNull(map.getSquare(3));
+    }
+
+    @Test
+    void getSpawnIndexTest(){
+        assertEquals(4, map.getSpawnIndex(Color.RED));
+        assertNotEquals(5, map.getSpawnIndex(Color.RED));
+    }
+
+    @Test
+    void setSquaresContextTest(){
+        map.setSquaresContext();
+        assertEquals(map, map.getSquare(0).getMap());
+    }
 
     @Test
     void getValidSquaresTest() {
