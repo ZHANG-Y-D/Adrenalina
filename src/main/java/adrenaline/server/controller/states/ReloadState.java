@@ -81,6 +81,9 @@ public class ReloadState implements GameState{
     }
 
     @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+
+    @Override
     public String goBack() {
         return "You can't go back now!";
     }

@@ -75,7 +75,7 @@ public class glFiremodeState implements FiremodeSubState {
             lobby.movePlayer(index, selectedTarget.get(0));
             if(areaCompleted){
                 lobby.clearTempAmmo();
-                lobby.setState(new SelectActionState(lobby));
+                lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
                 completedmsg = " HIT!";
             }
             else{
@@ -91,7 +91,7 @@ public class glFiremodeState implements FiremodeSubState {
                 lobby.applyFire(thisFiremode, targets, dmgmrkEach);
                 if(playerCompleted){
                     lobby.clearTempAmmo();
-                    lobby.setState(new SelectActionState(lobby));
+                    lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
                     completedmsg = " HIT!";
                 }
                 else{
@@ -125,6 +125,9 @@ public class glFiremodeState implements FiremodeSubState {
 
     @Override
     public String endOfTurnAction() {return "Select your target(s) or GO BACK."; }
+
+    @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
     @Override
     public String goBack() {

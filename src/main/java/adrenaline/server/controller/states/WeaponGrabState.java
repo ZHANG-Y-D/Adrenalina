@@ -61,7 +61,7 @@ public class WeaponGrabState implements GameState {
                 lobby.grabWeapon(weaponCard);
                 weaponSquare.removeCard(weaponCard);
                 lobby.clearTempAmmo();
-                lobby.setState(new SelectActionState(lobby));
+                lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
                 return "OK";
             } catch (NotEnoughAmmoException e) {
                 return "You can't pay the ammo price for that weapon! HINT: powerups can be expended too";
@@ -75,7 +75,7 @@ public class WeaponGrabState implements GameState {
                 weaponSquare.addCard(lobby.swapWeapon(selectedCard, weaponID));
                 weaponSquare.removeCard(selectedCard);
                 lobby.clearTempAmmo();
-                lobby.setState(new SelectActionState(lobby));
+                lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
                 return "OK";
             } catch (InvalidCardException e) {
                 return "Invalid card selection!";
@@ -101,8 +101,11 @@ public class WeaponGrabState implements GameState {
     }
 
     @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+
+    @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby));
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         lobby.clearTempAmmo();
         return "OK";
     }

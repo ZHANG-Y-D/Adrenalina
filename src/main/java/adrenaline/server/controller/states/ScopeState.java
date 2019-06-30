@@ -47,7 +47,7 @@ public class ScopeState implements GameState {
         lobby.applyExtraDamage(playersColor.get(0));
         user.payCost(ammoSelected);
         lobby.removePowerup(thisPowerup);
-        lobby.setState(new SelectActionState(lobby));
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         return "OK Damage added with the scope";
     }
 
@@ -104,8 +104,11 @@ public class ScopeState implements GameState {
     }
 
     @Override
+    public String selectFinalFrenzyAction(Integer action) { return "KO"; }
+
+    @Override
     public String goBack() {
-        lobby.setState(new SelectActionState(lobby));
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         return "OK";
     }
 
