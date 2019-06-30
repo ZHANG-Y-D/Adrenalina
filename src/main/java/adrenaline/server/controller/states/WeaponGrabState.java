@@ -88,6 +88,9 @@ public class WeaponGrabState implements GameState {
         return "You can't do that now!";
     }
 
+    @Override
+    public String selectAmmo(Color color) { return "You can't do that now!"; }
+
     public String moveSubAction() {
         return "You can't do that now!";
     }

@@ -116,6 +116,11 @@ public class glFiremodeState implements FiremodeSubState {
     public String selectFiremode(int firemode) {return "Select your target(s) or GO BACK."; }
 
     @Override
+    public String selectAmmo(Color color) {
+        return "Select your target(s) or GO BACK.";
+    }
+
+    @Override
     public String moveSubAction() { return "You can't do that now!"; }
 
     @Override

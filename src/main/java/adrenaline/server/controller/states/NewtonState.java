@@ -64,6 +64,9 @@ public class NewtonState implements GameState {
     public String selectFiremode(int firemode) { return "Select the target you want to move."; }
 
     @Override
+    public String selectAmmo(Color color) { return "You can't do that now!"; }
+
+    @Override
     public String moveSubAction() { return "Select the target you want to move."; }
 
     @Override

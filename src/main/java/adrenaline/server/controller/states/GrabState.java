@@ -58,7 +58,12 @@ public class GrabState implements GameState {
 
     @Override
     public String selectFiremode(int firemode) {
-        return null;
+        return "You can't do that now!";
+    }
+
+    @Override
+    public String selectAmmo(Color color) {
+        return "You can't do that now!";
     }
 
     @Override

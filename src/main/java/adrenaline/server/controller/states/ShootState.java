@@ -81,6 +81,9 @@ public class ShootState implements GameState {
     }
 
     @Override
+    public String selectAmmo(Color color) { return "Select a weapon or GO BACK to action selection!"; }
+
+    @Override
     public String moveSubAction() {
         return "Select a weapon or GO BACK to action selection!";
     }

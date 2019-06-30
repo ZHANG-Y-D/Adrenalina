@@ -67,6 +67,9 @@ public class ReloadState implements GameState{
     }
 
     @Override
+    public String selectAmmo(Color color) { return "You can't do that now!"; }
+
+    @Override
     public String moveSubAction() {
         return "You can't do that now!";
     }

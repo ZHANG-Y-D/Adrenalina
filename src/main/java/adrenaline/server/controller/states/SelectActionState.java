@@ -62,8 +62,11 @@ public class SelectActionState implements GameState {
 
     @Override
     public String selectFiremode(int firemode) {
-        return null;
+        return "Select an action!";
     }
+
+    @Override
+    public String selectAmmo(Color color) { return "Select an action!"; }
 
     @Override
     public String moveSubAction() {
