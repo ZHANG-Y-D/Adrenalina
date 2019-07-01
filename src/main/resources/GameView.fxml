@@ -164,7 +164,7 @@
             <children>
                 <Pane fx:id="skullPane" prefHeight="57" prefWidth="320">
                     <children>
-                        <HBox fx:id="skullBox" spacing="14" layoutY="8"/>
+                        <HBox fx:id="skullBox" spacing="15" layoutY="8"/>
                     </children>
                 </Pane>
             </children>
@@ -192,7 +192,7 @@
                         <Image url="@Graphic-assets/HUD/ammo_red.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="redAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="20">
+                <ImageView fx:id="redAmmo1" onMouseClicked="#selectAmmo" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="20">
                     <image>
                         <Image url="@Graphic-assets/HUD/ammo_red.png" />
                     </image>
@@ -207,7 +207,7 @@
                         <Image url="@Graphic-assets/HUD/ammo_blue.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="blueAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="60">
+                <ImageView fx:id="blueAmmo1" onMouseClicked="#selectAmmo" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="60">
                     <image>
                         <Image url="@Graphic-assets/HUD/ammo_blue.png" />
                     </image>
@@ -222,7 +222,7 @@
                         <Image url="@Graphic-assets/HUD/ammo_yellow.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="yellowAmmo1" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="100">
+                <ImageView fx:id="yellowAmmo1" onMouseClicked="#selectAmmo" fitHeight="28.0" fitWidth="28.0" layoutX="621" layoutY="100">
                     <image>
                         <Image url="@Graphic-assets/HUD/ammo_yellow.png" />
                     </image>

@@ -146,6 +146,14 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    public void selectAmmo(Color color) {
+        try {
+            gameController.handleReturn(myLobby.selectAmmo(clientID, color));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      *
      *

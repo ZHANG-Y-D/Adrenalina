@@ -216,6 +216,15 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(weaponMsg);
     }
 
+    @Override
+    public void selectAmmo(Color color) {
+        String ammoMsg = "selectAmmo;ARGSIZE=2;java.lang.String;";
+        ammoMsg += gson.toJson(clientID)+";";
+        ammoMsg += "adrenaline.Color;";
+        ammoMsg += gson.toJson(color);
+        sendMessage(ammoMsg);
+    }
+
     /**
      *
      *

@@ -34,6 +34,9 @@
 .ammo{
     -fx-effect: dropshadow(three-pass-box, black, 3, 0.8, 0, 0);
 }
+.ammo:hover{
+    -fx-cursor: hand;
+}
 .hand:hover{
     -fx-cursor: hand;
 }
@@ -126,6 +129,11 @@
 }
 .RED{
     -fx-text-fill: #ff1d5c;
+}
+
+.outline.label .text{
+    -fx-stroke: black;
+    -fx-stroke-width: 1px;
 }
 
 #skullPane{

@@ -17,6 +17,7 @@ public interface ConnectionHandler {
     void selectAvatar(Color color);
     void selectPowerUp(int powerupID);
     void selectWeapon(int weaponID);
+    void selectAmmo(Color color);
     void sendSettings(int selectedMap, int selectedSkull);
     void sendChatMessage(String message);
     void run();

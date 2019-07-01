@@ -202,6 +202,8 @@ public class GameController {
      */
     public void selectSquare(int index) { connectionHandler.selectSquare(index); }
 
+    public void selectAmmo(Color color) { connectionHandler.selectAmmo(color); }
+
     /**
      *
      *
