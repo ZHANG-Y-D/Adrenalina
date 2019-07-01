@@ -16,7 +16,7 @@ public class Player implements Serializable {
     private Color color;
     private int position = -1;
     private int oldPosition = -1;
-    private int[] ammoBox;
+    private int[] ammoBox = new int[]{0,0,0};
     private ArrayList<Color> damage = new ArrayList<>();
     private ArrayList<Color> marks = new ArrayList<>();
     private ArrayList<Integer> weaponCards = new ArrayList<>();
