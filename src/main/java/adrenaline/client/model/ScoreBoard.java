@@ -17,7 +17,6 @@ public class ScoreBoard implements Serializable {
     private HashMap<Color,Integer> diminValues;
     private Color[] killshotTrack;
     private Boolean[] overkillFlags;
-
     /**
      *
      *

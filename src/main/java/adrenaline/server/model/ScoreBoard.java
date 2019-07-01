@@ -14,7 +14,11 @@ public class ScoreBoard extends Observable {
     private Color[] killshotTrack;
     private Boolean[] overkillFlags;
     private int killCount;
-    private ArrayList<Color> finalfrenzyPlayers = new ArrayList<>();
+    private ArrayList<Color> finalfrenzyDeadPlayers = new ArrayList<>();
+
+    private LinkedHashMap<Color, Integer> finalPlayerPositions = null;
+
+    private HashMap<Color,Integer> finalfrenzyModePlayers = new HashMap<>();
 
     public ScoreBoard(ArrayList<Client> clients){
         clients.forEach(this::attach);
@@ -33,7 +37,7 @@ public class ScoreBoard extends Observable {
     }
 
     public void scoreKill(Color dead, ArrayList<Color> damageTrack){
-        if(!finalfrenzyPlayers.contains(dead)) {
+        if(!finalfrenzyDeadPlayers.contains(dead)) {
             int firstBlood = scoreMap.get(damageTrack.get(0));
             scoreMap.put(damageTrack.get(0), firstBlood + 1);
         }
@@ -55,7 +59,6 @@ public class ScoreBoard extends Observable {
         killshotTrack[killCount] = damageTrack.get(10);
         overkillFlags[killCount] = damageTrack.size()>=12;
         killCount++;
-        System.out.println(scoreMap.toString()+"\n"+diminValues.toString());
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
 
@@ -82,10 +85,76 @@ public class ScoreBoard extends Observable {
 
     public HashMap<Color,Integer> getScoreMap() { return scoreMap; }
 
+    public java.util.Map<Color, Integer> getFinalPlayerPositions() { return finalPlayerPositions; }
+
     public int getKillCount() { return killCount; }
+
+    public void setFinalFrenzyMode(Color player, boolean firstPlayerFF){
+        finalfrenzyModePlayers.put(player, firstPlayerFF? 2 : 1);
+    }
 
     public void setFinalFrenzyValues(Color player){
         diminValues.put(player,2);
-        finalfrenzyPlayers.add(player);
+        finalfrenzyDeadPlayers.add(player);
+    }
+
+    public boolean isFinalFrenzy(){ return finalfrenzyModePlayers.isEmpty();}
+
+    public HashMap<Color, Integer> getFinalfrenzyModePlayers() {
+        return finalfrenzyModePlayers;
+    }
+
+    public void scoreKillshotTrack() {
+        finalPlayerPositions = new LinkedHashMap<>();
+        HashMap<Color,Integer> pointsFromKillshoTrack = new HashMap<>();
+        HashMap<Color,Integer> tokensOnKillshotTrack = new HashMap<>();
+        scoreMap.keySet().forEach(x -> {
+            pointsFromKillshoTrack.put(x,0);
+            tokensOnKillshotTrack.put(x,0);
+        });
+
+        for(int i=0;i<killshotTrack.length;i++){
+            int tokens = tokensOnKillshotTrack.get(killshotTrack[i]);
+            tokensOnKillshotTrack.put(killshotTrack[i], tokens+(overkillFlags[i]? 2 : 1));
+        }
+        List<Integer> orderedList = tokensOnKillshotTrack.values().stream().distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        int points = 8;
+        for(Integer x : orderedList) {
+            for (Color c : killshotTrack) {
+                if(tokensOnKillshotTrack.get(c).equals(x)){
+                    pointsFromKillshoTrack.put(c, (points-2 < 1)? 1 : points);
+                    points-=2;
+                }
+            }
+        }
+        pointsFromKillshoTrack.forEach((x,y)-> {
+            int score = scoreMap.get(x);
+            scoreMap.put(x,score+y);
+        });
+        orderedList = scoreMap.values().stream().distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        int position=1;
+        for(Integer x : orderedList){
+            for(java.util.Map.Entry<Color,Integer> entry : scoreMap.entrySet()){
+                if(entry.getValue().equals(x)) finalPlayerPositions.put(entry.getKey(),position);
+            }
+            position++;
+        }
+        Iterator itr = finalPlayerPositions.keySet().iterator();
+        Color c1 = (Color) itr.next();
+        while(itr.hasNext()){
+            Color c2 = (Color) itr.next();
+            if(finalPlayerPositions.get(c1).equals(finalPlayerPositions.get(c2))){
+                if(pointsFromKillshoTrack.get(c1)>pointsFromKillshoTrack.get(c2)){
+                    position = finalPlayerPositions.get(c2);
+                    finalPlayerPositions.put(c2, position+1);
+                }else if(pointsFromKillshoTrack.get(c1)<pointsFromKillshoTrack.get(c2)){
+                    position = finalPlayerPositions.get(c1);
+                    finalPlayerPositions.put(c1, position+1);
+                }
+            }
+            c1=c2;
+        }
+        notifyObservers(new ScoreboardUpdateMessage(this));
     }
 }
+

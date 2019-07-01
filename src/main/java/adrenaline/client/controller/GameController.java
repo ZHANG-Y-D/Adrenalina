@@ -26,6 +26,7 @@ public class GameController {
     private LinkedHashMap<String, Color> playersNicknames = new LinkedHashMap<>();
     private String ownNickname;
     private Color ownColor;
+    private Integer finalfrenzyMode;
 
     private HashMap<Color, Player> playersMap = new HashMap<>();
     private ScoreBoard scoreBoard;
@@ -271,6 +272,10 @@ public class GameController {
         changes.firePropertyChange("scoreboard", oldScorebard, newScoreboard);
     }
 
+    public void setOwnFinalfrenzyMode(Integer mode){
+        finalfrenzyMode = mode;
+    }
+
     /**
      *
      *
@@ -433,4 +438,6 @@ public class GameController {
         view.showError("Connection to the server has been lost!");
         connectionHandler=null;
     }
+
+    public Integer getFinalfrenzyMode() { return finalfrenzyMode; }
 }
