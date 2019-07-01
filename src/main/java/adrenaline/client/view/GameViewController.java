@@ -3,6 +3,7 @@ package adrenaline.client.view;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
 import adrenaline.client.model.Player;
+import adrenaline.client.model.ScoreBoard;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.animation.FadeTransition;
@@ -333,9 +334,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 updatePlayer((HashMap<adrenaline.Color, Player>)evt.getNewValue());
                 break;
             case "scoreboard":
+                updateScoreBoard((ScoreBoard) evt.getNewValue());
                 break;
             default: break;
         }
+    }
+
+    private void updateScoreBoard(ScoreBoard scoreBoard) {
+
     }
 
     /*

@@ -79,14 +79,12 @@ public class ScoreBoard extends Observable {
         return overkillFlags;
     }
 
-<<<<<<< HEAD
     public HashMap<Color,Integer> getScoreMap() { return scoreMap; }
 
     public int getKillCount() { return killCount; }
-=======
+
     public void setFinalFrenzyValues(Color player){
         diminValues.put(player,2);
         finalfrenzyPlayers.add(player);
     }
->>>>>>> 433d2236b6912355ea34893b0cd1fdfc79c14e7f
 }
