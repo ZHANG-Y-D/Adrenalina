@@ -19,6 +19,9 @@
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
+.frenzy{
+    -fx-background-size: 57 40;
+}
 .button{
     -fx-background-size: cover;
     -fx-background-position: center;

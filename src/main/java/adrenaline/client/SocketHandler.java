@@ -339,6 +339,15 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(moveMsg);
     }
 
+    @Override
+    public void selectFinalFrenzyAction(int action) {
+        String  frenzyMsg = "selectFinalFrenzyAction;ARGSIZE=2;java.lang.String;";
+        frenzyMsg += gson.toJson(clientID)+";";
+        frenzyMsg += "java.lang.Integer;";
+        frenzyMsg += gson.toJson(action);
+        sendMessage(frenzyMsg);
+    }
+
     /**
      *
      *

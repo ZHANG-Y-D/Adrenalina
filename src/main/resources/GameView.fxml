@@ -182,6 +182,19 @@
                 <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57"  layoutX="58" layoutY="100"/>
                 <Button fx:id="reload" onMouseClicked="#selectAction" prefHeight="62" prefWidth="42" layoutX="10" layoutY="78"/>
                 <Button fx:id="back" onMouseClicked="#selectAction" prefHeight="62" prefWidth="42" layoutX="10" layoutY="10" />
+                <Pane fx:id="finalFrenzy1" layoutX="58" layoutY="10" prefWidth="98" prefHeight="171" visible="false">
+                    <children>
+                        <Button fx:id="f1mod0" onMouseClicked="#selectFinalFrenzyAction" prefHeight="40" prefWidth="57" />
+                        <Button fx:id="f1mod1" onMouseClicked="#selectFinalFrenzyAction" prefHeight="40" prefWidth="57" layoutY="45"/>
+                        <Button fx:id="f1mod2" onMouseClicked="#selectFinalFrenzyAction" prefHeight="40" prefWidth="57" layoutY="90"/>
+                    </children>
+                </Pane>
+                <Pane fx:id="finalFrenzy2" layoutX="58" layoutY="10" prefWidth="98" prefHeight="171" visible="false">
+                    <children>
+                        <Button fx:id="f2mod0" onMouseClicked="#selectFinalFrenzyAction" prefHeight="40" prefWidth="57" layoutY="20" />
+                        <Button fx:id="f2mod1" onMouseClicked="#selectFinalFrenzyAction" prefHeight="40" prefWidth="57" layoutY="75"/>
+                    </children>
+                </Pane>
                 <ImageView fx:id="redAmmo3" fitHeight="28.0" fitWidth="28.0" layoutX="657" layoutY="20" visible="false">
                     <image>
                         <Image url="@Graphic-assets/HUD/ammo_red.png" />

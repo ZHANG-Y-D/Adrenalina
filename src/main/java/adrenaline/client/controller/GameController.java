@@ -26,7 +26,7 @@ public class GameController {
     private LinkedHashMap<String, Color> playersNicknames = new LinkedHashMap<>();
     private String ownNickname;
     private Color ownColor;
-    private Integer finalfrenzyMode;
+    private Integer finalfrenzyMode = 0;
 
     private HashMap<Color, Player> playersMap = new HashMap<>();
     private ScoreBoard scoreBoard;
@@ -442,4 +442,6 @@ public class GameController {
     }
 
     public Integer getFinalfrenzyMode() { return finalfrenzyMode; }
+
+    public void selectFinalFrenzyAction(int action) { connectionHandler.selectFinalFrenzyAction(action); }
 }

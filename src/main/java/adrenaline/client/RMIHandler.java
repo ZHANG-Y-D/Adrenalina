@@ -308,6 +308,14 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    public void selectFinalFrenzyAction(int action) {
+        try {
+            gameController.handleReturn(myLobby.selectFinalFrenzyAction(clientID,action));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      *
      *

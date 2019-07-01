@@ -39,7 +39,7 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2;
+    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2, finalFrenzy1, finalFrenzy2;
     @FXML
     private Button  run, shoot, grab, reload, back;
     @FXML
@@ -144,6 +144,17 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         updateScoreBoard(gameController.getScoreBoard());
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
+        for(int i = 0; i < 3 ; i++){
+            Button button = (Button) finalFrenzy1.lookup("#f1mod"+i);
+            String buttonPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-FF1_"+i+".png)";
+            button.setStyle("-fx-background-image: "+ buttonPath);
+            button.getStyleClass().add("frenzy");
+        }
+        for(int i = 0; i < 2 ; i++){
+            Button button = (Button) finalFrenzy2.lookup("#f2mod"+i);
+            String buttonPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-FF2_"+i+".png)";
+            button.setStyle("-fx-background-image: "+ buttonPath);
+        }
         ImageView token = new ImageView();
         tokensMap.put(ownColor, token);
         tokenColor.put(token, ownColor);
@@ -426,6 +437,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     private void updateScoreBoard(ScoreBoard scoreBoard) {
+        if(gameController.getFinalfrenzyMode() != 0) frenzyChange(gameController.getFinalfrenzyMode());
+
         //update score
         Platform.runLater(() -> scoreBoard.getScoreMap().forEach((x, y) -> {
             if(x.equals(gameController.getOwnColor())) ownPoints.setText(y.toString());
@@ -886,5 +899,19 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ImageView ammo = (ImageView) event.getSource();
         String ammoId = ammo.getId().substring(0, ammo.getId().length()-5);
         gameController.selectAmmo((adrenaline.Color.valueOf(ammoId.toUpperCase())));
+    }
+
+    private void frenzyChange(int frenzyMode){
+        run.setVisible(false);
+        grab.setVisible(false);
+        shoot.setVisible(false);
+        if(frenzyMode == 1) finalFrenzy1.setVisible(true);
+        else finalFrenzy2.setVisible(true);
+    }
+
+    public void selectFinalFrenzyAction(Event event){
+        Button button = (Button) event.getSource();
+        String buttonId = button.getId().substring(5);
+        gameController.selectFinalFrenzyAction(Integer.parseInt(buttonId));
     }
 }
