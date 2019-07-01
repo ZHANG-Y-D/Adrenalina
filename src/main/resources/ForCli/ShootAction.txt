@@ -1,0 +1,13 @@
+
+-----------------------------------------------------------------------------------------------------
+|                                    Shoot Menu                                                     |
+|                                      ------                                                       |                                                                                    |
+| 1.Select a weapon card               |   |                                                        |
+| 2.select firemode                    | O |    8.Send chat to other players                        |
+| 3.Select Square                      | T |    9.Print your own weapon and powerup cards           |
+| 4.Select some players                | H |    10.Print all players state(Position Damage...)      |
+| 5.Select a powerUp                   | E |    11.Print map resources(Weapon and Ammo in squares)  |
+| 6.Go back                            | R |                                                        |
+| 7.Finish shoot action                |   |                                                        |
+|---------------------------------------------------------------------------------------------------|
+

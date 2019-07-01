@@ -48,12 +48,10 @@ public abstract class ControllerCli{
                 printAString("ansi",string);
                 string=bufferedReader.readLine();
             }
-        }catch (FileNotFoundException e){
+        }catch (FileNotFoundException | NullPointerException e){
             System.err.println("\n/ForCli/"+srcFileName+"  File Not Found ");
         }catch (IOException e){
             System.err.println("\n printSrcFile IOException ");
-        }catch (NullPointerException e){
-            System.err.println("\n/ForCli/"+srcFileName+"  File Not Found ");
         }
     }
 
