@@ -128,6 +128,8 @@
     -fx-text-fill: #ff1d5c;
 }
 
-#skullBox{
-    -fx-border-color: red;
+#skullPane{
+    -fx-background-image: url("Graphic-assets/HUD/KILLSHOT-TRACK.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
 }

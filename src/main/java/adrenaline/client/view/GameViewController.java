@@ -39,7 +39,7 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2, skullPane;
+    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2;
     @FXML
     private Button  run, shoot, grab, reload, back;
     @FXML
@@ -49,7 +49,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private VBox chat, enemyPlayers;
     @FXML
-    private HBox ownDamage, ownMarks, ownPoints, skullBox;
+    private HBox ownDamage, ownMarks, ownSkulls, skullBox;
     @FXML
     private TextField txtMsg;
     @FXML
@@ -57,7 +57,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             weaponRed1, weaponRed2, weaponRed3, weaponBlue1, weaponBlue2, weaponBlue3, weaponYellow1, weaponYellow2, weaponYellow3,
                      myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2, firemodeBackground, fire0, fire1, fire2;
     @FXML
-    private Label message, timerLabel, timerComment;
+    private Label message, timerLabel, timerComment, ownPoints, pointsLabel;
     @FXML
     private Polygon powerupTriangle,weaponTriangle;
     private Timer clock = null;
@@ -140,15 +140,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         String path = "url(/Graphic-assets/Maps/MAP"+ modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
         updateMap(modelMap);
-        skullPane = new Pane();
-        ImageView skulls = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULLBAR.png")));
-        skulls.setFitHeight(57);
-        skulls.setFitWidth(320);
-        skullPane.getChildren().add(skulls);
-        skullBox = new HBox();
-        skullBox.setLayoutX(8*30 - gameController.getScoreBoard().getKillshotTrack().length*30);
-        skullPane.getChildren().add(skullBox);
-        enemyPlayers.getChildren().add(skullPane);
+        skullBox.setLayoutX(8*32.5 - (gameController.getScoreBoard().getKillshotTrack().length)*32.5 + 14);
+        updateScoreBoard(gameController.getScoreBoard());
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
         ImageView token = new ImageView();
@@ -228,46 +221,24 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     num.getStyleClass().add("RED");
                     cardsPane.getChildren().add(num);
                     newPane.getChildren().add(cardsPane);
-                    Label points = new Label("POINTS");
-                    points.setLayoutX(170);
+                    Label points = new Label("KILL VALUE");
+                    points.setLayoutX(140);
                     points.setLayoutY(20);
                     Font font2 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 12);
                     points.setFont(font2);
+                    ownPoints.setFont(font);
+                    pointsLabel.setFont(font);
+                    pointsLabel.getStyleClass().add("WHITE");
+                    ownPoints.getStyleClass().add("RED");
                     points.getStyleClass().add("WHITE");
                     points.getStyleClass().add("hand");
-                    points.setOnMouseClicked(this::showEnemyPane);
                     newPane.getChildren().add(points);
-                    Pane pointsPane = new Pane();
-                    pointsPane.setLayoutX(170);
-                    pointsPane.setLayoutY(20);
-                    pointsPane.setVisible(false);
-                    pointsPane.getStyleClass().add("blackTransparent");
-                    pointsPane.setOnMouseClicked(this::hideEnemyPane);
-                    pointsPane.setPrefWidth(140);
-                    pointsPane.setPrefHeight(80);
-                    newPane.getChildren().add(pointsPane);
-                    Label score = new Label("SCORE: ");
-                    score.setFont(font);
-                    score.getStyleClass().add("WHITE");
-                    score.setLayoutY(10);
-                    Label scoreNumber = new Label("0");
-                    scoreNumber.setFont(font);
-                    scoreNumber.getStyleClass().add("RED");
-                    scoreNumber.setLayoutY(10);
-                    scoreNumber.setLayoutX(70);
-                    Label deathPoint = new Label("MAX DEATH: ");
-                    deathPoint.setFont(font);
-                    deathPoint.getStyleClass().add("WHITE");
-                    deathPoint.setLayoutY(50);
                     Label deathNumber = new Label("8");
                     deathNumber.setFont(font);
                     deathNumber.getStyleClass().add("RED");
-                    deathNumber.setLayoutY(50);
-                    deathNumber.setLayoutX(110);
-                    pointsPane.getChildren().add(score);
-                    pointsPane.getChildren().add(scoreNumber);
-                    pointsPane.getChildren().add(deathPoint);
-                    pointsPane.getChildren().add(deathNumber);
+                    deathNumber.setLayoutY(18);
+                    deathNumber.setLayoutX(220);
+                    newPane.getChildren().add(deathNumber);
                     enemyPlayers.getChildren().add(newPane);
                     playersColorMap.put(x, newPane);
                 }
@@ -456,48 +427,66 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private void updateScoreBoard(ScoreBoard scoreBoard) {
         //update score
         Platform.runLater(() -> scoreBoard.getScoreMap().forEach((x, y) -> {
-            if(x.equals(gameController.getOwnColor())); //gestire caso ownPlayer
-            else {
-                Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
-                Pane pointsPane = (Pane) playerPane.getChildren().get(7);
-                Label points = (Label) pointsPane.getChildren().get(1);
-                points.setText(y.toString());
-            }
+            if(x.equals(gameController.getOwnColor())) ownPoints.setText(y.toString());
         }));
 
         //update max death points
         Platform.runLater(() -> scoreBoard.getDiminValues().forEach((x, y) -> {
             if(x.equals(gameController.getOwnColor())){
-                ownPoints.getChildren().clear();
+                ownSkulls.getChildren().clear();
                 ImageView skull = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULL.png")));
                 skull.setFitWidth(19);
                 skull.setFitHeight(30);
                 skull.setLayoutX(15);
                 switch (y){
                     case 8: break;
-                    case 6: ownPoints.getChildren().add(skull); break;
-                    case 4: ownPoints.getChildren().add(skull);
-                            ownPoints.getChildren().add(skull);
+                    case 6: ownSkulls.getChildren().add(skull); break;
+                    case 4: ownSkulls.getChildren().add(skull);
+                            ownSkulls.getChildren().add(skull);
                             break;
-                    case 2: ownPoints.getChildren().add(skull);
-                            ownPoints.getChildren().add(skull);
-                            ownPoints.getChildren().add(skull);
+                    case 2: ownSkulls.getChildren().add(skull);
+                            ownSkulls.getChildren().add(skull);
+                            ownSkulls.getChildren().add(skull);
                             break;
-                    case 1: ownPoints.getChildren().add(skull);
-                            ownPoints.getChildren().add(skull);
-                            ownPoints.getChildren().add(skull);
-                            ownPoints.getChildren().add(skull);
+                    case 1: ownSkulls.getChildren().add(skull);
+                            ownSkulls.getChildren().add(skull);
+                            ownSkulls.getChildren().add(skull);
+                            ownSkulls.getChildren().add(skull);
                             break;
                     default: break;
                 }
             }
             else {
                 Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
-                Pane pointsPane = (Pane) playerPane.getChildren().get(7);
-                Label deathNumber = (Label) pointsPane.getChildren().get(3);
-                deathNumber.setText(y.toString());
+                Label points = (Label) playerPane.getChildren().get(7);
+                points.setText(y.toString());
             }
         }));
+
+        //update skulls
+        Platform.runLater(() -> {
+            skullBox.getChildren().clear();
+            adrenaline.Color[] killshotTrack = scoreBoard.getKillshotTrack();
+            for(int i = 0; i < killshotTrack.length; i++){
+                if( killshotTrack[i] == null) {
+                    ImageView skull = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULL.png")));
+                    skull.setFitHeight(41);
+                    skull.setFitWidth(26);
+                    skull.setX(15);
+                    skullBox.getChildren().add(skull);
+                }
+                else if(!scoreBoard.getOverkillFlags()[i]){
+                    ImageView drop = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/HUD/"+killshotTrack[i].toString()+"-DROP.png")));
+                    drop.setFitWidth(25);
+                    drop.setFitHeight(37);
+                    drop.setLayoutX(15);
+                    skullBox.getChildren().add(drop);
+                }
+                else {
+                    //TODO caricare immagine overkill
+                }
+            }
+        });
     }
 
     private void updateMap(Map newMap){
@@ -884,12 +873,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         firemodeBackground.setImage(null);
         firemodeSelection.setVisible(false);
         ownCard.setVisible(true);
-    }
-
-    private void showEnemyPane(Event event){
-        Node source = (Node) event.getSource();
-        Pane parent = (Pane) source.getParent();
-        parent.getChildren().get(7).setVisible(true);
     }
 
     private void showEnemyCards(Event event){

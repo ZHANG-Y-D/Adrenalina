@@ -32,15 +32,4 @@ class SquareTest {
         }
     }
 
-    @Test
-    void setCardTest(){
-        DeckAmmo deckAmmo = new DeckAmmo();
-        DeckWeapon deckWeapon = new DeckWeapon();
-        AmmoCard ammoCard = deckAmmo.draw();
-        WeaponCard weaponCard = deckWeapon.draw();
-        SquareAmmo squareAmmo = (SquareAmmo) map.getSquare(0);
-        SquareSpawn squareSpawn = (SquareSpawn) map.getSquare(4);
-        squareAmmo.setAmmoTile(ammoCard);
-        assertEquals(ammoCard,squareAmmo.getAmmoTile());
-    }
 }

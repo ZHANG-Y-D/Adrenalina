@@ -160,13 +160,23 @@
              <ImageView fx:id="weaponYellow3" onMouseClicked="#selectWeapon" fitHeight="110.0" fitWidth="149.0" onMouseEntered="#drawBottom" />
          </children>
         </VBox>
-        <VBox fx:id="enemyPlayers" layoutX="940" layoutY="10" />
+        <VBox fx:id="enemyPlayers" layoutX="940" layoutY="10">
+            <children>
+                <Pane fx:id="skullPane" prefHeight="57" prefWidth="320">
+                    <children>
+                        <HBox fx:id="skullBox" spacing="14" layoutY="8"/>
+                    </children>
+                </Pane>
+            </children>
+        </VBox>
         <Pane fx:id="ownPlayer" layoutX="295" layoutY="590" prefHeight="150" prefWidth="690">
             <children>
                 <ImageView fx:id="ownPlayerLabel" fitHeight="130.0" fitWidth="494.0" layoutX="121" layoutY="10"/>
                 <HBox fx:id="ownDamage" spacing="10" layoutX="137" layoutY="63" prefHeight="30" prefWidth="480" minWidth="480" />
                 <HBox fx:id="ownMarks" spacing="5" layoutX="340" layoutY="11" prefHeight="30" prefWidth="200" minWidth="200" />
-                <HBox fx:id="ownPoints" spacing="10" layoutX="190" layoutY="105" prefHeight="30" prefWidth="180" minWidth="180" />
+                <HBox fx:id="ownSkulls" spacing="10" layoutX="200" layoutY="105" prefHeight="30" prefWidth="180" minWidth="180" />
+                <Label fx:id="pointsLabel" text="POINTS" layoutX="135" layoutY="15"/>
+                <Label fx:id="ownPoints" layoutX="210" layoutY="15"/>
                 <Button fx:id="run" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="10" />
                 <Button fx:id="shoot" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57" layoutX="58" layoutY="55"/>
                 <Button fx:id="grab" onMouseClicked="#selectAction" prefHeight="40" prefWidth="57"  layoutX="58" layoutY="100"/>
@@ -301,6 +311,7 @@
         <TextField fx:id="txtMsg" layoutX="990.0" layoutY="710.0" onAction="#sendMessage" prefHeight="30.0" prefWidth="280.0" promptText="Type your message" />
         <Label fx:id="message" layoutX="992.0" layoutY="575.0" prefHeight="10" prefWidth="280.0" />
     </children>
+
     <stylesheets>
         <URL value="@GameView.css" />
     </stylesheets>

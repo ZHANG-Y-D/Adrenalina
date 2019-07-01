@@ -36,4 +36,6 @@ public class ScoreBoard implements Serializable {
     public HashMap<Color,Integer> getDiminValues() { return diminValues; }
 
     public Color[] getKillshotTrack() { return killshotTrack; }
+
+    public Boolean[] getOverkillFlags() { return overkillFlags; }
 }
