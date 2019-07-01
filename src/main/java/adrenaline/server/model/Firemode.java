@@ -14,13 +14,7 @@ public class Firemode {
     private ArrayList<TargetsConstraint> trgConstraints;
     private Queue<FiremodeSubState> firemodeSteps = new LinkedList<>();
     private int allowedMovement;
-
-    public Firemode(String name, int[] extraCost, ArrayList<RangeConstraint> rngConst, ArrayList<TargetsConstraint> trgConst){
-        this.extraCost = extraCost;
-        this.rngConstraints = rngConst;
-        this.trgConstraints = trgConst;
-    }
-
+    
     public int[] getExtraCost(){
         return extraCost;
     }
@@ -47,29 +41,12 @@ public class Firemode {
     public boolean checkTargets(Player shooter, ArrayList<Player> targets, Map map) {
         ArrayList<Integer> validSquares = getRange(shooter.getPosition(), map);
         for(Player trg : targets) {
-            if (!validSquares.contains(trg.getPosition())){
-                if(targets.indexOf(trg)==0 || trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)) return false;
-            }
+            if (!validSquares.contains(trg.getPosition()) && (targets.indexOf(trg)==0 || trgConstraints.stream().noneMatch(TargetsConstraint::isSpecialRange)))
+                return false;
         }
         for(TargetsConstraint trgconst : trgConstraints){
             if(!trgconst.checkConst(shooter, targets, map)) return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        String string = "Firemode{" +
-                "extraCost=" + Arrays.toString(extraCost);
-        string += "\n\t\tRange Constraints: ";
-        for(RangeConstraint rngConst : rngConstraints){
-            string += "\t\t"+ rngConst.getClass().getName() + " ";
-        }
-        string += "\n\t\tTargets Constraints: ";
-        for(TargetsConstraint trgConst : trgConstraints){
-            string += "\t\t" + trgConst.getClass().getName() + " ";
-        }
-        string += "\n\t}";
-        return string;
     }
 }

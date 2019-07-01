@@ -1,7 +1,10 @@
 package adrenaline.server.model;
 
+import adrenaline.Color;
 import adrenaline.CustomSerializer;
+import adrenaline.server.controller.states.FiremodeSubState;
 import adrenaline.server.model.constraints.*;
+import adrenaline.server.network.Client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,141 +18,69 @@ import static org.junit.jupiter.api.Assertions.*;
 class FiremodeTest {
 
     private static Map map;
+    private static Firemode firemode1;
+    private static Firemode firemode2;
 
     @BeforeAll
-    static void initMap(){
+    static void initMap() {
         try {
-            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map1.json");
-
             GsonBuilder gsonBld = new GsonBuilder();
-            gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
+            gsonBld.registerTypeAdapter(Square.class, new CustomSerializer())
+                    .registerTypeAdapter(RangeConstraint.class, new CustomSerializer())
+                    .registerTypeAdapter(TargetsConstraint.class, new CustomSerializer())
+                    .registerTypeAdapter(FiremodeSubState.class, new CustomSerializer())
+                    .registerTypeAdapter(TargetsGenerator.class, new CustomSerializer());;
             Gson gson = gsonBld.create();
-            map = gson.fromJson(fileReader,Map.class);
-        }catch(Exception e){System.out.println("ERROR!");}
+
+            FileReader fileReader = new FileReader("src/main/resources/Jsonsrc/Map1.json");
+            map = gson.fromJson(fileReader, Map.class);
+
+            fileReader = new FileReader("src/test/testResource/testJsonsrc/TestWeaponCard.json");
+            WeaponCard weaponCard = gson.fromJson(fileReader, WeaponCard.class);
+            firemode1 = weaponCard.getFiremode(0);
+            firemode2 = weaponCard.getFiremode(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    void getRangeTest() {
-    /*
-        //lock rifle used as reference for range constraints
-        ArrayList<RangeConstraint> rngConstList = new ArrayList<>();
-        RangeConstraint rngConst = new InSightConstraint();
-        rngConstList.add(rngConst);
-        Firemode firemode = new Firemode("",new int[]{0,0,0}, rngConstList, null, null);
-
-        ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(0);
-        expected.add(1);
-        expected.add(2);
-        expected.add(4);
-        expected.add(5);
-        expected.add(6);
-        assertEquals(expected, firemode.getRange(0,map));
-
-        // flamethrower used as reference for range constraints
-        rngConstList = new ArrayList<>();
-        rngConst = new CardinalDirectionConstraint();
-        rngConstList.add(rngConst);
-        rngConst = new InRadiusConstraint(2);
-        rngConstList.add(rngConst);
-        rngConst = new ExcRadiusConstraint(0);
-        rngConstList.add(rngConst);
-        firemode = new Firemode("",new int[]{0,0,0},  rngConstList, null, null);
-
-        expected = new ArrayList<>();
-        expected.add(4);
-        expected.add(6);
-        expected.add(7);
-        expected.add(9);
-        assertEquals(expected, firemode.getRange(5,map));
-
-        expected = new ArrayList<>();
-        expected.add(0);
-        expected.add(5);
-        expected.add(6);
-        assertEquals(expected, firemode.getRange(4,map));
-
-        //whisper used as reference for range constraints
-        rngConstList = new ArrayList<>();
-        rngConst = new InSightConstraint();
-        rngConstList.add(rngConst);
-        rngConst = new ExcRadiusConstraint(1);
-        rngConstList.add(rngConst);
-        firemode = new Firemode("", new int[]{0,0,0}, rngConstList, null, null);
-
-        expected = new ArrayList<>();
-        expected.add(2);
-        expected.add(5);
-        expected.add(6);
-        assertEquals(expected, firemode.getRange(0,map));
-
-        expected = new ArrayList<>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(6);
-        assertEquals(expected, firemode.getRange(4,map));
-
-        //electroscythe used as reference for range constraints
-        rngConstList = new ArrayList<>();
-        rngConst = new InRadiusConstraint(0);
-        rngConstList.add(rngConst);
-        firemode = new Firemode("", new int[]{0,0,0},  rngConstList, null, null);
-
-        expected = new ArrayList<>();
-        expected.add(5);
-        assertEquals(expected, firemode.getRange(5,map));
-
-        //heatseeker used as reference for range constraints
-        rngConstList = new ArrayList<>();
-        rngConst = new ExcSightConstraint();
-        rngConstList.add(rngConst);
-        firemode = new Firemode("", new int[]{0,0,0},  rngConstList, null, null);
-
-        expected = new ArrayList<>();
-        expected.add(7);
-        expected.add(9);
-        expected.add(10);
-        expected.add(11);
-        assertEquals(expected, firemode.getRange(0,map));
-
-        expected = new ArrayList<>();
-        expected.add(4);
-        expected.add(5);
-        expected.add(6);
-        expected.add(7);
-        expected.add(9);
-        expected.add(10);
-        expected.add(11);
-        assertEquals(expected, firemode.getRange(1,map));
-
-        expected = new ArrayList<>();
-        expected.add(0);
-        expected.add(1);
-        expected.add(2);
-        expected.add(7);
-        expected.add(11);
-        assertEquals(expected, firemode.getRange(5,map));
-
-        //furnace used as reference for range constraints
-        rngConstList = new ArrayList<>();
-        rngConst = new ExcRoomConstraint();
-        rngConstList.add(rngConst);
-        rngConst = new InSightConstraint();
-        rngConstList.add(rngConst);
-        firemode = new Firemode("", new int[]{0,0,0},  rngConstList, null, null);
-
-        expected = new ArrayList<>();
-        expected.add(4);
-        expected.add(5);
-        expected.add(6);
-        assertEquals(expected, firemode.getRange(0,map));
-
-        expected = new ArrayList<>();
-        expected.add(0);
-        expected.add(1);
-        expected.add(2);
-        expected.add(7);
-        expected.add(11);
-        assertEquals(expected, firemode.getRange(6,map));*/
+    void extraCostTest(){
+        int[] expected;
+        expected = new int[]{0,0,0};
+        assertArrayEquals(firemode1.getExtraCost(), expected);
+        expected = new int[]{0,1,0};
+        assertArrayEquals(firemode2.getExtraCost(), expected);
     }
+
+    @Test
+    void moveSelfStateTest(){
+        assertNull(firemode1.getMoveSelfStep());
+        assertNotNull(firemode2.getMoveSelfStep());
+    }
+
+    @Test
+    void checkTargetsTest(){
+        Avatar avatar = new Avatar("A", Color.YELLOW);
+        Player shooter = new Player(avatar, "B", new ArrayList<>());
+        shooter.setPosition(0);
+        ArrayList<Player> targets = new ArrayList<>();
+        targets.add(new Player(avatar,"C", new ArrayList<>()));
+        targets.add(new Player(avatar,"D", new ArrayList<>()));
+        targets.add(new Player(avatar,"E", new ArrayList<>()));
+        targets.get(0).setPosition(1);
+        targets.get(1).setPosition(4);
+        targets.get(2).setPosition(5);
+        assertTrue(firemode1.checkTargets(shooter,targets,map));
+        targets.get(0).setPosition(0);
+        assertFalse(firemode1.checkTargets(shooter,targets,map));
+
+        shooter.setPosition(1);
+        targets.get(0).setPosition(2);
+        targets.get(1).setPosition(2);
+        targets.get(2).setPosition(0);
+        assertFalse(firemode2.checkTargets(shooter,targets,map));
+    }
+
 }

@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TargetsConstraintTest {
 
     private static Map map;
+    private static TargetsConstraint constraint;
 
     @BeforeAll
     static void initMap(){
@@ -41,16 +42,13 @@ class TargetsConstraintTest {
         }
     }
 
-    /*@Test
+    @Test
     void checkConstTest(){
-
-        Lobby lobby = new Lobby(null);
         Avatar avatar = new Avatar("TESTER", Color.WHITE);
         Player shooter = new Player(avatar,"A", new ArrayList<>());
 
-
         /* Different Squares */
-        /*TargetsConstraint constraint = new DifferentSquaresConstraint();
+        constraint = new DifferentSquaresConstraint();
         ArrayList<Player> targets = new ArrayList<>();
         targets.add(new Player(avatar,"B", new ArrayList<>()));
         targets.add(new Player(avatar,"C", new ArrayList<>()));
@@ -65,7 +63,7 @@ class TargetsConstraintTest {
         targets.get(2).setPosition(7);
         assertFalse(constraint.checkConst(shooter, targets, map));
         /*Same SquareAmmoTest */
-        /*constraint = new SameSquareConstraint();
+        constraint = new SameSquareConstraint();
         targets.get(0).setPosition(1);
         targets.get(1).setPosition(5);
         targets.get(2).setPosition(9);
@@ -75,7 +73,7 @@ class TargetsConstraintTest {
         targets.get(2).setPosition(5);
         assertTrue(constraint.checkConst(shooter, targets, map));
         /* Same Direction */
-        /*constraint = new SameDirectionConstraint();
+        constraint = new SameDirectionConstraint();
         targets.get(0).setPosition(1);
         targets.get(1).setPosition(5);
         targets.get(2).setPosition(9);
@@ -100,7 +98,7 @@ class TargetsConstraintTest {
         targets.add(new Player(avatar,"E", new ArrayList<>()));
         targets.add(new Player(avatar,"F", new ArrayList<>()));
         /* Same Room */
-        /*constraint = new SameRoomConstraint();
+        constraint = new SameRoomConstraint();
         targets.get(0).setPosition(4);
         targets.get(1).setPosition(6);
         targets.get(2).setPosition(6);
@@ -111,7 +109,7 @@ class TargetsConstraintTest {
         targets.get(2).setPosition(7);
         assertFalse(constraint.checkConst(shooter, targets, map));
         /* Trajectory */
-        /*constraint = new ChargeConstraint();
+        constraint = new ChargeConstraint();
         shooter.setPosition(4);
         shooter.setPosition(6);
         targets.get(0).setPosition(4);
@@ -141,7 +139,7 @@ class TargetsConstraintTest {
         targets.get(2).setPosition(10);
         assertFalse(constraint.checkConst(shooter, targets, map));
         /* Thor */
-       /* constraint = new ThorConstraint();
+        constraint = new ThorConstraint();
         targets.get(0).setPosition(2);
         targets.get(1).setPosition(5);
         targets.get(2).setPosition(9);
@@ -154,6 +152,19 @@ class TargetsConstraintTest {
         targets.get(1).setPosition(9);
         targets.get(2).setPosition(11);
         assertFalse(constraint.checkConst(shooter, targets, map));
+    }
 
-    }*/
+    @Test
+    void specialRangeTest(){
+        constraint = new ChargeConstraint();
+        assertTrue(constraint.isSpecialRange());
+        constraint = new DifferentSquaresConstraint();
+        assertFalse(constraint.isSpecialRange());
+        constraint = new SameRoomConstraint();
+        assertFalse(constraint.isSpecialRange());
+        constraint = new SameSquareConstraint();
+        assertFalse(constraint.isSpecialRange());
+        constraint = new ThorConstraint();
+        assertTrue(constraint.isSpecialRange());
+    }
 }
