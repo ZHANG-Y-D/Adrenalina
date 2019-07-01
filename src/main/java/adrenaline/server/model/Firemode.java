@@ -14,7 +14,7 @@ public class Firemode {
     private ArrayList<TargetsConstraint> trgConstraints;
     private Queue<FiremodeSubState> firemodeSteps = new LinkedList<>();
     private int allowedMovement;
-    
+
     public int[] getExtraCost(){
         return extraCost;
     }
