@@ -52,6 +52,8 @@ public abstract class ControllerCli{
             System.err.println("\n/ForCli/"+srcFileName+"  File Not Found ");
         }catch (IOException e){
             System.err.println("\n printSrcFile IOException ");
+        }catch (NullPointerException e){
+            System.err.println("\n/ForCli/"+srcFileName+"  File Not Found ");
         }
     }
 
@@ -104,7 +106,7 @@ public abstract class ControllerCli{
             num = readANumber(rangeList);
         }
 
-        if (!rangeList.contains(num) && num!=0) {
+        if (!rangeList.contains(num) && num!=-1) {
             System.err.println("Invalid number, Retry:");
             num = readANumber(rangeList);
         }
@@ -305,21 +307,41 @@ public abstract class ControllerCli{
     protected synchronized void printMapAndMapWeaponAmmoInfo() {
 
 
-        //TODO per map ammo
+        adrenaline.client.model.Map map = gameController.getMap();
+
 
         printMap();
 
-        System.out.println("\n-------");
+        System.out.println("\n---------------");
         System.out.println("Weapon Info...");
         System.out.println(" ");
         System.out.println(ansi().bold().fg(Ansi.Color.BLUE).a("At map square  NO.2 █").fgDefault());
-        printWeaponInfo(gameController.getMap().getWeaponMap().get(Color.BLUE));
+        printWeaponInfo(map.getWeaponMap().get(Color.BLUE));
         System.out.println(" ");
         System.out.println(ansi().bold().fg(Ansi.Color.RED).a("At map square  NO.4 █").fgDefault());
-        printWeaponInfo(gameController.getMap().getWeaponMap().get(Color.RED));
+        printWeaponInfo(map.getWeaponMap().get(Color.RED));
         System.out.println(" ");
         System.out.println(ansi().bold().fg(Ansi.Color.YELLOW).a("At map square  NO.11 █").fgDefault());
-        printWeaponInfo(gameController.getMap().getWeaponMap().get(Color.YELLOW));
+        printWeaponInfo(map.getWeaponMap().get(Color.YELLOW));
+
+
+        printMapAmmoCardInfo(map.getAmmoMap());
+
+
+
+
+    }
+
+    private void printMapAmmoCardInfo(HashMap<Integer, Integer> ammoMap) {
+
+        System.out.println("\n--------------Ammo Box------------");
+
+        for (Map.Entry<Integer, Integer> ammo : ammoMap.entrySet()){
+
+            System.out.print(ammo.getKey()+": ");
+            printSrcFile("AmmoBox"+ammo.getValue()+".txt");
+
+        }
 
     }
 
@@ -343,9 +365,10 @@ public abstract class ControllerCli{
             System.out.print("--->");
             System.out.println(ansi().eraseScreen().bold().
                     fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault());
+
             System.out.println("Position: "+modelPlayer.getPosition());
             System.out.print("AmmoBox: ");
-            printAmmoBoxInfo(modelPlayer.getAmmoBox());
+            printPlayerAmmoBoxInfo(modelPlayer.getAmmoBox());
 
             printDamageTrack(modelPlayer.getDamage());
             printMarkTrack(modelPlayer.getMarks());
@@ -380,10 +403,26 @@ public abstract class ControllerCli{
      * A synchronized class for print Ammo BoxInfo
      *
      */
-    private synchronized void printAmmoBoxInfo(int[] ammoBox) {
+    private synchronized void printPlayerAmmoBoxInfo(int[] ammoBox) {
 
 
-        //TODO for ammo box
+
+        for (int i=0;i<=2;i++){
+            for (int j=ammoBox[i];j>0;j--){
+                switch (i) {
+                    case 0:
+                        System.out.print(ansi().fg(Ansi.Color.RED).a("█ ").fgDefault());
+                        break;
+                    case 1:
+                        System.out.print(ansi().fg(Ansi.Color.BLUE).a("█ ").fgDefault());
+                        break;
+                    case 2:
+                        System.out.print(ansi().fg(Ansi.Color.YELLOW).a("█ ").fgDefault());
+                        break;
+                        default:
+                }
+            }
+        }
 
         System.out.println(" ");
 
