@@ -39,7 +39,7 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2;
+    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2, skullPane;
     @FXML
     private Button  run, shoot, grab, reload, back;
     @FXML
@@ -49,7 +49,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private VBox chat, enemyPlayers;
     @FXML
-    private HBox ownDamage, ownMarks;
+    private HBox ownDamage, ownMarks, ownPoints, skullBox;
     @FXML
     private TextField txtMsg;
     @FXML
@@ -135,16 +135,19 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         updatePlayer(gameController.getPlayersMap());
     }
 
-    public void initializeHUD(){
+    private void initializeHUD(){
         Map modelMap = gameController.getMap();
         String path = "url(/Graphic-assets/Maps/MAP"+ modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
         updateMap(modelMap);
-        Pane skullPane = new Pane();
+        skullPane = new Pane();
         ImageView skulls = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULLBAR.png")));
         skulls.setFitHeight(57);
         skulls.setFitWidth(320);
         skullPane.getChildren().add(skulls);
+        skullBox = new HBox();
+        skullBox.setLayoutX(8*30 - gameController.getScoreBoard().getKillshotTrack().length*30);
+        skullPane.getChildren().add(skullBox);
         enemyPlayers.getChildren().add(skullPane);
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
@@ -208,7 +211,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     cardsPane.setLayoutY(20);
                     cardsPane.setVisible(false);
                     cardsPane.getStyleClass().add("blackTransparent");
-                    cardsPane.setOnMouseClicked(this::hideEnemyCards);
+                    cardsPane.setOnMouseClicked(this::hideEnemyPane);
                     HBox weapons = new HBox();
                     weapons.setLayoutX(46);
                     enemyWeaponsMap.put(x,weapons);
@@ -218,14 +221,53 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     powerup.setFitHeight(70);
                     powerup.setFitWidth(45);
                     cardsPane.getChildren().add(powerup);
-                    Label num = new Label();
+                    Label num = new Label("0");
                     num.setLayoutX(17);
                     num.setLayoutY(28);
                     num.setFont(font);
-                    num.setText("0");
                     num.getStyleClass().add("RED");
                     cardsPane.getChildren().add(num);
                     newPane.getChildren().add(cardsPane);
+                    Label points = new Label("POINTS");
+                    points.setLayoutX(170);
+                    points.setLayoutY(20);
+                    Font font2 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 12);
+                    points.setFont(font2);
+                    points.getStyleClass().add("WHITE");
+                    points.getStyleClass().add("hand");
+                    points.setOnMouseClicked(this::showEnemyPane);
+                    newPane.getChildren().add(points);
+                    Pane pointsPane = new Pane();
+                    pointsPane.setLayoutX(170);
+                    pointsPane.setLayoutY(20);
+                    pointsPane.setVisible(false);
+                    pointsPane.getStyleClass().add("blackTransparent");
+                    pointsPane.setOnMouseClicked(this::hideEnemyPane);
+                    pointsPane.setPrefWidth(140);
+                    pointsPane.setPrefHeight(80);
+                    newPane.getChildren().add(pointsPane);
+                    Label score = new Label("SCORE: ");
+                    score.setFont(font);
+                    score.getStyleClass().add("WHITE");
+                    score.setLayoutY(10);
+                    Label scoreNumber = new Label("0");
+                    scoreNumber.setFont(font);
+                    scoreNumber.getStyleClass().add("RED");
+                    scoreNumber.setLayoutY(10);
+                    scoreNumber.setLayoutX(70);
+                    Label deathPoint = new Label("MAX DEATH: ");
+                    deathPoint.setFont(font);
+                    deathPoint.getStyleClass().add("WHITE");
+                    deathPoint.setLayoutY(50);
+                    Label deathNumber = new Label("8");
+                    deathNumber.setFont(font);
+                    deathNumber.getStyleClass().add("RED");
+                    deathNumber.setLayoutY(50);
+                    deathNumber.setLayoutX(110);
+                    pointsPane.getChildren().add(score);
+                    pointsPane.getChildren().add(scoreNumber);
+                    pointsPane.getChildren().add(deathPoint);
+                    pointsPane.getChildren().add(deathNumber);
                     enemyPlayers.getChildren().add(newPane);
                     playersColorMap.put(x, newPane);
                 }
@@ -340,18 +382,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
-    private void updateScoreBoard(ScoreBoard scoreBoard) {
-
-    }
-
-    /*
-    public void test(){
-        gameController.updateMap(new Map());
-        gameController.updatePlayer(new Player());
-    }
-
-     */
-
     public void selectAction(Event evt){
         message.setText("");
         Button button = (Button) evt.getSource();
@@ -421,6 +451,53 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     public void hideTriangles(){
         powerupTriangle.setVisible(false);
         weaponTriangle.setVisible(false);
+    }
+
+    private void updateScoreBoard(ScoreBoard scoreBoard) {
+        //update score
+        Platform.runLater(() -> scoreBoard.getScoreMap().forEach((x, y) -> {
+            if(x.equals(gameController.getOwnColor())); //gestire caso ownPlayer
+            else {
+                Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
+                Pane pointsPane = (Pane) playerPane.getChildren().get(7);
+                Label points = (Label) pointsPane.getChildren().get(1);
+                points.setText(y.toString());
+            }
+        }));
+
+        //update max death points
+        Platform.runLater(() -> scoreBoard.getDiminValues().forEach((x, y) -> {
+            if(x.equals(gameController.getOwnColor())){
+                ownPoints.getChildren().clear();
+                ImageView skull = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULL.png")));
+                skull.setFitWidth(19);
+                skull.setFitHeight(30);
+                skull.setLayoutX(15);
+                switch (y){
+                    case 8: break;
+                    case 6: ownPoints.getChildren().add(skull); break;
+                    case 4: ownPoints.getChildren().add(skull);
+                            ownPoints.getChildren().add(skull);
+                            break;
+                    case 2: ownPoints.getChildren().add(skull);
+                            ownPoints.getChildren().add(skull);
+                            ownPoints.getChildren().add(skull);
+                            break;
+                    case 1: ownPoints.getChildren().add(skull);
+                            ownPoints.getChildren().add(skull);
+                            ownPoints.getChildren().add(skull);
+                            ownPoints.getChildren().add(skull);
+                            break;
+                    default: break;
+                }
+            }
+            else {
+                Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
+                Pane pointsPane = (Pane) playerPane.getChildren().get(7);
+                Label deathNumber = (Label) pointsPane.getChildren().get(3);
+                deathNumber.setText(y.toString());
+            }
+        }));
     }
 
     private void updateMap(Map newMap){
@@ -809,13 +886,19 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ownCard.setVisible(true);
     }
 
+    private void showEnemyPane(Event event){
+        Node source = (Node) event.getSource();
+        Pane parent = (Pane) source.getParent();
+        parent.getChildren().get(7).setVisible(true);
+    }
+
     private void showEnemyCards(Event event){
         Node source = (Node) event.getSource();
         Pane parent = (Pane) source.getParent();
         parent.getChildren().get(5).setVisible(true);
     }
 
-    private void hideEnemyCards(Event event) {
+    private void hideEnemyPane(Event event) {
         Pane source = (Pane) event.getSource();
         source.setVisible(false);
     }

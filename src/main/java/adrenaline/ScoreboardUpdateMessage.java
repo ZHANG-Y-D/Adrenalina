@@ -7,7 +7,7 @@ public class ScoreboardUpdateMessage implements UpdateMessage {
     adrenaline.client.model.ScoreBoard clientsideScoreboard = null;
 
     public ScoreboardUpdateMessage(ScoreBoard serversideScoreboard){
-        clientsideScoreboard = new adrenaline.client.model.ScoreBoard(serversideScoreboard.getDiminValues(),
+        clientsideScoreboard = new adrenaline.client.model.ScoreBoard(serversideScoreboard.getScoreMap(),serversideScoreboard.getDiminValues(),
                 serversideScoreboard.getKillshotTrack(), serversideScoreboard.getOverkillFlags());
     }
 

@@ -59,6 +59,8 @@ public class GameController {
      */
     public Map getMap(){ return map; }
 
+    public ScoreBoard getScoreBoard() { return scoreBoard; }
+
     /**
      *
      *

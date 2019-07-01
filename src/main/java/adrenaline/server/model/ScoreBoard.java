@@ -29,6 +29,7 @@ public class ScoreBoard extends Observable {
         killshotTrack = new Color[skulls];
         overkillFlags = new Boolean[skulls];
         killCount=0;
+        notifyObservers(new ScoreboardUpdateMessage(this));
     }
 
     public void scoreKill(Color dead, ArrayList<Color> damageTrack){

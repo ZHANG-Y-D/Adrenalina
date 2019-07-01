@@ -127,3 +127,7 @@
 .RED{
     -fx-text-fill: #ff1d5c;
 }
+
+#skullBox{
+    -fx-border-color: red;
+}
