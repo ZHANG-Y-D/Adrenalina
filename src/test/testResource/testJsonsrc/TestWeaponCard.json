@@ -41,7 +41,11 @@
           "properties": { "radius" :  0}
         }
       ],
-      "trgConstraints": [],
+      "trgConstraints": [
+        {
+          "type": "adrenaline.server.model.constraints.SameDirectionConstraint","properties": {"specialRange" :  true}
+        }
+      ],
       "firemodeSteps": [
         {
           "type": "adrenaline.server.controller.states.FirePlayerState",
