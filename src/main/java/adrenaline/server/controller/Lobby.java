@@ -12,7 +12,6 @@ import adrenaline.server.model.constraints.RangeConstraint;
 import adrenaline.server.model.constraints.TargetsGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
 import adrenaline.server.LobbyAPI;
 import adrenaline.server.controller.states.GameState;
 import adrenaline.server.network.Client;
@@ -149,6 +148,8 @@ public class Lobby implements Runnable, LobbyAPI {
                 }
             }
             System.out.println("GAME ENDED!");
+            playersColor.forEach((x,y) ->  scoreBoard.scoreKill(x,y.getDamageTrack()));
+            scoreBoard.scoreKillshotTrack();
         }
     }
 
@@ -284,8 +285,11 @@ public class Lobby implements Runnable, LobbyAPI {
     }
 
     public String selectFinalFrenzyAction(String clientID, Integer action) {
-        //TODO
-        return null;
+        if(clientID.equals(currentTurnPlayer)) {
+            commandReceived = true;
+            return currentState.selectFinalFrenzyAction(action);
+        }
+        else return "You can only do that during your turn!";
     }
 
     public String selectAvatar(String clientID, Color color) {
@@ -389,7 +393,7 @@ public class Lobby implements Runnable, LobbyAPI {
         }else {
             nextPlayer();
             firstPlayerFF |= currentTurnPlayer.equals(clientMap.keySet().iterator().next());
-                    System.out.println("first player ff: "+firstPlayerFF);
+            scoreBoard.setFinalFrenzyMode(playersMap.get(currentTurnPlayer).getColor(), firstPlayerFF);
             currentState = new SelectFreneticActionState(this);
             return TURN_TIMEOUT_IN_SECONDS;
         }
