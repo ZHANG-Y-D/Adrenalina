@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
- *
+ * This class for select Avatar
  *
  */
 public class SelectionStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
@@ -23,7 +23,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * Constructor of this stage
      *
      */
     public SelectionStageCli(GameController gameController) {
@@ -78,7 +78,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * For select map and skull
      *
      */
     private void selectMapAndSkulls() {
@@ -104,7 +104,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * For select avatar
      *
      */
     private void selectAvatar() {
@@ -145,7 +145,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * For show error from server
      *
      */
     @Override
@@ -173,7 +173,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * For show Massage from server
      *
      */
     @Override
@@ -186,7 +186,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * For change stage
      *
      */
     @Override
@@ -208,17 +208,17 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * Not valid at this stage
      *
      */
     @Override
     public void setGameController(GameController gameController) {
-
+        //Not valid at this stage
     }
 
     /**
      *
-     *
+     * Not valid at this stage
      *
      */
     public void notifyTimer(Integer duration, String comment) {
@@ -228,7 +228,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * Not valid at this stage
      *
      */
     public void newChatMessage(String nickname, Color senderColor, String message) {
@@ -238,7 +238,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * Not valid at this stage
      *
      */
     public void showValidSquares(ArrayList<Integer> validSquares) {
@@ -248,7 +248,8 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
     /**
      *
-     *
+     * For listen property Change from server
+     * @param evt Property Change Event
      *
      */
     @Override

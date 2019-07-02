@@ -376,6 +376,10 @@ public abstract class ControllerCli{
 
     }
 
+    /**
+     * For print mark track
+     * @param marks makes track ArrayList
+     */
     private synchronized static void printMarkTrack(ArrayList<Color> marks) {
 
         System.out.print("Mark: ");
@@ -386,6 +390,11 @@ public abstract class ControllerCli{
 
     }
 
+    /**
+     *
+     * For print damage track
+     * @param damageArrayList damage ArrayList
+     */
     private synchronized static void printDamageTrack(ArrayList<Color> damageArrayList) {
 
         System.out.print("Damage: ");
@@ -399,7 +408,7 @@ public abstract class ControllerCli{
     /**
      *
      * A synchronized class for print Ammo BoxInfo
-     *
+     * @param ammoBox ammobox array seq:r b y p
      */
     private synchronized void printPlayerAmmoBoxInfo(int[] ammoBox) {
 
