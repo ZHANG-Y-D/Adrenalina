@@ -437,10 +437,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     private void updateScoreBoard(ScoreBoard scoreBoard) {
-        if(gameController.getFinalfrenzyMode() != 0) {
-            System.out.println(gameController.getFinalfrenzyMode());
-            frenzyChange(gameController.getFinalfrenzyMode());
-        }
+        if(gameController.getFinalfrenzyMode() != 0) frenzyChange(gameController.getFinalfrenzyMode());
 
         //update score
         Platform.runLater(() -> scoreBoard.getScoreMap().forEach((x, y) -> {
