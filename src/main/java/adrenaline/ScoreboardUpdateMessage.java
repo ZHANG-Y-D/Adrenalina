@@ -11,7 +11,8 @@ public class ScoreboardUpdateMessage implements UpdateMessage {
 
     public ScoreboardUpdateMessage(ScoreBoard serversideScoreboard){
         clientsideScoreboard = new adrenaline.client.model.ScoreBoard(serversideScoreboard.getScoreMap(),serversideScoreboard.getDiminValues(),
-                serversideScoreboard.getKillshotTrack(), serversideScoreboard.getOverkillFlags(), serversideScoreboard.getMaxKills());
+                serversideScoreboard.getKillshotTrack(), serversideScoreboard.getOverkillFlags(), serversideScoreboard.getMaxKills(),
+                serversideScoreboard.getFinalPlayerPositions());
         finalfrenzyMode = serversideScoreboard.getFinalfrenzyModePlayers();
     }
 

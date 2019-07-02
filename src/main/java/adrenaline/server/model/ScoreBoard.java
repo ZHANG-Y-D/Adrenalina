@@ -41,7 +41,6 @@ public class ScoreBoard extends Observable {
             int firstBlood = scoreMap.get(damageTrack.get(0));
             scoreMap.put(damageTrack.get(0), firstBlood + 1);
         }
-
         List<Integer> frequencies = damageTrack.stream().map(x -> Collections.frequency(damageTrack, x)).distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
         List<Color> attackers = damageTrack.stream().distinct().collect(Collectors.toList());
         int points = diminValues.get(dead);
@@ -134,13 +133,30 @@ public class ScoreBoard extends Observable {
         });
         orderedList = scoreMap.values().stream().distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
         int position=1;
+        Color previous=null;
         for(Integer x : orderedList){
             for(java.util.Map.Entry<Color,Integer> entry : scoreMap.entrySet()){
-                if(entry.getValue().equals(x)) finalPlayerPositions.put(entry.getKey(),position);
+                if(entry.getValue().equals(x)){
+                    Color current = entry.getKey();
+                    finalPlayerPositions.put(entry.getKey(),position);
+                    if(previous!=null && finalPlayerPositions.get(previous).equals(finalPlayerPositions.get(current))){
+                        if(pointsFromKillshoTrack.get(current)>pointsFromKillshoTrack.get(previous)){
+                            position++;
+                            position = finalPlayerPositions.get(previous);
+                            finalPlayerPositions.put(previous, position);
+                        }else if(pointsFromKillshoTrack.get(current)<pointsFromKillshoTrack.get(previous)){
+                            position++;
+                            position = finalPlayerPositions.get(current);
+                            finalPlayerPositions.put(current, position);
+                        }
+
+                    }
+                    previous = current;
+                }
             }
             position++;
         }
-        Iterator itr = finalPlayerPositions.keySet().iterator();
+        /*Iterator itr = finalPlayerPositions.keySet().iterator();
         Color c1 = (Color) itr.next();
         while(itr.hasNext()){
             Color c2 = (Color) itr.next();
@@ -154,7 +170,7 @@ public class ScoreBoard extends Observable {
                 }
             }
             c1=c2;
-        }
+        }*/
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
 }

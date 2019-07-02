@@ -54,7 +54,6 @@ public class SelectActionState implements GameState {
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
          return lobby.usePowerup(powerUp);
-
     }
 
     @Override

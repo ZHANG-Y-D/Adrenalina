@@ -42,7 +42,7 @@ public class SelectFreneticActionState implements GameState {
 
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
-        return "Select an action!";
+        return lobby.usePowerup(powerUp);
     }
 
     @Override
