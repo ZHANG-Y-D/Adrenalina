@@ -34,8 +34,6 @@ class ScoreBoardTest {
         assertNotEquals(3,testScoreBoard.getScoreMap().get(Color.YELLOW));
         assertEquals(8,testScoreBoard.getDiminValues().get(Color.BLUE));
         assertNotEquals(0,testScoreBoard.getDiminValues().get(Color.YELLOW));
-        assertEquals(5,testScoreBoard.getKillshotTrack().length);
-        assertEquals(5,testScoreBoard.getOverkillFlags().length);
         assertEquals(0,testScoreBoard.getMaxKills());
     }
 
@@ -72,6 +70,5 @@ class ScoreBoardTest {
             testScoreBoard.scoreKill(Color.BLUE, new ArrayList<>(Arrays.asList(Color.YELLOW,Color.YELLOW,Color.YELLOW,Color.YELLOW,Color.GREEN,Color.GREEN,Color.YELLOW,Color.YELLOW,Color.YELLOW,Color.YELLOW,Color.YELLOW,Color.YELLOW)));
         }
         assertEquals(5,testScoreBoard.getMaxKills());
-        assertEquals(5,testScoreBoard.getKillshotTrack().length);
     }
 }
