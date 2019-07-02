@@ -34,6 +34,8 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     private AtomicBoolean isShowedSquare = new AtomicBoolean(false);
     private volatile ArrayList<Integer> validSquareArray;
     private AtomicBoolean isCanNotGoBack = new AtomicBoolean(false);
+    private AtomicBoolean isOutOfMoves = new AtomicBoolean(false);
+
 
 
     /**
@@ -90,7 +92,10 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 isQuit(chat);
                 if (chat.contains("chat:")) {
                     gameController.sendChatMessage(chat.replace("chat:", ""));
-                }
+                }else if (chat.contains("usepowerup"))
+                    usePowerupCard();
+
+
                 chatLock.unlock();
 
                 try {
@@ -120,6 +125,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
             if (error.contains("You have run out of moves")) {
                 finishActionAndWakeupWaitThread();
+                isOutOfMoves.set(true);
             }
             else if (error.contains("You can only do that during your turn"))
                 finishThisTurn();
@@ -190,7 +196,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             gameController.selectWeapon(weaponID);
 
             try {
-                sleep(2000);
+                sleep(500);
             }catch (InterruptedException e){
                 Thread.currentThread().interrupt();
             }
@@ -215,7 +221,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 gameController.selectPowerUp(readANumber(playerSelf.getPowerupCards()));
             }
         }
-
     }
 
 
@@ -305,6 +310,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     }
 
+
     /**
      *
      *
@@ -314,9 +320,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
 
         Runnable turnControllerRunable = ()->{
-
-
-
 
             if (isFirstTurn) {
                 firstTurnSet();
@@ -389,7 +392,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 reloadWeaponAndEndTurn();
                 break;
             case 5:
-                UsePowerupCard();
+                usePowerupCard();
                 break;
             case 6:
                 sendChat();
@@ -409,7 +412,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     }
 
-    private void UsePowerupCard() {
+    private void usePowerupCard() {
 
         ArrayList<Integer> powerup=gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards();
 
@@ -431,12 +434,12 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             if (num == 1) {
                 selectSomePlayers();
             } else if (num == 2) {
-                gameController.selectSquare(readANumber(0, 11));
+                selectSquare();
             } else if (num == 3)
                 return;
 
             try {
-                sleep(1000);
+                sleep(500);
             }catch (InterruptedException e){
                 Thread.currentThread().interrupt();
             }
@@ -463,7 +466,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         gameController.shoot();
         try {
-            sleep(3000);
+            sleep(500);
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }
@@ -487,7 +490,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                     selectSomePlayers();
                     break;
                 case 5:
-                    SelectPowerupCard();
+                    selectPowerupCard();
                     break;
                 case 6:
                     if (shootGoBackToSelectAction())
@@ -514,12 +517,14 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         }
     }
 
+
+
     private boolean shootGoBackToSelectAction() {
 
         isCanNotGoBack.set(false);
         gameController.back();
         try {
-            sleep(2000);
+            sleep(1500);
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }
@@ -533,7 +538,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         while (!isCanNotGoBack.get()){
             gameController.back();
             try {
-                sleep(2000);
+                sleep(1500);
             }catch (InterruptedException e){
                 Thread.currentThread().interrupt();
             }
@@ -620,7 +625,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      *
      *
      */
-    private void SelectPowerupCard() {
+    private void selectPowerupCard() {
 
 
         int selected;
@@ -649,20 +654,24 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      */
     private void runAction() {
 
+        isOutOfMoves.set(false);
         isShowedSquare.set(false);
         gameController.run();
 
         waitProcessCompleted();
 
-        System.out.println(" ");
-        System.out.println("Choose one: Input -1 to go back.");
 
-        int num = readANumber(validSquareArray);
+        if (!isOutOfMoves.get()) {
+            System.out.println(" ");
+            System.out.println("Choose one to run: Input -1 to go back.");
 
-        if (num==-1)
-            gameController.back();
-        else
-            gameController.selectSquare(num);
+            int num = readANumber(validSquareArray);
+
+            if (num == -1)
+                gameController.back();
+            else
+                gameController.selectSquare(num);
+        }
 
 
     }
@@ -682,6 +691,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+
     /**
      *
      *
@@ -692,46 +702,49 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         Color grabbedColor;
         ArrayList<Integer> weaponList;
 
+        isOutOfMoves.set(false);
         isShowedSquare.set(false);
         gameController.grab();
 
         waitProcessCompleted();
 
-        System.out.println(" ");
-        System.out.println("Choose one: Input -1 to go back.");
+        if (!isOutOfMoves.get()) {
+            System.out.println(" ");
+            System.out.println("Choose one to grab: Input -1 to go back.");
 
-        int num = readANumber(validSquareArray);
+            int num = readANumber(validSquareArray);
 
-        if (num==-1)
-            gameController.back();
-        else
-            gameController.selectSquare(num);
-
-
-        if (num==2 || num==4 || num==11){
-
-            System.out.println("You can choose a weapon.");
+            if (num == -1)
+                gameController.back();
+            else
+                gameController.selectSquare(num);
 
 
-            switch (num){
-                case 2:
-                    grabbedColor=Color.BLUE;
-                    break;
-                case 4:
-                    grabbedColor=Color.RED;
-                    break;
-                case 11:
-                    grabbedColor=Color.YELLOW;
-                    break;
+            if (num == 2 || num == 4 || num == 11) {
+
+                System.out.println("You can choose a weapon.");
+
+
+                switch (num) {
+                    case 2:
+                        grabbedColor = Color.BLUE;
+                        break;
+                    case 4:
+                        grabbedColor = Color.RED;
+                        break;
+                    case 11:
+                        grabbedColor = Color.YELLOW;
+                        break;
                     default:
                         return;
+                }
+
+                weaponList = gameController.getMap().getWeaponMap().get(grabbedColor);
+                printWeaponInfo(weaponList);
+                System.out.println("Witch you want: ");
+                gameController.selectWeapon(readANumber(weaponList));
+
             }
-
-            weaponList = gameController.getMap().getWeaponMap().get(grabbedColor);
-            printWeaponInfo(weaponList);
-            System.out.println("Witch you want: ");
-            gameController.selectWeapon(readANumber(weaponList));
-
         }
     }
 

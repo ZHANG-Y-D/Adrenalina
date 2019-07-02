@@ -105,7 +105,7 @@ public abstract class ControllerCli{
         }
 
         if (!rangeList.contains(num) && num!=-1) {
-            System.err.println("Invalid number, Retry:");
+            System.err.println(num+" is invalid number, Retry:");
             num = readANumber(rangeList);
         }
 
