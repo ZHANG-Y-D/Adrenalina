@@ -5,6 +5,7 @@ import adrenaline.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -16,10 +17,12 @@ import java.util.HashMap;
 public class ScoreBoard implements Serializable {
     private HashMap<Color,Integer> scoreMap;
     private HashMap<Color,Integer> diminValues;
-    private Color[] killshotTrack;
-    private Boolean[] overkillFlags;
 
-    
+    private List<Color> killshotTrack;
+    private List<Boolean> overkillFlags;
+    private int maxKills;
+    private java.util.Map<Color,Integer> finalPlayersPosition;
+
 
     /**
      *
@@ -30,18 +33,25 @@ public class ScoreBoard implements Serializable {
      * @param killshotTrack
      * @param overkillFlags
      */
-    public ScoreBoard(HashMap<Color,Integer> scoreMap,HashMap<Color,Integer> diminValues, Color[] killshotTrack, Boolean[] overkillFlags){
+    public ScoreBoard(HashMap<Color,Integer> scoreMap, HashMap<Color,Integer> diminValues, List<Color> killshotTrack, List<Boolean> overkillFlags, int maxKills,
+                      java.util.Map<Color,Integer> finalPlayersPosition){
         this.scoreMap = scoreMap;
         this.diminValues = diminValues;
         this.killshotTrack = killshotTrack;
         this.overkillFlags = overkillFlags;
+        this.maxKills = maxKills;
+        this.finalPlayersPosition = finalPlayersPosition;
     }
 
     public HashMap<Color,Integer> getScoreMap() { return scoreMap; }
 
     public HashMap<Color,Integer> getDiminValues() { return diminValues; }
 
-    public Color[] getKillshotTrack() { return killshotTrack; }
+    public List<Color> getKillshotTrack() { return killshotTrack; }
 
-    public Boolean[] getOverkillFlags() { return overkillFlags; }
+    public List<Boolean> getOverkillFlags() { return overkillFlags; }
+
+    public int getMaxKills() { return maxKills; }
+
+    public java.util.Map<Color,Integer> getFinalPlayersPosition() { return finalPlayersPosition; }
 }

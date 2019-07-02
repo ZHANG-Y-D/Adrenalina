@@ -11,8 +11,11 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
@@ -23,11 +26,13 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
@@ -140,7 +145,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         String path = "url(/Graphic-assets/Maps/MAP"+ modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
         updateMap(modelMap);
-        skullBox.setLayoutX(8*39 - (gameController.getScoreBoard().getKillshotTrack().length)*39 + 15);
+        skullBox.setLayoutX(8*39 - (gameController.getScoreBoard().getMaxKills())*39 + 15);
         updateScoreBoard(gameController.getScoreBoard());
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
@@ -296,7 +301,22 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void changeStage() {
-
+        Platform.runLater(() ->{
+            try {
+                gameController.removePropertyChangeListener(this);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EndGameView.fxml"));
+                Parent nextView = loader.load();
+                Scene scene = new Scene(nextView);
+                EndGameViewController endGameViewController = loader.getController();
+                Stage stage = (Stage) pane.getScene().getWindow();
+                stage.setWidth(1280);
+                stage.setHeight(768);
+                stage.centerOnScreen();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void notifyTimer(Integer duration, String comment) {
@@ -468,17 +488,17 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         //update skulls
         Platform.runLater(() -> {
             skullBox.getChildren().clear();
-            adrenaline.Color[] killshotTrack = scoreBoard.getKillshotTrack();
-            for(int i = 0; i < killshotTrack.length; i++){
-                if( killshotTrack[i] == null) {
+            ArrayList<adrenaline.Color> killshotTrack = (ArrayList<adrenaline.Color>) scoreBoard.getKillshotTrack();
+            for(int i = 0; i < gameController.getScoreBoard().getMaxKills(); i++){
+                if( i >= killshotTrack.size()) {
                     ImageView skull = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULL.png")));
                     skull.setFitHeight(38);
                     skull.setFitWidth(24);
                     skull.setX(15);
                     skullBox.getChildren().add(skull);
                 }
-                else if(!scoreBoard.getOverkillFlags()[i]){
-                    ImageView drop = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/HUD/"+killshotTrack[i].toString()+"-DROP.png")));
+                else if(!scoreBoard.getOverkillFlags().get(i)){
+                    ImageView drop = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/HUD/"+killshotTrack.get(i).toString()+"-DROP.png")));
                     drop.setFitWidth(25);
                     drop.setFitHeight(37);
                     drop.setLayoutX(15);
@@ -486,7 +506,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 }
                 else {
                     //TODO caricare immagine overkill
-                    ImageView drop = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/HUD/"+killshotTrack[i].toString()+"-DROP.png")));
+                    ImageView drop = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/HUD/"+killshotTrack.get(i).toString()+"-DROP.png")));
                     drop.setFitWidth(25);
                     drop.setFitHeight(37);
                     drop.setLayoutX(15);
@@ -913,5 +933,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Button button = (Button) event.getSource();
         String buttonId = button.getId().substring(5);
         gameController.selectFinalFrenzyAction(Integer.parseInt(buttonId));
+        shootState = true;
     }
 }

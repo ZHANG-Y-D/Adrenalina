@@ -294,7 +294,14 @@ public class GameController {
     public void updateScoreboard(ScoreBoard newScoreboard) {
         ScoreBoard oldScoreboard = scoreBoard;
         scoreBoard = newScoreboard;
-        changes.firePropertyChange("scoreboard", oldScoreboard, newScoreboard);
+
+        if(scoreBoard.getFinalPlayersPosition() == null) changes.firePropertyChange("scoreboard", oldScoreboard, newScoreboard);
+        else view.changeStage();
+    }
+
+    public void setOwnFinalfrenzyMode(Integer mode){
+        finalFrenzyMode = mode;
+
     }
 
     /**
