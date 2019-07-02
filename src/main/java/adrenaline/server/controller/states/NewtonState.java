@@ -76,7 +76,10 @@ public class NewtonState implements GameState {
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
     @Override
-    public String goBack() { return "Select the target you want to move."; }
+    public String goBack() {
+        lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
+        return "OK Select an action";
+    }
 
     @Override
     public String selectAvatar(Color color) {

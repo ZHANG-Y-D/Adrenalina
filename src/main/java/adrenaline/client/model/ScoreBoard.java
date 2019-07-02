@@ -19,18 +19,21 @@ public class ScoreBoard implements Serializable {
     private List<Color> killshotTrack;
     private List<Boolean> overkillFlags;
     private int maxKills;
+    private java.util.Map<Color,Integer> finalPlayersPosition;
     /**
      *
      *
      *
      *
      */
-    public ScoreBoard(HashMap<Color,Integer> scoreMap, HashMap<Color,Integer> diminValues, List<Color> killshotTrack, List<Boolean> overkillFlags, int maxKills){
+    public ScoreBoard(HashMap<Color,Integer> scoreMap, HashMap<Color,Integer> diminValues, List<Color> killshotTrack, List<Boolean> overkillFlags, int maxKills,
+                      java.util.Map<Color,Integer> finalPlayersPosition){
         this.scoreMap = scoreMap;
         this.diminValues = diminValues;
         this.killshotTrack = killshotTrack;
         this.overkillFlags = overkillFlags;
         this.maxKills = maxKills;
+        this.finalPlayersPosition = finalPlayersPosition;
     }
 
     public HashMap<Color,Integer> getScoreMap() { return scoreMap; }

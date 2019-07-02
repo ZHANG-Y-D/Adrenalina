@@ -271,7 +271,7 @@ public class GameController {
     public void updateScoreboard(ScoreBoard newScoreboard) {
         ScoreBoard oldScorebard = scoreBoard;
         scoreBoard = newScoreboard;
-        
+
         changes.firePropertyChange("scoreboard", oldScorebard, newScoreboard);
     }
 
