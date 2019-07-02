@@ -56,6 +56,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
 
 
+
     /**
      *
      * For initial set of current stage
@@ -73,7 +74,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-    //TODO respwan
+
 
     /**
      *
@@ -353,21 +354,8 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      */
     private void firstTurnSet() {
 
-
-        ArrayList<Integer> powerupList;
-
         isFirstTurn = false;
-        powerupList = gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards();
-
-        System.out.println("These are two Powerup cards.");
-
-        printPowerupInfo(powerupList);
-
-        System.out.println("You can choose one for put your figure on the spawnpoint with that color.");
-
-        System.out.println("Witch you like? ");
-
-        gameController.selectPowerUp(readANumber(powerupList));
+        selectPowerupCard();
 
     }
 
@@ -411,6 +399,9 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 break;
             case 9:
                 printMapAndMapWeaponAmmoInfo();
+                break;
+            case 12:
+                selectPowerupCard();
                 break;
             default:
                 System.out.println("Invalid Action");
@@ -684,7 +675,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         printPowerupInfo(powerupList);
 
-        System.out.println("Which you want to select? If you don't want to select now,input -1");
+        System.out.println("Which you want to select? (Tips:If the time is ok, you can input -1 to go back)");
 
         selected = readANumber(powerupList);
         if (selected == -1)
@@ -843,6 +834,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             }catch (InterruptedException e){
                 Thread.currentThread().interrupt();
             }
+
 
             synchronized (this) {
                 for (Integer validSquare : validSquares)

@@ -22,9 +22,9 @@ public class Map implements Serializable {
 
     /**
      *
-     *
-     *
-     *
+     * @param weaponMap
+     * @param ammoMap
+     * @param mapID
      */
     public Map(HashMap<Color, ArrayList<Integer>> weaponMap, HashMap<Integer, Integer> ammoMap, int mapID){
         this.weaponMap = weaponMap;
@@ -50,7 +50,7 @@ public class Map implements Serializable {
     /**
      *
      *
-     *
+     * @return
      *
      */
     public int getMapID(){ return mapID;}
@@ -58,7 +58,7 @@ public class Map implements Serializable {
     /**
      *
      *
-     *
+     * @return
      *
      */
     public HashMap<Color, ArrayList<Integer>> getWeaponMap(){
@@ -69,7 +69,7 @@ public class Map implements Serializable {
      *
      *
      *
-     *
+     * @return
      */
     public HashMap<Integer,Integer> getAmmoMap() { return  ammoMap; }
 
@@ -77,7 +77,7 @@ public class Map implements Serializable {
      *
      *
      *
-     *
+     * @param weaponMap
      */
     public void setWeaponMap(HashMap<Color, ArrayList<Integer>> weaponMap){
         this.weaponMap = weaponMap;

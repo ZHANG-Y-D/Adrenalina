@@ -71,6 +71,8 @@ public class SelectFreneticActionState implements GameState {
         return "OK";
     }
 
+
+
     @Override
     public String selectFinalFrenzyAction(Integer action) {
         if(!firstplayerFF && lobby.getExecutedActions()<2){
@@ -91,6 +93,9 @@ public class SelectFreneticActionState implements GameState {
         }
         return "You have run out of moves!";
     }
+
+
+
 
     @Override
     public String goBack() {

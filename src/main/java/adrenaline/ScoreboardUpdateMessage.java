@@ -17,7 +17,7 @@ public class ScoreboardUpdateMessage implements UpdateMessage {
 
     @Override
     public void applyUpdate(GameController clientGameController) {
-        clientGameController.setOwnFinalfrenzyMode(finalfrenzyMode.getOrDefault(clientGameController.getOwnColor(),0));
+        clientGameController.setOwnFinalFrenzyMode(finalfrenzyMode.getOrDefault(clientGameController.getOwnColor(),0));
         clientGameController.updateScoreboard(clientsideScoreboard);
     }
 }
