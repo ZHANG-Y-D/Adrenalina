@@ -40,6 +40,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
+     *
      * Constructor for game stage cli
      *
      *
@@ -249,28 +250,21 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-    /**
-     *
-     * Not valid at this stage
-     *
-     */
-    @Override
-    public void changeStage() {
-        //Not valid at this stage
-    }
+
+
 
 
     /**
      *
-     * Not server for GameStageCli
+     * For first turn set
      *
      */
-    @Override
-    public void setGameController(GameController gameController) {
-        //Not server for GameStageCli
+    private void firstTurnSet() {
+
+        isFirstTurn = false;
+        selectPowerupCard();
+
     }
-
-
 
     /**
      *
@@ -333,8 +327,22 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 isFirstTurn = false;
             }
 
-            while (isInTurn.get()){
+            while (isInTurn.get() && gameController.getFinalFrenzyMode()==0){
                 selectAction();
+            }
+
+            while (isInTurn.get() && gameController.getFinalFrenzyMode()!=0){
+
+                if (gameController.getFinalFrenzyMode()==1){
+
+                    selectFinalFrenzyMode1();
+
+                }else if (gameController.getFinalFrenzyMode()==2){
+
+                    selectFinalFrenzyMode2();
+                }
+
+
             }
 
         };
@@ -343,21 +351,80 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         turnControllerThread.start();
     }
 
+    private void selectFinalFrenzyMode1() {
 
-
-
-
-    /**
-     *
-     * For first turn set
-     *
-     */
-    private void firstTurnSet() {
-
-        isFirstTurn = false;
-        selectPowerupCard();
+        printSrcFile("FinalFrenzyMode1Action.txt");
+        System.out.println("To do: ");
+        int num = readANumber(1, 9);
+        switch (num) {
+            case 1:
+                shootAction();
+                break;
+            case 2:
+                runAction();
+                break;
+            case 3:
+                grabAction();
+                break;
+            case 4:
+                reloadWeaponAndEndTurn();
+                break;
+            case 5:
+                usePowerupCard();
+                break;
+            case 6:
+                sendChat();
+                break;
+            case 7:
+                printPlayerOwnPowerupAndWeaponInfo();
+                break;
+            case 8:
+                printPlayerStateInfo();
+                break;
+            case 9:
+                printMapAndMapWeaponAmmoInfo();
+                break;
+            default:
+                System.out.println("Invalid Action");
+        }
 
     }
+
+    private void selectFinalFrenzyMode2() {
+
+        printSrcFile("FinalFrenzyMode2Action.txt");
+        System.out.println("To do: ");
+        int num = readANumber(1, 8);
+        switch (num) {
+            case 1:
+                shootAction();
+                break;
+            case 2:
+                grabAction();
+                break;
+            case 3:
+                reloadWeaponAndEndTurn();
+                break;
+            case 4:
+                usePowerupCard();
+                break;
+            case 5:
+                sendChat();
+                break;
+            case 6:
+                printPlayerOwnPowerupAndWeaponInfo();
+                break;
+            case 7:
+                printPlayerStateInfo();
+                break;
+            case 8:
+                printMapAndMapWeaponAmmoInfo();
+                break;
+            default:
+                System.out.println("Invalid Action");
+        }
+    }
+
 
 
     /**
@@ -367,11 +434,9 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      */
     private void selectAction() {
 
-
-
         printSrcFile("SelectAction.txt");
         System.out.println("To do: ");
-        int num = readANumber(1, 9);
+        int num = readANumber(1, 10);
         switch (num) {
             case 1:
                 runAction();
@@ -400,7 +465,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             case 9:
                 printMapAndMapWeaponAmmoInfo();
                 break;
-            case 12:
+            case 10:
                 selectPowerupCard();
                 break;
             default:
@@ -408,6 +473,8 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         }
 
     }
+
+
 
 
     /**
@@ -453,17 +520,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-    /**
-     *
-     * For send chat
-     *
-     */
-    private void sendChat() {
 
-        System.out.print("Input your message: ");
-        gameController.sendChatMessage(readAString());
-
-    }
 
 
     /**
@@ -473,7 +530,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      */
     private void shootAction() {
 
-        gameController.shoot();
+        if (gameController.getFinalFrenzyMode()==0)
+            gameController.shoot();
+        else
+            gameController.selectFinalFrenzyAction(0);
+
         try {
             sleep(500);
         }catch (InterruptedException e){
@@ -694,7 +755,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         isOutOfMoves.set(false);
         isShowedSquare.set(false);
-        gameController.run();
+
+        if (gameController.getFinalFrenzyMode()==0)
+            gameController.run();
+        else if (gameController.getFinalFrenzyMode()==1)
+            gameController.selectFinalFrenzyAction(1);
 
         waitProcessCompleted();
 
@@ -746,7 +811,12 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         isOutOfMoves.set(false);
         isShowedSquare.set(false);
-        gameController.grab();
+        if (gameController.getFinalFrenzyMode()==0)
+            gameController.grab();
+        else if (gameController.getFinalFrenzyMode()==1)
+            gameController.selectFinalFrenzyAction(2);
+        else if (gameController.getFinalFrenzyMode()==2)
+            gameController.selectFinalFrenzyAction(1);
 
         waitProcessCompleted();
 
@@ -791,25 +861,6 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-
-    /**
-     *
-     * Received chat message from server
-     *
-     */
-    @Override
-    public void newChatMessage(String nickname, Color senderColor, String message) {
-
-        Runnable runnable = () ->
-                System.out.println(ansi().eraseScreen().fgDefault().
-                        a("                                                          ||CHAT >>> ").
-                        eraseScreen().bold().fg(transferColorToAnsiColor(senderColor)).
-                        a(nickname + ": " + message).eraseScreen().fgDefault());
-
-        Thread newChatThread = new Thread(runnable);
-        newChatThread.start();
-
-    }
 
 
 
@@ -863,6 +914,36 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     }
 
+    /**
+     *
+     * For send chat
+     *
+     */
+    private void sendChat() {
+
+        System.out.print("Input your message: ");
+        gameController.sendChatMessage(readAString());
+
+    }
+
+    /**
+     *
+     * Received chat message from server
+     *
+     */
+    @Override
+    public void newChatMessage(String nickname, Color senderColor, String message) {
+
+        Runnable runnable = () ->
+                System.out.println(ansi().eraseScreen().fgDefault().
+                        a("                                                          ||CHAT >>> ").
+                        eraseScreen().bold().fg(transferColorToAnsiColor(senderColor)).
+                        a(nickname + ": " + message).eraseScreen().fgDefault());
+
+        Thread newChatThread = new Thread(runnable);
+        newChatThread.start();
+
+    }
 
     /**
      *
@@ -874,6 +955,27 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         //Not valid at this stage
 
+    }
+
+    /**
+     *
+     * Not valid at this stage
+     *
+     */
+    @Override
+    public void changeStage() {
+        //Not valid at this stage
+    }
+
+
+    /**
+     *
+     * Not server for GameStageCli
+     *
+     */
+    @Override
+    public void setGameController(GameController gameController) {
+        //Not server for GameStageCli
     }
 
 }
