@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 public class ScoreBoard extends Observable {
     private HashMap<Color,Integer> scoreMap = new HashMap<>();
     private HashMap<Color,Integer> diminValues = new HashMap<>();
-    private Color[] killshotTrack;
-    private Boolean[] overkillFlags;
-    private int killCount;
+    private ArrayList<Color> killshotTrack;
+    private ArrayList<Boolean> overkillFlags;
+    private int maxKills;
     private ArrayList<Color> finalfrenzyDeadPlayers = new ArrayList<>();
 
     private LinkedHashMap<Color, Integer> finalPlayerPositions = null;
@@ -30,9 +30,9 @@ public class ScoreBoard extends Observable {
     }
 
     public void initKillshotTrack(int skulls){
-        killshotTrack = new Color[skulls];
-        overkillFlags = new Boolean[skulls];
-        killCount=0;
+        killshotTrack = new ArrayList<>(skulls);
+        overkillFlags = new ArrayList<>(skulls);
+        maxKills = skulls;
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
 
@@ -56,9 +56,10 @@ public class ScoreBoard extends Observable {
         }
         points = diminValues.get(dead);
         diminValues.put(dead, (points-2)<1 ? 1 : points-2);
-        killshotTrack[killCount] = damageTrack.get(10);
-        overkillFlags[killCount] = damageTrack.size()>=12;
-        killCount++;
+        if(damageTrack.size()>=11) {
+            killshotTrack.add(damageTrack.get(10));
+            overkillFlags.add(damageTrack.size() >= 12);
+        }
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
 
@@ -68,18 +69,18 @@ public class ScoreBoard extends Observable {
     }
 
     public boolean gameEnded(){
-        return (killCount==killshotTrack.length);
+        return (maxKills==killshotTrack.size());
     }
 
     public HashMap<Color, Integer> getDiminValues() {
         return diminValues;
     }
 
-    public Color[] getKillshotTrack() {
+    public List<Color> getKillshotTrack() {
         return killshotTrack;
     }
 
-    public Boolean[] getOverkillFlags() {
+    public List<Boolean> getOverkillFlags() {
         return overkillFlags;
     }
 
@@ -87,7 +88,7 @@ public class ScoreBoard extends Observable {
 
     public java.util.Map<Color, Integer> getFinalPlayerPositions() { return finalPlayerPositions; }
 
-    public int getKillCount() { return killCount; }
+    public int getMaxKills() { return maxKills; }
 
     public void setFinalFrenzyMode(Color player, boolean firstPlayerFF){
         finalfrenzyModePlayers.put(player, firstPlayerFF? 2 : 1);
@@ -99,8 +100,6 @@ public class ScoreBoard extends Observable {
         finalfrenzyDeadPlayers.add(player);
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
-
-    //public boolean isFinalFrenzy(){ return finalfrenzyModePlayers.isEmpty();}
 
     public HashMap<Color, Integer> getFinalfrenzyModePlayers() {
         return finalfrenzyModePlayers;
@@ -115,9 +114,9 @@ public class ScoreBoard extends Observable {
             tokensOnKillshotTrack.put(x,0);
         });
 
-        for(int i=0;i<killshotTrack.length;i++){
-            int tokens = tokensOnKillshotTrack.get(killshotTrack[i]);
-            tokensOnKillshotTrack.put(killshotTrack[i], tokens+(overkillFlags[i]? 2 : 1));
+        for(int i=0;i<killshotTrack.size();i++){
+            int tokens = tokensOnKillshotTrack.get(killshotTrack.get(i));
+            tokensOnKillshotTrack.put(killshotTrack.get(i), tokens+(overkillFlags.get(i)? 2 : 1));
         }
         List<Integer> orderedList = tokensOnKillshotTrack.values().stream().distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
         int points = 8;
