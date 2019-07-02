@@ -1,8 +1,9 @@
-package adrenaline.client.view;
+package adrenaline.client.view.GuiView;
 
 
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
+import adrenaline.client.view.ViewInterface;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;

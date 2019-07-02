@@ -1,4 +1,4 @@
-package adrenaline.client.view;
+package adrenaline.client.view.GuiView;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

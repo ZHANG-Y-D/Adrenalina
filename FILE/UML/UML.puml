@@ -1,21 +1,68 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-package CliView <<Folder>> {
+package view <<Folder>>{
 
-    abstract class ControllerCli
-    class InitialStageCli
-    class SelectionStageCli
-    class GameStageCli
+    package CliView <<Folder>> {
 
-    ControllerCli <|-- InitialStageCli
-    ControllerCli <|-- SelectionStageCli
-    ControllerCli <|-- GameStageCli
+        abstract class ControllerCli
+        class InitialStageCli
+        class SelectionStageCli
+        class GameStageCli
 
-    class ControllerCli {
-        # GameController gameController;
-        # AtomicInteger returnValueIsOk;
-        # Scanner scanner;
+
+        ControllerCli <|-- InitialStageCli
+        ControllerCli <|-- SelectionStageCli
+        ControllerCli <|-- GameStageCli
+
+        abstract class ControllerCli {
+            # GameController gameController;
+            # AtomicInteger returnValueIsOk;
+            # Scanner scanner;
+
+        }
+
+        class GameStageCli {
+
+            - Scanner chatScanner;
+            - Boolean isFirstTurn;
+            - Lock chatLock;
+            - AtomicBoolean isInTurn;
+            - Thread turnControllerThread;
+            - final Object subActionLock;
+            - AtomicBoolean isShowedSquare;
+            - volatile ArrayList<Integer> validSquareArray;
+            - AtomicBoolean isCanNotGoBack;
+            - AtomicBoolean isOutOfMoves;
+
+            + GameStageCli(GameController gameController);
+            + void initialStageCli()
+
+
+        }
+
+
+    }
+
+    package GuiView <<Folder>>{
+
+
+
+
+
+
+
+    }
+
+    Interface ViewInterface{
+
+        void showError(String error);
+        void showMessage(String message);
+            void changeStage();
+            void setGameController(GameController gameController);
+            void notifyTimer(Integer duration, String comment);
+            void newChatMessage(String nickname, Color senderColor, String message);
+            void showValidSquares(ArrayList<Integer> validSquares);
 
     }
 

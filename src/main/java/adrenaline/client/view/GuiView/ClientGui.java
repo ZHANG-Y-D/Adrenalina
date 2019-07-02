@@ -1,6 +1,7 @@
-package adrenaline.client.view;
+package adrenaline.client.view.GuiView;
 
 import adrenaline.client.controller.GameController;
+import adrenaline.client.view.ViewInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

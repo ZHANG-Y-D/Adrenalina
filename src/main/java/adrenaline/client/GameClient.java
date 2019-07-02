@@ -2,7 +2,7 @@ package adrenaline.client;
 
 
 import adrenaline.client.view.CliView.InitialStageCli;
-import adrenaline.client.view.ClientGui;
+import adrenaline.client.view.GuiView.ClientGui;
 import javafx.application.Application;
 
 import java.util.Scanner;
@@ -15,7 +15,6 @@ import java.util.Scanner;
  *
  */
 public class GameClient {
-
 
 
     /**
