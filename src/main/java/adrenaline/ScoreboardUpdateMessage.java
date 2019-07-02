@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 public class ScoreboardUpdateMessage implements UpdateMessage {
     private adrenaline.client.model.ScoreBoard clientsideScoreboard = null;
-    private HashMap<Color,Integer> finalfrenzyMode = null;
+    private HashMap<Color,Integer> finalfrenzyMode;
 
     public ScoreboardUpdateMessage(ScoreBoard serversideScoreboard){
         clientsideScoreboard = new adrenaline.client.model.ScoreBoard(serversideScoreboard.getScoreMap(),serversideScoreboard.getDiminValues(),
                 serversideScoreboard.getKillshotTrack(), serversideScoreboard.getOverkillFlags());
-        if(serversideScoreboard.isFinalFrenzy()) finalfrenzyMode = serversideScoreboard.getFinalfrenzyModePlayers();
+        finalfrenzyMode = serversideScoreboard.getFinalfrenzyModePlayers();
     }
 
     @Override

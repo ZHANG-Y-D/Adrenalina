@@ -131,7 +131,7 @@ public class Lobby implements Runnable, LobbyAPI {
             playersMap.values().stream().filter(x -> x.getDamageTrack().isEmpty()).forEach(x -> scoreBoard.setFinalFrenzyValues(x.getColor()));
             finalfrenzy=true;
             System.out.println("ENTERING FINAL FRENZY");
-            for(int i=0; i<clientMap.keySet().size(); i++){
+            for(int i=0; i<=clientMap.keySet().size(); i++){
                 try {
                     int TIMEOUT = nextFinalfrenzyTurnState();
                     scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TIMEOUT, TimeUnit.SECONDS);
@@ -437,7 +437,7 @@ public class Lobby implements Runnable, LobbyAPI {
             map.setSquaresContext();
             setMapCards();
             map.setObservers(new ArrayList<>(clientMap.values()));
-            scoreBoard.initKillshotTrack(votes[1]);
+            scoreBoard.initKillshotTrack(1/*votes[1]*/);
         } catch (Exception e){
             e.printStackTrace();
         }
