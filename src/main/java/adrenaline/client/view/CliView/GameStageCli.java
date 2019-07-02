@@ -947,14 +947,16 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     * Not valid at this stage
+     * When received change stage at this times, the game finished
      *
      */
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void changeStage() {
 
-        //Not valid at this stage
-
+        printSrcFile("FinishGame.txt"); //TODO this file
+        printScore();
+        printFinalRanking();
+        isQuit("Quit");
     }
 
     /**
@@ -963,8 +965,10 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      *
      */
     @Override
-    public void changeStage() {
+    public void propertyChange(PropertyChangeEvent evt) {
+
         //Not valid at this stage
+
     }
 
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- *
+ * For score board
  *
  *
  *
@@ -43,15 +43,52 @@ public class ScoreBoard implements Serializable {
         this.finalPlayersPosition = finalPlayersPosition;
     }
 
+    /**
+     * For get players' score
+     *
+     * @return a hash map color is players' color, Integer is score
+     */
     public HashMap<Color,Integer> getScoreMap() { return scoreMap; }
 
+
+    /**
+     *
+     * For get players' diminishing values
+     *
+     * @return a hash map color is players' color, Integer is score
+     */
     public HashMap<Color,Integer> getDiminValues() { return diminValues; }
 
+    /**
+     *
+     * Get kill shot track
+     *
+     * @return a list, color is players' color
+     */
     public List<Color> getKillshotTrack() { return killshotTrack; }
 
+
+    /**
+     *
+     * Get over kill flags
+     *
+     * @return a boolean list
+     */
     public List<Boolean> getOverkillFlags() { return overkillFlags; }
 
+    /**
+     *
+     * Get the max kills
+     *
+     * @return The max kills
+     */
     public int getMaxKills() { return maxKills; }
 
+    /**
+     *
+     * Get the players' ranking
+     *
+     * @return A map color for players' color,Integer is ranking of this player
+     */
     public java.util.Map<Color,Integer> getFinalPlayersPosition() { return finalPlayersPosition; }
 }
