@@ -40,4 +40,6 @@ public class ScoreBoard implements Serializable {
     public List<Color> getKillshotTrack() { return killshotTrack; }
 
     public List<Boolean> getOverkillFlags() { return overkillFlags; }
+
+    public int getMaxKills() { return maxKills; }
 }

@@ -8,5 +8,5 @@ public class EndGameViewController {
     @FXML
     private Label winner;
 
-    
+
 }
