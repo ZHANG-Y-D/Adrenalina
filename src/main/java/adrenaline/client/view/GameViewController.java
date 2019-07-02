@@ -39,7 +39,7 @@ import static javafx.scene.effect.BlurType.GAUSSIAN;
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
-    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2;
+    private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2, finalFrenzy1, finalFrenzy2;
     @FXML
     private Button  run, shoot, grab, reload, back;
     @FXML
@@ -140,10 +140,21 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         String path = "url(/Graphic-assets/Maps/MAP"+ modelMap.getMapID()+".png)";
         map.setStyle("-fx-background-image: "+path);
         updateMap(modelMap);
-        skullBox.setLayoutX(8*32.5 - (gameController.getScoreBoard().getKillshotTrack().length)*32.5 + 14);
+        skullBox.setLayoutX(8*39 - (gameController.getScoreBoard().getKillshotTrack().length)*39 + 15);
         updateScoreBoard(gameController.getScoreBoard());
         HashMap<String, adrenaline.Color> nicknamesMap = gameController.getPlayersNicknames();
         adrenaline.Color ownColor = gameController.getPlayersNicknames().get(gameController.getOwnNickname());
+        for(int i = 0; i < 3 ; i++){
+            Button button = (Button) finalFrenzy1.lookup("#f1mod"+i);
+            String buttonPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-FF1_"+i+".png)";
+            button.setStyle("-fx-background-image: "+ buttonPath);
+            button.getStyleClass().add("frenzy");
+        }
+        for(int i = 0; i < 2 ; i++){
+            Button button = (Button) finalFrenzy2.lookup("#f2mod"+i);
+            String buttonPath = "url(/Graphic-assets/HUD/"+ownColor.toString()+"-FF2_"+i+".png)";
+            button.setStyle("-fx-background-image: "+ buttonPath);
+        }
         ImageView token = new ImageView();
         tokensMap.put(ownColor, token);
         tokenColor.put(token, ownColor);
@@ -192,6 +203,25 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     marks.setLayoutY(35);
                     marks.setSpacing(2);
                     newPane.getChildren().add(marks);
+                    Label points = new Label("KILL VALUE");
+                    points.setLayoutX(140);
+                    points.setLayoutY(20);
+                    Font font2 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 12);
+                    points.setFont(font2);
+                    ownPoints.setFont(font);
+                    pointsLabel.setFont(font);
+                    pointsLabel.getStyleClass().add("WHITE");
+                    pointsLabel.getStyleClass().add("outline");
+                    ownPoints.getStyleClass().add("RED");
+                    ownPoints.getStyleClass().add("outline");
+                    points.getStyleClass().add("WHITE");
+                    newPane.getChildren().add(points);
+                    Label deathNumber = new Label("8");
+                    deathNumber.setFont(font);
+                    deathNumber.getStyleClass().add("RED");
+                    deathNumber.setLayoutY(18);
+                    deathNumber.setLayoutX(220);
+                    newPane.getChildren().add(deathNumber);
                     String cardsUrl = "/Graphic-assets/HUD/CARDS_BUTTON.png";
                     ImageView cards = new ImageView(new Image(getClass().getResourceAsStream(cardsUrl)));
                     cards.setLayoutY(20);
@@ -221,24 +251,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     num.getStyleClass().add("RED");
                     cardsPane.getChildren().add(num);
                     newPane.getChildren().add(cardsPane);
-                    Label points = new Label("KILL VALUE");
-                    points.setLayoutX(140);
-                    points.setLayoutY(20);
-                    Font font2 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 12);
-                    points.setFont(font2);
-                    ownPoints.setFont(font);
-                    pointsLabel.setFont(font);
-                    pointsLabel.getStyleClass().add("WHITE");
-                    ownPoints.getStyleClass().add("RED");
-                    points.getStyleClass().add("WHITE");
-                    points.getStyleClass().add("hand");
-                    newPane.getChildren().add(points);
-                    Label deathNumber = new Label("8");
-                    deathNumber.setFont(font);
-                    deathNumber.getStyleClass().add("RED");
-                    deathNumber.setLayoutY(18);
-                    deathNumber.setLayoutX(220);
-                    newPane.getChildren().add(deathNumber);
                     enemyPlayers.getChildren().add(newPane);
                     playersColorMap.put(x, newPane);
                 }
@@ -425,6 +437,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     private void updateScoreBoard(ScoreBoard scoreBoard) {
+        if(gameController.getFinalfrenzyMode() != 0) frenzyChange(gameController.getFinalfrenzyMode());
+
         //update score
         Platform.runLater(() -> scoreBoard.getScoreMap().forEach((x, y) -> {
             if(x.equals(gameController.getOwnColor())) ownPoints.setText(y.toString());
@@ -434,31 +448,19 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Platform.runLater(() -> scoreBoard.getDiminValues().forEach((x, y) -> {
             if(x.equals(gameController.getOwnColor())){
                 ownSkulls.getChildren().clear();
-                ImageView skull = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULL.png")));
-                skull.setFitWidth(19);
-                skull.setFitHeight(30);
-                skull.setLayoutX(15);
-                switch (y){
-                    case 8: break;
-                    case 6: ownSkulls.getChildren().add(skull); break;
-                    case 4: ownSkulls.getChildren().add(skull);
-                            ownSkulls.getChildren().add(skull);
-                            break;
-                    case 2: ownSkulls.getChildren().add(skull);
-                            ownSkulls.getChildren().add(skull);
-                            ownSkulls.getChildren().add(skull);
-                            break;
-                    case 1: ownSkulls.getChildren().add(skull);
-                            ownSkulls.getChildren().add(skull);
-                            ownSkulls.getChildren().add(skull);
-                            ownSkulls.getChildren().add(skull);
-                            break;
-                    default: break;
+                int count = y;
+                if(y == 1) count = 0;
+                for(int i = 8; i > count ; i -= 2){
+                    ImageView skull = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULL.png")));
+                    skull.setFitWidth(19);
+                    skull.setFitHeight(30);
+                    skull.setLayoutX(15);
+                    ownSkulls.getChildren().add(skull);
                 }
             }
             else {
                 Pane playerPane = (Pane) enemyPlayers.lookup("#"+x.toString());
-                Label points = (Label) playerPane.getChildren().get(7);
+                Label points = (Label) playerPane.getChildren().get(5);
                 points.setText(y.toString());
             }
         }));
@@ -470,8 +472,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             for(int i = 0; i < killshotTrack.length; i++){
                 if( killshotTrack[i] == null) {
                     ImageView skull = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/SKULL.png")));
-                    skull.setFitHeight(41);
-                    skull.setFitWidth(26);
+                    skull.setFitHeight(38);
+                    skull.setFitWidth(24);
                     skull.setX(15);
                     skullBox.getChildren().add(skull);
                 }
@@ -484,6 +486,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 }
                 else {
                     //TODO caricare immagine overkill
+                    ImageView drop = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/HUD/"+killshotTrack[i].toString()+"-DROP.png")));
+                    drop.setFitWidth(25);
+                    drop.setFitHeight(37);
+                    drop.setLayoutX(15);
+                    skullBox.getChildren().add(drop);
                 }
             }
         });
@@ -878,7 +885,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private void showEnemyCards(Event event){
         Node source = (Node) event.getSource();
         Pane parent = (Pane) source.getParent();
-        parent.getChildren().get(5).setVisible(true);
+        parent.getChildren().get(7).setVisible(true);
     }
 
     private void hideEnemyPane(Event event) {
@@ -887,4 +894,24 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void moveSub(){ gameController.moveSubAction(); }
+
+    public void selectAmmo(Event event){
+        ImageView ammo = (ImageView) event.getSource();
+        String ammoId = ammo.getId().substring(0, ammo.getId().length()-5);
+        gameController.selectAmmo((adrenaline.Color.valueOf(ammoId.toUpperCase())));
+    }
+
+    private void frenzyChange(int frenzyMode){
+        run.setVisible(false);
+        grab.setVisible(false);
+        shoot.setVisible(false);
+        if(frenzyMode == 1) finalFrenzy1.setVisible(true);
+        else finalFrenzy2.setVisible(true);
+    }
+
+    public void selectFinalFrenzyAction(Event event){
+        Button button = (Button) event.getSource();
+        String buttonId = button.getId().substring(5);
+        gameController.selectFinalFrenzyAction(Integer.parseInt(buttonId));
+    }
 }

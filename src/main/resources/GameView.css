@@ -19,6 +19,9 @@
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
+.frenzy{
+    -fx-background-size: 57 40;
+}
 .button{
     -fx-background-size: cover;
     -fx-background-position: center;
@@ -33,6 +36,9 @@
 }
 .ammo{
     -fx-effect: dropshadow(three-pass-box, black, 3, 0.8, 0, 0);
+}
+.ammo:hover{
+    -fx-cursor: hand;
 }
 .hand:hover{
     -fx-cursor: hand;
@@ -126,6 +132,11 @@
 }
 .RED{
     -fx-text-fill: #ff1d5c;
+}
+
+.outline.label .text{
+    -fx-stroke: black;
+    -fx-stroke-width: 1px;
 }
 
 #skullPane{

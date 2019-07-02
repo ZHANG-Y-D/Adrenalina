@@ -146,6 +146,14 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
+    public void selectAmmo(Color color) {
+        try {
+            gameController.handleReturn(myLobby.selectAmmo(clientID, color));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      *
      *
@@ -295,6 +303,14 @@ public class RMIHandler implements ConnectionHandler {
     public void moveSubAction() {
         try {
             gameController.handleReturn(myLobby.moveSubAction(clientID));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectFinalFrenzyAction(int action) {
+        try {
+            gameController.handleReturn(myLobby.selectFinalFrenzyAction(clientID,action));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

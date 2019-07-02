@@ -216,6 +216,15 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(weaponMsg);
     }
 
+    @Override
+    public void selectAmmo(Color color) {
+        String ammoMsg = "selectAmmo;ARGSIZE=2;java.lang.String;";
+        ammoMsg += gson.toJson(clientID)+";";
+        ammoMsg += "adrenaline.Color;";
+        ammoMsg += gson.toJson(color);
+        sendMessage(ammoMsg);
+    }
+
     /**
      *
      *
@@ -328,6 +337,15 @@ public class SocketHandler implements ConnectionHandler {
         String moveMsg = "moveSubAction;ARGSIZE=1;java.lang.String;";
         moveMsg += gson.toJson(clientID);
         sendMessage(moveMsg);
+    }
+
+    @Override
+    public void selectFinalFrenzyAction(int action) {
+        String  frenzyMsg = "selectFinalFrenzyAction;ARGSIZE=2;java.lang.String;";
+        frenzyMsg += gson.toJson(clientID)+";";
+        frenzyMsg += "java.lang.Integer;";
+        frenzyMsg += gson.toJson(action);
+        sendMessage(frenzyMsg);
     }
 
     /**
