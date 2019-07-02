@@ -437,7 +437,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     private void updateScoreBoard(ScoreBoard scoreBoard) {
-        if(gameController.getFinalfrenzyMode() != 0) frenzyChange(gameController.getFinalfrenzyMode());
+        if(gameController.getFinalfrenzyMode() != 0) {
+            System.out.println(gameController.getFinalfrenzyMode());
+            frenzyChange(gameController.getFinalfrenzyMode());
+        }
 
         //update score
         Platform.runLater(() -> scoreBoard.getScoreMap().forEach((x, y) -> {
@@ -913,5 +916,6 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Button button = (Button) event.getSource();
         String buttonId = button.getId().substring(5);
         gameController.selectFinalFrenzyAction(Integer.parseInt(buttonId));
+        shootState = true;
     }
 }
