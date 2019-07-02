@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SquareTest {
 
     private static Map map;
+    private
 
     @BeforeAll
     static void init() {
