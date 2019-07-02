@@ -585,6 +585,7 @@ public class Lobby implements Runnable, LobbyAPI {
     public WeaponCard swapWeapon(WeaponCard grabbedWeapon, int droppedWeaponID) throws InvalidCardException {
         WeaponCard droppedWeapon = playersMap.get(currentTurnPlayer).getWeaponCard(droppedWeaponID);
         if(droppedWeapon == null) throw new InvalidCardException();
+        droppedWeapon.setLoaded(true);
         playersMap.get(currentTurnPlayer).removeWeaponCard(droppedWeapon);
         try { grabWeapon(grabbedWeapon); } catch (Exception e) {}
         return droppedWeapon;
