@@ -48,12 +48,10 @@ public abstract class ControllerCli{
                 printAString("ansi",string);
                 string=bufferedReader.readLine();
             }
-        }catch (FileNotFoundException e){
+        }catch (FileNotFoundException | NullPointerException e){
             System.err.println("\n/ForCli/"+srcFileName+"  File Not Found ");
         }catch (IOException e){
             System.err.println("\n printSrcFile IOException ");
-        }catch (NullPointerException e){
-            System.err.println("\n/ForCli/"+srcFileName+"  File Not Found ");
         }
     }
 
@@ -107,7 +105,7 @@ public abstract class ControllerCli{
         }
 
         if (!rangeList.contains(num) && num!=-1) {
-            System.err.println("Invalid number, Retry:");
+            System.err.println(num+" is invalid number, Retry:");
             num = readANumber(rangeList);
         }
 
@@ -378,6 +376,10 @@ public abstract class ControllerCli{
 
     }
 
+    /**
+     * For print mark track
+     * @param marks makes track ArrayList
+     */
     private synchronized static void printMarkTrack(ArrayList<Color> marks) {
 
         System.out.print("Mark: ");
@@ -388,6 +390,11 @@ public abstract class ControllerCli{
 
     }
 
+    /**
+     *
+     * For print damage track
+     * @param damageArrayList damage ArrayList
+     */
     private synchronized static void printDamageTrack(ArrayList<Color> damageArrayList) {
 
         System.out.print("Damage: ");
@@ -401,7 +408,7 @@ public abstract class ControllerCli{
     /**
      *
      * A synchronized class for print Ammo BoxInfo
-     *
+     * @param ammoBox ammobox array seq:r b y p
      */
     private synchronized void printPlayerAmmoBoxInfo(int[] ammoBox) {
 

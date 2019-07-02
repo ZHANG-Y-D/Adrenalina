@@ -91,14 +91,16 @@ public class ScoreBoard extends Observable {
 
     public void setFinalFrenzyMode(Color player, boolean firstPlayerFF){
         finalfrenzyModePlayers.put(player, firstPlayerFF? 2 : 1);
+        notifyObservers(new ScoreboardUpdateMessage(this));
     }
 
     public void setFinalFrenzyValues(Color player){
         diminValues.put(player,2);
         finalfrenzyDeadPlayers.add(player);
+        notifyObservers(new ScoreboardUpdateMessage(this));
     }
 
-    public boolean isFinalFrenzy(){ return finalfrenzyModePlayers.isEmpty();}
+    //public boolean isFinalFrenzy(){ return finalfrenzyModePlayers.isEmpty();}
 
     public HashMap<Color, Integer> getFinalfrenzyModePlayers() {
         return finalfrenzyModePlayers;

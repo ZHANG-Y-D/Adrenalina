@@ -7,9 +7,9 @@ import adrenaline.client.view.ViewInterface;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -19,7 +19,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  *
- *
+ * Game flow stage for cli
  *
  */
 public  class GameStageCli extends ControllerCli implements ViewInterface, PropertyChangeListener {
@@ -31,11 +31,16 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     private AtomicBoolean isInTurn = new AtomicBoolean(false);
     private Thread turnControllerThread;
     private final Object subActionLock = new Object();
-    private AtomicInteger isDidAction = new AtomicInteger(-1);
+    private AtomicBoolean isShowedSquare = new AtomicBoolean(false);
+    private volatile ArrayList<Integer> validSquareArray;
+    private AtomicBoolean isCanNotGoBack = new AtomicBoolean(false);
+    private AtomicBoolean isOutOfMoves = new AtomicBoolean(false);
+
 
 
     /**
      *
+     * Constructor for game stage cli
      *
      *
      */
@@ -47,6 +52,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         initialStageCli();
 
     }
+
 
 
 
@@ -71,7 +77,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * For open chat when out of turn
      *
      */
     @SuppressWarnings("InfiniteLoopStatement")
@@ -87,7 +93,10 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 isQuit(chat);
                 if (chat.contains("chat:")) {
                     gameController.sendChatMessage(chat.replace("chat:", ""));
-                }
+                }else if (chat.contains("usepowerup"))
+                    usePowerupCard();
+
+
                 chatLock.unlock();
 
                 try {
@@ -105,21 +114,28 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * Show error from server
      *
      */
     @Override
     public void showError(String error) {
 
         Runnable runnable = () -> {
-            printAString("err",error);
+
+
 
             if (error.contains("You have run out of moves")) {
-                isDidAction.set(0);
                 finishActionAndWakeupWaitThread();
+                isOutOfMoves.set(true);
             }
             else if (error.contains("You can only do that during your turn"))
                 finishThisTurn();
+            else if (error.contains("You can't go back now")) {
+                isCanNotGoBack.set(true);
+                return;
+            }
+
+            printAString("err",error);
 
         };
 
@@ -131,7 +147,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * Show message from server
      *
      */
     @Override
@@ -150,7 +166,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * For reload and end turn
      *
      */
     private void reloadWeaponAndEndTurn() {
@@ -181,7 +197,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
             gameController.selectWeapon(weaponID);
 
             try {
-                sleep(2000);
+                sleep(500);
             }catch (InterruptedException e){
                 Thread.currentThread().interrupt();
             }
@@ -189,7 +205,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
-
+    /**
+     *
+     * For pay ammo whit powerup card
+     *
+     */
     private void payWithPowerup() {
 
         Player playerSelf = gameController.getPlayersMap().get(gameController.getOwnColor());
@@ -206,13 +226,12 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                 gameController.selectPowerUp(readANumber(playerSelf.getPowerupCards()));
             }
         }
-
     }
 
 
     /**
      *
-     *
+     * To finish this turn
      *
      */
     private void finishThisTurn() {
@@ -231,19 +250,18 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * Not valid at this stage
      *
      */
     @Override
     public void changeStage() {
-
-
+        //Not valid at this stage
     }
 
 
     /**
      *
-     *
+     * Not server for GameStageCli
      *
      */
     @Override
@@ -255,7 +273,9 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * Start turn from server timer
+     * @param duration Time duration
+     * @param comment Timer comment
      *
      */
     @Override
@@ -296,18 +316,16 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     }
 
+
     /**
      *
-     *
+     * For start turn controller thread
      *
      */
     private void startTurnControllerThread() {
 
 
         Runnable turnControllerRunable = ()->{
-
-
-
 
             if (isFirstTurn) {
                 firstTurnSet();
@@ -330,7 +348,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * For first turn set
      *
      */
     private void firstTurnSet() {
@@ -356,7 +374,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * For select action
      *
      */
     private void selectAction() {
@@ -401,8 +419,54 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+    /**
+     *
+     *
+     * For use powerup card
+     *
+     */
+    private void usePowerupCard() {
+
+        ArrayList<Integer> powerup=gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards();
+
+        printPowerupInfo(powerup);
+        System.out.println("These are your power up card. Witch you want to use?");
+        gameController.selectPowerUp(readANumber(powerup));
+
+        try {
+            sleep(1000);
+        }catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
+
+        while (isInTurn.get()){
+
+            System.out.println("Select your action.\n1.Select target \n2.Select Square \n3.Finish use powerup");
+            int num = readANumber(1,3);
+
+            if (num == 1) {
+                selectSomePlayers();
+            } else if (num == 2) {
+                selectSquare();
+            } else if (num == 3)
+                return;
+
+            try {
+                sleep(500);
+            }catch (InterruptedException e){
+                Thread.currentThread().interrupt();
+            }
+
+        }
+
+    }
 
 
+    /**
+     *
+     * For send chat
+     *
+     */
     private void sendChat() {
 
         System.out.print("Input your message: ");
@@ -413,16 +477,186 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * For shoot action
      *
      */
     private void shootAction() {
 
+        gameController.shoot();
+        try {
+            sleep(500);
+        }catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
+
+
+        while (isInTurn.get()) {
+            printSrcFile("ShootAction.txt");
+            System.out.println("To do: ");
+            int num = readANumber(1, 11);
+            switch (num) {
+                case 1:
+                    selectWeapon();
+                    break;
+                case 2:
+                    selectFiremode();
+                    break;
+                case 3:
+                    selectSquare();
+                    break;
+                case 4:
+                    selectSomePlayers();
+                    break;
+                case 5:
+                    selectPowerupCard();
+                    break;
+                case 6:
+                    if (shootGoBackToSelectAction())
+                        return;
+                    break;
+                case 7:
+                    finishShootAction();
+                    return;
+                case 8:
+                    sendChat();
+                    break;
+                case 9:
+                    printPlayerOwnPowerupAndWeaponInfo();
+                    break;
+                case 10:
+                    printPlayerStateInfo();
+                    break;
+                case 11:
+                    printMapAndMapWeaponAmmoInfo();
+                    break;
+                default:
+                    System.out.println("Invalid Action");
+            }
+        }
+    }
+
+
+    /**
+     *
+     * For judge go back action from server
+     * @return turn for already at select action state
+     */
+    private boolean shootGoBackToSelectAction() {
+
+        isCanNotGoBack.set(false);
+        gameController.back();
+        try {
+            sleep(1500);
+        }catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
+        return isCanNotGoBack.get();
+
+    }
+
+    /**
+     *
+     * For finish shoot action
+     *
+     */
+    private void finishShootAction() {
+
+        isCanNotGoBack.set(false);
+        while (!isCanNotGoBack.get()){
+            gameController.back();
+            try {
+                sleep(1500);
+            }catch (InterruptedException e){
+                Thread.currentThread().interrupt();
+            }
+        }
+
+    }
+
+    /**
+     *
+     * For select players
+     *
+     */
+    private void selectSomePlayers() {
+
+        ArrayList<Color> arrayListColor = new ArrayList<>();
+
+        System.out.println("Those are players in lobby.");
+        printPlayerStateInfo();
+        System.out.println("How many players you want select?");
+        int num = readANumber(1,gameController.getPlayersMap().size());
+        printAString("ansi","Players' color: @|bold,yellow [1.Yellow] |@ " +
+                "@|bold,blue [2.Blue] |@" +
+                "@|bold,white [3.Gray] |@" +
+                "@|bold,magenta [4.Purple] |@" +
+                "@|bold,green [5.Green] |@");
+
+        for (;num>0;num--){
+
+            System.out.println("Input color number of Players:");
+            int colorNum = readANumber(1,5);
+            Color color;
+            switch (colorNum){
+                case 1:
+                    color=Color.YELLOW;
+                    break;
+                case 2:
+                    color=Color.BLUE;
+                    break;
+                case 3:
+                    color=Color.GRAY;
+                    break;
+                case 4:
+                    color=Color.PURPLE;
+                    break;
+                case 5:
+                    color=Color.GREEN;
+                    break;
+                    default:
+                        color=Color.WHITE;
+                        break;
+            }
+            arrayListColor.add(color);
+        }
+        gameController.selectPlayers(arrayListColor);
+    }
+
+    /**
+     *
+     * For select square
+     *
+     */
+    private void selectSquare() {
+
+
+        System.out.println("Select a square:");
+        gameController.selectSquare(readANumber(0,11));
+
+    }
+
+
+    /**
+     *
+     * For select firemode
+     *
+     */
+    private void selectFiremode() {
+
+        System.out.println("Select a fire mode: ");
+        gameController.selectFiremode(readANumber(0,2));
+
+    }
+
+    /**
+     *
+     * For select weapon
+     *
+     */
+    private void selectWeapon() {
 
         ArrayList<Integer> ownWeaponList =
                 gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards();
-
-        gameController.shoot();
 
         System.out.println("These are the weapons you own: ");
         printWeaponInfo(ownWeaponList);
@@ -430,24 +664,17 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         System.out.println("Select one : ");
         gameController.selectWeapon(readANumber(ownWeaponList));
 
-        payWithPowerup();
-
-        System.out.println("Select a fire mode: ");
-        gameController.selectFiremode(readANumber(0,2));
-
-        //waitProcessCompleted();
-
     }
 
 
     /**
      *
-     *
+     * For select powerup card
      *
      */
-    private void usePowerupCard() {
+    private void selectPowerupCard() {
 
-        //TODO for complete powerup
+
         int selected;
         ArrayList<Integer> powerupList;
 
@@ -457,7 +684,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         printPowerupInfo(powerupList);
 
-        System.out.println("Which you want to use? If you don't want to use,input -1");
+        System.out.println("Which you want to select? If you don't want to select now,input -1");
 
         selected = readANumber(powerupList);
         if (selected == -1)
@@ -469,22 +696,40 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * For run action
      *
      */
     private void runAction() {
 
-        isDidAction.set(-1);
+        isOutOfMoves.set(false);
+        isShowedSquare.set(false);
         gameController.run();
 
         waitProcessCompleted();
 
 
+        if (!isOutOfMoves.get()) {
+            System.out.println(" ");
+            System.out.println("Choose one to run: Input -1 to go back.");
+
+            int num = readANumber(validSquareArray);
+
+            if (num == -1)
+                gameController.back();
+            else
+                gameController.selectSquare(num);
+        }
     }
 
+
+    /**
+     *
+     * For wait process complete
+     *
+     */
     private void waitProcessCompleted() {
 
-        while (isDidAction.get()==-1) {
+        while (!isShowedSquare.get()) {
             synchronized (subActionLock) {
                 try {
                     subActionLock.wait();
@@ -497,9 +742,10 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     }
 
 
+
     /**
      *
-     *
+     * For grab action
      *
      */
     private void grabAction() {
@@ -507,37 +753,49 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         Color grabbedColor;
         ArrayList<Integer> weaponList;
 
-        isDidAction.set(-1);
+        isOutOfMoves.set(false);
+        isShowedSquare.set(false);
         gameController.grab();
 
         waitProcessCompleted();
 
-        if (isDidAction.get()==2 ||
-                isDidAction.get()==4 ||
-                    isDidAction.get()==11){
+        if (!isOutOfMoves.get()) {
+            System.out.println(" ");
+            System.out.println("Choose one to grab: Input -1 to go back.");
 
-            System.out.println("You can choose a weapon.");
+            int num = readANumber(validSquareArray);
+
+            if (num == -1)
+                gameController.back();
+            else
+                gameController.selectSquare(num);
 
 
-            switch (isDidAction.get()){
-                case 2:
-                    grabbedColor=Color.BLUE;
-                    break;
-                case 4:
-                    grabbedColor=Color.RED;
-                    break;
-                case 11:
-                    grabbedColor=Color.YELLOW;
-                    break;
+            if (num == 2 || num == 4 || num == 11) {
+
+                System.out.println("You can choose a weapon.");
+
+
+                switch (num) {
+                    case 2:
+                        grabbedColor = Color.BLUE;
+                        break;
+                    case 4:
+                        grabbedColor = Color.RED;
+                        break;
+                    case 11:
+                        grabbedColor = Color.YELLOW;
+                        break;
                     default:
                         return;
+                }
+
+                weaponList = gameController.getMap().getWeaponMap().get(grabbedColor);
+                printWeaponInfo(weaponList);
+                System.out.println("Witch you want: ");
+                gameController.selectWeapon(readANumber(weaponList));
+
             }
-
-            weaponList = gameController.getMap().getWeaponMap().get(grabbedColor);
-            printWeaponInfo(weaponList);
-            System.out.println("Witch you want: ");
-            gameController.selectWeapon(readANumber(weaponList));
-
         }
     }
 
@@ -545,7 +803,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * Received chat message from server
      *
      */
     @Override
@@ -566,7 +824,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * Received valid square from server
      *
      */
     @Override
@@ -577,6 +835,8 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
             printMap();
             System.out.println("You can go to these Squares:");
+
+            validSquareArray=validSquares;
 
             try {
                 sleep(250);
@@ -589,34 +849,23 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
                     printAString("OutWithOutNewLine", validSquare + " ");
             }
 
-            System.out.println(" ");
-            System.out.println("Choose one: Input -1 to go back.");
-
-            int num = readANumber(validSquares);
-
-            if (num==-1) {
-                gameController.back();
-                isDidAction.set(0);
-            }
-            else{
-                gameController.selectSquare(num);
-                isDidAction.set(num);
-            }
-
             finishActionAndWakeupWaitThread();
-
-
         };
-
-
         Thread showValidSquareThread = new Thread(runnable);
         showValidSquareThread.start();
 
     }
 
+
+    /**
+     *
+     * To weak up wait thread
+     *
+     */
     private void finishActionAndWakeupWaitThread() {
 
         synchronized (subActionLock) {
+            isShowedSquare.set(true);
             subActionLock.notifyAll();
         }
 
@@ -625,14 +874,13 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     *
+     * Not valid at this stage
      *
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
-        
-
+        //Not valid at this stage
 
     }
 
