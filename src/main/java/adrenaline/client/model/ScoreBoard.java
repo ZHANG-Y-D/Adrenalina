@@ -45,4 +45,6 @@ public class ScoreBoard implements Serializable {
     public List<Boolean> getOverkillFlags() { return overkillFlags; }
 
     public int getMaxKills() { return maxKills; }
+
+    public java.util.Map<Color,Integer> getFinalPlayersPosition() { return finalPlayersPosition; }
 }
