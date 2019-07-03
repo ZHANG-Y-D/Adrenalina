@@ -6,7 +6,7 @@
 <Pane fx:id="pane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.GuiView.EndGameViewController">
     <Label fx:id="winnerText" alignment="CENTER" layoutX="340.0" layoutY="100" text="WINNER" prefHeight="150.0" prefWidth="600.0" textAlignment="CENTER"/>
     <HBox fx:id="winnersBox" layoutX="665" layoutY="300" spacing="20"/>
-    <HBox fx:id="losersBox" layoutX="700" layoutY="550" spacing="180" />
+    <HBox fx:id="losersBox" layoutX="665" layoutY="550" spacing="20" />
     <Button fx:id="close" layoutX="1240.0" layoutY="-2.0" onAction="#close" text="X" />
     <stylesheets>
         <URL value="@GameView.css" />

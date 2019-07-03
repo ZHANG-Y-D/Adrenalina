@@ -38,7 +38,6 @@ public class EndGameViewController {
         winnerText.getStyleClass().add("WHITE");
         font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 20);
         close.setFont(font);
-        //test();
     }
 
     public void setController(GameController gameController){
@@ -48,13 +47,16 @@ public class EndGameViewController {
 
     private void setPlayers(){
         Map<Color, Integer> playersMap = gameController.getScoreBoard().getFinalPlayersPosition();
+        Map<Color, Integer> scoreMap = gameController.getScoreBoard().getScoreMap();
         gameController.getPlayersNicknames().forEach((x,y) -> {
             nicknamesMap.put(y,x);
         });
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 50);
         Font font2 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
+        Font font3 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 16);
         playersMap.forEach((x,y) -> {
             if(y == 1){
+                VBox playerBox = new VBox();
                 Label winner = new Label();
                 winner.setMaxWidth(300);
                 winner.setMinWidth(300);
@@ -62,25 +64,43 @@ public class EndGameViewController {
                 winner.setFont(font);
                 winner.setText(nicknamesMap.get(x));
                 winner.setAlignment(Pos.CENTER);
-                winnersBox.getChildren().add(winner);
+                playerBox.getChildren().add(winner);
+                Label score = new Label();
+                score.setMinWidth(300);
+                score.getStyleClass().add("WHITE");
+                score.setFont(font3);
+                score.setText("SCORE: "+scoreMap.get(x));
+                score.setAlignment(Pos.CENTER);
+                playerBox.getChildren().add(score);
+                winnersBox.getChildren().add(playerBox);
                 winnersBox.setLayoutX(winnersBox.getLayoutX() - 165);
             }
             else {
-                VBox vBox = new VBox();
+                VBox playerBox = new VBox();
                 Label pos = new Label();
+                pos.setMinWidth(300);
+                pos.setAlignment(Pos.CENTER);
                 pos.setText("POS: "+y);
                 pos.setFont(font);
                 pos.getStyleClass().add("WHITE");
-                vBox.getChildren().add(pos);
+                playerBox.getChildren().add(pos);
                 Label name = new Label();
-                name.setMaxWidth(170);
+                name.setMaxWidth(300);
+                name.setMinWidth(300);
+                name.setAlignment(Pos.CENTER);
                 name.setText(nicknamesMap.get(x));
                 name.setFont(font2);
                 name.getStyleClass().add(x.toString());
-                vBox.getChildren().add(name);
-                losersBox.getChildren().add(vBox);
-                losersBox.setLayoutX(losersBox.getLayoutX() - 145);
-                losersBox.setSpacing(losersBox.getSpacing() - 10);
+                playerBox.getChildren().add(name);
+                Label score = new Label();
+                score.setMinWidth(300);
+                score.getStyleClass().add("WHITE");
+                score.setFont(font3);
+                score.setText("SCORE: "+scoreMap.get(x));
+                score.setAlignment(Pos.CENTER);
+                playerBox.getChildren().add(score);
+                losersBox.getChildren().add(playerBox);
+                losersBox.setLayoutX(losersBox.getLayoutX() - 165);
             }
         });
         animation();
@@ -99,54 +119,6 @@ public class EndGameViewController {
         });
         sequence.play();
     }
-
-    /*public void test(){
-        Map<Color, Integer> playersMap = new LinkedHashMap<>();
-        playersMap.put(Color.YELLOW, 1);
-        playersMap.put(Color.BLUE,1);
-        playersMap.put(Color.GREEN,1);
-        playersMap.put(Color.PURPLE,1);
-        playersMap.put(Color.GRAY,3);
-        nicknamesMap.put(Color.YELLOW,"en");
-        nicknamesMap.put(Color.BLUE,"Rick");
-        nicknamesMap.put(Color.GREEN,"Charlie");
-        nicknamesMap.put(Color.PURPLE,"Guido");
-        nicknamesMap.put(Color.GRAY,"Luca");
-        Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 50);
-        Font font2 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
-        playersMap.forEach((x,y) -> {
-            if(y == 1){
-                Label winner = new Label();
-                winner.setMaxWidth(300);
-                winner.setMinWidth(300);
-                winner.getStyleClass().add(x.toString());
-                winner.setFont(font);
-                winner.setText(nicknamesMap.get(x));
-                winner.setAlignment(Pos.CENTER);
-                winnersBox.getChildren().add(winner);
-                winnersBox.setLayoutX(winnersBox.getLayoutX() - 165);
-                //winnersBox.setSpacing(winnersBox.getSpacing() - 12);
-            }
-            else {
-                VBox vBox = new VBox();
-                Label pos = new Label();
-                pos.setText("POS: "+y);
-                pos.setFont(font);
-                pos.getStyleClass().add("WHITE");
-                vBox.getChildren().add(pos);
-                Label name = new Label();
-                name.setMaxWidth(170);
-                name.setText(nicknamesMap.get(x));
-                name.setFont(font2);
-                name.getStyleClass().add(x.toString());
-                vBox.getChildren().add(name);
-                losersBox.getChildren().add(vBox);
-                losersBox.setLayoutX(losersBox.getLayoutX() - 145);
-                losersBox.setSpacing(losersBox.getSpacing() - 10);
-            }
-        });
-        animation();
-    }*/
 
     public void close(){
         boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
