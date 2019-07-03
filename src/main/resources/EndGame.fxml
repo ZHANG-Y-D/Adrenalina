@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="EndGamePane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.GuiView.EndGameViewController">
+    <Label layoutX="30" layoutY="30" text="WINNER IS: "/>
+    <Label fx:id="winner" layoutX="100" layoutY="30" />
+    <stylesheets>
+        <URL value="@InitialView.css" />
+    </stylesheets>
+</Pane>

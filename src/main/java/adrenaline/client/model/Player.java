@@ -24,9 +24,16 @@ public class Player implements Serializable {
 
     /**
      *
+     * Constructor of score board
      *
-     *
-     *
+     * @param color
+     * @param position
+     * @param oldPosition
+     * @param ammoBox
+     * @param damage
+     * @param marks
+     * @param weaponCards
+     * @param powerupCards
      */
     public Player(Color color, int position, int oldPosition, int[] ammoBox, ArrayList<Color> damage, ArrayList<Color> marks, ArrayList<Integer> weaponCards, ArrayList<Integer> powerupCards){
         this.color = color;
@@ -50,7 +57,7 @@ public class Player implements Serializable {
     /**
      *
      *
-     *
+     * @return
      *
      */
     public Color getColor() {
@@ -60,7 +67,7 @@ public class Player implements Serializable {
     /**
      *
      *
-     *
+     *@return
      *
      */
     public int getPosition() { return position; }
@@ -68,7 +75,7 @@ public class Player implements Serializable {
     /**
      *
      *
-     *
+     *@return
      *
      */
     public int getOldPosition() { return oldPosition; }
@@ -76,7 +83,7 @@ public class Player implements Serializable {
     /**
      *
      *
-     *
+     *@return
      *
      */
     public int[] getAmmoBox() { return ammoBox; }
@@ -84,7 +91,7 @@ public class Player implements Serializable {
     /**
      *
      *
-     *
+     *@return
      *
      */
     public ArrayList<Integer> getPowerupCards() { return powerupCards; }
@@ -92,7 +99,7 @@ public class Player implements Serializable {
     /**
      *
      *
-     *
+     *@return
      *
      */
     public ArrayList<Integer> getWeaponCards() { return weaponCards; }
@@ -100,7 +107,7 @@ public class Player implements Serializable {
     /**
      *
      *
-     *
+     *@return
      *
      */
     public ArrayList<Color> getDamage(){ return damage; }
@@ -108,7 +115,7 @@ public class Player implements Serializable {
     /**
      *
      *
-     *
+     *@return
      *
      */
     public ArrayList<Color> getMarks() { return marks; }

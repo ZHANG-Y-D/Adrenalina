@@ -1,4 +1,4 @@
-package adrenaline.client.view;
+package adrenaline.client.view.GuiView;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

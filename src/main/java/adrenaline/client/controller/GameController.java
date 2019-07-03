@@ -26,7 +26,7 @@ public class GameController {
     private LinkedHashMap<String, Color> playersNicknames = new LinkedHashMap<>();
     private String ownNickname;
     private Color ownColor;
-    private Integer finalfrenzyMode = 0;
+    private Integer finalFrenzyMode = 0;
 
     private HashMap<Color, Player> playersMap = new HashMap<>();
     private ScoreBoard scoreBoard;
@@ -40,7 +40,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @return
      */
     public LinkedHashMap<String, Color> getPlayersNicknames() { return playersNicknames; }
 
@@ -48,7 +48,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @return
      */
     public HashMap<Color, Player> getPlayersMap() { return playersMap; }
 
@@ -56,17 +56,23 @@ public class GameController {
      *
      *
      *
-     *
+     * @return
      */
     public Map getMap(){ return map; }
 
+    /**
+     *
+     *
+     *
+     * @return
+     */
     public ScoreBoard getScoreBoard() { return scoreBoard; }
 
     /**
      *
      *
      *
-     *
+     * @return
      */
     public ConnectionHandler getConnectionHandler() {
         return connectionHandler;
@@ -76,7 +82,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @param name
      */
     public void setOwnNickname(String name) {
         ownNickname = name;
@@ -87,7 +93,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @return
      */
     public String getOwnNickname() { return ownNickname; }
 
@@ -95,7 +101,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @return
      */
     public Color getOwnColor() { return  ownColor; }
 
@@ -103,7 +109,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @param viewController
      */
     public void setViewController(ViewInterface viewController){
         this.view = viewController;
@@ -113,7 +119,9 @@ public class GameController {
      *
      *
      *
-     *
+     * @param host
+     * @param port
+     * @return
      */
     public boolean connectRMI(String host, int port){
         try {
@@ -129,7 +137,9 @@ public class GameController {
      *
      *
      *
-     *
+     * @param host
+     * @param port
+     * @return
      */
     public boolean connectSocket(String host, int port){
         try {
@@ -146,6 +156,7 @@ public class GameController {
      *
      *
      *
+     * @param nickname
      */
     public void setNickname(String nickname){ connectionHandler.setNickname(nickname);}
 
@@ -154,6 +165,7 @@ public class GameController {
      *
      *
      *
+     * @param nicknames
      */
     public void initPlayersNicknames(ArrayList<String> nicknames){
         nicknames.forEach(x -> playersNicknames.put(x, Color.WHITE));
@@ -164,6 +176,8 @@ public class GameController {
      *
      *
      *
+     * @param nickname
+     * @param color
      */
     public void setPlayerColor(String nickname, Color color){
         if(nickname.equals(ownNickname)) ownColor = color;
@@ -176,6 +190,7 @@ public class GameController {
      *
      *
      *
+     * @param color
      */
     public void selectAvatar(Color color){ connectionHandler.selectAvatar(color); }
 
@@ -184,6 +199,7 @@ public class GameController {
      *
      *
      *
+     * @param powerupID
      */
     public void selectPowerUp(int powerupID){ connectionHandler.selectPowerUp(powerupID); }
 
@@ -191,7 +207,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @param weaponID
      */
     public void selectWeapon(int weaponID) { connectionHandler.selectWeapon(weaponID); }
 
@@ -199,10 +215,16 @@ public class GameController {
      *
      *
      *
-     *
+     * @param index
      */
     public void selectSquare(int index) { connectionHandler.selectSquare(index); }
 
+
+    /**
+     * For set ammo box
+     *
+     * @param color The ammo box color
+     */
     public void selectAmmo(Color color) { connectionHandler.selectAmmo(color); }
 
     /**
@@ -220,6 +242,7 @@ public class GameController {
      *
      *
      *
+     * @param returnMsg
      */
     public void handleReturn(String returnMsg){
         if(!returnMsg.contains("OK")) view.showError(returnMsg);
@@ -240,7 +263,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @param newPlayer
      */
     public synchronized void updatePlayer(Player newPlayer){
         HashMap<Color, Player> oldPlayersMap = playersMap;
@@ -255,6 +278,7 @@ public class GameController {
      *
      *
      *
+     * @param newMap
      */
     public synchronized void updateMap(Map newMap){
         Map oldMap = map;
@@ -265,25 +289,38 @@ public class GameController {
     /**
      *
      *
-     *
-     *
+     * @param newScoreboard
      */
     public void updateScoreboard(ScoreBoard newScoreboard) {
-        ScoreBoard oldScorebard = scoreBoard;
+        ScoreBoard oldScoreboard = scoreBoard;
         scoreBoard = newScoreboard;
-        if(scoreBoard.getFinalPlayersPosition() == null) changes.firePropertyChange("scoreboard", oldScorebard, newScoreboard);
+
+        if(scoreBoard.getFinalPlayersPosition() == null) changes.firePropertyChange("scoreboard", oldScoreboard, newScoreboard);
         else view.changeStage();
     }
 
     public void setOwnFinalfrenzyMode(Integer mode){
-        finalfrenzyMode = mode;
+        finalFrenzyMode = mode;
+
     }
 
     /**
      *
      *
      *
+     * @param mode
+     */
+    public void setOwnFinalFrenzyMode(Integer mode){
+        finalFrenzyMode = mode;
+    }
+
+
+    /**
      *
+     *
+     * @param nickname
+     * @param senderColor
+     * @param message
      */
     public synchronized void updateChat(String nickname, Color senderColor, String message){
         view.newChatMessage(nickname, senderColor, message);
@@ -293,7 +330,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @param message
      */
     public void sendChatMessage(String message) {
         connectionHandler.sendChatMessage(message);
@@ -303,7 +340,7 @@ public class GameController {
      *
      *
      *
-     *
+     * @param l
      */
     public void addPropertyChangeListener(PropertyChangeListener l){
         changes.addPropertyChangeListener(l);
@@ -312,20 +349,18 @@ public class GameController {
     /**
      *
      *
-     *
-     *
+     * @param l
      */
     public void removePropertyChangeListener(PropertyChangeListener l){
         changes.removePropertyChangeListener(l);
     }
 
     public PropertyChangeListener[] getProperyChangeListeners() { return changes.getPropertyChangeListeners(); }
-
+    
     /**
      *
-     *
-     *
-     *
+     * @param duration
+     * @param comment
      */
     public void timerStarted(Integer duration, String comment) {
         view.notifyTimer(duration, comment);
@@ -334,8 +369,7 @@ public class GameController {
     /**
      *
      *
-     *
-     *
+     * @param validSquares
      */
     public void validSquaresInfo(ArrayList<Integer> validSquares){
         ArrayList<Integer> validSquaresInt = new ArrayList<>(validSquares.size());
@@ -434,7 +468,20 @@ public class GameController {
         connectionHandler=null;
     }
 
-    public Integer getFinalfrenzyMode() { return finalfrenzyMode; }
 
+    /**
+     *
+     *
+     * @return
+     */
+    public Integer getFinalFrenzyMode() { return finalFrenzyMode; }
+
+
+    /**
+     *
+     *
+     *
+     * @param action
+     */
     public void selectFinalFrenzyAction(int action) { connectionHandler.selectFinalFrenzyAction(action); }
 }

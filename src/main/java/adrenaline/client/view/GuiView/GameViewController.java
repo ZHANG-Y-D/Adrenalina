@@ -1,9 +1,10 @@
-package adrenaline.client.view;
+package adrenaline.client.view.GuiView;
 
 import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
 import adrenaline.client.model.Player;
 import adrenaline.client.model.ScoreBoard;
+import adrenaline.client.view.ViewInterface;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.animation.FadeTransition;
@@ -459,7 +460,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     private void updateScoreBoard(ScoreBoard scoreBoard) {
-        if(gameController.getFinalfrenzyMode() != 0) frenzyChange(gameController.getFinalfrenzyMode());
+        if(gameController.getFinalFrenzyMode() != 0) frenzyChange(gameController.getFinalFrenzyMode());
 
         //update score
         Platform.runLater(() -> scoreBoard.getScoreMap().forEach((x, y) -> {

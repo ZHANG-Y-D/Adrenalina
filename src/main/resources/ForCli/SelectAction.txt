@@ -1,3 +1,4 @@
+
 -------------------------
 Choose Actions ----->
 
@@ -6,7 +7,7 @@ Choose Actions ----->
      |   GAME   |      2.Grab                       | T |    7.Print your own weapon and powerup cards
      |  ACTION  |      3.Shoot                      | H |    8.Print all players state(Position Damage...)
      |  1 ~ 5   |      4.Reload And End Turn        | E |    9.Print map resources(Weapon and Ammo in squares)
-     |          |      5.Use powerup cards          | R |
+     |          |      5.Use powerup cards          | R |    10.Select powerup to respawn
        ---------
 
 -------------------------

@@ -1,4 +1,4 @@
-package adrenaline.client.view;
+package adrenaline.client.view.GuiView;
 
 public enum Position {
     TOP(50,5), LEFT(0,50), CENTER(50,50), RIGHT(95,50), DOWN(50,95);

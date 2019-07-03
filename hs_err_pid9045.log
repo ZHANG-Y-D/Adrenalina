@@ -160,9 +160,9 @@ CodeHeap 'non-nmethods': size=5692Kb used=1316Kb max_used=1345Kb free=4376Kb
 Compilation events (10 events):
 Event: 2676.296 Thread 0x00007fb09411a000 5555       4       com.sun.scenario.animation.shared.TimelineClipCore::jumpTo (48 bytes)
 Event: 2676.297 Thread 0x00007fb09411a000 nmethod 5555 0x00007fb0849a2b90 code [0x00007fb0849a2d40, 0x00007fb0849a2ed8]
-Event: 2695.295 Thread 0x00007fb09411a000 5556       4       adrenaline.client.view.InitialViewController$$Lambda$472/0x0000000100392040::handle (12 bytes)
+Event: 2695.295 Thread 0x00007fb09411a000 5556       4       adrenaline.client.view.GuiView.InitialViewController$$Lambda$472/0x0000000100392040::handle (12 bytes)
 Event: 2695.303 Thread 0x00007fb09411a000 nmethod 5556 0x00007fb0849a3110 code [0x00007fb0849a3340, 0x00007fb0849a3d08]
-Event: 2695.303 Thread 0x00007fb09411a000 5557       4       adrenaline.client.view.InitialViewController::lambda$showMessage$1 (36 bytes)
+Event: 2695.303 Thread 0x00007fb09411a000 5557       4       adrenaline.client.view.GuiView.InitialViewController::lambda$showMessage$1 (36 bytes)
 Event: 2695.310 Thread 0x00007fb09411a000 nmethod 5557 0x00007fb0849a4610 code [0x00007fb0849a4820, 0x00007fb0849a5188]
 Event: 2725.970 Thread 0x00007fb09411a000 5558       4       java.util.TaskQueue::fixDown (108 bytes)
 Event: 2725.970 Thread 0x00007fb09411a000 nmethod 5558 0x00007fb0849a5a10 code [0x00007fb0849a5ba0, 0x00007fb0849a5c38]

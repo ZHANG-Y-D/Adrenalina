@@ -496,6 +496,55 @@ public abstract class ControllerCli{
 
     }
 
+    /**
+     *
+     * For print Ranking
+     *
+     */
+    protected void printFinalRanking(){
+
+
+        Set<Map.Entry<String, Color>> entryNicknameMap = gameController.getPlayersNicknames().entrySet();
+
+        System.out.println("------------------------Final Ranking------------------------");
+
+        for (Map.Entry<String, Color> player : entryNicknameMap) {
+
+            Map<Color, Integer> rankingPlayer = gameController.getScoreBoard().getFinalPlayersPosition();
+
+            System.out.print("--->");
+            System.out.println(ansi().eraseScreen().bold().
+                    fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault()+" : "+
+                            rankingPlayer.get(player.getValue()));
+
+        }
+
+    }
+
+    /**
+     *
+     *
+     * For print score.
+     *
+     */
+    protected void printScore(){
+
+        Set<Map.Entry<String, Color>> entryNicknameMap = gameController.getPlayersNicknames().entrySet();
+
+        System.out.println("------------------------Score------------------------");
+        for (Map.Entry<String, Color> player : entryNicknameMap) {
+
+            Map<Color, Integer> scorePlayer = gameController.getScoreBoard().getScoreMap();
+
+            System.out.print("--->");
+            System.out.println(ansi().eraseScreen().bold().
+                    fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault()+" : "+
+                    scorePlayer.get(player.getValue()));
+
+        }
+
+
+    }
 
 
     /**
