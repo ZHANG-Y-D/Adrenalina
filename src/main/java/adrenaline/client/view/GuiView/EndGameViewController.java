@@ -5,6 +5,7 @@ import adrenaline.client.controller.GameController;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -22,11 +24,11 @@ public class EndGameViewController {
     @FXML
     private Pane pane;
     @FXML
-    private Label winner, winnerText;
+    private Label winnerText;
     @FXML
     private Button close;
     @FXML
-    private HBox losers;
+    private HBox losersBox, winnersBox;
     private HashMap<Color, String> nicknamesMap  = new HashMap<>();
     private GameController gameController;
 
@@ -53,9 +55,15 @@ public class EndGameViewController {
         Font font2 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
         playersMap.forEach((x,y) -> {
             if(y == 1){
+                Label winner = new Label();
+                winner.setMaxWidth(300);
+                winner.setMinWidth(300);
                 winner.getStyleClass().add(x.toString());
                 winner.setFont(font);
                 winner.setText(nicknamesMap.get(x));
+                winner.setTextAlignment(TextAlignment.CENTER);
+                winnersBox.getChildren().add(winner);
+                winnersBox.setLayoutX(winnersBox.getLayoutX() - 165);
             }
             else {
                 VBox vBox = new VBox();
@@ -65,22 +73,23 @@ public class EndGameViewController {
                 pos.getStyleClass().add("WHITE");
                 vBox.getChildren().add(pos);
                 Label name = new Label();
+                name.setMaxWidth(170);
                 name.setText(nicknamesMap.get(x));
                 name.setFont(font2);
                 name.getStyleClass().add(x.toString());
                 vBox.getChildren().add(name);
-                losers.getChildren().add(vBox);
-                losers.setLayoutX(losers.getLayoutX() - 145);
-                losers.setSpacing(losers.getSpacing() - 10);
+                losersBox.getChildren().add(vBox);
+                losersBox.setLayoutX(losersBox.getLayoutX() - 145);
+                losersBox.setSpacing(losersBox.getSpacing() - 10);
             }
         });
         animation();
     }
 
     private void animation(){
-        ArrayList<Node> playersList = new ArrayList<>(losers.getChildren());
+        ArrayList<Node> playersList = new ArrayList<>(losersBox.getChildren());
         Collections.reverse(playersList);
-        playersList.add(winner);
+        playersList.add(winnersBox);
         SequentialTransition sequence = new SequentialTransition();
         playersList.forEach(x -> {
             FadeTransition fadeIn = new FadeTransition(Duration.seconds(4), x);
@@ -91,14 +100,14 @@ public class EndGameViewController {
         sequence.play();
     }
 
-    /*public void test(){
+   /* public void test(){
         Map<Color, Integer> playersMap = new LinkedHashMap<>();
         playersMap.put(Color.YELLOW, 1);
-        playersMap.put(Color.BLUE,2);
-        playersMap.put(Color.GREEN,3);
-        playersMap.put(Color.PURPLE,4);
-        playersMap.put(Color.GRAY,5);
-        nicknamesMap.put(Color.YELLOW,"Scianna");
+        playersMap.put(Color.BLUE,5);
+        playersMap.put(Color.GREEN,4);
+        playersMap.put(Color.PURPLE,2);
+        playersMap.put(Color.GRAY,3);
+        nicknamesMap.put(Color.YELLOW,"en");
         nicknamesMap.put(Color.BLUE,"Rick");
         nicknamesMap.put(Color.GREEN,"Charlie");
         nicknamesMap.put(Color.PURPLE,"Guido");
@@ -107,9 +116,16 @@ public class EndGameViewController {
         Font font2 = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
         playersMap.forEach((x,y) -> {
             if(y == 1){
+                Label winner = new Label();
+                winner.setMaxWidth(300);
+                winner.setMinWidth(300);
                 winner.getStyleClass().add(x.toString());
                 winner.setFont(font);
                 winner.setText(nicknamesMap.get(x));
+                winner.setTextAlignment(TextAlignment.CENTER);
+                winnersBox.getChildren().add(winner);
+                winnersBox.setLayoutX(winnersBox.getLayoutX() - 165);
+                //winnersBox.setSpacing(winnersBox.getSpacing() - 12);
             }
             else {
                 VBox vBox = new VBox();
@@ -119,13 +135,14 @@ public class EndGameViewController {
                 pos.getStyleClass().add("WHITE");
                 vBox.getChildren().add(pos);
                 Label name = new Label();
+                name.setMaxWidth(170);
                 name.setText(nicknamesMap.get(x));
                 name.setFont(font2);
                 name.getStyleClass().add(x.toString());
                 vBox.getChildren().add(name);
-                losers.getChildren().add(vBox);
-                losers.setLayoutX(losers.getLayoutX() - 145);
-                losers.setSpacing(losers.getSpacing() - 10);
+                losersBox.getChildren().add(vBox);
+                losersBox.setLayoutX(losersBox.getLayoutX() - 145);
+                losersBox.setSpacing(losersBox.getSpacing() - 10);
             }
         });
         animation();
