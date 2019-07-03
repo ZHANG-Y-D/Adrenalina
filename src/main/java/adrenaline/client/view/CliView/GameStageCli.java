@@ -953,7 +953,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     @Override
     public void changeStage() {
 
-        printSrcFile("FinishGame.txt"); //TODO this file
+        printSrcFile("FinishGame.txt");
         printScore();
         printFinalRanking();
         isQuit("Quit");

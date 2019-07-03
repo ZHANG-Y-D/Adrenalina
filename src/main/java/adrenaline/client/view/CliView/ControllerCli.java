@@ -503,6 +503,8 @@ public abstract class ControllerCli{
      */
     protected void printFinalRanking(){
 
+        String winPlayer = " ";
+
 
         Set<Map.Entry<String, Color>> entryNicknameMap = gameController.getPlayersNicknames().entrySet();
 
@@ -512,12 +514,24 @@ public abstract class ControllerCli{
 
             Map<Color, Integer> rankingPlayer = gameController.getScoreBoard().getFinalPlayersPosition();
 
-            System.out.print("--->");
+            System.out.print("|--->");
             System.out.println(ansi().eraseScreen().bold().
                     fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault()+" : "+
                             rankingPlayer.get(player.getValue()));
 
+            if (rankingPlayer.get(player.getValue())==1) {
+                winPlayer=player.getKey();
+
+            }
+
         }
+
+
+        System.out.println("\n-------->");
+        System.out.println(ansi().eraseScreen().bold().
+                fg(transferColorToAnsiColor(gameController.getPlayersNicknames().get(winPlayer)))
+                    .a(winPlayer).fgDefault()+ " is final winner!!! Congratulation!!! ");
+
 
     }
 
