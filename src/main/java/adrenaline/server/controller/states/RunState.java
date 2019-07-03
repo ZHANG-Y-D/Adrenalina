@@ -34,7 +34,6 @@ public class RunState implements GameState {
 
     @Override
     public String selectSquare(int index) {
-        System.out.println("STATE");
         if(!validSquares.contains(index)) return "You can't move there! Please select a valid square";
         lobby.movePlayer(index);
         lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));

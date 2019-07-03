@@ -70,7 +70,6 @@ public class glFiremodeState implements FiremodeSubState {
     public String selectSquare(int index) {
         String completedmsg = "";
         if(pushing) {
-            System.out.println("in pushing");
             if(!targetValidSquares.contains(index)) return "You can't move your target there!";
             lobby.movePlayer(index, selectedTarget.get(0));
             if(areaCompleted){
