@@ -152,3 +152,6 @@
 #close:hover{
     -fx-highlight-text-fill: black;
 }
+#winnersBox{
+    -fx-background-color: red;
+}

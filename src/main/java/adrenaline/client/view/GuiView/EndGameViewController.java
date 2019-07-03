@@ -61,7 +61,7 @@ public class EndGameViewController {
                 winner.getStyleClass().add(x.toString());
                 winner.setFont(font);
                 winner.setText(nicknamesMap.get(x));
-                winner.setTextAlignment(TextAlignment.CENTER);
+                winner.setAlignment(Pos.CENTER);
                 winnersBox.getChildren().add(winner);
                 winnersBox.setLayoutX(winnersBox.getLayoutX() - 165);
             }
@@ -100,12 +100,12 @@ public class EndGameViewController {
         sequence.play();
     }
 
-   /* public void test(){
+    /*public void test(){
         Map<Color, Integer> playersMap = new LinkedHashMap<>();
         playersMap.put(Color.YELLOW, 1);
-        playersMap.put(Color.BLUE,5);
-        playersMap.put(Color.GREEN,4);
-        playersMap.put(Color.PURPLE,2);
+        playersMap.put(Color.BLUE,1);
+        playersMap.put(Color.GREEN,1);
+        playersMap.put(Color.PURPLE,1);
         playersMap.put(Color.GRAY,3);
         nicknamesMap.put(Color.YELLOW,"en");
         nicknamesMap.put(Color.BLUE,"Rick");
@@ -122,7 +122,7 @@ public class EndGameViewController {
                 winner.getStyleClass().add(x.toString());
                 winner.setFont(font);
                 winner.setText(nicknamesMap.get(x));
-                winner.setTextAlignment(TextAlignment.CENTER);
+                winner.setAlignment(Pos.CENTER);
                 winnersBox.getChildren().add(winner);
                 winnersBox.setLayoutX(winnersBox.getLayoutX() - 165);
                 //winnersBox.setSpacing(winnersBox.getSpacing() - 12);
