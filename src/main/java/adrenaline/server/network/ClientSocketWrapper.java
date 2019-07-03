@@ -146,12 +146,11 @@ public class ClientSocketWrapper implements Client {
     }
 
     public void kick() {
-        inLobby.detachClient(this);
+        serverCommands.unregisterClient(clientID);
         kick();
     }
 
     public void kickClient() {
         sendMessage("kick;ARGSIZE=0;");
-        serverCommands.unregisterClient(clientID);
     }
 }

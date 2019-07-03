@@ -15,10 +15,9 @@ public class ScoreBoard extends Observable {
     private ArrayList<Boolean> overkillFlags;
     private int maxKills;
     private ArrayList<Color> finalfrenzyDeadPlayers = new ArrayList<>();
+    private HashMap<Color,Integer> finalfrenzyModePlayers = new HashMap<>();
 
     private LinkedHashMap<Color, Integer> finalPlayerPositions = null;
-
-    private HashMap<Color,Integer> finalfrenzyModePlayers = new HashMap<>();
 
     public ScoreBoard(ArrayList<Client> clients){
         clients.forEach(this::attach);
@@ -35,6 +34,7 @@ public class ScoreBoard extends Observable {
         maxKills = skulls;
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
+
 
     public void scoreKill(Color dead, ArrayList<Color> damageTrack){
         if(!finalfrenzyDeadPlayers.contains(dead)) {
@@ -104,7 +104,9 @@ public class ScoreBoard extends Observable {
         return finalfrenzyModePlayers;
     }
 
-    public void scoreKillshotTrack() {
+    public void scoreKillshotTrack(List<Color> inactive) {
+        inactive.forEach(x -> scoreMap.remove(x));
+
         finalPlayerPositions = new LinkedHashMap<>();
         HashMap<Color,Integer> pointsFromKillshoTrack = new HashMap<>();
         HashMap<Color,Integer> tokensOnKillshotTrack = new HashMap<>();
@@ -142,11 +144,9 @@ public class ScoreBoard extends Observable {
                     if(previous!=null && finalPlayerPositions.get(previous).equals(finalPlayerPositions.get(current))){
                         if(pointsFromKillshoTrack.get(current)>pointsFromKillshoTrack.get(previous)){
                             position++;
-                            position = finalPlayerPositions.get(previous);
                             finalPlayerPositions.put(previous, position);
                         }else if(pointsFromKillshoTrack.get(current)<pointsFromKillshoTrack.get(previous)){
                             position++;
-                            position = finalPlayerPositions.get(current);
                             finalPlayerPositions.put(current, position);
                         }
 
@@ -156,21 +156,7 @@ public class ScoreBoard extends Observable {
             }
             position++;
         }
-        /*Iterator itr = finalPlayerPositions.keySet().iterator();
-        Color c1 = (Color) itr.next();
-        while(itr.hasNext()){
-            Color c2 = (Color) itr.next();
-            if(finalPlayerPositions.get(c1).equals(finalPlayerPositions.get(c2))){
-                if(pointsFromKillshoTrack.get(c1)>pointsFromKillshoTrack.get(c2)){
-                    position = finalPlayerPositions.get(c2);
-                    finalPlayerPositions.put(c2, position+1);
-                }else if(pointsFromKillshoTrack.get(c1)<pointsFromKillshoTrack.get(c2)){
-                    position = finalPlayerPositions.get(c1);
-                    finalPlayerPositions.put(c1, position+1);
-                }
-            }
-            c1=c2;
-        }*/
+        System.out.println(finalPlayerPositions.toString());
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
 }

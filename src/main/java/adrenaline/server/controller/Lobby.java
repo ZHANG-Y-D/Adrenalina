@@ -3,6 +3,7 @@ package adrenaline.server.controller;
 import adrenaline.Color;
 import adrenaline.CustomSerializer;
 import adrenaline.RestoreUpdateMessage;
+import adrenaline.server.GameServer;
 import adrenaline.server.controller.states.*;
 import adrenaline.server.exceptions.*;
 import adrenaline.server.model.*;
@@ -28,9 +29,11 @@ import java.util.stream.Collectors;
 
 public class Lobby implements Runnable, LobbyAPI {
 
+    private final GameServer server;
     private final String lobbyID;
     private final Integer TURN_TIMEOUT_IN_SECONDS = 90;
     private final Integer RESPAWN_TIMEOUT_IN_SECONDS = 30;
+    private int inactiveUsers = 0;
 
     private LinkedHashMap<String, Client> clientMap;
     private HashMap <String, Player> playersMap;
@@ -58,7 +61,8 @@ public class Lobby implements Runnable, LobbyAPI {
     private boolean finalfrenzy = false;
     private boolean firstPlayerFF = false;
 
-    public Lobby(ArrayList<Client> clients) {
+    public Lobby(ArrayList<Client> clients, GameServer server) {
+        this.server = server;
         lobbyID = UUID.randomUUID().toString();
         clientMap = new LinkedHashMap<>();
         clients.forEach(x -> clientMap.put(x.getClientID(), x));
@@ -98,6 +102,7 @@ public class Lobby implements Runnable, LobbyAPI {
             newClient.update(new RestoreUpdateMessage(map, players));
         } catch (RemoteException e) { }
         chat.addServerMessage("User "+newClient.getNickname()+" has reconnected.");
+        inactiveUsers--;
     }
 
     public synchronized void detachClient(Client client){
@@ -105,6 +110,7 @@ public class Lobby implements Runnable, LobbyAPI {
         playersMap.values().forEach(x -> x.detach(client));
         if(scoreBoard!=null) scoreBoard.detach(client);
         chat.addServerMessage("User "+client.getNickname()+" has left the game.");
+        inactiveUsers++;
     }
 
 
@@ -113,7 +119,7 @@ public class Lobby implements Runnable, LobbyAPI {
         avatarSelection();
         initSettings();
         synchronized (this){
-            while(!scoreBoard.gameEnded()) {
+            while(!scoreBoard.gameEnded() && (clientMap.size() - inactiveUsers >= 3)) {
                 try {
                     int TIMEOUT = nextTurnState();
                     scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TIMEOUT, TimeUnit.SECONDS);
@@ -128,28 +134,31 @@ public class Lobby implements Runnable, LobbyAPI {
                     Thread.currentThread().interrupt();
                 }
             }
-            playersMap.values().stream().filter(x -> x.getDamageTrack().isEmpty()).forEach(x -> scoreBoard.setFinalFrenzyValues(x.getColor()));
-            finalfrenzy=true;
-            System.out.println("ENTERING FINAL FRENZY");
-            for(int i=0; i<=clientMap.keySet().size(); i++){
-                try {
-                    int TIMEOUT = nextFinalfrenzyTurnState();
-                    scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TIMEOUT, TimeUnit.SECONDS);
-                    clientMap.values().forEach(x -> {
-                        try {
-                            x.timerStarted(TIMEOUT, clientMap.get(currentTurnPlayer).getNickname() + "'s turn");
-                        } catch (RemoteException e) {
-                        }
-                    });
-                    wait();
-                }catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Thread.currentThread().interrupt();
+            if((clientMap.size() - inactiveUsers >= 3)) {
+                playersMap.values().stream().filter(x -> x.getDamageTrack().isEmpty()).forEach(x -> scoreBoard.setFinalFrenzyValues(x.getColor()));
+                finalfrenzy = true;
+                for (int i = 0; i <= clientMap.keySet().size(); i++) {
+                    try {
+                        int TIMEOUT = nextFinalfrenzyTurnState();
+                        scheduledTimeout = turnTimer.schedule(new TurnTimer(this), TIMEOUT, TimeUnit.SECONDS);
+                        clientMap.values().forEach(x -> {
+                            try {
+                                x.timerStarted(TIMEOUT, clientMap.get(currentTurnPlayer).getNickname() + "'s turn");
+                            } catch (RemoteException e) {
+                            }
+                        });
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
+                    }
                 }
+                playersColor.forEach((x, y) -> scoreBoard.scoreKill(x, y.getDamageTrack()));
             }
-            System.out.println("GAME ENDED!");
-            playersColor.forEach((x,y) ->  scoreBoard.scoreKill(x,y.getDamageTrack()));
-            scoreBoard.scoreKillshotTrack();
+            scoreBoard.scoreKillshotTrack(clientMap.values().stream().filter(x -> !x.isActive()).map(x -> playersMap.get(x.getClientID()).getColor()).collect(Collectors.toList()));
+            System.out.println("A GAME ENDED.");
+            clientMap.values().forEach(Client::kickClient);
+            server.closeLobby(lobbyID);
         }
     }
 

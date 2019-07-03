@@ -12,9 +12,9 @@ public abstract class Observable {
     public boolean anyObserver(){
         return !observers.isEmpty();
     }
-    public void attach(Client observer){ observers.add(observer); }
-    public void detach(Client observer){ observers.remove(observer); }
-    public void notifyObservers(UpdateMessage update){
+    public synchronized void attach(Client observer){ observers.add(observer); }
+    public synchronized void detach(Client observer){ observers.remove(observer); }
+    public synchronized void notifyObservers(UpdateMessage update){
             observers.forEach(x -> {
                 try {
                     x.update(update);

@@ -12,9 +12,11 @@ import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -105,7 +107,7 @@ public class GameServer {
                     }
                 }
                 if(clientsWaitingList.size() >= 3) {
-                    Lobby newLobby = new Lobby(clientsWaitingList);
+                    Lobby newLobby = new Lobby(clientsWaitingList, this);
                     activeLobbies.put(newLobby.getID(), newLobby);
                     RMIexportLobby(newLobby);
                     ArrayList<String> nicknames = (ArrayList<String>) clientsWaitingList.stream().map(Client::getNickname).collect(Collectors.toList());
@@ -180,6 +182,16 @@ public class GameServer {
         try {
             LocateRegistry.getRegistry(SERVER_SETTINGS.getRMI_PORT()).bind("Game;"+lobby.getID(), new LobbyExportable(lobby));
         } catch (RemoteException | AlreadyBoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeLobby(String lobbyID){
+        activeLobbies.remove(lobbyID);
+        clientsLobbiesMap.entrySet().removeIf(e -> lobbyID.equals(e.getValue()));
+        try {
+            LocateRegistry.getRegistry(SERVER_SETTINGS.getRMI_PORT()).unbind("Game;"+lobbyID);
+        } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
         }
     }
