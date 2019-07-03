@@ -508,10 +508,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                     skullBox.getChildren().add(drop);
                 }
                 else {
-                    //TODO caricare immagine overkill
-                    ImageView drop = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/HUD/"+killshotTrack.get(i).toString()+"-DROP.png")));
+
+                    ImageView drop = new ImageView(new Image(getClass().getResourceAsStream("/Graphic-assets/HUD/"+killshotTrack.get(i).toString()+"-DROP-OVK.png")));
                     drop.setFitWidth(25);
-                    drop.setFitHeight(37);
+                    drop.setFitHeight(45);
                     drop.setLayoutX(15);
                     skullBox.getChildren().add(drop);
                 }
