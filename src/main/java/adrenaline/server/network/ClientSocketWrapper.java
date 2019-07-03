@@ -75,6 +75,9 @@ public class ClientSocketWrapper implements Client {
                     sendToClient += "ERROR! Invalid command request";
                 } catch (NoSuchElementException fatal){
                     serverCommands.unregisterClient(clientID);
+                } catch(ArrayIndexOutOfBoundsException e){
+                    e.printStackTrace();
+                    System.out.println("MESSAGE RECEIVED: "+ readFromClient);
                 }finally{ if(active) sendMessage(sendToClient);}
             }
         }).start();

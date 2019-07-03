@@ -99,7 +99,7 @@ public class Lobby implements Runnable, LobbyAPI {
         });
         if(scoreBoard!=null) scoreBoard.attach(newClient);
         try {
-            newClient.update(new RestoreUpdateMessage(map, players));
+            newClient.update(new RestoreUpdateMessage(map, players, scoreBoard));
         } catch (RemoteException e) { }
         chat.addServerMessage("User "+newClient.getNickname()+" has reconnected.");
         inactiveUsers--;
