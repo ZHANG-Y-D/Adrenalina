@@ -14,6 +14,7 @@ public class ShootState implements GameState {
     private Lobby lobby;
     private WeaponCard selectedWeapon = null;
     private ArrayList<Integer> validSquares;
+    private boolean actionExecuted=false;
 
     public ShootState(Lobby lobby){
         this.lobby = lobby;
@@ -46,6 +47,7 @@ public class ShootState implements GameState {
         if(validSquares.contains(index)){
             lobby.movePlayer(index);
             lobby.incrementExecutedActions();
+            actionExecuted=true;
             return "OK";
         }else return "You can't move there!";
     }
@@ -71,7 +73,7 @@ public class ShootState implements GameState {
             if(selectedFiremode==null) return "This weapon does not have such firemode!";
             else {
                 FiremodeSubState nextStep = selectedFiremode.getNextStep();
-                nextStep.setContext(lobby, selectedWeapon, selectedFiremode, false);
+                nextStep.setContext(lobby, selectedWeapon, selectedFiremode, actionExecuted);
                 lobby.setState(nextStep);
             }
             return "OK Firemode accepted, choose your next move";
