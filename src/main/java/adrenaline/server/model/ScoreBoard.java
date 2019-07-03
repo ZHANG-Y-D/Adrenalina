@@ -156,7 +156,6 @@ public class ScoreBoard extends Observable {
             }
             position++;
         }
-        System.out.println(finalPlayerPositions.toString());
         notifyObservers(new ScoreboardUpdateMessage(this));
     }
 }

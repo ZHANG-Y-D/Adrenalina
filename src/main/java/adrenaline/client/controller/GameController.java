@@ -355,14 +355,8 @@ public class GameController {
         changes.removePropertyChangeListener(l);
     }
 
-    /**
-     *
-     * @param newScoreBoard
-     */
-    public synchronized void updateScoreBoard(ScoreBoard newScoreBoard){
-        scoreBoard = newScoreBoard;
-    }
-
+    public PropertyChangeListener[] getProperyChangeListeners() { return changes.getPropertyChangeListeners(); }
+    
     /**
      *
      * @param duration

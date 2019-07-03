@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +48,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     @FXML
     private Pane pane, ownPlayer, ownCard, firemodeSelection, firemodeSet0, firemodeSet1, firemodeSet2, finalFrenzy1, finalFrenzy2;
     @FXML
-    private Button  run, shoot, grab, reload, back;
+    private Button  run, shoot, grab, reload, back, close;
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -72,8 +73,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private GameController gameController;
     private HashMap<adrenaline.Color, Pane> playersColorMap = new HashMap<>(); //forse non serve
     private HashMap<adrenaline.Color, ImageView> tokensMap = new HashMap<>();
-    private HashMap<Pane, ArrayList<Position>> positionMap = new HashMap<>(); //get pane used positions
-    private HashMap<ImageView, Position> tokenPosition = new HashMap<>(); //get token current position
+    private HashMap<Pane, ArrayList<Position>> positionMap = new HashMap<>(); //getProperyChangeListeners pane used positions
+    private HashMap<ImageView, Position> tokenPosition = new HashMap<>(); //getProperyChangeListeners token current position
     private HashMap<Integer,Integer> firemodeMap;
     private HashMap<ImageView, adrenaline.Color> tokenColor = new HashMap<>();
     private HashMap<adrenaline.Color, HBox> enemyWeaponsMap = new HashMap<>();
@@ -87,6 +88,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
         timerLabel.setFont(font);
         font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 16);
+        close.setFont(font);
         timerComment.setFont(font);
         timerLabel.setTextFill(Color.WHITE);
         timerComment.setTextFill(Color.WHITE);
@@ -302,22 +304,22 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     }
 
     public void changeStage() {
-        Platform.runLater(() ->{
-            try {
-                gameController.removePropertyChangeListener(this);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EndGameView.fxml"));
-                Parent nextView = loader.load();
-                Scene scene = new Scene(nextView);
-                EndGameViewController endGameViewController = loader.getController();
-                Stage stage = (Stage) pane.getScene().getWindow();
-                stage.setWidth(1280);
-                stage.setHeight(768);
-                stage.centerOnScreen();
-                stage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        if(gameController.getProperyChangeListeners().length != 0) {
+            gameController.removePropertyChangeListener(this);
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/EndGameView.fxml"));
+                    Parent nextView = loader.load();
+                    Scene scene = new Scene(nextView);
+                    EndGameViewController endGameViewController = loader.getController();
+                    endGameViewController.setController(gameController);
+                    Stage stage = (Stage) pane.getScene().getWindow();
+                    stage.setScene(scene);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     public void notifyTimer(Integer duration, String comment) {
@@ -726,7 +728,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                         Position pos = tokenPosition.get(token);
                         positions.remove(pos);
                         positionMap.put(oldPane,positions);
-                        //positionMap.get(oldPane).remove(tokenPosition.get(token));
+                        //positionMap.getProperyChangeListeners(oldPane).remove(tokenPosition.getProperyChangeListeners(token));
                         if(positionMap.get(oldPane).isEmpty()) positionMap.remove(oldPane);
                         tokenPosition.put(token, newPosition);
                         transition.setOnFinished(e -> {
@@ -804,7 +806,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     public void selectWeapon(Event event){
         message.setText("");
-        //targets.forEach(x -> tokensMap.get(x).setEffect(null));
+        //targets.forEach(x -> tokensMap.getProperyChangeListeners(x).setEffect(null));
         ImageView weapon = (ImageView) event.getSource();
         String weaponID = weapon.getImage().getUrl();
         weaponID = new File(weaponID).getName();
@@ -883,7 +885,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         else {
             gameController.selectPlayers(targets);
             targets.forEach(x -> tokensMap.get(x).setEffect(null));
-            //for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
+            //for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().getProperyChangeListeners(0).setVisible(false);
             shootState = false;
         }
     }
@@ -935,5 +937,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         String buttonId = button.getId().substring(5);
         gameController.selectFinalFrenzyAction(Integer.parseInt(buttonId));
         shootState = true;
+    }
+
+    public void close() {
+        boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
+        if (answer) {
+            gameController.cleanExit();
+            Stage stage = (Stage) pane.getScene().getWindow();
+            stage.close();
+        }
     }
 }
