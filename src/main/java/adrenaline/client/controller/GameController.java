@@ -319,15 +319,7 @@ public class GameController {
         changes.removePropertyChangeListener(l);
     }
 
-    /**
-     *
-     *
-     *
-     *
-     */
-    public synchronized void updateScoreBoard(ScoreBoard newScoreBoard){
-        scoreBoard = newScoreBoard;
-    }
+    public PropertyChangeListener[] getProperyChangeListeners() { return changes.getPropertyChangeListeners(); }
 
     /**
      *

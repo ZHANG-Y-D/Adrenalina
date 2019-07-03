@@ -611,7 +611,7 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public String usePowerup(ScopePowerup scope){
         setState(new ScopeState(this, scope, damagedThisTurn, playersMap.get(currentTurnPlayer)));
-        return "OK Select the target you want to give extra damage to.";
+        return "OK Select 1 ammo of any color to pay the cost";
     }
 
     public String usePowerup(TeleporterPowerup teleporter){

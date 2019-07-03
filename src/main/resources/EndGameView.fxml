@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.EndGameViewController">
+    <Label fx:id="winnerText" alignment="CENTER" layoutX="340.0" layoutY="100" text="WINNER" prefHeight="150.0" prefWidth="600.0" textAlignment="CENTER"/>
+    <Label fx:id="winner" layoutX="340" layoutY="250" alignment="CENTER" prefHeight="150.0" prefWidth="600.0" textAlignment="CENTER" />
+    <HBox fx:id="losers" layoutX="700" layoutY="550" spacing="180" />
+    <Button fx:id="close" layoutX="1240.0" layoutY="-2.0" onAction="#close" text="X" />
+    <stylesheets>
+        <URL value="@GameView.css" />
+    </stylesheets>
+</Pane>

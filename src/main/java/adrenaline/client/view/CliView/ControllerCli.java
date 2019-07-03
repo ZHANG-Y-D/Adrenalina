@@ -230,7 +230,7 @@ public abstract class ControllerCli{
 
     /**
      *
-     * Can get the current player's turn number
+     * Can getProperyChangeListeners the current player's turn number
      *
      * @return the turn number
      *

@@ -160,12 +160,12 @@ public class ScoreBoard extends Observable {
         Color c1 = (Color) itr.next();
         while(itr.hasNext()){
             Color c2 = (Color) itr.next();
-            if(finalPlayerPositions.get(c1).equals(finalPlayerPositions.get(c2))){
-                if(pointsFromKillshoTrack.get(c1)>pointsFromKillshoTrack.get(c2)){
-                    position = finalPlayerPositions.get(c2);
+            if(finalPlayerPositions.getProperyChangeListeners(c1).equals(finalPlayerPositions.getProperyChangeListeners(c2))){
+                if(pointsFromKillshoTrack.getProperyChangeListeners(c1)>pointsFromKillshoTrack.getProperyChangeListeners(c2)){
+                    position = finalPlayerPositions.getProperyChangeListeners(c2);
                     finalPlayerPositions.put(c2, position+1);
-                }else if(pointsFromKillshoTrack.get(c1)<pointsFromKillshoTrack.get(c2)){
-                    position = finalPlayerPositions.get(c1);
+                }else if(pointsFromKillshoTrack.getProperyChangeListeners(c1)<pointsFromKillshoTrack.getProperyChangeListeners(c2)){
+                    position = finalPlayerPositions.getProperyChangeListeners(c1);
                     finalPlayerPositions.put(c1, position+1);
                 }
             }

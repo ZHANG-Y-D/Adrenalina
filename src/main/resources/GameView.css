@@ -144,3 +144,11 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
+#close{
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-text-fill: white;
+}
+#close:hover{
+    -fx-highlight-text-fill: black;
+}
