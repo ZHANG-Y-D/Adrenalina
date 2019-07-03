@@ -97,7 +97,7 @@ public class Lobby implements Runnable, LobbyAPI {
             x.attach(newClient);
             players.add(x);
         });
-        if(scoreBoard!=null) scoreBoard.attach(newClient);
+        scoreBoard.attach(newClient);
         try {
             newClient.update(new RestoreUpdateMessage(map, players, scoreBoard));
         } catch (RemoteException e) { }
