@@ -446,7 +446,7 @@ public class Lobby implements Runnable, LobbyAPI {
             map.setSquaresContext();
             setMapCards();
             map.setObservers(new ArrayList<>(clientMap.values()));
-            scoreBoard.initKillshotTrack(1/*votes[1]*/);
+            scoreBoard.initKillshotTrack(votes[1]);
         } catch (Exception e){
             e.printStackTrace();
         }

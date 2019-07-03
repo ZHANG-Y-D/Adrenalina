@@ -71,7 +71,6 @@ public class ClientRMIWrapper implements Client {
                 thisClient.setLobby(lobbyID, nicknames);
             } catch (RemoteException e) {
                 serverCommands.unregisterClient(clientID);
-                inLobby.detachClient(this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -88,7 +87,6 @@ public class ClientRMIWrapper implements Client {
                 thisClient.setPlayerColor(nickname, color);
             } catch (RemoteException e) {
                 serverCommands.unregisterClient(clientID);
-                inLobby.detachClient(this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -101,7 +99,6 @@ public class ClientRMIWrapper implements Client {
                 thisClient.timerStarted(duration, comment);
             } catch (RemoteException e) {
                 serverCommands.unregisterClient(clientID);
-                inLobby.detachClient(this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -114,7 +111,6 @@ public class ClientRMIWrapper implements Client {
                 thisClient.validSquaresInfo(validSquares);
             } catch (RemoteException e) {
                 serverCommands.unregisterClient(clientID);
-                inLobby.detachClient(this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -127,7 +123,6 @@ public class ClientRMIWrapper implements Client {
                 thisClient.update(updatemsg);
             } catch (RemoteException e) {
                 serverCommands.unregisterClient(clientID);
-                inLobby.detachClient(this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
