@@ -10,17 +10,19 @@ import java.util.HashMap;
 
 /**
  *
- *
+ * The client side Map Model
  *
  *
  */
 public class Map implements Serializable {
 
     private int mapID;
-    private HashMap<Color, ArrayList<Integer>> weaponMap = new HashMap<>();
+    private HashMap<Color, ArrayList<Integer>> weaponMap;
     private HashMap<Integer, Integer> ammoMap;
 
     /**
+     *
+     * The constructor of this class, To set all attitude
      *
      * @param weaponMap
      * @param ammoMap
@@ -34,31 +36,22 @@ public class Map implements Serializable {
 
 
 
-    /**
-     *
-     *
-     *
-     *
-     */
-    public synchronized void setMap(){
-        weaponMap.clear();
-        ArrayList<Integer> weapons = new ArrayList<>();
-        weapons.add(5);
-        weaponMap.put(Color.RED, weapons);
-    }
+
 
     /**
      *
+     * The getter of mapID
      *
-     * @return
+     * @return The mapID from 1 to 4
      *
      */
     public int getMapID(){ return mapID;}
 
     /**
      *
+     * The getter of weaponMap
      *
-     * @return
+     * @return A HashMap of weaponMap
      *
      */
     public HashMap<Color, ArrayList<Integer>> getWeaponMap(){
@@ -67,19 +60,11 @@ public class Map implements Serializable {
 
     /**
      *
+     * The getter of ammoMap
      *
-     *
-     * @return
+     * @return A HashMap of ammoMap
      */
     public HashMap<Integer,Integer> getAmmoMap() { return  ammoMap; }
 
-    /**
-     *
-     *
-     *
-     * @param weaponMap
-     */
-    public void setWeaponMap(HashMap<Color, ArrayList<Integer>> weaponMap){
-        this.weaponMap = weaponMap;
-    }
+
 }

@@ -30,7 +30,7 @@ public class GameClient {
         System.out.println("Welcome to Adrenalina!");
         System.out.println("Do you want to play with CLI (Command Line Interface) or GUI (Graphic User Interface)?");
         String input = scanner.nextLine();
-        while (!chooseTheViewMode(input)) {
+        while (!chooseViewMode(input)) {
             System.out.println("Please input \"cli\" or \"gui\":");
             input = scanner.nextLine();
         }
@@ -49,7 +49,7 @@ public class GameClient {
      *
      */
 
-    private static boolean chooseTheViewMode(String input) {
+    private static boolean chooseViewMode(String input) {
 
         if (input.equalsIgnoreCase("cli") ||
                 input.equalsIgnoreCase("c")) {

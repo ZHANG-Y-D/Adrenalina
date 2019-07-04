@@ -1,11 +1,12 @@
 package adrenaline.server;
 
-import adrenaline.server.network.*;
 import adrenaline.server.controller.Lobby;
+import adrenaline.server.network.Client;
+import adrenaline.server.network.ClientSocketWrapper;
+import adrenaline.server.network.LobbyExportable;
+import adrenaline.server.network.ServerCommands;
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.BindException;
@@ -16,11 +17,17 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+
+/**
+ *
+ *
+ * The game server main class
+ *
+ */
 public class GameServer {
 
     private final ServerSettings SERVER_SETTINGS;
@@ -30,10 +37,19 @@ public class GameServer {
     private final HashMap<String, String> clientsLobbiesMap;
     private ArrayList<String> usedNicknames;
 
-    public static void main(String args[]){
+    /**
+     *
+     * The main method for run game server
+     */
+    public static void main(String[] args){
         new GameServer().lifeCycle();
     }
 
+    /**
+     *
+     * The constructor of game server
+     *
+     */
     public GameServer(){
         Gson gson = new Gson();
         SERVER_SETTINGS = gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/server-settings.json")), ServerSettings.class);
@@ -81,6 +97,12 @@ public class GameServer {
         usedNicknames = new ArrayList<>();
     }
 
+
+    /**
+     *
+     * The life cycle of game server
+     *
+     */
     private void lifeCycle(){
         while(true){
             synchronized(clientsWaitingList) {
@@ -122,10 +144,22 @@ public class GameServer {
     }
 
 
+    /**
+     *
+     * For register client
+     *
+     * @param c The reference of the client who have to be register
+     */
     public void registerClient(Client c){
         clients.put(c.getClientID(), c);
     }
 
+    /**
+     *
+     * For unregister client
+     *
+     * @param cID The reference of the client who have to be unregister
+     */
     public void unregisterClient(String cID) {
         Client c = clients.get(cID);
         c.setActive(false);
@@ -136,6 +170,14 @@ public class GameServer {
         if(assignedLobby!=null) activeLobbies.get(assignedLobby).detachClient(c);
     }
 
+
+    /**
+     *
+     * For reconnect client
+     * @param newClientID The client id now
+     * @param oldClientID The client id before
+     * @return The boolean if the reconnect is completed
+     */
     public boolean reconnectClient(String newClientID, String oldClientID){
         Client oldC = clients.get(oldClientID);
         Client newC = clients.get(newClientID);
@@ -162,6 +204,13 @@ public class GameServer {
         return true;
     }
 
+    /**
+     *
+     * For set nickname
+     * @param cID The clientID
+     * @param nickname The nickname string
+     * @return If this operation is successful
+     */
     public boolean setNickname(String cID, String nickname){
         if(usedNicknames.contains(nickname)) return false;
         Client c = clients.get(cID);
@@ -176,7 +225,12 @@ public class GameServer {
     }
 
 
-
+    /**
+     *
+     *
+     *
+     * @param lobby
+     */
     private void RMIexportLobby(Lobby lobby){
         try {
             LocateRegistry.getRegistry(SERVER_SETTINGS.getRMI_PORT()).bind("Game;"+lobby.getID(), new LobbyExportable(lobby));
@@ -185,6 +239,13 @@ public class GameServer {
         }
     }
 
+
+    /**
+     *
+     * For close a lobby
+     *
+     * @param lobbyID The lobby id witch have to be close
+     */
     public void closeLobby(String lobbyID){
         activeLobbies.remove(lobbyID);
         clientsLobbiesMap.entrySet().removeIf(e -> lobbyID.equals(e.getValue()));
@@ -196,12 +257,25 @@ public class GameServer {
     }
 }
 
+
+/**
+ *
+ * To do thw server set
+ *
+ */
 class ServerSettings{
     private final int RMI_PORT;
     private final int SOCKET_PORT;
     private final String RMI_HOSTNAME;
     private final int WAITLIST_TIMEOUT_IN_SECONDS;
 
+    /**
+     * To do the server set
+     * @param rmi_port The rmi port,The default value is 1099
+     * @param socket_port The socket port, The default value is 1100
+     * @param rmi_hostname The rmi host name
+     * @param waitlist_timeout_in_seconds The wait list time for build a lobby
+     */
     ServerSettings(int rmi_port, int socket_port, String rmi_hostname, int waitlist_timeout_in_seconds) {
         RMI_PORT = rmi_port;
         SOCKET_PORT = socket_port;
@@ -209,11 +283,35 @@ class ServerSettings{
         WAITLIST_TIMEOUT_IN_SECONDS = waitlist_timeout_in_seconds;
     }
 
+    /**
+     * The getter of rmi port
+     * @return The int value of rmi port
+     */
     public int getRMI_PORT() { return RMI_PORT; }
 
+    /**
+     *
+     *
+     * The getter of socket port
+     *
+     * @return The socket port value
+     */
     public int getSOCKET_PORT() { return SOCKET_PORT; }
 
+    /**
+     *
+     * The getter of rmi hostname
+     *
+     * @return The rmi hostname
+     */
     public String getRMI_HOSTNAME() { return RMI_HOSTNAME; }
 
+    /**
+     *
+     *
+     * The getter of wait list time
+     *
+     * @return The wait list time in seconds
+     */
     public int getWAITLIST_TIMEOUT_IN_SECONDS() { return WAITLIST_TIMEOUT_IN_SECONDS; }
 }

@@ -53,8 +53,7 @@ public class WeaponCard {
                 .registerTypeAdapter(TargetsGenerator.class, new CustomSerializer())
                 .registerTypeAdapter(FiremodeSubState.class, new CustomSerializer());
         Gson gson = gsonBld.create();
-        Firemode deepCopy = gson.fromJson(gson.toJson(firemodes.get(index)), Firemode.class);
-        return deepCopy;
+        return gson.fromJson(gson.toJson(firemodes.get(index)), Firemode.class);
     }
 
     public int getWeaponID() { return weaponID; }

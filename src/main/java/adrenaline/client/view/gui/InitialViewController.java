@@ -59,10 +59,21 @@ public class InitialViewController implements ViewInterface {
         time = duration;
     }
 
+
+    /**
+     *
+     * Not supported at this stage
+     *
+     */
     public void newChatMessage(String nickname, Color senderColor, String message) {
         //operation not supported at this stage
     }
 
+    /**
+     *
+     * Not supported at this stage
+     *
+     */
     public void showValidSquares(ArrayList<Integer> validSquares) {
         //operation not supported at this stage
     }

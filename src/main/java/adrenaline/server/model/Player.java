@@ -3,14 +3,10 @@ package adrenaline.server.model;
 import adrenaline.Color;
 import adrenaline.PlayerUpdateMessage;
 import adrenaline.server.Observable;
-import adrenaline.server.controller.Lobby;
 import adrenaline.server.network.Client;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 
 
 
@@ -35,9 +31,8 @@ public class Player extends Observable{
 
     private int position;
     private int oldPosition;  //Last position
-    private int adrenalineState;  //This's an attribute for index how much steps this player can move
-                                //The first element is for steps,second is for index how much steps can move before grab
-                                //The third element is for index how much steps can move before shoot
+    private int adrenalineState;
+
 
     private boolean alive; //For index is this player still alive. It can help shooter count score
 
