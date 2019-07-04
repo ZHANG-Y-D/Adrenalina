@@ -26,7 +26,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-
+/**
+ *
+ * The lobby class implements Runnable, LobbyAPI,To control model and
+ * return the operation result to high level. Every game have a lobby,and
+ * entry the game lift can exist a lot of lobby,so a lot of game in parallel.
+ *
+ */
 public class Lobby implements Runnable, LobbyAPI {
 
     private final GameServer server;
@@ -61,6 +67,13 @@ public class Lobby implements Runnable, LobbyAPI {
     private boolean finalfrenzy = false;
     private boolean firstPlayerFF = false;
 
+    /**
+     *
+     * The lobby function is used to create a Lobby
+     *
+     * @param clients the list of clients in the lobby
+     * @param server the server object reference
+     */
     public Lobby(ArrayList<Client> clients, GameServer server) {
         this.server = server;
         lobbyID = UUID.randomUUID().toString();
@@ -84,10 +97,22 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public HashMap<String, Player> getPlayersMap(){ return playersMap; }
 
+    /**
+     *
+     * The getter of lobbyID
+     * @return The lobbyID string
+     */
     public String getID() {
         return this.lobbyID;
     }
 
+    /**
+     *
+     *
+     *
+     * @param clientID
+     * @param newClient
+     */
     public synchronized void updateClient(String clientID, Client newClient){
         clientMap.put(clientID, newClient);
         clientMap.forEach((x,y)-> newClient.setPlayerColorInternal(y.getNickname(), playersMap.get(x).getColor()));
@@ -106,6 +131,12 @@ public class Lobby implements Runnable, LobbyAPI {
         inactiveUsers--;
     }
 
+    /**
+     *
+     *
+     *
+     * @param client
+     */
     public synchronized void detachClient(Client client){
         if(map!=null) map.detach(client);
         playersMap.values().forEach(x -> x.detach(client));
@@ -189,6 +220,14 @@ public class Lobby implements Runnable, LobbyAPI {
 
     public void setState(GameState newState){ currentState = newState; }
 
+    /**
+     *
+     * To do the run action request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @return The result of this request to client
+     *
+     */
     public String runAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)){
             commandReceived = true;
@@ -197,6 +236,13 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the grab action request which received from client terminal
+     *
+     * @return The result of this request to client
+     *
+     */
     public String grabAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)){
             commandReceived = true;
@@ -205,6 +251,13 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the shoot action request which received from client terminal
+     *
+     * @return The result of this request to client
+     *
+     */
     public String shootAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)){
             commandReceived = true;
@@ -213,6 +266,15 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the select player action request which received from client terminal
+     *
+     * @param clientID The clientID value
+     * @param playersColor The ArrayList of players' color
+     * @return The result of this request to client
+     *
+     */
     public String selectPlayers(String clientID, ArrayList<Color> playersColor) {
         if(clientID.equals(currentTurnPlayer)){
             commandReceived = true;
@@ -225,6 +287,16 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the select square request which received from client terminal
+     *
+     * @param clientID The clientID String
+     * @param index The square index from 0 to 11
+     *
+     * @return The result of this request to client
+     *
+     */
     public String selectSquare(String clientID, Integer index) {
         if(clientID.equals(currentTurnPlayer)){
             commandReceived = true;
@@ -233,6 +305,15 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the select PowerUp request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @param powerupID The powerupID which the player selected
+     * @return The result of this request to client
+     *
+     */
     public String selectPowerUp(String clientID, Integer powerupID) {
         PowerupCard puc = playersMap.get(clientID).getPowerupCard(powerupID);
         if(puc==null) return "You cannot use that powerup!";
@@ -248,6 +329,17 @@ public class Lobby implements Runnable, LobbyAPI {
         }
     }
 
+
+    /**
+     *
+     * To do the select Weapon request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @param weaponID The weaponID which the player selected
+     *
+     * @return The result of this request to client
+     *
+     */
     public String selectWeapon(String clientID, Integer weaponID) {
         if(clientID.equals(currentTurnPlayer)){
             commandReceived = true;
@@ -256,6 +348,15 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the select Firemode request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @param firemode The number of firemode from 0 to 2
+     * @return The result of this request to client
+     *
+     */
     public String selectFiremode(String clientID, Integer firemode) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -264,6 +365,15 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the select Ammo request which received from client terminal
+     *
+     * @param color The ammo color
+     *
+     * @return The result of this request to client
+     *
+     */
     public String selectAmmo(String clientID, Color color) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -272,6 +382,14 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the move Sub Action request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @return The result of this request to client
+     *
+     */
     public String moveSubAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -279,6 +397,15 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         else return "You can only do that during your turn!";
     }
+
+    /**
+     *
+     * To do the go Back action request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @return The result of this request to client
+     *
+     */
     public String goBack(String clientID) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -286,6 +413,15 @@ public class Lobby implements Runnable, LobbyAPI {
         }
         else return "You can only do that during your turn!";
     }
+
+    /**
+     *
+     * To do the end Of Turn Action request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @return The result of this request to client
+     *
+     */
     public String endOfTurnAction(String clientID) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -294,6 +430,16 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the select Final Frenzy Action request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @param action The frenzy action index from 0 to 2
+     *
+     * @return The result of this request to client
+     *
+     */
     public String selectFinalFrenzyAction(String clientID, Integer action) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -302,6 +448,15 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the select Avatar action request which received from client terminal
+     * @param clientID The clientID value
+     * @param color The avatar's color
+     *
+     * @return The result of this request to client
+     *
+     */
     public String selectAvatar(String clientID, Color color) {
         if(clientID.equals(currentTurnPlayer)) {
             commandReceived = true;
@@ -310,6 +465,16 @@ public class Lobby implements Runnable, LobbyAPI {
         else return "You can only do that during your turn!";
     }
 
+    /**
+     *
+     * To do the select Settings action request which received from client terminal
+     *
+     * @param clientID The clientID string
+     * @param mapID The id of map which select from client from 1 to 4
+     * @param skulls The skulls selected from client from 5 to 8
+     * @return The result of this request to client
+     *
+     */
     public String selectSettings(String clientID, Integer mapID, Integer skulls) {
         if(clientMap.keySet().contains(clientID)){
             commandReceived = true;

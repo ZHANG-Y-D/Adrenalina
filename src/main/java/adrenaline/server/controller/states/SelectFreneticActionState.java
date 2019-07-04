@@ -15,56 +15,99 @@ public class SelectFreneticActionState implements GameState {
         this.firstplayerFF = lobby.isFirstPlayerFF();
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         return "Select an action!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSquare(int index) {
         return "Select an action!";
     }
 
+    /**
+     *
+     * To do the select PowerUp request which received from client terminal
+     *
+     * @param powerUp The powerupID which the player selected
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
         return lobby.usePowerup(powerUp);
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectWeapon(int weaponID) {
         return "Select an action!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) {
         return "Select an action!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) {
         return "Select an action!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String moveSubAction() {
         return "Select an action!";
     }
 
+    /**
+     *
+     * To do the end Of Turn Action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String endOfTurnAction() {
         lobby.endTurn(false);
@@ -72,7 +115,15 @@ public class SelectFreneticActionState implements GameState {
     }
 
 
-
+    /**
+     *
+     * To do the select Final Frenzy Action request which received from client terminal
+     *
+     * @param action The frenzy action index from 0 to 2
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) {
         if(!firstplayerFF && lobby.getExecutedActions()<2){
@@ -96,17 +147,25 @@ public class SelectFreneticActionState implements GameState {
 
 
 
-
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String goBack() {
         return "You can't go back now!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";
