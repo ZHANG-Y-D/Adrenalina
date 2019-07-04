@@ -35,6 +35,11 @@ public class InitialViewController implements ViewInterface {
     private GameController gameController = null;
     private int time;
 
+    /**
+     *
+     * To init this stage
+     *
+     */
     public void initialize(){
         initPane.getStyleClass().add("pane");
         close.getStyleClass().add("close");
@@ -51,6 +56,12 @@ public class InitialViewController implements ViewInterface {
         message.setFont(font);
     }
 
+    /**
+     *
+     * To set the current controller
+     *
+     * @param gameController The gameController reference
+     */
     public void setGameController(GameController gameController){
         this.gameController = gameController;
     }
@@ -78,6 +89,10 @@ public class InitialViewController implements ViewInterface {
         //operation not supported at this stage
     }
 
+    /**
+     *
+     * For RMI bottom and connect
+     */
     public void RMISelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))){
             try{
@@ -89,6 +104,9 @@ public class InitialViewController implements ViewInterface {
         else message.setText("Type host and port");
     }
 
+    /**
+     * For Socket bottom and connect
+     */
     public void SocketSelected(){
         if(!host.getText().equals("") && (!port.getText().equals(""))) {
             try {
@@ -100,6 +118,10 @@ public class InitialViewController implements ViewInterface {
         else message.setText("Type host and port");
     }
 
+    /**
+     *
+     * To change scene
+     */
     public void changeScene(){
         message.setText("");
         rmi.setVisible(false);
@@ -111,6 +133,10 @@ public class InitialViewController implements ViewInterface {
         message.setLayoutY(362);
     }
 
+    /**
+     *
+     * Send nickname to server
+     */
     public void sendNickname(){
         if(!name.getText().equals("")) {
             gameController.setNickname(name.getText());
@@ -118,6 +144,12 @@ public class InitialViewController implements ViewInterface {
         else message.setText("Type a nickname");
     }
 
+    /**
+     *
+     * For show the error message from server
+     *
+     * @param errorMsg the error message
+     */
     @Override
     public void showError(String errorMsg) {
         Platform.runLater(() -> {
@@ -125,6 +157,12 @@ public class InitialViewController implements ViewInterface {
         });
     }
 
+    /**
+     *
+     * For show the OK message from server
+     *
+     * @param message the ok message
+     */
     @Override
     public void showMessage(String message) {
         Platform.runLater(() ->{
@@ -149,6 +187,11 @@ public class InitialViewController implements ViewInterface {
         });
     }
 
+    /**
+     *
+     * For get the change stage signal from game controller
+     *
+     */
     public void changeStage(){
         Platform.runLater(() ->{
             try {
@@ -170,6 +213,11 @@ public class InitialViewController implements ViewInterface {
         });
     }
 
+    /**
+     *
+     * To close the stage and connect
+     *
+     */
     public void close(){
         boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
         if (answer) {

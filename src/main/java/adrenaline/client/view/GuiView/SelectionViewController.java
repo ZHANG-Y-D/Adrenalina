@@ -36,6 +36,11 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ *
+ * The SelectionViewController implements ViewInterface, PropertyChangeListener,
+ * the second stage of this game
+ */
 public class SelectionViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
@@ -69,6 +74,12 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
     private int nextstageTimer = 0;
     private String nextstageComment = "";
 
+
+    /**
+     *
+     * To init this stage
+     *
+     */
     public void initialize() {
         imageMap = new HashMap<>();
         imageMap.put(1, avatar1);
@@ -112,6 +123,12 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         mapIDs.add(map4);
     }
 
+    /**
+     *
+     * To set the current controller
+     *
+     * @param gameController The gameController reference
+     */
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
         if(gameController.getOwnColor()!=null && gameController.getOwnColor()!=Color.WHITE) changeStage();
@@ -119,6 +136,10 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         initializeNicknames();
     }
 
+    /**
+     *
+     * For init the nickname
+     */
     public void initializeNicknames() {
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 16);
         Platform.runLater(()->{
@@ -136,6 +157,13 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         });
     }
 
+    /**
+     *
+     * Notify the server timer is stared
+     *
+     * @param duration The timer duration
+     * @param comment The comment, it will remind now it's witch player's turn
+     */
     public void notifyTimer(Integer duration, String comment) {
         if (timer != null){
             timer.cancel();
@@ -180,6 +208,10 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         //operation not supported at this stage
     }
 
+    /**
+     *
+     * For the next image
+     */
     public void nextImage() {
         Image firstImg = imageMap.get(1).getImage();
         for (int i = 1; i < 5; i++) {
@@ -189,10 +221,18 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         message.setText("");
     }
 
+    /**
+     *
+     * To select avatar
+     */
     public void selectAvatar() {
         gameController.selectAvatar(colorMap.get(avatar1.getImage().getUrl()));
     }
 
+    /**
+     *
+     * To change scene
+     */
     public void changeScene(){
         avatar1.setVisible(false);
         avatar2.setVisible(false);
@@ -215,6 +255,11 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
 
     }
 
+
+    /**
+     * For the map hover
+     * @param event
+     */
     public void mapHover(Event event) {
         if (selectedMap == -1) {
             ImageView map = (ImageView) event.getSource();
@@ -223,6 +268,10 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }
     }
 
+    /**
+     * For he default map
+     * @param event The event
+     */
     public void mapDefault(Event event) {
         if (selectedMap == -1) {
             ImageView map = (ImageView) event.getSource();
@@ -231,6 +280,11 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }
     }
 
+    /**
+     *
+     * To select map
+     * @param event The event
+     */
     public void selectMap(Event event) {
         if (selectedMap == -1) {
             ImageView map = (ImageView) event.getSource();
@@ -239,6 +293,11 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }
     }
 
+    /**
+     *
+     * For turn on skull
+     * @param event The event
+     */
     public void onSkull(Event event) {
         if (selectedSkull == -1) {
             Pane node = (Pane) event.getSource();
@@ -250,10 +309,19 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }
     }
 
+    /**
+     *
+     * For turn off skull
+     */
     public void offSkull() {
         if (selectedSkull == -1) skullList.forEach(x -> x.setVisible(false));
     }
 
+    /**
+     *
+     * For selectSkull
+     * @param event The event
+     */
     public void selectSkull(Event event) {
         if (selectedSkull == -1) {
             Pane node = (Pane) event.getSource();
@@ -268,12 +336,26 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }
     }
 
+
+    /**
+     *
+     * For show the error message from server
+     *
+     * @param errorMsg the error message
+     */
     public void showError(String errorMsg) {
         Platform.runLater(() -> {
             this.message.setText(errorMsg);
             });
         }
 
+
+    /**
+     *
+     * For show the OK message from server
+     *
+     * @param message the ok message
+     */
     @Override
     public void showMessage(String message) {
         Platform.runLater(() ->{
@@ -283,6 +365,11 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         });
     }
 
+    /**
+     *
+     * To send map and skull set
+     *
+     */
     public void send() {
         selectedMap = (selectedMap == -1) ? 1 : selectedMap;
         selectedSkull = (selectedSkull == -1) ? 5 : 5 + selectedSkull;
@@ -290,6 +377,13 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         gameController.sendSettings(selectedMap, selectedSkull);
     }
 
+
+    /**
+     *
+     * To listen the PropertyChangeEvent
+     *
+     * @param evt The event
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("map")) changeStage();
@@ -317,6 +411,11 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }
     }
 
+    /**
+     *
+     * For get the change stage signal from game controller
+     *
+     */
     public void changeStage() {
         Platform.runLater(() ->{
             try {
@@ -339,6 +438,11 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         });
     }
 
+    /**
+     *
+     * To close the stage and connect
+     *
+     */
     public void close() {
         boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
         if (answer) {
