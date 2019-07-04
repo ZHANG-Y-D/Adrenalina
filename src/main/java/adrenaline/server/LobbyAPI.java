@@ -6,7 +6,13 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface LobbyAPI extends Remote {
+
+ /**
+  *
+  * The lobbyAPI, for action of lobby's state pattern.
+  *
+  */
+ public interface LobbyAPI extends Remote {
     String runAction(String clientID) throws RemoteException;
     String grabAction(String clientID) throws RemoteException;
     String shootAction(String clientID) throws RemoteException;

@@ -269,6 +269,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     /**
      *
      * Start turn from server timer
+     *
      * @param duration Time duration
      * @param comment Timer comment
      *
@@ -351,6 +352,13 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
         turnControllerThread.start();
     }
 
+
+    /**
+     *
+     * To select the first final frenzy mode
+     *
+     *
+     */
     private void selectFinalFrenzyMode1() {
 
         printSrcFile("FinalFrenzyMode1Action.txt");
@@ -390,6 +398,12 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     }
 
+    /**
+     *
+     * To select the second final frenzy mode
+     *
+     *
+     */
     private void selectFinalFrenzyMode2() {
 
         printSrcFile("FinalFrenzyMode2Action.txt");
@@ -597,7 +611,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         if (!isInTurn.get())
             return true;
-        
+
         isCanNotGoBack.set(false);
         gameController.back();
         try {
@@ -871,6 +885,8 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      *
      * Received valid square from server
      *
+     * @param validSquares A reference of an ArrayList<Integer> witch contain all valid square
+     *
      */
     @Override
     public void showValidSquares(ArrayList<Integer> validSquares) {
@@ -931,8 +947,11 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
     /**
      *
-     * Received chat message from server
+     * Remind view to update chat message
      *
+     * @param nickname The nickname of the player who send this chat
+     * @param senderColor The color of the player who send this chat
+     * @param message The chat message string
      */
     @Override
     public void newChatMessage(String nickname, Color senderColor, String message) {

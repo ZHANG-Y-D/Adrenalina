@@ -330,6 +330,13 @@ public abstract class ControllerCli{
 
     }
 
+
+    /**
+     *
+     * For print ammo box in the map square
+     *
+     * @param ammoMap The ammoMap reference
+     */
     private void printMapAmmoCardInfo(HashMap<Integer, Integer> ammoMap) {
 
         System.out.println("\n--------------Ammo Box------------");
