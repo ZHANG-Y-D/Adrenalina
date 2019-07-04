@@ -20,31 +20,54 @@ public class RespawnState implements GameState {
         this.firstRound = firstRound;
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSquare(int index) {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     *
+     * To do the select PowerUp request which received from client terminal
+     *
+     * @param powerUp The powerupID which the player selected
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
         lobby.respawnWithPowerup(powerUp);
@@ -56,42 +79,69 @@ public class RespawnState implements GameState {
         return "OK";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectWeapon(int weaponID) {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) {
         return null;
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) { return "You are dead! Discard a powerup card to choose your spawn point"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String moveSubAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String goBack() {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) {
         return "You are dead! Discard a powerup card to choose your spawn point";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "You are dead! Discard a powerup card to choose your spawn point";

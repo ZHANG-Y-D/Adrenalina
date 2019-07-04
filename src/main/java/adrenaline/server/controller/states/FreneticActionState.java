@@ -20,26 +20,48 @@ public class FreneticActionState implements GameState {
         this.lobby = lobby;
         validSquares = lobby.sendCurrentPlayerValidSquares(runrange);
     }
+
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         return "Select which weapon you want to use first";
     }
 
+    /**
+     *
+     * To do the select square request which received from client terminal
+     *
+     * @param index The square index from 0 to 11
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectSquare(int index) {
         if(!moveExecuted && validSquares.contains(index)){
@@ -51,12 +73,29 @@ public class FreneticActionState implements GameState {
         }else return "You can't move there!";
     }
 
+    /**
+     *
+     * To do the select PowerUp request which received from client terminal
+     *
+     * @param powerUp The powerupID which the player selected
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
         lobby.consumePowerup(powerUp);
         return "OK";
     }
 
+    /**
+     *
+     * To do the select Weapon request which received from client terminal
+     *
+     * @param weaponID The weaponID which the player selected
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectWeapon(int weaponID) {
         selectedWeapon = lobby.useWeapon(weaponID, true);
@@ -64,6 +103,14 @@ public class FreneticActionState implements GameState {
         else return "OK Select the firemode";
     }
 
+    /**
+     *
+     * To do the select Firemode request which received from client terminal
+     *
+     * @param firemode The number of firemode from 0 to 2
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectFiremode(int firemode) {
         if(selectedWeapon == null) return "No weapon is selected! Please select a weapon first";
@@ -81,24 +128,45 @@ public class FreneticActionState implements GameState {
         }
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) { return "Select a weapon or GO BACK to action selection!"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String moveSubAction() {
         return "Select a weapon or GO BACK to action selection!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() {
         return "Select a weapon or GO BACK to action selection!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) {
         return "Select a weaopon or GO BACK to action selection!";
     }
 
+
+    /**
+     *
+     * To do the go Back action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String goBack() {
         lobby.setState(new SelectFreneticActionState(lobby));
@@ -106,11 +174,17 @@ public class FreneticActionState implements GameState {
         return "OK";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";

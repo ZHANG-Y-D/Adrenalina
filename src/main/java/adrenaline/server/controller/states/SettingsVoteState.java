@@ -25,72 +25,123 @@ public class SettingsVoteState implements GameState {
         skullsVotes = new ArrayList<>();
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSquare(int index) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectWeapon(int weaponID) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) { return "KO"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String moveSubAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String goBack() {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) {
         return "KO";
     }
 
+    /**
+     *
+     * To do the select Settings action request which received from client terminal
+     *
+     * @param mapID The id of map which select from client from 1 to 4
+     * @param skulls The skulls selected from client from 5 to 8
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         synchronized (leftToVote) {

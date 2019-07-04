@@ -35,15 +35,32 @@ public class glFiremodeState implements FiremodeSubState {
         validSquares = lobby.sendCurrentPlayerValidSquares(firemode);
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() {return "Select your target(s) or GO BACK."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {return "Select your target(s) or GO BACK."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() {return "Select your target(s) or GO BACK."; }
 
+    /**
+     *
+     * To do the select player action request which received from client terminal
+     *
+     * @param playersColor The ArrayList of players' color
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         if(playerCompleted) return "You can't target any more players! Select a square or GO BACK.";
@@ -66,6 +83,15 @@ public class glFiremodeState implements FiremodeSubState {
         } catch (InvalidTargetsException e) { return "Invalid targets!"; }
     }
 
+    /**
+     *
+     * To do the select square request which received from client terminal
+     *
+     * @param index The square index from 0 to 11
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectSquare(int index) {
         String completedmsg = "";
@@ -105,39 +131,75 @@ public class glFiremodeState implements FiremodeSubState {
         }
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {return "Select your target(s) or GO BACK."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectWeapon(int weaponID) {return "Select your target(s) or GO BACK."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) {return "Select your target(s) or GO BACK."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) {
         return "Select your target(s) or GO BACK.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String moveSubAction() { return "You can't do that now!"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() {return "Select your target(s) or GO BACK."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
+
+    /**
+     *
+     * To do the go Back action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String goBack() {
         lobby.setState(new SelectActionState(lobby));
         return "OK";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) { return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) { return "KO"; }
 }

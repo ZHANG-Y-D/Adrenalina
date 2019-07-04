@@ -22,15 +22,32 @@ public class NewtonState implements GameState {
         this.currPlayer = currPlayer;
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() { return "Select the target you want to move."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() { return "Select the target you want to move."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() { return "Select the target you want to move."; }
 
+    /**
+     *
+     * To do the select player action request which received from client terminal
+     *
+     * @param playersColor The ArrayList of players' color
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         if(playersColor.get(0).equals(currPlayer)) return "You can't use this powerup on yourself!";
@@ -43,6 +60,16 @@ public class NewtonState implements GameState {
         return "OK";
     }
 
+
+    /**
+     *
+     * To do the select square request which received from client terminal
+     *
+     * @param index The square index from 0 to 11
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectSquare(int index) {
         if(validSquares==null) return "Select a target first!";
@@ -54,38 +81,73 @@ public class NewtonState implements GameState {
         }else return "You can't move your target there! Please select a valid square.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) { return "Select the target you want to move."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectWeapon(int weaponID) { return "Select the target you want to move."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) { return "Select the target you want to move."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) { return "You can't do that now!"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String moveSubAction() { return "Select the target you want to move."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() { return "Select the target you want to move."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
+    /**
+     *
+     * To do the go Back action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String goBack() {
         lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         return "OK Select an action";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";

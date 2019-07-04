@@ -23,35 +23,62 @@ public class WeaponGrabState implements GameState {
         this.weaponSquare = weaponSquare;
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() {
         return "Select a weapon to grab it or GO BACK to terminate your action";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {
         return "Select a weapon to grab it or GO BACK to terminate your action";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() {
         return "Select a weapon to grab it or GO BACK to terminate your action";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) { return "Select a weapon to grab it or GO BACK to terminate your action"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSquare(int index) {
         return "Select a weapon to grab it or GO BACK to terminate your action";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
         lobby.consumePowerup(powerUp);
         return "OK";
     }
 
+    /**
+     *
+     * To do the select Weapon request which received from client terminal
+     *
+     * @param weaponID The weaponID which the player selected
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectWeapon(int weaponID) {
         if(!swapping) {
@@ -83,26 +110,50 @@ public class WeaponGrabState implements GameState {
         }
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) {
         return "You can't do that now!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) { return "You can't do that now!"; }
 
+    /**
+     * The client can't do this at current time
+     */
     public String moveSubAction() {
         return "You can't do that now!";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() {
         return "Select a weapon to grab it or GO BACK to terminate your action";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
+
+    /**
+     *
+     * To do the go Back action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String goBack() {
         lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
@@ -110,11 +161,17 @@ public class WeaponGrabState implements GameState {
         return "OK";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";
