@@ -42,6 +42,11 @@ import java.util.*;
 import static javafx.scene.effect.BlurType.GAUSSIAN;
 
 
+/**
+ *
+ * The third stage of this game, to implement the game flow
+ *
+ */
 public class GameViewController implements ViewInterface, PropertyChangeListener {
 
     @FXML
@@ -83,6 +88,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     private int mode0 = 0, mode1 = 0, mode2 = 0;
     private Random rand = new Random();
 
+
+    /**
+     *
+     * To init this stage
+     *
+     */
     public void initialize(){
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 30);
         timerLabel.setFont(font);
@@ -135,6 +146,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         firemodeMap = gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/Firemode.json")), type);
     }
 
+    /**
+     *
+     * To set the current controller
+     *
+     * @param gameController The gameController reference
+     */
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
         gameController.addPropertyChangeListener(this);
@@ -142,6 +159,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         updatePlayer(gameController.getPlayersMap());
     }
 
+
+    /**
+     *
+     * To init HUD
+     *
+     */
     private void initializeHUD(){
         Map modelMap = gameController.getMap();
         String path = "url(/Graphic-assets/Maps/MAP"+ modelMap.getMapID()+".png)";
@@ -264,6 +287,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
+
+    /**
+     *
+     * For send the chat message
+     *
+     */
     public void sendMessage(){
         String message = txtMsg.getText();
         if(message.length()>0){
@@ -272,6 +301,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         txtMsg.setText("");
     }
 
+    /**
+     *
+     * For select square
+     *
+     */
     public void selectSquare(Event event){
         ImageView square = (ImageView) event.getSource();
         Platform.runLater(()-> {
@@ -280,6 +314,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         gameController.selectSquare(Integer.parseInt(square.getId().substring(4)));
     }
 
+    /**
+     *
+     * For show the error message from server
+     *
+     * @param error the error message
+     */
     public void showError(String error) {
         Platform.runLater(() -> {
             message.getStyleClass().clear();
@@ -289,6 +329,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
+    /**
+     *
+     * For show the OK message from server
+     *
+     * @param message the ok message
+     */
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> {
@@ -302,6 +348,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
+    /**
+     *
+     * For get the change stage signal from game controller
+     *
+     */
     public void changeStage() {
         if(gameController.getProperyChangeListeners().length != 0) {
             gameController.removePropertyChangeListener(this);
@@ -321,6 +372,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     * Notify the server timer is stared
+     *
+     * @param duration The timer duration
+     * @param comment The comment, it will remind now it's witch player's turn
+     */
     public void notifyTimer(Integer duration, String comment) {
         Platform.runLater(() -> {
             shootState = false;
@@ -384,6 +442,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
+    /**
+     *
+     * For listen property Change from server
+     * @param evt Property Change Event
+     *
+     */
     public void propertyChange(PropertyChangeEvent evt) {
         Platform.runLater(()-> {
             for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(false);
@@ -402,6 +466,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     * For selectAction
+     * @param evt The event
+     */
     public void selectAction(Event evt){
         message.setText("");
         Button button = (Button) evt.getSource();
@@ -423,6 +492,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     * For draw a bottom
+     * @param mouseEvent The mouse event
+     */
     public synchronized void drawBottom(MouseEvent mouseEvent){
         ImageView bottom = new ImageView();
         ImageView image = (ImageView) mouseEvent.getSource();
@@ -460,16 +534,32 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         fadeIn.play();
     }
 
+    /**
+     *
+     *
+     * To show the Triangles
+     *
+     */
     public void showTriangles(){
         if(!gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards().isEmpty()) powerupTriangle.setVisible(true);
         if(!gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards().isEmpty()) weaponTriangle.setVisible(true);
     }
 
+    /**
+     *
+     * To hide the Triangles
+     *
+     */
     public void hideTriangles(){
         powerupTriangle.setVisible(false);
         weaponTriangle.setVisible(false);
     }
 
+    /**
+     *
+     * To update scoreboard
+     * @param scoreBoard The client side scoreBoard
+     */
     private void updateScoreBoard(ScoreBoard scoreBoard) {
         if(gameController.getFinalFrenzyMode() != 0) frenzyChange(gameController.getFinalFrenzyMode());
 
@@ -530,6 +620,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
+    /**
+     *
+     * To update Map
+     * @param newMap The client side Map
+     */
     private void updateMap(Map newMap){
         Platform.runLater(() -> {
             HashMap<Integer,Integer> ammoMap = newMap.getAmmoMap();
@@ -555,7 +650,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
-
+    /**
+     *
+     * To update Player status
+     * @param newPlayersMap The client side Player HashMap
+     */
     public void updatePlayer(HashMap<adrenaline.Color, Player> newPlayersMap){
         //set own powerups
         Player ownPlayer = newPlayersMap.get(gameController.getOwnColor());
@@ -661,6 +760,15 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         updatePosition(newPlayersMap);
     }
 
+    /**
+     *
+     * To update damage marks
+     *
+     * @param list The color ArrayList
+     * @param damageTracker The damage track
+     * @param height The height
+     * @param width The width
+     */
     private void updateDamageMarks(ArrayList<adrenaline.Color> list, HBox damageTracker, int height, int width){
         if(list.isEmpty()) damageTracker.getChildren().clear();
         else {
@@ -677,6 +785,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     *
+     * To update players' positions
+     *
+     * @param newPlayersMap The newPlayersMap HashMap
+     */
     private void updatePosition(HashMap<adrenaline.Color,Player> newPlayersMap){
         newPlayersMap.forEach((x,y) -> {
             Platform.runLater(() -> {
@@ -741,6 +856,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
+    /**
+     *
+     * For select target
+     *
+     * @param event The event
+     */
     private void selectTarget(Event event) {
         ImageView token = (ImageView) event.getSource();
         if(shootState) {
@@ -753,6 +874,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     * For player get free position
+     *
+     * @param pane The pane
+     * @return The Position
+     */
     private Position getFreePosition(Pane pane){
         ArrayList<Position> positionList = positionMap.get(pane);
         if(positionList == null) return Position.CENTER;
@@ -763,6 +891,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     * For the next powerup
+     *
+     */
     public void nextPowerUp(){
         ArrayList<Integer> powerUpList = gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards();
         String powerup = myPowerup.getImage().getUrl();
@@ -776,6 +909,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     }
 
+    /**
+     *
+     * For the next weapon
+     *
+     */
     public void nextWeapon(){
         ArrayList<Integer> weaponList = gameController.getPlayersMap().get(gameController.getOwnColor()).getWeaponCards();
         String weapon = myWeapon.getImage().getUrl();
@@ -788,6 +926,10 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         myWeapon.setImage(new Image(new File(getClass().getResource(weapon).toExternalForm()).toString()));
     }
 
+    /**
+     *
+     * For select powerup
+     */
     public void selectPowerUp(){
         message.setText("");
         String powerupID = myPowerup.getImage().getUrl();
@@ -796,6 +938,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         gameController.selectPowerUp(Integer.parseInt(powerupID));
     }
 
+    /**
+     *
+     * For select weapon
+     * @param event The event
+     */
     public void selectWeapon(Event event){
         message.setText("");
         //targets.forEach(x -> tokensMap.getProperyChangeListeners(x).setEffect(null));
@@ -807,6 +954,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         if(weapon == myWeapon) weaponSelection(Integer.parseInt(weaponID));
     }
 
+    /**
+     *
+     * To weapon select on gui level
+     *
+     * @param weaponID The weapon ID
+     */
     private void weaponSelection(int weaponID){
         if(shootState) {
             ownCard.setVisible(false);
@@ -854,6 +1007,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     * To select Firemode
+     *
+     * @param event The event
+     */
     public void selectFiremode(Event event) {
         Pane clickedFiremode = (Pane) event.getSource();
         int firemodeID = Integer.parseInt(clickedFiremode.getId().substring(12));
@@ -870,6 +1029,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     * To send shoot
+     *
+     */
     public void sendShoot() {
         if(targets.isEmpty()){
             gameController.selectFiremode(mode0+mode1+mode2);
@@ -882,6 +1046,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }
     }
 
+    /**
+     *
+     * To clear shoot Info
+     *
+     */
     private void clearShootInfo(){
         mode1 = 0;
         mode2 = 0;
@@ -897,25 +1066,50 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ownCard.setVisible(true);
     }
 
+
+    /**
+     * To show the enemy cards
+     * @param event The event
+     */
     private void showEnemyCards(Event event){
         Node source = (Node) event.getSource();
         Pane parent = (Pane) source.getParent();
         parent.getChildren().get(7).setVisible(true);
     }
 
+    /**
+     *
+     * To hide enemy pane
+     *
+     * @param event The event
+     */
     private void hideEnemyPane(Event event) {
         Pane source = (Pane) event.getSource();
         source.setVisible(false);
     }
 
+    /**
+     * To do move sub action
+     */
     public void moveSub(){ gameController.moveSubAction(); }
 
+
+    /**
+     *
+     * To select ammo box
+     * @param event The event
+     */
     public void selectAmmo(Event event){
         ImageView ammo = (ImageView) event.getSource();
         String ammoId = ammo.getId().substring(0, ammo.getId().length()-5);
         gameController.selectAmmo((adrenaline.Color.valueOf(ammoId.toUpperCase())));
     }
 
+    /**
+     *
+     * To implement frenzy mode
+     * @param frenzyMode The frenzyMode mode number 1 or 2
+     */
     private void frenzyChange(int frenzyMode){
         run.setVisible(false);
         grab.setVisible(false);
@@ -924,6 +1118,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         else finalFrenzy2.setVisible(true);
     }
 
+    /**
+     *
+     * To select final frenzy action
+     * @param event The event
+     */
     public void selectFinalFrenzyAction(Event event){
         Button button = (Button) event.getSource();
         String buttonId = button.getId().substring(5);
@@ -931,6 +1130,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         shootState = true;
     }
 
+    /**
+     *
+     * To close the stage and connect
+     *
+     */
     public void close() {
         boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
         if (answer) {

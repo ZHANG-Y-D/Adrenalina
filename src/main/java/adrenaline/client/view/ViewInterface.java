@@ -18,7 +18,7 @@ public interface ViewInterface {
      *
      * For show the error message from server
      *
-     * @param error
+     * @param error the error message
      */
     void showError(String error);
 
@@ -26,7 +26,7 @@ public interface ViewInterface {
      *
      * For show the OK message from server
      *
-     * @param message
+     * @param message the ok message
      */
     void showMessage(String message);
 

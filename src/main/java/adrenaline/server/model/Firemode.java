@@ -41,9 +41,9 @@ public class Firemode {
 
     /**
      *
+     * To get move self step
      *
-     *
-     * @return
+     * @return A reference of MoveSelfState
      */
     public MoveSelfState getMoveSelfStep() {
         if(allowedMovement>0){
@@ -55,11 +55,11 @@ public class Firemode {
 
     /**
      *
+     * To get range of this action
      *
-     *
-     * @param shooterPosition
-     * @param map
-     * @return
+     * @param shooterPosition The shooter's Position
+     * @param map A reference of map
+     * @return An Integer aArrayList of Range
      */
     public ArrayList<Integer> getRange(int shooterPosition, Map map){
         ArrayList<Integer> validSquares = new ArrayList<Integer>();
@@ -72,12 +72,12 @@ public class Firemode {
 
     /**
      *
+     * To check targets
      *
-     *
-     * @param shooter
-     * @param targets
-     * @param map
-     * @return
+     * @param shooter The reference of shooter
+     * @param targets A Player ArrayList
+     * @param map A reference of map
+     * @return True if this action is ok for game rules
      */
     public boolean checkTargets(Player shooter, ArrayList<Player> targets, Map map) {
         ArrayList<Integer> validSquares = getRange(shooter.getPosition(), map);

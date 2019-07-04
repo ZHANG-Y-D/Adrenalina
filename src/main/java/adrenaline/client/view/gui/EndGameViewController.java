@@ -18,6 +18,12 @@ import javafx.util.Duration;
 
 import java.util.*;
 
+/**
+ *
+ *
+ * The end game stage,the last stage of this game
+ *
+ */
 public class EndGameViewController {
 
     @FXML
@@ -31,6 +37,11 @@ public class EndGameViewController {
     private HashMap<Color, String> nicknamesMap  = new HashMap<>();
     private GameController gameController;
 
+    /**
+     *
+     * For init this stage
+     *
+     */
     public void initialize(){
         Font font = Font.loadFont(ClientGui.class.getResourceAsStream("/airstrike.ttf"), 80);
         winnerText.setFont(font);
@@ -39,11 +50,22 @@ public class EndGameViewController {
         close.setFont(font);
     }
 
+    /**
+     *
+     * To set the current controller
+     *
+     * @param gameController The gameController reference
+     */
     public void setController(GameController gameController){
         this.gameController = gameController;
         setPlayers();
     }
 
+    /**
+     *
+     * To set players
+     *
+     */
     private void setPlayers(){
         Map<Color, Integer> playersMap = gameController.getScoreBoard().getFinalPlayersPosition();
         Map<Color, Integer> scoreMap = gameController.getScoreBoard().getScoreMap();
@@ -105,6 +127,11 @@ public class EndGameViewController {
         animation();
     }
 
+    /**
+     *
+     * To do a animation
+     *
+     */
     private void animation(){
         ArrayList<Node> playersList = new ArrayList<>(losersBox.getChildren());
         Collections.reverse(playersList);
@@ -119,6 +146,12 @@ public class EndGameViewController {
         sequence.play();
     }
 
+    /**
+     *
+     *
+     * To exit the game and close connect
+     *
+     */
     public void close(){
         boolean answer = ConfirmBox.display("QUIT", "Are you sure you want to exit?");
         if (answer) {

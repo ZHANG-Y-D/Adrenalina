@@ -8,10 +8,24 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ *
+ * To confirm box on view level
+ *
+ */
 public class ConfirmBox {
 
     static boolean answer;
 
+    /**
+     *
+     *
+     * A static method to display a stage
+     *
+     * @param title The title string
+     * @param message The message string
+     * @return the boolean value of answer
+     */
     public static boolean display(String title, String message){
         Stage stage = new Stage();
 

@@ -149,7 +149,7 @@ public abstract class ControllerCli{
                 System.out.print(printString);
                 break;
             case "ansi":
-                System.out.println(ansi().eraseScreen().render(printString));
+                System.out.println(ansi().render(printString));
                 break;
             default:
                 System.out.println(printString);
@@ -220,7 +220,7 @@ public abstract class ControllerCli{
 
             Ansi.Color ansiColor = transferColorToAnsiColor(players.getValue());
 
-            System.out.println(ansi().eraseScreen().bold().fg(ansiColor).a(num+"."+players.getKey()));
+            System.out.println(ansi().bold().fg(ansiColor).a(num+"."+players.getKey()));
 
             num++;
         }
@@ -368,7 +368,7 @@ public abstract class ControllerCli{
 
             System.out.println("----------------");
             System.out.print("--->");
-            System.out.println(ansi().eraseScreen().bold().
+            System.out.println(ansi().bold().
                     fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault());
 
             System.out.println("Position: "+modelPlayer.getPosition());
@@ -522,20 +522,25 @@ public abstract class ControllerCli{
             Map<Color, Integer> rankingPlayer = gameController.getScoreBoard().getFinalPlayersPosition();
 
             System.out.print("|--->");
-            System.out.println(ansi().eraseScreen().bold().
+            System.out.println(ansi().bold().
                     fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault()+" : "+
                             rankingPlayer.get(player.getValue()));
 
-            if (rankingPlayer.get(player.getValue())==1) {
-                winPlayer=player.getKey();
+            try {
+                if (rankingPlayer.get(player.getValue())==1) {
+                    winPlayer=player.getKey();
+
+                }
+            }catch (NullPointerException ignore){
 
             }
+
 
         }
 
 
         System.out.println("\n-------->");
-        System.out.println(ansi().eraseScreen().bold().
+        System.out.println(ansi().bold().
                 fg(transferColorToAnsiColor(gameController.getPlayersNicknames().get(winPlayer)))
                     .a(winPlayer).fgDefault()+ " is final winner!!! Congratulation!!! ");
 
@@ -558,7 +563,7 @@ public abstract class ControllerCli{
             Map<Color, Integer> scorePlayer = gameController.getScoreBoard().getScoreMap();
 
             System.out.print("--->");
-            System.out.println(ansi().eraseScreen().bold().
+            System.out.println(ansi().bold().
                     fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault()+" : "+
                     scorePlayer.get(player.getValue()));
 

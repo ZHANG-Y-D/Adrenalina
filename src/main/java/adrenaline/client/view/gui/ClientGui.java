@@ -9,11 +9,22 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
+/**
+ *
+ *
+ * For start the Gui
+ *
+ */
 public class ClientGui extends Application{
 
     private Stage window;
 
+    /**
+     *
+     * For start the gui view
+     *
+     * @param primaryStage the primary Stage
+     */
     public void start(Stage primaryStage)throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/InitialView.fxml"));
         Parent root = loader.load();
