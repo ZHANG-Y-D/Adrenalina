@@ -306,12 +306,8 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
                             String imgUrl = y.getImage().getUrl();
                             String imgName = new File(imgUrl).getName();
                             if (colorMap.get(imgUrl) == x && !imgName.contains("TAKEN")) {
-                                String newImgUrl = "/Graphic-assets/Avatars/" + imgName.substring(0, imgName.length() - 4) + "-TAKEN.png";
-                                try {
-                                    y.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
-                                } catch (URISyntaxException e) {
-                                    e.printStackTrace();
-                                }
+                                String newImgUrl = File.separator+"Graphic-assets"+File.separator+"Avatars"+ File.separator + imgName.substring(0, imgName.length() - 4) + "-TAKEN.png";
+                                y.setImage(new Image(new File(getClass().getResource(newImgUrl).toExternalForm()).toString()));
                                 colorMap.put(y.getImage().getUrl(), colorMap.remove(imgUrl));
                             }
                         });
