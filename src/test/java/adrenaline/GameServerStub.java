@@ -8,6 +8,5 @@ import java.util.ArrayList;
 
 public class GameServerStub extends GameServer {
 
-    public GameServerStub(){
-    }
+    public GameServerStub(){ }
 }

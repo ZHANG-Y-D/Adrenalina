@@ -97,5 +97,5 @@ class LobbyStatesTest {
         lobby.setState(new SelectActionState(lobby));
         assertEquals("KO", lobby.selectSettings("client1",0,0));
     }
-    
+
 }

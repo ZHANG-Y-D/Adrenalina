@@ -82,8 +82,6 @@ public class Lobby implements Runnable, LobbyAPI {
         System.out.println("NEW LOBBY STARTED WITH "+ clients.size()+" USERS.");
     }
 
-    public LinkedHashMap<String,Client> getClientMap(){ return clientMap;}
-
     public HashMap<String, Player> getPlayersMap(){ return playersMap; }
 
     public String getID() {
