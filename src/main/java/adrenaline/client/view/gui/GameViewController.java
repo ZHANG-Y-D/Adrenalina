@@ -68,7 +68,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             weaponRed1, weaponRed2, weaponRed3, weaponBlue1, weaponBlue2, weaponBlue3, weaponYellow1, weaponYellow2, weaponYellow3,
                      myWeapon,myPowerup, bgWeapon1, bgWeapon2, bgPowerup1, bgPowerup2, firemodeBackground, fire0, fire1, fire2;
     @FXML
-    private Label message, timerLabel, timerComment, ownPoints, pointsLabel;
+    private Label message, secondMessage, timerLabel, timerComment, ownPoints, pointsLabel;
     @FXML
     private Polygon powerupTriangle,weaponTriangle;
     private Timer clock = null;
@@ -91,7 +91,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To init this stage
+     * Initializes the stage and sets the css
      *
      */
     public void initialize(){
@@ -103,6 +103,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         timerLabel.setTextFill(Color.WHITE);
         timerComment.setTextFill(Color.WHITE);
         message.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
+        secondMessage.setStyle("-fx-font-family: Helvetica ; -fx-font-weight: bold");
         powerupTriangle.getStyleClass().add("triangle");
         weaponTriangle.getStyleClass().add("triangle");
         redAmmo1.getStyleClass().add("ammo");
@@ -148,7 +149,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To set the current controller
+     * Sets the current controller
      *
      * @param gameController The gameController reference
      */
@@ -162,7 +163,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To init HUD
+     * Initializes the HUD by taking the info chosen by the clients of players and map
      *
      */
     private void initializeHUD(){
@@ -290,7 +291,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For send the chat message
+     * Takes the message from the chat label and sends it to the server
      *
      */
     public void sendMessage(){
@@ -303,7 +304,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For select square
+     * Selects the map square
      *
      */
     public void selectSquare(Event event){
@@ -316,41 +317,60 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For show the error message from server
+     * Shows the error message from server
      *
      * @param error the error message
      */
     public void showError(String error) {
         Platform.runLater(() -> {
+            message.setLayoutY(575);
+            secondMessage.setText("");
             message.getStyleClass().clear();
             message.getStyleClass().add("RED");
-            this.message.setText(error);
-            //shootState = false;
+            message.setText(error);
+            if(error.length() > 41){
+                String secondPart = error.substring(41);
+                secondMessage.setText(secondPart);
+                secondMessage.getStyleClass().add("RED");
+                message.setText(error.substring(0,41));
+                message.setLayoutY(message.getLayoutY() -20);
+            }
+            tokensMap.values().forEach(x -> x.setEffect(null));
         });
     }
 
     /**
      *
-     * For show the OK message from server
+     * Shows the OK message from server
      *
      * @param message the ok message
      */
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> {
+            this.message.setLayoutY(575);
+            secondMessage.setText("");
             this.message.getStyleClass().clear();
             this.message.getStyleClass().add("GREEN");
             this.message.setText(message);
+            if(message.length() > 41){
+                String secondPart = message.substring(41);
+                secondMessage.setText(secondPart);
+                secondMessage.getStyleClass().add("GREEN");
+                this.message.setText(message.substring(0,41));
+                this.message.setLayoutY(this.message.getLayoutY() -20);
+            }
             if(message.contains("HIT")) {
                 clearShootInfo();
                 shootState = false;
             }
+            tokensMap.values().forEach(x -> x.setEffect(null));
         });
     }
 
     /**
      *
-     * For get the change stage signal from game controller
+     * Changes the stage to the End Game stage
      *
      */
     public void changeStage() {
@@ -358,7 +378,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             gameController.removePropertyChangeListener(this);
             Platform.runLater(() -> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("EndGameView.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/EndGameView.fxml"));
                     Parent nextView = loader.load();
                     Scene scene = new Scene(nextView);
                     EndGameViewController endGameViewController = loader.getController();
@@ -468,11 +488,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For selectAction
+     * Selects the action
      * @param evt The event
      */
     public void selectAction(Event evt){
         message.setText("");
+        secondMessage.setText("");
         Button button = (Button) evt.getSource();
         switch (button.getId()){
             case "reload": gameController.endTurn(); break;
@@ -494,7 +515,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For draw a bottom
+     * Draws the bottom of the weapon card when the mouse is on the card
      * @param mouseEvent The mouse event
      */
     public synchronized void drawBottom(MouseEvent mouseEvent){
@@ -537,7 +558,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     /**
      *
      *
-     * To show the Triangles
+     * Shows the triangles for swipe the weapon and power up cards
      *
      */
     public void showTriangles(){
@@ -547,7 +568,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To hide the Triangles
+     * Hides the Triangles for swipe the weapon and power up cards
      *
      */
     public void hideTriangles(){
@@ -557,7 +578,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To update scoreboard
+     * Updates the scoreboard. In particular updates players score and max death points and the kills counter
      * @param scoreBoard The client side scoreBoard
      */
     private void updateScoreBoard(ScoreBoard scoreBoard) {
@@ -622,7 +643,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To update Map
+     * Updates the cards on the map.
      * @param newMap The client side Map
      */
     private void updateMap(Map newMap){
@@ -652,7 +673,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To update Player status
+     * Updates the Player status. In particular powerups, damage, marks, weapons, ammo and position
      * @param newPlayersMap The client side Player HashMap
      */
     public void updatePlayer(HashMap<adrenaline.Color, Player> newPlayersMap){
@@ -762,7 +783,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To update damage marks
+     * Updates the damage and the marks
      *
      * @param list The color ArrayList
      * @param damageTracker The damage track
@@ -788,7 +809,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
     /**
      *
      *
-     * To update players' positions
+     * Updates players' positions using a translate transition
      *
      * @param newPlayersMap The newPlayersMap HashMap
      */
@@ -858,7 +879,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For select target
+     * Selects the targets
      *
      * @param event The event
      */
@@ -876,7 +897,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For player get free position
+     * Gets a free position in the given square
      *
      * @param pane The pane
      * @return The Position
@@ -893,7 +914,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For the next powerup
+     * Shows the next player power up
      *
      */
     public void nextPowerUp(){
@@ -911,7 +932,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For the next weapon
+     * Shows the next player weapon
      *
      */
     public void nextWeapon(){
@@ -928,10 +949,11 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For select powerup
+     * Selects the powerup
      */
     public void selectPowerUp(){
         message.setText("");
+        secondMessage.setText("");
         String powerupID = myPowerup.getImage().getUrl();
         powerupID = new File(powerupID).getName();
         powerupID = powerupID.substring(powerupID.indexOf('-') + 1, powerupID.indexOf('.'));
@@ -940,12 +962,12 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * For select weapon
+     * Selects the weapon
      * @param event The event
      */
     public void selectWeapon(Event event){
         message.setText("");
-        //targets.forEach(x -> tokensMap.getProperyChangeListeners(x).setEffect(null));
+        secondMessage.setText("");
         ImageView weapon = (ImageView) event.getSource();
         String weaponID = weapon.getImage().getUrl();
         weaponID = new File(weaponID).getName();
@@ -956,7 +978,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To weapon select on gui level
+     * Sets up the layout for the firemode selection using the select weapon
      *
      * @param weaponID The weapon ID
      */
@@ -1009,7 +1031,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To select Firemode
+     * Selects the firemode and highlights it on the gui
      *
      * @param event The event
      */
@@ -1031,7 +1053,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To send shoot
+     * Sends the selected shoot info
      *
      */
     public void sendShoot() {
@@ -1041,14 +1063,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         else {
             gameController.selectPlayers(targets);
             targets.forEach(x -> tokensMap.get(x).setEffect(null));
-            //for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().getProperyChangeListeners(0).setVisible(false);
             shootState = false;
         }
     }
 
     /**
      *
-     * To clear shoot Info
+     * Clears the shoot Info
      *
      */
     private void clearShootInfo(){
@@ -1068,7 +1089,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
 
     /**
-     * To show the enemy cards
+     * Shows the enemy cards
      * @param event The event
      */
     private void showEnemyCards(Event event){
@@ -1079,7 +1100,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
 
     /**
      *
-     * To hide enemy pane
+     * Hides the enemy pane
      *
      * @param event The event
      */

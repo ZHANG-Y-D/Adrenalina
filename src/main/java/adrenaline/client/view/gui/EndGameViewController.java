@@ -39,7 +39,7 @@ public class EndGameViewController {
 
     /**
      *
-     * For init this stage
+     * Initializes the stage setting the css on the nodes
      *
      */
     public void initialize(){
@@ -52,7 +52,7 @@ public class EndGameViewController {
 
     /**
      *
-     * To set the current controller
+     * Sets the current controller
      *
      * @param gameController The gameController reference
      */
@@ -63,7 +63,7 @@ public class EndGameViewController {
 
     /**
      *
-     * To set players
+     * Sets the labels order by score
      *
      */
     private void setPlayers(){
@@ -129,7 +129,7 @@ public class EndGameViewController {
 
     /**
      *
-     * To do a animation
+     * Does the fade in animation of the nodes
      *
      */
     private void animation(){
@@ -149,7 +149,7 @@ public class EndGameViewController {
     /**
      *
      *
-     * To exit the game and close connect
+     * Exits the game and close the connection
      *
      */
     public void close(){
