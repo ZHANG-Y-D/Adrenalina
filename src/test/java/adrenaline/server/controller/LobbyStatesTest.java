@@ -3,9 +3,7 @@ package adrenaline.server.controller;
 import adrenaline.ClientStub;
 import adrenaline.Color;
 import adrenaline.CustomSerializer;
-import adrenaline.GameServerStub;
-import adrenaline.server.controller.states.FirePlayerState;
-import adrenaline.server.controller.states.MoveEnemyState;
+import adrenaline.server.GameServer;
 import adrenaline.server.controller.states.SelectActionState;
 import adrenaline.server.model.*;
 import adrenaline.server.network.Client;
@@ -19,7 +17,6 @@ import java.io.FileReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,7 +32,7 @@ class LobbyStatesTest {
         clients.add(new ClientStub("client1"));
         clients.add(new ClientStub("client2"));
         clients.add(new ClientStub("client3"));
-        lobby = new Lobby(clients, new GameServerStub());
+        lobby = new Lobby(clients, new GameServer());
         lobby.setCurrentTurnPlayer("client1");
         lobby.initCurrentPlayer(new Avatar("SPROG", Color.GREEN), true);
         lobby.setCurrentTurnPlayer("client2");

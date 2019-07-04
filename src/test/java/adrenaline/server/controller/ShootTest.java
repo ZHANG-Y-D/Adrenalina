@@ -3,7 +3,7 @@ package adrenaline.server.controller;
 import adrenaline.ClientStub;
 import adrenaline.Color;
 import adrenaline.CustomSerializer;
-import adrenaline.GameServerStub;
+import adrenaline.server.GameServer;
 import adrenaline.server.exceptions.InvalidTargetsException;
 import adrenaline.server.model.*;
 import adrenaline.server.model.constraints.SameSquareConstraint;
@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,7 +35,7 @@ class ShootTest {
         clients.add(new ClientStub("client1"));
         clients.add(new ClientStub("client2"));
         clients.add(new ClientStub("client3"));
-        lobby = new Lobby(clients, new GameServerStub());
+        lobby = new Lobby(clients, new GameServer());
         lobby.setCurrentTurnPlayer("client1");
         lobby.initCurrentPlayer(new Avatar("SPROG", Color.GREEN), true);
         lobby.setCurrentTurnPlayer("client2");
@@ -107,7 +106,6 @@ class ShootTest {
         assertThrows(InvalidTargetsException.class, () -> lobby.applyFire(firemode,new ArrayList<Player>(), damageList));
         ArrayList<Player> targets = new ArrayList<>(Arrays.asList(player1,player2,player3));
         int player2damage = player2.getDamageTrack().size();
-        int player3damage = player3.getDamageTrack().size();
         try {
             lobby.applyFire(firemode,targets,damageList);
             assertEquals(player2damage + 1, player2.getDamageTrack().size());
