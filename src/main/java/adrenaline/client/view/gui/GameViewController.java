@@ -1,4 +1,4 @@
-package adrenaline.client.view.GuiView;
+package adrenaline.client.view.gui;
 
 import adrenaline.client.controller.GameController;
 import adrenaline.client.model.Map;
@@ -10,7 +10,6 @@ import com.google.gson.reflect.TypeToken;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

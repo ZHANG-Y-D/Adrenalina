@@ -1,16 +1,12 @@
-package adrenaline.client.view.CliView;
+package adrenaline.client.view.cli;
 
 
 import adrenaline.Color;
 import adrenaline.client.controller.GameController;
 import adrenaline.client.view.ViewInterface;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Random;
-
-import static java.util.UUID.randomUUID;
 
 /**
  *

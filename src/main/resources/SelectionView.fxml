@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="selectionPane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.GuiView.SelectionViewController">
+<Pane fx:id="selectionPane" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrenaline.client.view.gui.SelectionViewController">
    <children>
       <Label fx:id="title" alignment="CENTER" layoutX="340.0" layoutY="-30" prefHeight="150.0" prefWidth="600.0" text="SELECT AVATAR" textAlignment="CENTER" />
       <Button fx:id="close" layoutX="1240.0" layoutY="-2.0" onAction="#close" text="X" />

@@ -101,7 +101,6 @@ public class GameServer {
                         try {
                             clientsWaitingList.wait(timeremaining);
                         } catch (InterruptedException e) {
-                            //add logger
                             Thread.currentThread().interrupt();
                         }
                     }

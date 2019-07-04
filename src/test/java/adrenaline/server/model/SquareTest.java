@@ -1,6 +1,9 @@
 package adrenaline.server.model;
+import adrenaline.ClientStub;
 import adrenaline.CustomSerializer;
+import adrenaline.server.GameServer;
 import adrenaline.server.controller.Lobby;
+import adrenaline.server.network.Client;
 import adrenaline.server.network.ClientRMIWrapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SquareTest {
 
     private static Map map;
-    private
+    private static Lobby lobby;
 
     @BeforeAll
     static void init() {
@@ -27,10 +30,24 @@ class SquareTest {
             gsonBld.registerTypeAdapter(Square.class, new CustomSerializer());
             Gson gson = gsonBld.create();
             map = gson.fromJson(fileReader, Map.class);
-            map.setObservers(new ArrayList<>());
+            ArrayList<Client> clients = new ArrayList<>();
+            clients.add(new ClientStub("test"));
+            map.setObservers(clients);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        /*ArrayList<Client> clients = new ArrayList<>();
+        clients.add(new ClientStub());
+        lobby = new Lobby(clients, new GameServer());*/
+    }
+
+    @Test
+    void setCardTest(){
+        /*SquareAmmo squareAmmo = (SquareAmmo) map.getSquare(0);
+        DeckAmmo deckAmmo = new DeckAmmo();
+        AmmoCard ammoCard = deckAmmo.draw();
+        squareAmmo.setAmmoTile(ammoCard);
+        assertEquals(ammoCard, squareAmmo.getAmmoTile());*/
     }
 
 }

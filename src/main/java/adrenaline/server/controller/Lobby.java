@@ -41,7 +41,7 @@ public class Lobby implements Runnable, LobbyAPI {
     private GameState currentState;
     private String currentTurnPlayer = null;
     private String nextTurnPlayer = null;
-    private int executedActions;
+    private int executedActions = 0;
 
     private Map map=null;
     private ScoreBoard scoreBoard;
@@ -82,6 +82,9 @@ public class Lobby implements Runnable, LobbyAPI {
         System.out.println("NEW LOBBY STARTED WITH "+ clients.size()+" USERS.");
     }
 
+    public LinkedHashMap<String,Client> getClientMap(){ return clientMap;}
+
+    public HashMap<String, Player> getPlayersMap(){ return playersMap; }
 
     public String getID() {
         return this.lobbyID;
@@ -418,6 +421,8 @@ public class Lobby implements Runnable, LobbyAPI {
         if(!clientMap.get(currentTurnPlayer).isActive()) nextPlayer();
     }
 
+    public void setCurrentTurnPlayer(String clientID){ currentTurnPlayer = clientID; }
+
     public synchronized void initCurrentPlayer(Avatar chosen, boolean timeoutReached){
         if(!timeoutReached) scheduledTimeout.cancel(false);
         Player newPlayer = new Player(chosen, clientMap.get(currentTurnPlayer).getNickname(), new ArrayList<>(clientMap.values()));
@@ -451,6 +456,8 @@ public class Lobby implements Runnable, LobbyAPI {
             e.printStackTrace();
         }
     }
+
+    public void setMap(Map map){ this.map = map; }
 
     private void checkDeadPlayers(){
         for(java.util.Map.Entry<String,Client> entry: clientMap.entrySet()){

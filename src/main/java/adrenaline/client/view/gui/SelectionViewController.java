@@ -1,4 +1,4 @@
-package adrenaline.client.view.GuiView;
+package adrenaline.client.view.gui;
 
 
 import adrenaline.Color;

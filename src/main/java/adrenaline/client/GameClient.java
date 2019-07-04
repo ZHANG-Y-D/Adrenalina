@@ -1,8 +1,8 @@
 package adrenaline.client;
 
 
-import adrenaline.client.view.CliView.InitialStageCli;
-import adrenaline.client.view.GuiView.ClientGui;
+import adrenaline.client.view.cli.InitialStageCli;
+import adrenaline.client.view.gui.ClientGui;
 import javafx.application.Application;
 
 import java.util.Scanner;
