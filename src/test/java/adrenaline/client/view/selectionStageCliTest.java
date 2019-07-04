@@ -63,7 +63,7 @@ public class selectionStageCliTest {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String string = bufferedReader.readLine();
             while (string != null){
-                System.out.println(ansi().eraseScreen().render(string) );
+                System.out.println(ansi().render(string) );
                 string=bufferedReader.readLine();
             }
         }catch (FileNotFoundException e){

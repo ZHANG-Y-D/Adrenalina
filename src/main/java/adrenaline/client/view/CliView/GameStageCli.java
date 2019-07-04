@@ -957,10 +957,10 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     public void newChatMessage(String nickname, Color senderColor, String message) {
 
         Runnable runnable = () ->
-                System.out.println(ansi().eraseScreen().fgDefault().
+                System.out.println(ansi().fgDefault().
                         a("                                                          ||CHAT >>> ").
                         eraseScreen().bold().fg(transferColorToAnsiColor(senderColor)).
-                        a(nickname + ": " + message).eraseScreen().fgDefault());
+                        a(nickname + ": " + message).fgDefault());
 
         Thread newChatThread = new Thread(runnable);
         newChatThread.start();

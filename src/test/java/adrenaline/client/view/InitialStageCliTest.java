@@ -37,7 +37,7 @@ public class InitialStageCliTest {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String string = bufferedReader.readLine();
             while (string != null){
-                System.out.println(ansi().eraseScreen().render(string) );
+                System.out.println(ansi().render(string) );
                 string=bufferedReader.readLine();
             }
         }catch (FileNotFoundException e){
@@ -52,11 +52,11 @@ public class InitialStageCliTest {
     void jansiTest(){
 
         AnsiConsole.systemInstall();
-        System.out.println(ansi().eraseScreen().fg(Ansi.Color.RED).a("Hello").fg(Ansi.Color.GREEN).a(" World").reset());
+        System.out.println(ansi().fg(Ansi.Color.RED).a("Hello").fg(Ansi.Color.GREEN).a(" World").reset());
         AnsiConsole.systemUninstall();
 
         String string="ASDFGH";
-        System.out.println(ansi().eraseScreen().fg(Ansi.Color.WHITE).a(string));
+        System.out.println(ansi().fg(Ansi.Color.WHITE).a(string));
 
     }
 
