@@ -17,3 +17,5 @@ buildNumber.properties
 ing-sw-2019-41.iml
 reconnection.txt
 .DS_Store
+*.log
+
