@@ -595,6 +595,9 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
      */
     private boolean shootGoBackToSelectAction() {
 
+        if (!isInTurn.get())
+            return true;
+        
         isCanNotGoBack.set(false);
         gameController.back();
         try {
@@ -614,7 +617,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
     private void finishShootAction() {
 
         isCanNotGoBack.set(false);
-        while (!isCanNotGoBack.get()){
+        while (!isCanNotGoBack.get() && isInTurn.get()){
             gameController.back();
             try {
                 sleep(1500);

@@ -1,11 +1,12 @@
 package adrenaline.server;
 
-import adrenaline.server.network.*;
 import adrenaline.server.controller.Lobby;
+import adrenaline.server.network.Client;
+import adrenaline.server.network.ClientSocketWrapper;
+import adrenaline.server.network.LobbyExportable;
+import adrenaline.server.network.ServerCommands;
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.BindException;
@@ -16,7 +17,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -30,7 +30,7 @@ public class GameServer {
     private final HashMap<String, String> clientsLobbiesMap;
     private ArrayList<String> usedNicknames;
 
-    public static void main(String args[]){
+    public static void main(String[] args){
         new GameServer().lifeCycle();
     }
 
