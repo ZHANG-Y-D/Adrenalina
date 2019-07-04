@@ -501,12 +501,17 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         ArrayList<Integer> powerup=gameController.getPlayersMap().get(gameController.getOwnColor()).getPowerupCards();
 
+        if (powerup.isEmpty()){
+            System.err.println("You don't have powerup card now!");
+            return;
+        }
+
         printPowerupInfo(powerup);
         System.out.println("These are your power up card. Witch you want to use?");
         gameController.selectPowerUp(readANumber(powerup));
 
         try {
-            sleep(1000);
+            sleep(700);
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }
@@ -958,8 +963,8 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         Runnable runnable = () ->
                 System.out.println(ansi().fgDefault().
-                        a("                                                          ||CHAT >>> ").
-                        eraseScreen().bold().fg(transferColorToAnsiColor(senderColor)).
+                        a("                                                          ||CHAT >>> ")
+                        .bold().fg(transferColorToAnsiColor(senderColor)).
                         a(nickname + ": " + message).fgDefault());
 
         Thread newChatThread = new Thread(runnable);

@@ -526,10 +526,15 @@ public abstract class ControllerCli{
                     fg(transferColorToAnsiColor(player.getValue())).a(player.getKey()).fgDefault()+" : "+
                             rankingPlayer.get(player.getValue()));
 
-            if (rankingPlayer.get(player.getValue())==1) {
-                winPlayer=player.getKey();
+            try {
+                if (rankingPlayer.get(player.getValue())==1) {
+                    winPlayer=player.getKey();
+
+                }
+            }catch (NullPointerException ignore){
 
             }
+
 
         }
 
