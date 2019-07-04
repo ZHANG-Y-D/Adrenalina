@@ -9,9 +9,7 @@ import java.util.List;
 
 /**
  *
- * For score board
- *
- *
+ * The client side Score Board Model
  *
  */
 public class ScoreBoard implements Serializable {
@@ -26,12 +24,12 @@ public class ScoreBoard implements Serializable {
 
     /**
      *
-     * Constructor of score board
+     * Constructor of score board,init all attitude
      *
-     * @param scoreMap
-     * @param diminValues
-     * @param killshotTrack
-     * @param overkillFlags
+     * @param scoreMap  The scoreMap HashMap
+     * @param diminValues The diminishing value HashMap
+     * @param killshotTrack The list of kill shot Track
+     * @param overkillFlags The boolean list of overkillFlags
      */
     public ScoreBoard(HashMap<Color,Integer> scoreMap, HashMap<Color,Integer> diminValues, List<Color> killshotTrack, List<Boolean> overkillFlags, int maxKills,
                       java.util.Map<Color,Integer> finalPlayersPosition){

@@ -4,6 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+/**
+ *
+ * The eum of Color
+ *
+ */
 public enum Color implements Serializable {
 
     @SerializedName("RED")

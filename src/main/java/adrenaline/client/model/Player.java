@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  *
- *
+ * The client side Player Model
  *
  *
  */
@@ -24,16 +24,16 @@ public class Player implements Serializable {
 
     /**
      *
-     * Constructor of score board
+     * Constructor of score board,init all attitude
      *
-     * @param color
-     * @param position
-     * @param oldPosition
-     * @param ammoBox
-     * @param damage
-     * @param marks
-     * @param weaponCards
-     * @param powerupCards
+     * @param color This player's color
+     * @param position  This player's position
+     * @param oldPosition This player's old position
+     * @param ammoBox This player's ammo box
+     * @param damage An ArrayList of this player's damage
+     * @param marks An ArrayList of this player's marks
+     * @param weaponCards An ArrayList of this player's weapon cards
+     * @param powerupCards An ArrayList of this player's powerup cards
      */
     public Player(Color color, int position, int oldPosition, int[] ammoBox, ArrayList<Color> damage, ArrayList<Color> marks, ArrayList<Integer> weaponCards, ArrayList<Integer> powerupCards){
         this.color = color;
@@ -48,16 +48,19 @@ public class Player implements Serializable {
 
     /**
      *
-     *
+     * The construct for select stage,before the game stage started
      *
      *
      */
     public Player(){ }
 
+
     /**
      *
      *
-     * @return
+     * The getter of this player's color
+     *
+     * @return The color of this player
      *
      */
     public Color getColor() {
@@ -66,56 +69,63 @@ public class Player implements Serializable {
 
     /**
      *
+     * The getter of this player's position
      *
-     *@return
+     *@return The position of this player
      *
      */
     public int getPosition() { return position; }
 
     /**
      *
+     * The getter of this player's old position
      *
-     *@return
+     *@return The old position of this player
      *
      */
     public int getOldPosition() { return oldPosition; }
 
     /**
      *
+     * The getter of this player's ammobox
      *
-     *@return
+     *@return ammobox array
      *
      */
     public int[] getAmmoBox() { return ammoBox; }
 
     /**
      *
+     * The getter of this player's
      *
-     *@return
+     *@return powerupCards ArrayList
      *
      */
     public ArrayList<Integer> getPowerupCards() { return powerupCards; }
 
     /**
      *
+     * The getter of this player's weaponCards
      *
-     *@return
+     *@return weaponCards ArrayList
      *
      */
     public ArrayList<Integer> getWeaponCards() { return weaponCards; }
 
     /**
      *
+     * The getter of this player's damage track
      *
-     *@return
+     *@return damage track ArrayList
      *
      */
     public ArrayList<Color> getDamage(){ return damage; }
 
     /**
      *
+     * The getter of this player's marks track
      *
-     *@return
+     *@return marks track ArrayList
      *
      */
     public ArrayList<Color> getMarks() { return marks; }

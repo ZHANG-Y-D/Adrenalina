@@ -162,10 +162,20 @@ public class SelectionViewController implements ViewInterface, PropertyChangeLis
         }, 0, 1000);
     }
 
+    /**
+     *
+     * Not supported at this stage
+     *
+     */
     public void newChatMessage(String nickname, Color senderColor, String message) {
         //operation not supported at this stage
     }
 
+    /**
+     *
+     * Not supported at this stage
+     *
+     */
     public void showValidSquares(ArrayList<Integer> validSquares) {
         //operation not supported at this stage
     }

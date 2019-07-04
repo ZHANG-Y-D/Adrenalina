@@ -16,8 +16,8 @@ import com.google.gson.GsonBuilder;
 
 /**
  *
- *
- *
+ * The Socket Handler class implements ConnectionHandler, For socket connect with server
+ * send message from client to server,and received the return value
  *
  */
 public class SocketHandler implements ConnectionHandler {
@@ -35,7 +35,13 @@ public class SocketHandler implements ConnectionHandler {
     /**
      *
      *
+     * The constructor creates the socket and try to build a TCP connect with game server
      *
+     * @param serverIP The server ip address
+     * @param port The port value, Initial value for Socket is 1100
+     * @param gameController The reference of current gameController
+     *
+     * @throws IOException If IO problem occur,it will throws IOException
      *
      */
     public SocketHandler(String serverIP, int port, GameController gameController) throws IOException {
@@ -87,8 +93,11 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * The ServerListener at client side , for received package from server,
+     * and it can parser package and call right method.
      *
      *
+     * @param inputFromServer The package from server
      *
      */
     private void createServerListener(Scanner inputFromServer) {
@@ -128,8 +137,9 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * For use socket to send game flow message from client to server
      *
-     *
+     * @param msg The msg string witch wait to be send
      *
      */
     private synchronized void sendMessage(String msg){
@@ -139,8 +149,7 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
-     *
-     *
+     * To unregister for client
      *
      */
     public void unregister() {
@@ -152,9 +161,9 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * To set nickname of player from client terminal to server terminal
      *
-     *
-     *
+     * @param nickname The nickname string
      */
     public void setNickname(String nickname) {
         String nicknameMsg = "setNickname;ARGSIZE=2;java.lang.String;";
@@ -166,9 +175,9 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * To set the lobby from client terminal to server terminal
      *
-     *
-     *
+     * @param lobbyID The lobbyID string
      */
     public void setMyLobby(String lobbyID) {
         myLobbyID = lobbyID;
@@ -176,9 +185,10 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * To select avatar operation for player
+     * at AvatarSelectionState from client terminal to server terminal
      *
-     *
-     *
+     * @param color The color of avatar witch the player selected
      */
     public void selectAvatar(Color color) {
         String avatarMsg = "selectAvatar;ARGSIZE=2;java.lang.String;";
@@ -190,9 +200,10 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * To select powerup card for player
+     * from client terminal to server terminal
      *
-     *
-     *
+     * @param powerupID The powerupId witch the player selected
      */
     public void selectPowerUp(int powerupID) {
         String powerupMsg = "selectPowerUp;ARGSIZE=2;java.lang.String;";
@@ -204,9 +215,9 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * To select weapon for player from client terminal to server terminal
      *
-     *
-     *
+     * @param weaponID The  weaponID witch the player selected
      */
     public void selectWeapon(int weaponID) {
         String weaponMsg = "selectWeapon;ARGSIZE=2;java.lang.String;";
@@ -216,6 +227,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(weaponMsg);
     }
 
+    /**
+     *
+     * To select ammo for player from client terminal to server terminal
+     *
+     * @param color The ammo color witch the player selected
+     */
     @Override
     public void selectAmmo(Color color) {
         String ammoMsg = "selectAmmo;ARGSIZE=2;java.lang.String;";
@@ -227,8 +244,10 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * To send Map(from 1 to 4) and skull(from 5 to 8) set from client terminal to server terminal
      *
-     *
+     * @param selectedMap The map number from 1 to 4
+     * @param selectedSkull The number of Skull from 5 to 8
      *
      */
     public void sendSettings(int selectedMap, int selectedSkull) {
@@ -243,8 +262,9 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * To send a chat message from client terminal to server terminal
      *
-     *
+     * @param message The message string witch wait for be send
      *
      */
     public void sendChatMessage(String message) {
@@ -257,8 +277,7 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
-     *
-     *
+     * To send the run action for player from client terminal to server terminal
      *
      */
     @Override
@@ -270,8 +289,7 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
-     *
-     *
+     * To send the end turn action for player from client terminal to server terminal
      *
      */
     @Override
@@ -284,7 +302,9 @@ public class SocketHandler implements ConnectionHandler {
     /**
      *
      *
+     * To send the square selection from client terminal to server terminal
      *
+     * @param index The square index from 0 to 11
      *
      */
     @Override
@@ -296,10 +316,12 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(squareMsg);
     }
 
+
     /**
      *
+     * To send the firemode selection from client terminal to server terminal
      *
-     *
+     * @param firemode The firemode index from 0 to 2
      *
      */
     @Override
@@ -314,8 +336,9 @@ public class SocketHandler implements ConnectionHandler {
     /**
      *
      *
+     * To send the player selection from client terminal to server terminal
      *
-     *
+     * @param targets The ArrayList witch contain players' color
      */
     @Override
     public void selectPlayers(ArrayList<Color> targets) {
@@ -328,7 +351,7 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
-     *
+     * To send especial move action at MoveEnemyState or MoveSelfState from client terminal to server terminal
      *
      *
      */
@@ -339,6 +362,19 @@ public class SocketHandler implements ConnectionHandler {
         sendMessage(moveMsg);
     }
 
+    /**
+     *
+     * To send selection final frenzy action from client terminal to server terminal
+     * <p>
+     *     The action index range depending on the mode
+     *     In mode 0, action index from 0 to 2
+     *     In mode 1, action index from 0 to 1
+     * </p>
+     *
+     *
+     * @param action The action index range depending on the mode from 0 to 1(or 2)
+     *
+     */
     @Override
     public void selectFinalFrenzyAction(int action) {
         String  frenzyMsg = "selectFinalFrenzyAction;ARGSIZE=2;java.lang.String;";
@@ -350,9 +386,7 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
-     *
-     *
-     *
+     * To send the grab action for player from client terminal to server terminal
      */
     @Override
     public void grab() {
@@ -363,9 +397,7 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
-     *
-     *
-     *
+     * To send the shoot action for player from client terminal to server terminal
      */
     @Override
     public void shoot() {
@@ -376,9 +408,7 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
-     *
-     *
-     *
+     * To send the go back action for player from client terminal to server terminal
      */
     @Override
     public void back() {
@@ -390,8 +420,9 @@ public class SocketHandler implements ConnectionHandler {
     /**
      *
      *
+     * The getter for ClientID
      *
-     *
+     * @return The clientID string
      */
     @Override
     public String getClientID() {
@@ -400,9 +431,9 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
+     * The getter for LobbyID
      *
-     *
-     *
+     * @return The lobbyID string
      */
     @Override
     public String getMyLobbyID() {
@@ -411,7 +442,7 @@ public class SocketHandler implements ConnectionHandler {
 
     /**
      *
-     *
+     * For close the connection from server to client
      *
      *
      */

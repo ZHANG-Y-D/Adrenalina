@@ -349,6 +349,14 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         }, 0, 1000);
     }
 
+    /**
+     *
+     * Remind to update chat message
+     *
+     * @param nickname The nickname of the player who send this chat
+     * @param senderColor The color of the player who send this chat
+     * @param message The chat message string
+     */
     public void newChatMessage(String nickname, adrenaline.Color senderColor, String message) {
         Platform.runLater(()->{
             HBox fullMessage = new HBox();
@@ -364,6 +372,13 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         });
     }
 
+    /**
+     *
+     * Received valid square from server
+     *
+     * @param validSquares A reference of an ArrayList<Integer> witch contain all valid square
+     *
+     */
     public void showValidSquares(ArrayList<Integer> validSquares) {
         Platform.runLater(()-> {
             for(int i = 0; i <= 11; i++) ((Pane) map.lookup("#pane"+i)).getChildren().get(0).setVisible(validSquares.contains(i));
