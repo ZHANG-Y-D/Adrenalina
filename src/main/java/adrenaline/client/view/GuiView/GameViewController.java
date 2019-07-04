@@ -308,7 +308,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             gameController.removePropertyChangeListener(this);
             Platform.runLater(() -> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/EndGameView.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("EndGameView.fxml"));
                     Parent nextView = loader.load();
                     Scene scene = new Scene(nextView);
                     EndGameViewController endGameViewController = loader.getController();
@@ -414,12 +414,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ImageView image = (ImageView) mouseEvent.getSource();
         String imgUrl = image.getImage().getUrl();
         String imgName = new File(imgUrl).getName();
-        String newImgUrl = "/Graphic-assets/Weapons/" +imgName.substring(0, imgName.length()-7) + "BOTTOM.png";
-        try {
-            bottom.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        String newImgUrl = File.separator+"Graphic-assets"+File.separator+"Weapons"+File.separator +imgName.substring(0, imgName.length()-7) + "BOTTOM.png";
+        bottom.setImage(new Image(new File(getClass().getResource(newImgUrl).toExternalForm()).toString()));
+
 
         bottom.setFitWidth(127);
         bottom.setFitHeight(120);
@@ -536,12 +533,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
                 for(int i = 0; i < 3; i++) {
                     if(i > y.size()-1) list.get(i).setImage(null);
                     else {
-                        String newImgUrl = "/Graphic-assets/Weapons/weapon_" + y.get(i) + "-TOP.png";
-                        try {
-                            list.get(i).setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
-                        } catch (URISyntaxException e) {
-                            e.printStackTrace();
-                        }
+                        String newImgUrl = File.separator+"Graphic-assets"+File.separator+"Weapons"+File.separator+"weapon_" + y.get(i) + "-TOP.png";
+                        list.get(i).setImage(new Image(new File(getClass().getResource(newImgUrl).toExternalForm()).toString()));
                     }
                 }
             });
@@ -555,12 +548,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ArrayList<Integer> puCards = ownPlayer.getPowerupCards();
         Platform.runLater(() -> {
             if (!puCards.isEmpty()) {
-                String newImgUrl = "/Graphic-assets/Powerups/powerup-" + puCards.get(0) + ".png";
-                try {
-                    myPowerup.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+                String newImgUrl = File.separator+"Graphic-assets"+File.separator+"Powerups"+File.separator+"powerup-" + puCards.get(0) + ".png";
+                myPowerup.setImage(new Image(new File(getClass().getResource(newImgUrl).toExternalForm()).toString()));
                 bgPowerup1.setVisible(puCards.size() > 1);
                 bgPowerup2.setVisible(puCards.size() > 2);
             } else{
@@ -604,12 +593,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         ArrayList<Integer> wpCards = ownPlayer.getWeaponCards();
         Platform.runLater(() -> {
             if(!wpCards.isEmpty()){
-                String newImgUrl = "/Graphic-assets/Weapons/weapon_" + wpCards.get(0) + "-TOP.png";
-                try {
-                    myWeapon.setImage(new Image(new File(getClass().getResource(newImgUrl).toURI()).toURI().toString()));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+                String newImgUrl = File.separator+"Graphic-assets"+File.separator+"Weapons"+File.separator+"weapon_" + wpCards.get(0) + "-TOP.png";
+                myWeapon.setImage(new Image(new File(getClass().getResource(newImgUrl).toExternalForm()).toString()));
                 bgWeapon1.setVisible(wpCards.size()>1);
                 bgWeapon2.setVisible(wpCards.size()>2);
             } else{
@@ -772,12 +757,9 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         int newIndex;
         if(powerUpList.indexOf(Integer.parseInt(powerup)) == (powerUpList.size() -1)) newIndex = 0;
         else newIndex = powerUpList.indexOf(Integer.parseInt(powerup)) + 1;
-        powerup = "/Graphic-assets/Powerups/powerup-" +powerUpList.get(newIndex)+".png";
-        try {
-            myPowerup.setImage(new Image(new File(getClass().getResource(powerup).toURI()).toURI().toString()));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        powerup = File.separator+"Graphic-assets"+File.separator+"Powerups"+File.separator+"powerup-" +powerUpList.get(newIndex)+".png";
+        myPowerup.setImage(new Image(new File(getClass().getResource(powerup).toExternalForm()).toString()));
+
     }
 
     public void nextWeapon(){
@@ -788,12 +770,8 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
         int newIndex;
         if(weaponList.indexOf(Integer.parseInt(weapon)) == (weaponList.size() -1)) newIndex = 0;
         else newIndex = weaponList.indexOf(Integer.parseInt(weapon)) + 1;
-        weapon = "/Graphic-assets/Weapons/weapon_" +weaponList.get(newIndex)+"-TOP.png";
-        try {
-            myWeapon.setImage(new Image(new File(getClass().getResource(weapon).toURI()).toURI().toString()));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        weapon = File.separator+"Graphic-assets"+File.separator+"Weapons"+File.separator+"weapon_" +weaponList.get(newIndex)+"-TOP.png";
+        myWeapon.setImage(new Image(new File(getClass().getResource(weapon).toExternalForm()).toString()));
     }
 
     public void selectPowerUp(){
