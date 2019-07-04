@@ -18,7 +18,8 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
 
     private AtomicInteger turnNumber = new AtomicInteger(0);
-    Thread mainThread;
+    private Thread mainThread;
+    private AtomicInteger numPlayerSelectedAvatar = new AtomicInteger(0);
 
 
     /**
@@ -33,6 +34,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
         gameController.addPropertyChangeListener(this);
         returnValueIsOk.set(0);
         initialStageCli();
+        numPlayerSelectedAvatar.set(gameController.getPlayersNicknames().size());
 
     }
 
@@ -64,8 +66,11 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
             }
 
 
-            printLobbyInfo();
+            System.out.println("Wait for other players select avatar...");
+            while (numPlayerSelectedAvatar.get()!=0)
+                ;
 
+            printLobbyInfo();
             selectMapAndSkulls();
 
             System.out.println("Wait for Game Start...");
@@ -259,8 +264,10 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
             if(evt.getPropertyName().equals("map"))
                 changeStage();
-            else if (evt.getPropertyName().equals("nicknamesColor"))
+            else if (evt.getPropertyName().equals("nicknamesColor")) {
                 turnNumber.getAndDecrement();
+                numPlayerSelectedAvatar.decrementAndGet();
+            }
         };
 
         Thread changeThread = new Thread(runnable);

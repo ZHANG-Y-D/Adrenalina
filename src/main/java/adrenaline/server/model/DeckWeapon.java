@@ -14,8 +14,20 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
+/**
+ *
+ * The DeckWeapon class extends Deck<WeaponCard>
+ *
+ *
+ */
 public class DeckWeapon extends Deck<WeaponCard>{
 
+    /**
+     *
+     * The constructor of the DeckWeapon,read the json file to build a weapon object from resource
+     *
+     *
+     */
     public DeckWeapon() {
         try{
             GsonBuilder gsonBld = new GsonBuilder();
