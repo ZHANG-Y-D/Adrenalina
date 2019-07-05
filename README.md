@@ -31,7 +31,7 @@ Gui show
 ![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/guigameinterface.png)  
    
 Cli show   
-![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/cligameflow1.png)
+![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/cligameflow.png)
 ![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/cligameflow2.png)
    
    
