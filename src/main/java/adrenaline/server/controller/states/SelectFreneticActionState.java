@@ -6,10 +6,22 @@ import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The SelectFreneticActionState to do the select Frenetic mode action operations
+ *
+ */
 public class SelectFreneticActionState implements GameState {
     private boolean firstplayerFF;
     private Lobby lobby;
 
+    /**
+     *
+     *
+     * The constructor init lobby attitude
+     *
+     * @param lobby The current lobby
+     */
     public SelectFreneticActionState(Lobby lobby){
         this.lobby = lobby;
         this.firstplayerFF = lobby.isFirstPlayerFF();

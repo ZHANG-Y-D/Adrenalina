@@ -7,14 +7,33 @@ import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ *
+ * The respawn state made for the player who dead.
+ *
+ */
 public class RespawnState implements GameState {
 
     private Lobby lobby;
     private boolean firstRound=false;
 
+    /**
+     *
+     * The constructor init lobby attitude
+     * @param lobby The current lobby
+     */
     public RespawnState(Lobby lobby){
         this.lobby = lobby;
     }
+
+    /**
+     *
+     * The constructor init lobby attitude
+     *
+     * @param lobby The current lobby
+     * @param firstRound To index if is first round
+     */
     public RespawnState(Lobby lobby, boolean firstRound){
         this.lobby = lobby;
         this.firstRound = firstRound;

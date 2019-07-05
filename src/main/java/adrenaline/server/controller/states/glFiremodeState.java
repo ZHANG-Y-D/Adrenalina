@@ -13,6 +13,11 @@ import adrenaline.server.model.constraints.SameSquareConstraint;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The Firemode state,to do action of the firemode
+ *
+ */
 public class glFiremodeState implements FiremodeSubState {
 
     private Lobby lobby;
@@ -27,6 +32,15 @@ public class glFiremodeState implements FiremodeSubState {
     private boolean areaCompleted = false;
     private boolean playerCompleted = false;
 
+    /**
+     *
+     * To set the operation context
+     *
+     * @param lobby The current lobby
+     * @param weapon The current weapon card
+     * @param firemode The current firemode
+     * @param actionExecuted A boolean value index if this action is executed
+     */
     @Override
     public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;

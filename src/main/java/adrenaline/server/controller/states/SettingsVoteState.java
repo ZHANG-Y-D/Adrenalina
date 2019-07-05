@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ *
+ * The SettingsVoteState to set map for players' selection
+ *
+ */
 public class SettingsVoteState implements GameState {
 
     private final int MAPSELECTION_TIMEOUT_IN_SECONDS = 40;
@@ -18,6 +23,14 @@ public class SettingsVoteState implements GameState {
     private ArrayList<Integer> skullsVotes;
     private ArrayList<String> leftToVote;
 
+    /**
+     *
+     * The constructor init all attitudes
+     *
+     *
+     * @param lobby The current lobby
+     * @param clientIDs The clientID String ArrayList
+     */
     public SettingsVoteState(Lobby lobby, ArrayList<String> clientIDs){
         this.lobby = lobby;
         leftToVote = clientIDs;

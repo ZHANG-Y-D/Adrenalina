@@ -8,11 +8,22 @@ import adrenaline.server.model.PowerupCard;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ *
+ * This is Avatar Selection State to do the select avatar operation from Player
+ *
+ */
 public class AvatarSelectionState implements GameState {
 
     private Lobby lobby;
     private ArrayList<Avatar> avatars;
 
+    /**
+     *
+     * The constructor init lobby and avatars attitude
+     * @param lobby The current lobby
+     * @param avatars A Avatar ArrayList.
+     */
     public AvatarSelectionState (Lobby lobby, ArrayList<Avatar> avatars){
         this.lobby = lobby;
         this.avatars = avatars;

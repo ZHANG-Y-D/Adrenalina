@@ -10,6 +10,11 @@ import adrenaline.server.model.WeaponCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The MoveEnemyState can move the other players in the same game
+ *
+ */
 public class MoveEnemyState implements FiremodeSubState {
 
     private int targetsLimit;
@@ -22,6 +27,15 @@ public class MoveEnemyState implements FiremodeSubState {
     private ArrayList<Integer> validSquares = null;
     private ArrayList<Color> selectedPlayers = null;
 
+    /**
+     *
+     * To set the operation context
+     *
+     * @param lobby The current lobby
+     * @param weapon The current weapon card
+     * @param firemode The current firemode
+     * @param actionExecuted A boolean value index if this action is executed
+     */
     @Override
     public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;

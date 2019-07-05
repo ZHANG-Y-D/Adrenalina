@@ -9,6 +9,11 @@ import adrenaline.server.model.WeaponCard;
 
 import java.util.ArrayList;
 
+
+/**
+ *
+ * The shoot state to do all shoot operations
+ */
 public class ShootState implements GameState {
 
     private Lobby lobby;
@@ -16,6 +21,13 @@ public class ShootState implements GameState {
     private ArrayList<Integer> validSquares;
     private boolean actionExecuted=false;
 
+    /**
+     *
+     * The constructor init lobby attitude
+     *
+     *
+     * @param lobby The current lobby
+     */
     public ShootState(Lobby lobby){
         this.lobby = lobby;
         if(lobby.getCurrentPlayerAdrenalineState()>1) validSquares = lobby.sendCurrentPlayerValidSquares(1);

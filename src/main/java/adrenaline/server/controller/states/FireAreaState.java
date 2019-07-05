@@ -11,6 +11,11 @@ import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The Fire area state made for moveSubAction
+ *
+ */
 public class FireAreaState implements FiremodeSubState {
 
     private Lobby lobby = null;
@@ -23,6 +28,15 @@ public class FireAreaState implements FiremodeSubState {
     private ArrayList<int[]> dmgmrkEachSquare;
     private ArrayList<Integer> validSquares;
 
+    /**
+     *
+     * To set the operation context
+     *
+     * @param lobby The current lobby
+     * @param weapon The current weapon card
+     * @param firemode The current firemode
+     * @param actionExecuted A boolean value index if this action is executed
+     */
     @Override
     public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;

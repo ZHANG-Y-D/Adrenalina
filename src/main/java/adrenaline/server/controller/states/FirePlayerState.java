@@ -14,6 +14,11 @@ import adrenaline.server.model.constraints.TargetsGenerator;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The fire players state,to do fire player action
+ *
+ */
 public class FirePlayerState implements FiremodeSubState {
 
     private Lobby lobby = null;
@@ -28,6 +33,15 @@ public class FirePlayerState implements FiremodeSubState {
     private Color selectedTarget=null;
     private ArrayList<Integer> targetValidSquares;
 
+    /**
+     *
+     * To set the operation context
+     *
+     * @param lobby The current lobby
+     * @param weapon The current weapon card
+     * @param firemode The current firemode
+     * @param actionExecuted A boolean value index if this action is executed
+     */
     public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;
         this.weapon = weapon;

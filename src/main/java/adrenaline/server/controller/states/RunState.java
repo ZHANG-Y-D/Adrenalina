@@ -6,11 +6,23 @@ import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The run state to do all ran actions
+ *
+ */
 public class RunState implements GameState {
 
     private Lobby lobby;
     private ArrayList<Integer> validSquares;
 
+    /**
+     *
+     * The constructor init all attitudes
+     *
+     * @param lobby The current lobby
+     * @param range The range of the player can move
+     */
     public RunState(Lobby lobby, int range){
         this.lobby = lobby;
         this.validSquares = lobby.sendCurrentPlayerValidSquares(range);

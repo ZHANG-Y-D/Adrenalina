@@ -11,6 +11,11 @@ import adrenaline.server.model.constraints.RangeConstraint;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * MoveSelfState to move the player-self in map
+ *
+ */
 public class MoveSelfState implements FiremodeSubState {
 
     private int allowedMovement;
@@ -23,15 +28,40 @@ public class MoveSelfState implements FiremodeSubState {
     private FiremodeSubState callBackState = null;
     private ArrayList<Integer> validSquares = null;
 
+    /**
+     *
+     * The constructor for init allowedMovement attitude
+     *
+     * @param allowedMovement
+     */
     public MoveSelfState(int allowedMovement){
         this.allowedMovement = allowedMovement;
     }
 
+    /**
+     *
+     * To set the operation context
+     *
+     * @param lobby The current lobby
+     * @param weapon The current weapon card
+     * @param firemode The current firemode
+     * @param actionExecuted A boolean value index if this action is executed
+     *
+     */
     public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted, FiremodeSubState callBackState) {
         this.callBackState = callBackState;
         setContext(lobby, weapon, firemode, actionExecuted);
     }
 
+    /**
+     *
+     * To set the operation context
+     *
+     * @param lobby The current lobby
+     * @param weapon The current weapon card
+     * @param firemode The current firemode
+     * @param actionExecuted A boolean value index if this action is executed
+     */
     @Override
     public void setContext(Lobby lobby, WeaponCard weapon, Firemode firemode, boolean actionExecuted) {
         this.lobby = lobby;
