@@ -308,7 +308,7 @@ public class GameViewController implements ViewInterface, PropertyChangeListener
             gameController.removePropertyChangeListener(this);
             Platform.runLater(() -> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("EndGameView.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/EndGameView.fxml"));
                     Parent nextView = loader.load();
                     Scene scene = new Scene(nextView);
                     EndGameViewController endGameViewController = loader.getController();
