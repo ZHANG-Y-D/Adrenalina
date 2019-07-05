@@ -7,8 +7,7 @@ import adrenaline.server.network.LobbyExportable;
 import adrenaline.server.network.ServerCommands;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -52,7 +51,14 @@ public class GameServer {
      */
     public GameServer(){
         Gson gson = new Gson();
-        SERVER_SETTINGS = gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/server-settings.json")), ServerSettings.class);
+        ServerSettings CONFIGURATION;
+        try{
+            CONFIGURATION = gson.fromJson(new FileReader("server-settings.json"), ServerSettings.class);
+        }catch(Exception e) {
+            System.out.println("NETWORK CONFIGURATION FILE MISSING OR INVALID.\nLOADING DEFAULT SETTINGS...");
+            CONFIGURATION = gson.fromJson(new InputStreamReader(getClass().getResourceAsStream("/Jsonsrc/default-server-settings.json")), ServerSettings.class);
+        }
+        SERVER_SETTINGS = CONFIGURATION;
         try {
             System.out.println("Setting up RMI Server...");
             ServerCommands RMIAdrenalineServer = new ServerCommands(this);

@@ -1,0 +1,6 @@
+{
+  "RMI_PORT": 1199,
+  "SOCKET_PORT": 1100,
+  "RMI_HOSTNAME": "localhost",
+  "WAITLIST_TIMEOUT_IN_SECONDS": 10
+}
