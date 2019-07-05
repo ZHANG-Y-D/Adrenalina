@@ -32,22 +32,44 @@ public class FireAreaState implements FiremodeSubState {
         validSquares = lobby.sendCurrentPlayerValidSquares(firemode);
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() { return "Select your target area or GO BACK."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {
         return "Select your target area or GO BACK.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() { return "Select your target area or GO BACK."; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         return null;
     }
 
+
+    /**
+     *
+     * To do the select square request which received from client terminal
+     *
+     * @param index The square index from 0 to 11
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectSquare(int index) {
         if(!validSquares.contains(index)) return "You can't shoot there!";
@@ -87,22 +109,48 @@ public class FireAreaState implements FiremodeSubState {
         } catch (InvalidTargetsException e) { return "You can't shoot there!"; }
     }
 
+
+
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
         return null;
     }
 
+
+
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectWeapon(int weaponID) {
         return "Select your target area or GO BACK.";
     }
 
+
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) { return "Select your target area or GO BACK."; }
 
+
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) { return "Select your target area or GO BACK."; }
 
+    /**
+     *
+     * To do the move Sub Action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     public String moveSubAction() {
         MoveSelfState moveStep = thisFiremode.getMoveSelfStep();
         if(moveStep==null) return "You can't do that!";
@@ -113,24 +161,43 @@ public class FireAreaState implements FiremodeSubState {
         }
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() {
         return "Select your target area or GO BACK.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
+    /**
+     *
+     * To do the go Back action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String goBack() {
         lobby.setState(new ShootState(lobby));
         return "OK";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) { return "KO"; }
 
-
+    /**
+     * The client can't do this at current time
+     */
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";
     }

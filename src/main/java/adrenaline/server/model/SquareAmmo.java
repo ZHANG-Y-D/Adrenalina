@@ -34,6 +34,7 @@ public class SquareAmmo extends Square{
 
     public void setAmmoTile(AmmoCard card) {
         this.ammoTile = card;
-        if(map.anyObserver()) map.notifyObservers(new MapUpdateMessage(map));
+        if(map.anyObserver())
+            map.notifyObservers(new MapUpdateMessage(map));
     }
 }

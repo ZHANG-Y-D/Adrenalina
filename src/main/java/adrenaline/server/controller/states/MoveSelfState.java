@@ -44,26 +44,47 @@ public class MoveSelfState implements FiremodeSubState {
         validSquares = lobby.sendCurrentPlayerValidSquares(allowedMovement, constraints);
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() {
         return "Select the square you want to move in";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {
         return "Select the square you want to move in";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() {
         return "Select the square you want to move in";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         return "Select the square you want to move in";
     }
 
+    /**
+     *
+     * To do the select square request which received from client terminal
+     *
+     * @param index The square index from 0 to 11
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectSquare(int index) {
         if(!validSquares.contains(index)) return "You can't move there! Select a valid square or GO BACK.";
@@ -89,37 +110,66 @@ public class MoveSelfState implements FiremodeSubState {
         }
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
         return "Select the square you want to move in";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectWeapon(int weaponID) {
         return "Select the square you want to move in";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) {
         return "Select the square you want to move in";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAmmo(Color color) { return "Select the square you want to move in"; }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String moveSubAction() {
         return "Select which square you want to move in";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() {
         return "Select the square you want to move in";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
+    /**
+     *
+     * To do the go Back action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String goBack() {
         if(callBackState==null){
@@ -131,11 +181,17 @@ public class MoveSelfState implements FiremodeSubState {
         return "OK";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) {
         return "KO";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         return "KO";

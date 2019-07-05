@@ -22,24 +22,42 @@ public class ScopeState implements GameState {
         this.user = user;
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String runAction() {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String grabAction() {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String shootAction() {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+
+    /**
+     *
+     * To do the select player action request which received from client terminal
+     *
+     * @param playersColor The ArrayList of players' color
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectPlayers(ArrayList<Color> playersColor) {
         if(ammoSelected==null) return "You must pay 1 ammo of any color first!";
@@ -51,30 +69,51 @@ public class ScopeState implements GameState {
         return "OK Damage added with the scope";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSquare(int index) {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectPowerUp(PowerupCard powerUp) {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectWeapon(int weaponID) {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFiremode(int firemode) {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     *
+     * To do the select Ammo request which received from client terminal
+     *
+     * @param color The ammo color
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String selectAmmo(Color color) {
         int[] cost = {0,0,0};
@@ -91,33 +130,57 @@ public class ScopeState implements GameState {
         }
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String moveSubAction() {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String endOfTurnAction() {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectFinalFrenzyAction(Integer action) { return "KO"; }
 
+
+    /**
+     *
+     * To do the go Back action request which received from client terminal
+     *
+     *
+     * @return The result of this request to client
+     *
+     */
     @Override
     public String goBack() {
         lobby.setState(lobby.isFinalfrenzy() ? new SelectFreneticActionState(lobby) : new SelectActionState(lobby));
         return "OK";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectAvatar(Color color) {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";
         return "Select which target you want to give extra damage to.";
     }
 
+    /**
+     * The client can't do this at current time
+     */
     @Override
     public String selectSettings(int mapID, int skulls, String voterID) {
         if(ammoSelected==null) return "Select 1 ammo of any color to pay the cost.";

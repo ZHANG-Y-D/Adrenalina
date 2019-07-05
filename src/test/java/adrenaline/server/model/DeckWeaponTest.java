@@ -23,20 +23,4 @@ class DeckWeaponTest {
         }
     }
 
-    /*@Test
-    void DrawTest(){
-
-        DeckWeapon deckWeapon = new DeckWeapon();
-        WeaponCard weaponCard;
-        int numDraw=100;
-        for (int i=0;i<=numDraw;i++) {
-            weaponCard = deckWeapon.draw();
-            System.out.println(weaponCard.toString());
-            deckWeapon.addToDiscarded(weaponCard);
-            System.out.println(deckWeapon.cards.size());
-            System.out.println(deckWeapon.discarded.size());
-            assertEquals(21, deckWeapon.cards.size() + deckWeapon.discarded.size());
-        }
-
-    }*/
 }
