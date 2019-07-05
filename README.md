@@ -37,7 +37,12 @@ Step 2:Choose your connection mode
 ![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/cligameflow2.png)
    
    
+## OBIETTIVI REALIZZATI:
 
+- Gioco funzionante con regole complete
+- Implementazione RMI e Socket
+- CLI e GUI
+- 1 FA: Partite Multiple
 
 
 
