@@ -22,7 +22,7 @@ with your text editor
 When you are launched the game,you just have to follow the command to do your action.
 For example:   
 Step 1:
-![image](https://github.com/scianna/ing-sw-2019-41/readme_pic/serversetting.png)   
+![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/serversetting.png)   
 Step 2:
 
 
