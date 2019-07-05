@@ -1,7 +1,7 @@
 # ing-sw-2019-41
-######The final test (Prova finale) in year 2018/2019 of Group 41.
+###### The final test (Prova finale) in year 2018/2019 of Group 41.
 
-##Install
+## Install
 Usage is very simple!To launch the application,just 3 Command.
 
     git clone https://github.com/scianna/ing-sw-2019-41.git
@@ -18,12 +18,12 @@ edit
 
 with your text editor
 
-##Usage
+## Usage
 When you are launched the game,you just have to follow the command to do your action.
 For example:
 Step 1:
 
-##Author
+## Author
 
 _Santambrogio Riccardo_  
 _Sciannamea Andrea_   
