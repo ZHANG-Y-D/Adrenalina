@@ -8,22 +8,35 @@ Usage is very simple!To launch the application,just 3 Command.
 
 And then
 
-    java -jar ing-sw-2019-41/FILE/JarFile/Adrenaline-Server.jar
-    java -jar ing-sw-2019-41/FILE/JarFile/Adrenaline-Client.jar
+    java -jar ing-sw-2019-41/FILE/deliverables/Adrenaline-Server.jar
+    java -jar ing-sw-2019-41/FILE/deliverables/Adrenaline-Client.jar
 
 Ok.It's running.If you want to change the network configuration of the server,
 edit
 
-     "server-setting.json".
+     "server-setting.json"
 
 with your text editor
 
 ## Usage
 When you are launched the game,you just have to follow the command to do your action.
 For example:   
-Step 1:
+Step 1:To set your server configurations   
 ![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/serversetting.png)   
-Step 2:
+Step 2:Choose your connection mode     
+![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/socketentry.png)     
+Step 3:Just enjoy your game!!!    
+Gui show  
+![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/guiselectavatar.png)
+![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/guigameinterface.png)  
+   
+Cli show   
+![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/cligameflow1.png)
+![image](https://github.com/scianna/ing-sw-2019-41/blob/master/readme_pic/cligameflow2.png)
+   
+   
+
+
 
 
 ## Author
