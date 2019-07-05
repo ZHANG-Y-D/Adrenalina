@@ -20,8 +20,11 @@ with your text editor
 
 ## Usage
 When you are launched the game,you just have to follow the command to do your action.
-For example:
+For example:   
 Step 1:
+![image](https://github.com/scianna/ing-sw-2019-41/readme_pic/serversetting.png)   
+Step 2:
+
 
 ## Author
 
