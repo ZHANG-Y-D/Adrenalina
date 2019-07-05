@@ -9,9 +9,19 @@ import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The reload state to do reload action
+ *
+ */
 public class ReloadState implements GameState{
     private Lobby lobby;
 
+    /**
+     *
+     * The constructor init lobby attitude
+     * @param lobby The current lobby
+     */
     public ReloadState(Lobby lobby){
         this.lobby = lobby;
     }

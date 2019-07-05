@@ -9,6 +9,10 @@ import adrenaline.server.model.constraints.RangeConstraint;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The new state to implement NewTon power up card's action
+ */
 public class NewtonState implements GameState {
     private Lobby lobby;
     private PowerupCard thisPowerup;
@@ -16,6 +20,16 @@ public class NewtonState implements GameState {
     private Color selectedPlayer;
     private ArrayList<Integer> validSquares;
 
+
+    /**
+     *
+     * The constructor init  lobby powerup and currPlayer attitudes
+     *
+     *
+     * @param lobby The current lobby
+     * @param powerup The server side PowerupCard reference
+     * @param currPlayer The current player who requires this action
+     */
     public NewtonState(Lobby lobby, PowerupCard powerup, Color currPlayer){
         this.lobby = lobby;
         thisPowerup = powerup;

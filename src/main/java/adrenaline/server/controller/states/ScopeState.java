@@ -8,6 +8,11 @@ import adrenaline.server.model.PowerupCard;
 import java.util.ArrayList;
 import java.util.Set;
 
+/**
+ *
+ * The Scope State to do all scope action
+ *
+ */
 public class ScopeState implements GameState {
     private final Set<Color> damagedThisTurn;
     private PowerupCard thisPowerup;
@@ -15,6 +20,16 @@ public class ScopeState implements GameState {
     private int[] ammoSelected = null;
     private Player user;
 
+    /**
+     *
+     *
+     * The constructor init all attitudes except ammoSelected array
+     *
+     * @param lobby The current lobby
+     * @param powerup The server side PowerupCard reference
+     * @param damagedThisTurn The damage Color set
+     * @param user The server side Player reference index who requires this action
+     */
     public ScopeState(Lobby lobby, PowerupCard powerup, Set<Color> damagedThisTurn, Player user) {
         this.lobby = lobby;
         thisPowerup = powerup;

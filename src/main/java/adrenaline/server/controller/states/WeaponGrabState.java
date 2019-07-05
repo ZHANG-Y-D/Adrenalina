@@ -11,6 +11,11 @@ import adrenaline.server.model.WeaponCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * WeaponGrabState to do grab weapon actions
+ *
+ */
 public class WeaponGrabState implements GameState {
 
     private Lobby lobby;
@@ -18,6 +23,14 @@ public class WeaponGrabState implements GameState {
     private boolean swapping = false;
     private WeaponCard selectedCard;
 
+    /**
+     *
+     * The constructor init lobby and weaponSquare attitudes
+     *
+     *
+     * @param lobby The current lobby
+     * @param weaponSquare The SquareSpawn reference
+     */
     public WeaponGrabState(Lobby lobby, SquareSpawn weaponSquare){
         this.lobby = lobby;
         this.weaponSquare = weaponSquare;

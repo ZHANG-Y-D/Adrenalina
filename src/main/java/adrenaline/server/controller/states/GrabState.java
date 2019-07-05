@@ -6,11 +6,22 @@ import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The grab state to do all operation of grab action
+ *
+ */
 public class GrabState implements GameState {
 
     private Lobby lobby;
     private ArrayList<Integer> validSquares;
 
+    /**
+     *
+     * The constructor init lobby and validSquares attitudes
+     * @param lobby The current lobby
+     * @param moveRange The moveRang of the player
+     */
     public GrabState(Lobby lobby, int moveRange) {
         this.lobby = lobby;
         this.validSquares = lobby.sendCurrentPlayerValidSquares(moveRange);

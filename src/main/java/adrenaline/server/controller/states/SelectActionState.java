@@ -6,10 +6,22 @@ import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * SelectActionState to do select action operations
+ *
+ */
 public class SelectActionState implements GameState {
 
     private Lobby lobby;
 
+    /**
+     *
+     * The constructor init lobby attitude
+     *
+     *
+     * @param lobby The current lobby
+     */
     public SelectActionState(Lobby lobby){
         this.lobby = lobby;
     }

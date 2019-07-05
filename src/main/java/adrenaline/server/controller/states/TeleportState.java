@@ -6,12 +6,25 @@ import adrenaline.server.model.PowerupCard;
 
 import java.util.ArrayList;
 
+
+/**
+ *
+ * The TeleportState made for Teleport powerup card
+ *
+ */
 public class TeleportState implements GameState {
 
     private Lobby lobby;
     private PowerupCard thisCard;
     private ArrayList<Integer> squares = null;
 
+    /**
+     *
+     * The constructor init all attitudes
+     *
+     * @param lobby The current lobby
+     * @param powerupCard The server side PowerupCard reference
+     */
     public TeleportState(Lobby lobby, PowerupCard powerupCard){
         this.lobby = lobby;
         thisCard = powerupCard;

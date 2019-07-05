@@ -9,6 +9,11 @@ import adrenaline.server.model.WeaponCard;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The FreneticActionState to do the final frenetic
+ *
+ */
 public class FreneticActionState implements GameState {
 
     private Lobby lobby;
@@ -16,9 +21,16 @@ public class FreneticActionState implements GameState {
     private boolean moveExecuted = false;
     private WeaponCard selectedWeapon = null;
 
-    public FreneticActionState(Lobby lobby, int runrange){
+    /**
+     *
+     * The construct to init lobby and validSquares attitude
+     *
+     * @param lobby The current lobby
+     * @param runRange The run range of the player
+     */
+    public FreneticActionState(Lobby lobby, int runRange){
         this.lobby = lobby;
-        validSquares = lobby.sendCurrentPlayerValidSquares(runrange);
+        validSquares = lobby.sendCurrentPlayerValidSquares(runRange);
     }
 
     /**
