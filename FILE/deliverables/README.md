@@ -14,7 +14,7 @@ And then
 Ok. It's running. If you want to change the network configuration of the server,
 edit
 
-     "server-setting.json"
+     "server-settings.json"
 
 with your text editor (this must be done before launching the server)
 
