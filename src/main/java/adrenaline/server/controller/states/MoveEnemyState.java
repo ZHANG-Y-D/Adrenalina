@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  *
- * The MoveEnemyState can move the other players in the same game
+ * Handles a player/s target fire action where the enemies are moved before applying the damage.
  *
  */
 public class MoveEnemyState implements FiremodeSubState {

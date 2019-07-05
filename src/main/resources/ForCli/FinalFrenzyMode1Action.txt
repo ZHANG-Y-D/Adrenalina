@@ -3,9 +3,9 @@
                   ❄❄❄FINAL FRENZY MODE❄❄❄
 ---------------------------------------------------------------------------------------
 
- 1.Shoot                     |       6.Send chat to other players
+ 1.Run, Reload, Shoot        |       6.Send chat message to other players
  2.Run                       |       7.Print your own weapon and powerup cards
- 3.Grab                      |       8.Print all players state(Position Damage...)
- 4.Reload And End Turn       |       9.Print map resources(Weapon and Ammo in squares)
+ 3.Grab                      |       8.Print all players state (Position, Damage...)
+ 4.End Turn                  |       9.Print map resources (Weapon and Ammo in squares)
  5.Use powerup cards         |
 

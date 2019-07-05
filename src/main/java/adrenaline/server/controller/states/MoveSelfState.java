@@ -12,9 +12,7 @@ import adrenaline.server.model.constraints.RangeConstraint;
 import java.util.ArrayList;
 
 /**
- *
- * MoveSelfState to move the player-self in map
- *
+ * Allows the player to move during a fire action, for weapons that permit it.
  */
 public class MoveSelfState implements FiremodeSubState {
 
@@ -108,7 +106,7 @@ public class MoveSelfState implements FiremodeSubState {
 
     /**
      *
-     * To do the select square request which received from client terminal
+     * Moves the player to the selected squares, if it's a valid movement.
      *
      * @param index The square index from 0 to 11
      *

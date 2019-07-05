@@ -15,9 +15,8 @@ import adrenaline.server.model.constraints.TargetsGenerator;
 import java.util.ArrayList;
 
 /**
- *
- * The fire players state,to do fire player action
- *
+ * Handles a player/s target fire action. Additionally, this handles the movement of an enemy after it has been targeted.
+ * For some weapons, additional targets may be generated in an area (eg. "splash" weapons)
  */
 public class FirePlayerState implements FiremodeSubState {
 

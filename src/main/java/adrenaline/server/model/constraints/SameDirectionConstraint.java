@@ -7,14 +7,24 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * This is used both as a targets constraint and as a targets generator.
+ * Checks whether the targets are in the same direction (coming from the player executing the action) or generates all the targets that are in the same direction.
+ */
 public class SameDirectionConstraint implements TargetsConstraint, TargetsGenerator {
     private boolean specialRange;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSpecialRange() {
         return specialRange;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean checkConst(Player shooter, ArrayList<Player> targets, Map map) {
         for(Player trg1 : targets){
@@ -27,6 +37,9 @@ public class SameDirectionConstraint implements TargetsConstraint, TargetsGenera
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayList<Integer> generateRange(Integer shooterPos, Integer root, Map map) {
         Set<Integer> validSquares = new LinkedHashSet<>();

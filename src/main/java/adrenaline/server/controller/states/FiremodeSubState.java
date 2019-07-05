@@ -7,7 +7,7 @@ import adrenaline.server.model.WeaponCard;
 
 /**
  *
- * The FiremodeSubState interface,made for action state set the operation context
+ * The FiremodeSubState interface, made for handling the different weapon effects
  *
  */
 public interface FiremodeSubState extends GameState{

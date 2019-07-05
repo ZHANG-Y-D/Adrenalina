@@ -183,8 +183,7 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
             printPlayerOwnPowerupAndWeaponInfo();
 
-            System.out.println("Select actions is finished.");
-            System.out.println("Choose a weapon card for reload, input -1 to pass and finish this turn:");
+            System.out.println("Choose a weapon card to reload it, or input -1 to pass and finish this turn:");
 
             weaponID = readANumber(playerSelf.getWeaponCards());
             if (weaponID==-1) {
@@ -216,15 +215,15 @@ public  class GameStageCli extends ControllerCli implements ViewInterface, Prope
 
         Player playerSelf = gameController.getPlayersMap().get(gameController.getOwnColor());
 
-        System.out.println("You want pay ammo with your powerup cards? Input yes to do:");
+        System.out.println("Do you want pay the ammo cost using your powerup cards? Input yes to do:");
         if (readAString().equalsIgnoreCase("y")
                 || readAString().equalsIgnoreCase("yes")){
 
-            System.out.println("How much powerups do you want to use?You have "
+            System.out.println("How many powerups do you want to use? You have "
                     +playerSelf.getPowerupCards().size()+" powerup cards");
             int powers = readANumber(1,3);
             for (;powers>0 && playerSelf.getPowerupCards().size()>=powers;powers--){
-                System.out.println("Input number of powerup:");
+                System.out.println("Input number of card:");
                 gameController.selectPowerUp(readANumber(playerSelf.getPowerupCards()));
             }
         }

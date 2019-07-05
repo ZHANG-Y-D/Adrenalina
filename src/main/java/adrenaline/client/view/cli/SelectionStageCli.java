@@ -66,7 +66,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
             }
 
 
-            System.out.println("Wait for other players select avatar...");
+            System.out.println("Wait for other players to select their avatars...");
             while (numPlayerSelectedAvatar.get()!=0)
                 ;
 
@@ -97,7 +97,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
 
         mapNum = readANumber(1,4);
 
-        System.out.println("How many skulls you want to play? From 5 to 8");
+        System.out.println("How many skulls do you want to play with? From 5 to 8");
 
         skulls = readANumber(5,8);
 
@@ -117,7 +117,7 @@ public class SelectionStageCli extends ControllerCli implements ViewInterface, P
         int num;
         Color color = Color.BLACK;
 
-        System.out.println("Which you like? From 1 to 5: ");
+        System.out.println("Which one do you like? From 1 to 5: ");
         num = readANumber(1,5);
 
 

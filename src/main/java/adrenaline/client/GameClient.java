@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  *
- * For start class of client,Contain the main method
+ * Represents the client application, contains the main method
  *
  *
  */

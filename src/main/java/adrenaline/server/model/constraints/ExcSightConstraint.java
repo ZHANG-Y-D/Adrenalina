@@ -5,10 +5,18 @@ import adrenaline.server.model.Map;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ * This constraint checks whether the squares are not in the sight of the player executing the action.
+ */
 public class ExcSightConstraint implements RangeConstraint {
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ArrayList<Integer> checkConst(int shooterPosition, Map map) {
-        ArrayList<Integer> invalidSquares = new ArrayList<Integer>(map.getValidSquares(shooterPosition,1));
+    public ArrayList<Integer> checkConst(int position, Map map) {
+        ArrayList<Integer> invalidSquares = new ArrayList<Integer>(map.getValidSquares(position,1));
         ArrayList<Integer> adjacentRooms = new ArrayList<>();
         for(int i : invalidSquares){
             adjacentRooms.addAll(map.getRoomSquares(i));

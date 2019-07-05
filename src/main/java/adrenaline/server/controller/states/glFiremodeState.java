@@ -14,9 +14,8 @@ import adrenaline.server.model.constraints.SameSquareConstraint;
 import java.util.ArrayList;
 
 /**
- *
- * The Firemode state,to do action of the firemode
- *
+ * Implements the Grenade Launcher firemode.
+ * This is the only case of a weapon needing its own state, due to the necessity of allowing the player to chose the order of some actions.
  */
 public class glFiremodeState implements FiremodeSubState {
 

@@ -12,8 +12,7 @@ import adrenaline.server.model.constraints.TargetsGenerator;
 import java.util.ArrayList;
 
 /**
- *
- * The Fire area state made for moveSubAction
+ * Handles an area target fire action. The range of effect is generated from the selection of a single "root" square.
  *
  */
 public class FireAreaState implements FiremodeSubState {

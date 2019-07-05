@@ -42,7 +42,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface {
         int connectingType = 0; //1 for socket ,2 for rmi,0 for error
 
         printSrcFile("CliBegin.txt");
-        System.out.println("\nYou want to use Socket or Rmi (Remote Method Invocation)?");
+        System.out.println("\nDo you want to use Socket or RMI (Remote Method Invocation)?");
 
 
 
@@ -59,7 +59,7 @@ public class InitialStageCli extends ControllerCli implements ViewInterface {
         }while (!listenerReturnValueIsOK());
 
 
-        System.out.println("\nWait for other player join...");
+        System.out.println("\nWait for other players to join...");
 
 
     }
@@ -67,14 +67,13 @@ public class InitialStageCli extends ControllerCli implements ViewInterface {
 
     /**
      *
-     * For print LobbyID and ClientID when th
+     * Informs the player that the game has started.
      *
      */
     private void printGameID() {
 
         try {
-            System.out.println("\nThe Lobby is OK! Your LobbyID is "+gameController.getConnectionHandler().getMyLobbyID());
-            System.out.println("Your ClientID is "+gameController.getConnectionHandler().getClientID());
+            System.out.println("\nThe Lobby has started!");
         }catch (NullPointerException ignored){
 
         }
