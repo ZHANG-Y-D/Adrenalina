@@ -8,7 +8,7 @@ It's just one of the graduation designs of [Politecnico di Milano]. The copyrigh
 Install is very simple! To launch the application, just 3 commands
 
 
-    git clone https://github.com/scianna/ing-sw-2019-41.git
+    git clone https://github.com/ZHANGYD666/Adrenalina.git
 
 And then
 
