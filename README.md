@@ -1,8 +1,11 @@
 # ing-sw-2019-41
-###### The final test (Prova finale) in year 2018/2019 of Group 41.
+###### The final test (Prova finale) in year 2018/2019 of Group 41. 
+
+## Attention
+It's just one of the graduation designs of [Politecnico di Milano]. The copyright of the game belongs to the game author. So do not use the code for non-learning purposes !!! 
 
 ## Install
-Usage is very simple! To launch the application, just 3 commands
+Install is very simple! To launch the application, just 3 commands
 
 
     git clone https://github.com/scianna/ing-sw-2019-41.git
