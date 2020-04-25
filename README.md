@@ -12,8 +12,8 @@ Install is very simple! To launch the application, just 3 commands
 
 And then
 
-    java -jar [path]/ing-sw-2019-41/FILE/Jar/MacOs[Your OS]/Adrenaline-Server.jar
-    java -jar [path]/ing-sw-2019-41/FILE/Jar/MacOs[Your OS]//Adrenaline-Client.jar
+    java -jar [path]/ing-sw-2019-41/FILE/Jar/[Your OS]/Adrenaline-Server.jar
+    java -jar [path]/ing-sw-2019-41/FILE/Jar/[Your OS]/Adrenaline-Client.jar
 
 Ok. It's running. If you want to change the network configuration of the server,
 edit
