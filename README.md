@@ -37,7 +37,7 @@ For example:
  
 ### Step 2: Choose your connection mode 
  
- <p align="center">
+ <p align="left">
   <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/socketentry.png" width="70%" height="70%">
  </p>  
  
@@ -46,28 +46,28 @@ For example:
 ### Step 3: Just enjoy your game!!!    
 #### Gui show  
  
- <p align="center">
+ <p align="left">
   <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guiselectavatar.png" width="70%" height="70%">
  </p>  
  
- <p align="center">
+ <p align="left">
   <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guigameinterface.png" width="70%" height="70%">
  </p>  
  
- <br />
  
  #### Cli show   
  
  
- <p align="center">
-  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow.png" width="70%" height="70%">
+ <p align="left">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow.png" width="70%" height="60%">
  </p>  
  
- <p align="center">
+ <p align="left">
   <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow2.png" width="70%" height="70%">
  </p>  
  
-   
+<br />
+    
 ## OBIETTIVI REALIZZATI:
 
 - Gioco funzionante con regole complete
