@@ -38,7 +38,7 @@ For example:
 ### Step 2: Choose your connection mode 
  
  <p align="left">
-  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/socketentry.png" width="70%" height="70%">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/socketentry.png" width="90%" height="90%">
  </p>  
  
  <br />
@@ -47,11 +47,11 @@ For example:
 #### Gui show  
  
  <p align="left">
-  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guiselectavatar.png" width="70%" height="70%">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guiselectavatar.png" width="90%" height="90%">
  </p>  
  
  <p align="left">
-  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guigameinterface.png" width="70%" height="70%">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guigameinterface.png" width="90%" height="90%">
  </p>  
  
  
@@ -59,11 +59,11 @@ For example:
  
  
  <p align="left">
-  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow.png" width="70%" height="60%">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow.png" width="90%" height="60%">
  </p>  
  
  <p align="left">
-  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow2.png" width="70%" height="70%">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow2.png" width="90%" height="90%">
  </p>  
  
 <br />
