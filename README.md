@@ -1,5 +1,5 @@
 # ing-sw-2019-41  [Politecnico di Milano]
-###### The final test (Prova finale) in year 2018/2019 of Group 41. 
+###### The final test (Prova finale) in year 2018/2019. 
 
 ## Attention
 It's just one of the graduation designs of [Politecnico di Milano]. The copyright of the game belongs to the game author. So do not use the code for non-learning purposes !!! 
@@ -26,19 +26,47 @@ with your text editor (this must be done before launching the server)
 ## Usage
 After you have launched the game, you just have to follow the instructions to do your actions.
 For example:   
- Step 1: To set your server configurations   
-![image](https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/serversetting.png)   
-Step 2: Choose your connection mode     
-![image](https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/socketentry.png)     
- Step 3: Just enjoy your game!!!    
- Gui show  
-![image](https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guiselectavatar.png)
-![image](https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guigameinterface.png)  
-   
- Cli show   
-![image](https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow.png)
-![image](https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow2.png)
-   
+### Step 1: To set your server configurations
+ 
+ 
+ <p align="left">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/serversetting.png" width="35%" height="35%">
+ </p>  
+ 
+ <br />
+ 
+### Step 2: Choose your connection mode 
+ 
+ <p align="center">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/socketentry.png" width="70%" height="70%">
+ </p>  
+ 
+ <br />
+ 
+### Step 3: Just enjoy your game!!!    
+#### Gui show  
+ 
+ <p align="center">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guiselectavatar.png" width="70%" height="70%">
+ </p>  
+ 
+ <p align="center">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/guigameinterface.png" width="70%" height="70%">
+ </p>  
+ 
+ <br />
+ 
+ #### Cli show   
+ 
+ 
+ <p align="center">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow.png" width="70%" height="70%">
+ </p>  
+ 
+ <p align="center">
+  <img src="https://github.com/ZHANGYD666/Adrenalina/blob/master/readme_pic/cligameflow2.png" width="70%" height="70%">
+ </p>  
+ 
    
 ## OBIETTIVI REALIZZATI:
 
